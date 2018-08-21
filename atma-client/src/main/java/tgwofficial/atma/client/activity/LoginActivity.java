@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.login_layout);
 
         edtUsername = (EditText) findViewById(R.id.email);
         edtPassword = (EditText) findViewById(R.id.password);
@@ -69,13 +68,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 System.out.println("SUCCESS!!!!!!!!!!");
-                Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent myIntent = new Intent(LoginActivity.this, IdentitasIbuActivity.class);
                 startActivity(myIntent);
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable
                     error)
             {
+
                 error.printStackTrace(System.out);
             }
         });

@@ -5,8 +5,8 @@
     android:layout_width="fill_parent"
     android:layout_height="82dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activity.MainActivity"
-    tools:showIn="@layout/app_bar_main"
+    tools:context=".activity.IdentitasIbuActivity"
+    tools:showIn="@layout/identitas_ibu_app_bar_main"
     android:weightSum="10">
 
     <LinearLayout

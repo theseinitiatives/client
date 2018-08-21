@@ -17,13 +17,13 @@ import android.widget.ImageView;
 
 import tgwofficial.atma.client.R;
 
-public class MainActivity extends AppCompatActivity
+public class IdentitasIbuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.identitas_ibu_main_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
         ImageView img = (ImageView) findViewById(R.id.ibu);
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent myIntent = new Intent(MainActivity.this, DetailActivity.class);
+                Intent myIntent = new Intent(IdentitasIbuActivity.this, IdentitasIbuDetailActivity.class);
                 startActivity(myIntent);
             }
         });
@@ -91,6 +91,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
+        if (id == R.id.nav_identitas_ibu) {
+            Intent myIntent = new Intent(IdentitasIbuActivity.this, IdentitasIbuActivity.class);
+            startActivity(myIntent);
+        }
 /*
         if (id == R.id.nav_camera) {
             // Handle the camera action
