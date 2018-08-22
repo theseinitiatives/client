@@ -48,9 +48,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Transportasi : Motor"
+                android:text="Golongan Darah : A"
                 android:textSize="12sp"
-                android:id="@+id/kendaraan" />
+                android:id="@+id/gol_d" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="No telp : 0987654321"
+                android:textSize="12sp"
+                android:id="@+id/notelp" />
 
         </LinearLayout>
 

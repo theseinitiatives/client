@@ -3,6 +3,7 @@ package tgwofficial.atma.client;
 import android.app.Activity;
 import android.content.Intent;
 
+import tgwofficial.atma.client.activity.BankDarahActivity;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
 import tgwofficial.atma.client.activity.TransportasiActivity;
 
@@ -20,8 +21,8 @@ public class NavigationmenuController {
     public void startTransportasi() {
         activity.startActivity(new Intent(activity, TransportasiActivity.class));
     }
-    /*public void startBankDarah() {
+    public void startBankDarah() {
         activity.startActivity(new Intent(activity, BankDarahActivity.class));
-    }*/
+    }
 
 }

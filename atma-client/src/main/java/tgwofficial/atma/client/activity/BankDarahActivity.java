@@ -19,13 +19,13 @@ import android.widget.ImageView;
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 
-public class TransportasiActivity extends AppCompatActivity
+public class BankDarahActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Activity activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.transportasi_main_layout);
+        setContentView(R.layout.bankdarah_main_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -43,7 +43,7 @@ public class TransportasiActivity extends AppCompatActivity
         ImageView img = (ImageView) findViewById(R.id.ibu);
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent myIntent = new Intent(TransportasiActivity.this, IdentitasIbuDetailActivity.class);
+                Intent myIntent = new Intent(BankDarahActivity.this, IdentitasIbuDetailActivity.class);
                 startActivity(myIntent);
             }
         });

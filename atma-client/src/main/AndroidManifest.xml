@@ -32,6 +32,10 @@
             android:label="@string/transportasi"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
+            android:name=".activity.BankDarahActivity"
+            android:label="@string/bankdarah"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".activity.IdentitasIbuDetailActivity"
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar"></activity>

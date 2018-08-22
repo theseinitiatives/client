@@ -97,15 +97,17 @@ public class IdentitasIbuActivity extends AppCompatActivity
         int id = item.getItemId();
        // MenuItem register = R.id.nav_identitas_ibu;
         if (id == R.id.nav_identitas_ibu) {
-
+            navi.startIdentitasIbu();
         }
         if (id == R.id.nav_transportasi) {
             navi.startTransportasi();
         }
-/*
-        if (id == R.id.nav_camera) {
+
+        if (id == R.id.nav_bank_darah) {
+            navi.startBankDarah();
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        }
+        /*else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
 

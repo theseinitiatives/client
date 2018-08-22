@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private boolean validateLogin(String username, String password){
+    public boolean validateLogin(String username, String password){
         if(username == null || username.trim().length() == 0){
             Toast.makeText(this, "Username is required", Toast.LENGTH_SHORT).show();
             return false;

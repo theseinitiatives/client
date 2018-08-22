@@ -13,11 +13,11 @@
             android:icon="@drawable/car"
             android:title="Transportasi" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_bank_darah"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Bank Darah" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_logout"
             android:icon="@drawable/ic_menu_manage"
             android:title="Logout" />
     </group>
