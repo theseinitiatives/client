@@ -41,8 +41,12 @@ public class LoginActivity extends AppCompatActivity {
                 String password = edtPassword.getText().toString();
                 //validate form
                 if(validateLogin(username, password)){
+                    //bypass login
+                    Intent myIntent = new Intent(LoginActivity.this, IdentitasIbuActivity.class);
+                    startActivity(myIntent);
+
                     //do login
-                    doLogin(username, password);
+                   // doLogin(username, password);
                 }
             }
         });

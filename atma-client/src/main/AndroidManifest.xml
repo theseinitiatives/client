@@ -28,6 +28,10 @@
             android:label="@string/identitas_ibu"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
+            android:name=".activity.TransportasiActivity"
+            android:label="@string/transportasi"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".activity.IdentitasIbuDetailActivity"
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar"></activity>

@@ -2,4 +2,5 @@
 <resources>
     <string name="identitas_ibu">Identitas Ibu</string>
     <string name="detail_ibu">Detail Ibu</string>
+    <string name="transportasi">Transportasi</string>
 </resources>

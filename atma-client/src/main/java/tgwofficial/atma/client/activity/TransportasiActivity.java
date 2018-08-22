@@ -3,9 +3,8 @@ package tgwofficial.atma.client.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,19 +12,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import tgwofficial.atma.client.R;
 
-public class IdentitasIbuActivity extends AppCompatActivity
+public class TransportasiActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.identitas_ibu_main_layout);
+        setContentView(R.layout.transportasi_main_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -40,7 +41,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         ImageView img = (ImageView) findViewById(R.id.ibu);
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent myIntent = new Intent(IdentitasIbuActivity.this, IdentitasIbuDetailActivity.class);
+                Intent myIntent = new Intent(TransportasiActivity.this, IdentitasIbuDetailActivity.class);
                 startActivity(myIntent);
             }
         });
@@ -69,6 +70,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
         return true;
     }
 
@@ -94,10 +96,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         int id = item.getItemId();
        // MenuItem register = R.id.nav_identitas_ibu;
         if (id == R.id.nav_identitas_ibu) {
-
-        }
-        if (id == R.id.nav_transportasi) {
-            Intent myIntent = new Intent(IdentitasIbuActivity.this, TransportasiActivity.class);
+            Intent myIntent = new Intent(TransportasiActivity.this, IdentitasIbuActivity.class);
             startActivity(myIntent);
         }
 /*
