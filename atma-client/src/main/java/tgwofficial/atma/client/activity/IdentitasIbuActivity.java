@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 
 public class IdentitasIbuActivity extends AppCompatActivity
@@ -26,6 +27,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         setContentView(R.layout.identitas_ibu_main_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -91,14 +93,14 @@ public class IdentitasIbuActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        NavigationmenuController  navi= new NavigationmenuController(this);
         int id = item.getItemId();
        // MenuItem register = R.id.nav_identitas_ibu;
         if (id == R.id.nav_identitas_ibu) {
 
         }
         if (id == R.id.nav_transportasi) {
-            Intent myIntent = new Intent(IdentitasIbuActivity.this, TransportasiActivity.class);
-            startActivity(myIntent);
+            navi.startTransportasi();
         }
 /*
         if (id == R.id.nav_camera) {

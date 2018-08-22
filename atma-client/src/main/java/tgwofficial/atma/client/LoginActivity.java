@@ -1,4 +1,4 @@
-package tgwofficial.atma.client.activity;
+package tgwofficial.atma.client;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +14,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import cz.msebera.android.httpclient.Header;
 
-import tgwofficial.atma.client.R;
+import tgwofficial.atma.client.activity.IdentitasIbuActivity;
 
 /**
  * A login screen that offers login via email/password.
@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(validateLogin(username, password)){
                     //bypass login
                     Intent myIntent = new Intent(LoginActivity.this, IdentitasIbuActivity.class);
+                    finish();
                     startActivity(myIntent);
 
                     //do login

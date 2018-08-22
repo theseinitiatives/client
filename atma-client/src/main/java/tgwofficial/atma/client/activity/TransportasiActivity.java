@@ -1,5 +1,6 @@
 package tgwofficial.atma.client.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,11 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 
 public class TransportasiActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    private Activity activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,11 +95,11 @@ public class TransportasiActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        NavigationmenuController navi= new NavigationmenuController(this);
         int id = item.getItemId();
        // MenuItem register = R.id.nav_identitas_ibu;
         if (id == R.id.nav_identitas_ibu) {
-            Intent myIntent = new Intent(TransportasiActivity.this, IdentitasIbuActivity.class);
-            startActivity(myIntent);
+            navi.startIdentitasIbu();
         }
 /*
         if (id == R.id.nav_camera) {
