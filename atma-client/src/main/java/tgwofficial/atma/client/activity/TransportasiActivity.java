@@ -2,6 +2,7 @@ package tgwofficial.atma.client.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -15,13 +16,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
+import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
+import tgwofficial.atma.client.adapter.TransportasiCursorAdapter;
+import tgwofficial.atma.client.db.DbManager;
 
 public class TransportasiActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Activity activity;
+    private DbManager dbManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +35,21 @@ public class TransportasiActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        dbManager = new DbManager(this);
+        dbManager.open();
+        Cursor cursor = dbManager.fetch();
+
+        // Find ListView to populate
+        ListView lvItems = (ListView) findViewById(R.id.list_view);
+// Setup cursor adapter using cursor from last step
+        TransportasiCursorAdapter todoAdapter = new TransportasiCursorAdapter(this, cursor);
+// Attach cursor adapter to the ListView
+        lvItems.setAdapter(todoAdapter);
+
+
+        todoAdapter.changeCursor(cursor);
+
+        dbManager.close();
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -40,13 +61,13 @@ public class TransportasiActivity extends AppCompatActivity
             }
         });
 
-        ImageView img = (ImageView) findViewById(R.id.ibu);
+       /* ImageView img = (ImageView) findViewById(R.id.ibu);
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent myIntent = new Intent(TransportasiActivity.this, IdentitasIbuDetailActivity.class);
                 startActivity(myIntent);
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

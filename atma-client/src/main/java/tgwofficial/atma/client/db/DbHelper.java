@@ -30,8 +30,28 @@ public class DbHelper  extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE);
+
+        /** hapus kalo udah mulai release
+         *
+         * ***/
+        //inserting dummy data
+        insertDummy(db,"Rana, Iqbal, Patient Baru, Mobil,A");
+        insertDummy(db,"Siti, Adawiyah, Patient Baru, Helicopter,BA");
+        insertDummy(db,"Marwan Nulhakam, Belum Dapat, MASIH JOMBLO, Hanya CINTA, Darah Biru");
+        insertDummy(db,"Haneefa, Ibrahim, Patient Baru, Pesawat,A");
+        insertDummy(db,"Iqbal, Muhammad, Patient Baru, UFO,A");
+        insertDummy(db,"Ainul, Hamdani, Patient Lama, Superman,B");
+        insertDummy(db,"Nina, Hidayati, Patient Baru, Toink,C");
+        insertDummy(db,"Zahroh, Rana, Patient Baru, Yach,D");
+        insertDummy(db,"Moya, Dyah, Patient Baru, Rocket,E");
+
+
     }
 
+    private static void insertDummy(SQLiteDatabase db, String data) {
+        db.execSQL("INSERT INTO " + TABLE_NAME + " (" + DATA
+                + ") VALUES ('" + data + "');");
+    }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
