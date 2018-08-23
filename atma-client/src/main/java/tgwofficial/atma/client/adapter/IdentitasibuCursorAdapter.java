@@ -30,15 +30,12 @@ public class IdentitasibuCursorAdapter extends CursorAdapter {
         TextView status = (TextView) view.findViewById(R.id.status);
 
 
-        String datas = cursor.getString(cursor.getColumnIndexOrThrow("data"));
-        String[] datasList = datas.split(",");
+        String nama = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+        String pasangan = cursor.getString(cursor.getColumnIndexOrThrow("spousename"));
+        String status1 = cursor.getString(cursor.getColumnIndexOrThrow("status"));
 
-        String name_split = datasList[0];
-        String spouse_split = datasList[1];
-        String status_split = datasList[2];
-        
-        name.setText("NAMA :"+name_split);
-        spousename.setText("NAMA PASANGAN :"+spouse_split);
-        status.setText("STATUS:"+status_split);
+        name.setText("NAMA :"+nama);
+        spousename.setText("NAMA PASANGAN :"+pasangan);
+        status.setText("STATUS:"+status1);
     }
 }

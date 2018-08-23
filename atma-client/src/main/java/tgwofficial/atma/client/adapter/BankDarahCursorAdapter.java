@@ -29,13 +29,9 @@ public class BankDarahCursorAdapter extends CursorAdapter {
         TextView spousename = (TextView) view.findViewById(R.id.gol_d);
 
 
-        String datas = cursor.getString(cursor.getColumnIndexOrThrow("data"));
-        String[] datasList = datas.split(",");
+        String nama = cursor.getString(cursor.getColumnIndexOrThrow("name"));
 
-        String name_split = datasList[0];
-        String gol_split = datasList[4];
         
-        name.setText("NAMA :"+name_split);
-        spousename.setText("GOL Darah :"+gol_split);
+        name.setText("NAMA :"+nama);
     }
 }

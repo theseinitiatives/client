@@ -1,5 +1,7 @@
 package tgwofficial.atma.client.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.vijay.jsonwizard.activities.JsonFormActivity;
+
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
@@ -23,7 +27,9 @@ import tgwofficial.atma.client.db.DbManager;
 public class IdentitasIbuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private DbManager dbManager;
-
+    private Context context;
+    private static final int    REQUEST_CODE_GET_JSON = 1;
+    private static final String DATA_JSON_PATH        = "identitasibu.json";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +56,13 @@ public class IdentitasIbuActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Untuk Tambah Patient Baru", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(context, JsonFormActivity.class);
+                String json = "Your complete JSON";
+                intent.putExtra("json", json);
+                startActivityForResult(intent, REQUEST_CODE_GET_JSON);
+
+                //Snackbar.make(view, "Untuk Tambah Patient Baru", Snackbar.LENGTH_LONG)
+                  //      .setAction("Action", null).show();
             }
         });
 

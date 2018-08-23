@@ -27,13 +27,9 @@ public class TransportasiCursorAdapter extends CursorAdapter {
         TextView name = (TextView) view.findViewById(R.id.name);
         TextView spousename = (TextView) view.findViewById(R.id.kendaraan);
 
-        String datas = cursor.getString(cursor.getColumnIndexOrThrow("data"));
-        String[] datasList = datas.split(",");
+        String nama = cursor.getString(cursor.getColumnIndexOrThrow("name"));
 
-        String name_split = datasList[0];
-        String kend_split = datasList[3];
-        
-        name.setText("NAMA :"+name_split);
-        spousename.setText("KENDARAAN :"+kend_split);
+
+        name.setText("NAMA :"+nama);
     }
 }
