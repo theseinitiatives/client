@@ -37,7 +37,7 @@ public class TransportasiActivity extends AppCompatActivity
 
         dbManager = new DbManager(this);
         dbManager.open();
-        Cursor cursor = dbManager.fetch();
+        Cursor cursor = dbManager.fetchTrans();
 
         // Find ListView to populate
         ListView lvItems = (ListView) findViewById(R.id.list_view);

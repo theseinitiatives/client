@@ -6,11 +6,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DbHelper  extends SQLiteOpenHelper {
 
     // Table Name
-    public static final String TABLE_NAME = "identitas_ibu";
+    public static final String TABLE_NAME_IBU = "identitas_ibu";
+    public static final String TABLE_NAME_TRANS = "transportasi";
+    public static final String TABLE_NAME_BANK = "bank_darah";
 
-    // Table columns
+    // Table columns Ibu
     public static final String _ID = "_id";
     public static final String NAME = "name";
+    public static final String NAME_PENDONOR = "name_pendonor";
     public static final String SPOUSENAME = "spousename";
     public static final String STATUS = "status";
     public static final String TGL_LAHIR = "tgl_lahir";
@@ -23,22 +26,32 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String TGL_PERSALINAN = "tgl_persalinan";
     public static final String KONDISI_IBU = "kondisi_ibu";
     public static final String KONDISI_ANAK = "kondisi_anak";
-    public static final String IS_SYNC = "is_sync";
 
+
+    //Table Column Transportasi
+    public static final String Jenis = "jenis_kendaraan";
+    public static final String Kapasitas = "kapasitas_kendaraan";
+    public static final String GUBUG = "gubug";
+    public static final String PROFESI = "profesi";
+    public static final String KET = "keterangan";
+
+    //standart column
+    public static final String IS_SYNC = "is_sync";
+    public static final String IS_SEND = "is_send";
     public static final String TIMESTAMP = "timestamp";
 
     // Database Information
-    static final String DB_NAME = "identitas_ibu.DB";
+    static final String DB_NAME = "atma.DB";
 
     // database version
     static final int DB_VERSION = 1;
 
-    // Creating table query
-    private static final String CREATE_TABLE = "create table "
-            + TABLE_NAME + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+    // Creating table Ibu
+    private static final String CREATE_TABLE_IBU = "create table "
+            + TABLE_NAME_IBU + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + NAME + " TEXT NOT NULL, "
             + SPOUSENAME + " TEXT NOT NULL, "
-            + STATUS + " TEXT NOT NULL, "
+            + STATUS + " TEXT , "
             + TGL_LAHIR + " TEXT , "
             + DUSUN + " TEXT , "
             + HPHT + " TEXT , "
@@ -50,7 +63,36 @@ public class DbHelper  extends SQLiteOpenHelper {
             + KONDISI_IBU + " TEXT, "
             + KONDISI_ANAK + " TEXT , "
             + IS_SYNC + " INTEGER DEFAULT 0, "
+            + IS_SEND + " INTEGER DEFAULT 0, "
             + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
+
+    // Creating table Transportasi
+    private static final String CREATE_TABLE_TRANS = "create table "
+            + TABLE_NAME_TRANS + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + NAME + " TEXT NOT NULL, "
+            + Jenis + " TEXT, "
+            + Kapasitas + " TEXT , "
+            + TELP + " TEXT , "
+            + DUSUN + " TEXT , "
+            + GUBUG + " TEXT , "
+            + PROFESI + " TEXT , "
+            + KET + " TEXT , "
+            + IS_SYNC + " INTEGER DEFAULT 0, "
+            + IS_SEND + " INTEGER DEFAULT 0, "
+            + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
+
+    // Creating table Bank Darah
+    private static final String CREATE_TABLE_BANK = "create table "
+            + TABLE_NAME_BANK + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + NAME + " TEXT NOT NULL, "
+            + NAME_PENDONOR + " TEXT , "
+            + STATUS + " TEXT , "
+            + GOL_DARAH + " TEXT , "
+            + TELP + " TEXT , "
+            + IS_SYNC + " INTEGER DEFAULT 0, "
+            + IS_SEND + " INTEGER DEFAULT 0, "
+            + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
+
 
     public DbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -58,7 +100,9 @@ public class DbHelper  extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(CREATE_TABLE);
+        db.execSQL(CREATE_TABLE_IBU);
+        db.execSQL(CREATE_TABLE_TRANS);
+        db.execSQL(CREATE_TABLE_BANK);
 
         /** hapus kalo udah mulai release
          *
@@ -79,12 +123,15 @@ public class DbHelper  extends SQLiteOpenHelper {
     }
 
     private static void insertDummy(SQLiteDatabase db, String data,String data2, String data3) {
-        db.execSQL("INSERT INTO " + TABLE_NAME + " (" + NAME+","+SPOUSENAME+","+STATUS
+        db.execSQL("INSERT INTO " + TABLE_NAME_IBU + " (" + NAME+","+SPOUSENAME+","+STATUS
                 + ") VALUES ('" + data + "','"+data2+"','"+data3+"');");
+
+        db.execSQL("INSERT INTO " + TABLE_NAME_TRANS + " (" + NAME+") VALUES ('" + data + "');");
+        db.execSQL("INSERT INTO " + TABLE_NAME_BANK + " (" + NAME+") VALUES ('" + data + "');");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_IBU);
         onCreate(db);
     }
 }

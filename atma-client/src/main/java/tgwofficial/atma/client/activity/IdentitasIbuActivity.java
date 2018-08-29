@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,14 +16,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.vijay.jsonwizard.activities.JsonFormActivity;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
+import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
+import tgwofficial.atma.client.sync.PushToServer;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class IdentitasIbuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,16 +40,21 @@ public class IdentitasIbuActivity extends AppCompatActivity
     private Context context;
     private static final int    REQUEST_CODE_GET_JSON = 1;
     private static final String DATA_JSON_PATH        = "identitasibu.json";
+
+    private PushToServer pushToServer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.identitas_ibu_main_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+       // pushToServer.getResults();
         dbManager = new DbManager(this);
         dbManager.open();
-        Cursor cursor = dbManager.fetch();
+        Cursor cursor = dbManager.fetchIbu();
+        Log.d("CURSORS", cursor.toString());
+       // cur2Json(cursor);
 
         // Find ListView to populate
         ListView lvItems = (ListView) findViewById(R.id.list_view);
@@ -66,14 +81,14 @@ public class IdentitasIbuActivity extends AppCompatActivity
             }
         });
 
-       /* ImageView img = (ImageView) findViewById(R.id.ibu);
+        /*TextView img = (TextView) findViewById(R.id.name);
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent myIntent = new Intent(IdentitasIbuActivity.this, IdentitasIbuDetailActivity.class);
                 startActivity(myIntent);
             }
-        });*/
-
+        });
+*/
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -93,6 +108,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -124,7 +140,6 @@ public class IdentitasIbuActivity extends AppCompatActivity
         int id = item.getItemId();
        // MenuItem register = R.id.nav_identitas_ibu;
         if (id == R.id.nav_identitas_ibu) {
-            navi.startIdentitasIbu();
         }
         if (id == R.id.nav_transportasi) {
             navi.startTransportasi();
@@ -135,7 +150,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             // Handle the camera action
         }
         /*else if (id == R.id.nav_gallery) {
-
+                pushToServer.getResults();
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

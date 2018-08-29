@@ -37,7 +37,7 @@ public class BankDarahActivity extends AppCompatActivity
 
         dbManager = new DbManager(this);
         dbManager.open();
-        Cursor cursor = dbManager.fetch();
+        Cursor cursor = dbManager.fetchBankDarah();
 
         // Find ListView to populate
         ListView lvItems = (ListView) findViewById(R.id.list_view);
