@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,7 +33,7 @@ import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
 import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
-import tgwofficial.atma.client.sync.PushToServer;
+import tgwofficial.atma.client.sync.UpdateTask;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -40,8 +43,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
     private Context context;
     private static final int    REQUEST_CODE_GET_JSON = 1;
     private static final String DATA_JSON_PATH        = "identitasibu.json";
+    private Menu mymenu;
 
-    private PushToServer pushToServer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +61,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         // Find ListView to populate
         ListView lvItems = (ListView) findViewById(R.id.list_view);
-// Setup cursor adapter using cursor from last step
+        // Setup cursor adapter using cursor from last step
         IdentitasibuCursorAdapter todoAdapter = new IdentitasibuCursorAdapter(this, cursor);
-// Attach cursor adapter to the ListView
+        // Attach cursor adapter to the ListView
         lvItems.setAdapter(todoAdapter);
 
 
@@ -97,6 +100,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
     }
 
     @Override
@@ -114,6 +119,10 @@ public class IdentitasIbuActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        mymenu = menu;
+      //  ImageView syncIcon = (ImageView) menu.findItem(R.id.action_refresh).getActionView();
+       // syncIcon.setImageResource(R.drawable.baseline_sync_black_18dp);
+//        syncIcon.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotate_refresh));
         return true;
     }
 
@@ -123,11 +132,23 @@ public class IdentitasIbuActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        if (id == R.id.action_refresh) {
+            LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            ImageView iv = (ImageView)inflater.inflate(R.layout.iv_refresh, null);
+            Animation rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_refresh);
+            rotation.setRepeatCount(Animation.INFINITE);
+            iv.startAnimation(rotation);
+            item.setActionView(iv);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+
+
+            new UpdateTask(this).execute();
             return true;
         }
+        //noinspection SimplifiableIfStatement
+      /*  if (id == R.id.action_settings) {
+            return true;
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -140,6 +161,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
         int id = item.getItemId();
        // MenuItem register = R.id.nav_identitas_ibu;
         if (id == R.id.nav_identitas_ibu) {
+            Intent myIntent = new Intent(IdentitasIbuActivity.this, IdentitasIbuDetailActivity.class);
+            startActivity(myIntent);
         }
         if (id == R.id.nav_transportasi) {
             navi.startTransportasi();
@@ -149,6 +172,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             navi.startBankDarah();
             // Handle the camera action
         }
+
         /*else if (id == R.id.nav_gallery) {
                 pushToServer.getResults();
         } else if (id == R.id.nav_slideshow) {
@@ -164,5 +188,16 @@ public class IdentitasIbuActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    public void resetUpdating()
+    {
+        // Get our refresh item from the menu
+        MenuItem m = mymenu.findItem(R.id.action_refresh);
+        if(m.getActionView()!=null)
+        {
+            // Remove the animation.
+            m.getActionView().clearAnimation();
+            m.setActionView(null);
+        }
     }
 }

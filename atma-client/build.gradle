@@ -32,7 +32,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.google.code.gson:gson:2.6.1'
-    implementation 'com.loopj.android:android-async-http:1.4.9'
     implementation 'com.github.vijayrawatsan:android-json-form-wizard:1.0'
+    implementation 'net.callumtaylor:asynchttpclient:2.1.1'
 
 }

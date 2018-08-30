@@ -9,10 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import cz.msebera.android.httpclient.Header;
 
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
 
@@ -66,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private void doLogin(final String username,final String password){
+    /*private void doLogin(final String username,final String password){
         AsyncHttpClient client = new AsyncHttpClient();
         client.setBasicAuth(username, password);
         client.get("http://192.168.1.4:5000/api/resource", new AsyncHttpResponseHandler() {
@@ -84,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                 error.printStackTrace(System.out);
             }
         });
-    }
+    }*/
 
 }
 

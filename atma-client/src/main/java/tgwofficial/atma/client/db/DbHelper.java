@@ -108,7 +108,7 @@ public class DbHelper  extends SQLiteOpenHelper {
          *
          * ***/
         //inserting dummy data
-        insertDummy(db,"Rana"," Iqbal", "Patient Baru");
+      /*  insertDummy(db,"Rana"," Iqbal", "Patient Baru");
 
         insertDummy(db,"Siti"," Adawiyah"," Patient Baru");
         insertDummy(db,"Marwan Nulhakam", "Belum Dapat","Patient AKut");
@@ -117,7 +117,7 @@ public class DbHelper  extends SQLiteOpenHelper {
         insertDummy(db,"Ainul", "Hamdani", "");
         insertDummy(db,"Nina", "Hidayati", "TOINK");
         insertDummy(db,"Zahroh", "Rana", "ASD");
-        insertDummy(db,"Moya", "Dyah", "Patient Baru");
+        insertDummy(db,"Moya", "Dyah", "Patient Baru");*/
 
 
     }
