@@ -3,32 +3,38 @@ package tgwofficial.atma.client.sync.model.IbuModel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Arrays;
-import java.util.List;
 
 public class IdentitasIbuModel {
 
-
-    public List <IdentitasIbuModelData> identitasIbuModelData;
-
-
-
+    @SerializedName("update_id")
+    @Expose
     private String update_id;
+    @SerializedName("form_name")
+    @Expose
+    private String form_name;
+    @SerializedName("data")
+    @Expose
+    private String data;
+    @SerializedName("location_id")
+    @Expose
+    private String location_id;
+    @SerializedName("user_id")
+    @Expose
+    private String user_id;
 
-        private String form_name;
 
-        private String location_id;
+    @Override
+    public String toString() {
+        return "IdentitasIbuModel{" +
+                ",\n update_id='" + update_id + '\'' +
+                ",\n form_name='" + form_name + '\'' +
+                ",\n location_id='" + location_id + '\'' +
+                ", \nuser_id='" + user_id + '\'' +
+               "\ndata=" + data +
+                '}';
+    }
 
-        private String user_id;
-
-        @Override
-        public String toString(){
-        return "update_id : " + update_id + "\nform_name : " + form_name + "\nlocation_id : " + location_id+ "\nuser_id : " + user_id
-            ;
-        }
-
-
-        public String getupdate_id() {
+    public String getupdate_id() {
             return update_id;
         }
 
@@ -59,12 +65,13 @@ public class IdentitasIbuModel {
         public void setuser_id(String user_id) {
             this.user_id = user_id;
         }
-    public List<IdentitasIbuModelData> getIdentitasIbuModelData() {
-        return identitasIbuModelData;
+
+    public String getData() {
+        return data;
     }
 
-    public void setIdentitasIbuModelData(List<IdentitasIbuModelData> identitasIbuModelData) {
-        this.identitasIbuModelData = identitasIbuModelData;
+    public void setData(String data) {
+        this.data = data;
     }
 
 

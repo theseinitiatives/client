@@ -8,18 +8,14 @@ import com.google.gson.GsonBuilder;
 import com.loopj.android.http.SyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import tgwofficial.atma.client.db.DbManager;
 import tgwofficial.atma.client.sync.model.IbuModel.IdentitasIbuModel;
-import tgwofficial.atma.client.sync.model.IbuModel.IdentitasIbuModelData;
 
 public class RestApi {
     private String TAG = RestApi.class.getSimpleName();
@@ -55,9 +51,6 @@ public class RestApi {
         Gson gson = new GsonBuilder().create();
         IdentitasIbuModel[] videoArray = gson.fromJson(data, IdentitasIbuModel[].class);
 
-        List<IdentitasIbuModel> videoList = Arrays.asList(videoArray);
-//                        IdentitasIbuModel movie = gson.fromJson(response, IdentitasIbuModel.class);
-        //                       saveTodb(movie);
         Log.d("ssssssssssssssss", ""+statusCode);
         Log.d("aaaaaaaaaaaaaaaaa", Arrays.toString(videoArray));
 
