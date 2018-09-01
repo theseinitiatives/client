@@ -6,8 +6,6 @@ import android.util.Log;
 
 import com.google.gson.JsonElement;
 
-import net.callumtaylor.asynchttp.AsyncHttpClient;
-import net.callumtaylor.asynchttp.response.JsonResponseHandler;
 
 import tgwofficial.atma.client.R;
 

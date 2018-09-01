@@ -7,14 +7,12 @@ import android.widget.Toast;
 
 import com.google.gson.JsonElement;
 
-import net.callumtaylor.asynchttp.AsyncHttpClient;
-import net.callumtaylor.asynchttp.response.JsonResponseHandler;
 
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
 
 public class UpdateTask extends AsyncTask<Void, Void, Void> {
 private RestApi restApi = new RestApi();
-    AsyncHttpClient client = new AsyncHttpClient("https://atma.theseforall.org");
+  //  AsyncHttpClient client = new AsyncHttpClient("https://atma.theseforall.org");
     private Context mCon;
 
     public UpdateTask(Context con)

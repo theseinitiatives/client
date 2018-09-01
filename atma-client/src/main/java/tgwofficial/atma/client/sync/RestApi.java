@@ -1,57 +1,66 @@
 package tgwofficial.atma.client.sync;
 
-import android.app.Activity;
 import android.content.Context;
-import android.database.Cursor;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-import net.callumtaylor.asynchttp.AsyncHttpClient;
-import net.callumtaylor.asynchttp.response.JsonResponseHandler;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.loopj.android.http.SyncHttpClient;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
+import cz.msebera.android.httpclient.Header;
 import tgwofficial.atma.client.db.DbManager;
+import tgwofficial.atma.client.sync.model.IbuModel.IdentitasIbuModel;
+import tgwofficial.atma.client.sync.model.IbuModel.IdentitasIbuModelData;
 
-public class RestApi extends AppCompatActivity {
+public class RestApi {
     private String TAG = RestApi.class.getSimpleName();
     private Context mCon;
     private DbManager dbManager;
-    AsyncHttpClient client = new AsyncHttpClient("https://atma.theseforall.org");
+   // AsyncHttpClient client = new AsyncHttpClient("https://atma.theseforall.org");
     ArrayList<HashMap<String, String>> contactList;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+
     public void pull(){
-         client.get("/api/pull?location-id=Dusun_test&update-id=0&batch-size=100", new JsonResponseHandler()
-        {
-            @Override public void onSuccess()
-            {
-                JsonElement result = getContent();
-                Log.d("HASIL", result.toString());
 
-                saveTodb(result.toString());
-            }
+        SyncHttpClient client = new SyncHttpClient();
+        client.get(
+                "https://atma.theseforall.org/api/pull?location-id=Dusun_test&update-id=0&batch-size=100",
+                new TextHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String response) {
 
-        });
+                        saveTodb(response, statusCode);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+                    }
+
+                });
+
 
     }
 
-    public void saveTodb(String resutl){
+    public void saveTodb(String  data, Integer statusCode) {
+        Gson gson = new GsonBuilder().create();
+        IdentitasIbuModel[] videoArray = gson.fromJson(data, IdentitasIbuModel[].class);
+
+        List<IdentitasIbuModel> videoList = Arrays.asList(videoArray);
+//                        IdentitasIbuModel movie = gson.fromJson(response, IdentitasIbuModel.class);
+        //                       saveTodb(movie);
+        Log.d("ssssssssssssssss", ""+statusCode);
+        Log.d("aaaaaaaaaaaaaaaaa", Arrays.toString(videoArray));
+
 
     }
     public void push(){
@@ -62,7 +71,7 @@ public class RestApi extends AppCompatActivity {
         Cursor cursor = dbManager.fetchIbu();
         Log.d("POSTT", cursor.toString());*/
 
-        RequestBody postBody = RequestBody.create(MediaType.parse("application/json"), "");
+       /* RequestBody postBody = RequestBody.create(MediaType.parse("application/json"), "");
 
         client.post("/api/push", postBody, new JsonResponseHandler()
         {
@@ -71,6 +80,6 @@ public class RestApi extends AppCompatActivity {
                 JsonElement result = getContent();
             }
         });
-        dbManager.close();
+        dbManager.close();*/
     }
 }
