@@ -10,6 +10,8 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String TABLE_NAME_TRANS = "transportasi";
     public static final String TABLE_NAME_BANK = "bank_darah";
 
+
+
     // Table columns Ibu
     public static final String _ID = "_id";
     public static final String NAME = "name";
@@ -39,8 +41,11 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String IS_SYNC = "is_sync";
     public static final String IS_SEND = "is_send";
     public static final String TIMESTAMP = "timestamp";
+    public static final String FORM_NAME = "form_name";
+    public static final String UPDATE_ID = "update_id";
+    public static final String LOCATION_ID = "location_id";
+    public static final String USER_ID = "user_id";
 
-    // Database Information
     static final String DB_NAME = "atma.DB";
 
     // database version
@@ -62,6 +67,9 @@ public class DbHelper  extends SQLiteOpenHelper {
             + TGL_PERSALINAN + " TEXT , "
             + KONDISI_IBU + " TEXT, "
             + KONDISI_ANAK + " TEXT , "
+            + USER_ID + " TEXT , "
+            + LOCATION_ID + " TEXT , "
+            + UPDATE_ID + " TEXT , "
             + IS_SYNC + " INTEGER DEFAULT 0, "
             + IS_SEND + " INTEGER DEFAULT 0, "
             + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
@@ -134,4 +142,6 @@ public class DbHelper  extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_IBU);
         onCreate(db);
     }
+
+
 }

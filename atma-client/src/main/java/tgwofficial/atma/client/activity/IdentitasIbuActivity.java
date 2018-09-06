@@ -3,9 +3,9 @@ package tgwofficial.atma.client.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,30 +21,27 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import com.loopj.android.http.SyncHttpClient;
+import com.loopj.android.http.TextHttpResponseHandler;
 import com.vijay.jsonwizard.activities.JsonFormActivity;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
+import cz.msebera.android.httpclient.Header;
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
 import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
-import tgwofficial.atma.client.sync.UpdateTask;
-
-import static android.support.constraint.Constraints.TAG;
 
 public class IdentitasIbuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private DbManager dbManager;
+    private DbHelper dbHelper;
     private Context context;
     private static final int    REQUEST_CODE_GET_JSON = 1;
     private static final String DATA_JSON_PATH        = "identitasibu.json";
     private Menu mymenu;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +50,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
        // pushToServer.getResults();
+
+        dbHelper = new DbHelper(this);
         dbManager = new DbManager(this);
         dbManager.open();
         Cursor cursor = dbManager.fetchIbu();
@@ -143,6 +142,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
 
             new UpdateTask(this).execute();
+            refreshView();
             return true;
         }
         //noinspection SimplifiableIfStatement
@@ -170,20 +170,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         if (id == R.id.nav_bank_darah) {
             navi.startBankDarah();
-            // Handle the camera action
         }
 
-        /*else if (id == R.id.nav_gallery) {
-                pushToServer.getResults();
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -200,4 +188,75 @@ public class IdentitasIbuActivity extends AppCompatActivity
             m.setActionView(null);
         }
     }
+
+    private void refreshView(){
+        ListView list = findViewById(R.id.list_view);
+        list.requestLayout();
+
+    }
+
+
+    public void pull(){
+
+        SyncHttpClient client = new SyncHttpClient();
+        client.get(
+                "https://atma.theseforall.org/api/pull?location-id=Dusun_test&update-id=0&batch-size=100",
+                new TextHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String response) {
+                     //   dbManager = new DbManager(this);
+                        dbManager.open();
+                       dbManager.saveTodb(response, statusCode);
+                       dbManager.close();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
+                    }
+
+                });
+    }
+
+
+    class UpdateTask extends AsyncTask<Void, Void, Void> {
+       // private IdentitasIbuActivity identitasIbuActivity;
+        //  AsyncHttpClient client = new AsyncHttpClient("https://atma.theseforall.org");
+        private Context mCon;
+
+        public UpdateTask(Context con)
+        {
+            mCon = con;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            // Set a time to simulate a long update process.
+            try {
+                Thread.sleep(4000);
+
+            } catch (Exception e) {
+                return null;
+            }
+            pull();
+            return null;
+
+        }
+
+        @Override
+        protected void onPostExecute(Void param) {
+            // Give some feedback on the UI.
+            Toast.makeText(mCon, "Sync Finished!",
+                    Toast.LENGTH_LONG).show();
+
+            // Change the menu back
+            ((IdentitasIbuActivity) mCon).resetUpdating();
+            //((IdentitasIbuActivity) mCon).refreshView();
+            finish();
+            startActivity(getIntent());
+        }
+
+
+    }
+
 }
