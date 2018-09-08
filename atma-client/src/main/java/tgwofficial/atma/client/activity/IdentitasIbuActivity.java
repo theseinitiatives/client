@@ -23,11 +23,21 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.JsonElement;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.SyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.vijay.jsonwizard.activities.JsonFormActivity;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
@@ -42,7 +52,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
     private static final int    REQUEST_CODE_GET_JSON = 1;
     private static final String DATA_JSON_PATH        = "identitasibu.json";
     private Menu mymenu;
-
+    SyncHttpClient client = new SyncHttpClient();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +79,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         todoAdapter.changeCursor(cursor);
 
         dbManager.close();
+       // push();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,9 +130,6 @@ public class IdentitasIbuActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         mymenu = menu;
-      //  ImageView syncIcon = (ImageView) menu.findItem(R.id.action_refresh).getActionView();
-       // syncIcon.setImageResource(R.drawable.baseline_sync_black_18dp);
-//        syncIcon.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotate_refresh));
         return true;
     }
 
@@ -197,8 +205,14 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
 
     public void pull(){
+        /***
+         * *doing first pull data
+         *
+         * =================================================
+         * TODO
+         * SEPARATE SYNC BETWEEN FIRST PULL AND UPDATE PULL
+         * =================================================*/
 
-        SyncHttpClient client = new SyncHttpClient();
         client.get(
                 "https://atma.theseforall.org/api/pull?location-id=Dusun_test&update-id=0&batch-size=100",
                 new TextHttpResponseHandler() {
@@ -212,19 +226,68 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
+                        Toast.makeText(context, "PULL Data FAILED!",
+                                Toast.LENGTH_LONG).show();
                     }
 
                 });
     }
 
 
-    class UpdateTask extends AsyncTask<Void, Void, Void> {
+    public void push(){
+        /***TODO
+         * =================================================
+         * Included the data from table transportasi and bank darah
+         * =================================================*/
+        dbManager.open();
+        //pull all identitasibu data from local db
+        Cursor cursor = dbManager.fetchUnSyncIbu();
+        String data = dbManager.formatToJson(cursor).toString();
+
+        try {
+
+            StringEntity entity = new StringEntity(data);
+            Log.i("ENTITYYY", entity.toString());
+            client.post(context, "https://atma.theseforall.org/api/push", entity, "application/json",
+                    new JsonHttpResponseHandler(){
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, String response) {
+                            //   dbManager = new DbManager(this);
+                           // dbManager.open();
+
+                         /**TODO
+                          * UPDATE DATABASE AFTER SUCCESFULL SEND TO SERVER (UPDATE IS_SEND AND IS_SYNC COLUMN TO 1)*/
+                           // dbManager.close();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            Toast.makeText(context, "Sync FAILED!",
+                                    Toast.LENGTH_LONG).show();
+                        }
+
+                    });
+
+        } catch( Exception e )
+            {
+                Log.d("TAG_NAME", e.getMessage()  );
+            }
+
+        Log.d("POSTT", data);
+
+
+        dbManager.close();
+    }
+
+
+
+
+     class UpdateTask extends AsyncTask<Void, Void, Void> {
        // private IdentitasIbuActivity identitasIbuActivity;
         //  AsyncHttpClient client = new AsyncHttpClient("https://atma.theseforall.org");
         private Context mCon;
 
-        public UpdateTask(Context con)
+        private UpdateTask(Context con)
         {
             mCon = con;
         }
@@ -238,7 +301,11 @@ public class IdentitasIbuActivity extends AppCompatActivity
             } catch (Exception e) {
                 return null;
             }
+
+            /**====================================================
+             * *PUSH AND PULLING DATA*/
             pull();
+            push();
             return null;
 
         }

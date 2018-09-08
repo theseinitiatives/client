@@ -149,6 +149,30 @@ public class DbManager {
         }
         return cursor;
     }
+    public Cursor fetchUnSyncIbu() {
+        String[] columns = new String[] { DbHelper._ID,
+                DbHelper.NAME,
+                DbHelper.SPOUSENAME,
+                DbHelper.TGL_LAHIR,
+                DbHelper.DUSUN,
+                DbHelper.HPHT,
+                DbHelper.HTP,
+                DbHelper.GOL_DARAH,
+                DbHelper.STATUS,
+                DbHelper.KADER,
+                DbHelper.TELP,
+                DbHelper.TGL_PERSALINAN,
+                DbHelper.KONDISI_IBU,
+                DbHelper.KONDISI_ANAK,
+                DbHelper.IS_SEND,
+                DbHelper.IS_SYNC,
+                DbHelper.TIMESTAMP };
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.IS_SEND +"!=0", null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
 
     public Cursor fetchTrans() {
         String[] columns = new String[] { DbHelper._ID,
@@ -202,4 +226,64 @@ public class DbManager {
     }
 
 
+    public JSONArray formatToJson(Cursor cursor)
+    {
+        //JSONArray resultSet     = new JSONArray();
+
+        JSONArray resultSet = new JSONArray();
+        JSONArray resultSet2 = new JSONArray();
+        JSONObject rowObject2 = new JSONObject();
+
+        //  resultSet.put();
+        cursor.moveToFirst();
+        while (cursor.isAfterLast() == false) {
+            try
+            {
+                int totalColumn = cursor.getColumnCount();
+                JSONObject rowObject = new JSONObject();
+                //looping data
+                for( int i=0 ;  i< totalColumn ; i++ )
+                {
+                    /***
+                     * TODO
+                     * SET THE DATA FROM TABLE*/
+                    rowObject2.put("user_id","userteset");
+                    rowObject2.put("location_id","Dusun_test");
+                    rowObject2.put("form_name","identitas_ibu");
+                    rowObject2.put("update_id","identitas_ibu");
+                    // Log.i("ASDASD",resultSet2.toString());
+
+                    if( cursor.getColumnName(i) != null )
+                    {
+
+
+                        if( cursor.getString(i) != null )
+                        {
+                            Log.d("TAG_NAME", cursor.getString(i) );
+                            rowObject.put(cursor.getColumnName(i) ,  cursor.getString(i) );
+                        }
+                        else
+                        {
+                            rowObject.put( cursor.getColumnName(i) ,  "" );
+                        }
+
+                    }
+
+                    resultSet2.put(rowObject2);
+                    rowObject2.put("data",resultSet);
+
+
+                }
+
+                resultSet.put(rowObject);
+                cursor.moveToNext();
+            }
+            catch( Exception e )
+            {
+                Log.d("TAG_NAME", e.getMessage()  );
+            }
+        }
+        cursor.close();
+        return resultSet2;
+    }
 }
