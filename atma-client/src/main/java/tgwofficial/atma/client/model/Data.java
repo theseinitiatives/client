@@ -1,4 +1,4 @@
-package tgwofficial.atma.client.sync.model.IbuModel;
+package tgwofficial.atma.client.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

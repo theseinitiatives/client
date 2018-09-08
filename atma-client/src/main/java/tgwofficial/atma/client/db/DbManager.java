@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import tgwofficial.atma.client.sync.model.IbuModel.Data;
-import tgwofficial.atma.client.sync.model.IbuModel.IdentitasIbuModel;
+import tgwofficial.atma.client.model.Data;
+import tgwofficial.atma.client.model.IdentitasIbuModel;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -42,8 +42,6 @@ public class DbManager {
     public void close() {
         dbHelper.close();
     }
-
-
 
     public void saveTodb(String  data, Integer statusCode) {
 
@@ -167,7 +165,7 @@ public class DbManager {
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
-        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.IS_SEND +"!=0", null, null, null, null);
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.IS_SEND +"!=1", null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
