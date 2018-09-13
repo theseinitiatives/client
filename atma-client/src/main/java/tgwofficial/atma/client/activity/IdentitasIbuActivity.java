@@ -3,9 +3,9 @@ package tgwofficial.atma.client.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,26 +23,35 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.gson.JsonElement;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.SyncHttpClient;
-import com.loopj.android.http.TextHttpResponseHandler;
 import com.vijay.jsonwizard.activities.JsonFormActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
+import tgwofficial.atma.client.Utils.ApiUtils;
 import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
 import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
+import tgwofficial.atma.client.model.ApiModel;
+import tgwofficial.atma.client.sync.ApiService;
 
 public class IdentitasIbuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,7 +61,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
     private static final int    REQUEST_CODE_GET_JSON = 1;
     private static final String DATA_JSON_PATH        = "identitasibu.json";
     private Menu mymenu;
+    private ApiService mService;
     SyncHttpClient client = new SyncHttpClient();
+    private  String TAG = "POSTTT";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +122,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mService = ApiUtils.getSOService();
+        Log.i("MSERVICE", mService.toString());
+       // pulldata();
 
     }
 
@@ -147,9 +161,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
             iv.startAnimation(rotation);
             item.setActionView(iv);
 
+            push();
 
-
-            new UpdateTask(this).execute();
+          //  new UpdateTask(this).execute();
             refreshView();
             return true;
         }
@@ -204,7 +218,125 @@ public class IdentitasIbuActivity extends AppCompatActivity
     }
 
 
-    public void pull(){
+
+    public void push(){
+        /***TODO
+         * =================================================
+         * Included the data from table transportasi and bank darah
+         * =================================================*/
+        String dummy ="[{\"user_id\":\"userteset\",\"location_id\":\"Dusun_test\",\"form_name\":\"identitas_ibu\",\"update_id\":1536829291275,\"data\":[{\"_id\":\"19\"}]}]";
+       // Call<String> login = mService.savePost(formatToJson().toString());
+        Call<String> login = mService.savePost(dummy);
+
+        login.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+              //  dialog.dismiss();
+                Log.i("Successsssss", response.toString());
+               /* try {
+                    String val = response.body();
+
+
+                } catch (Exception e) {
+                    e.getMessage();
+                }*/
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+
+       /* Log.e(TAG, formatToJson().toString());
+
+        mService.savePost(formatToJson()).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.i("Successsssss", response.toString());
+                if(response.isSuccessful()) {
+                   // showResponse(response.body().toString());
+                    Log.i("Successsssss", response.toString());
+                    Log.i("SUCCERRR", "post submitted to API." + response.body().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("FAILLLLL", "Unable to submit post to API.");
+            }
+        });*/
+
+        resetUpdating();
+    }
+    public JSONArray formatToJson()
+    {
+        dbManager.open();
+        //pull all identitasibu data from local db
+        Cursor cursor = dbManager.fetchUnSyncIbu();
+        // String data = dbManager.formatToJson(cursor).toString();
+        //JSONArray resultSet     = new JSONArray();
+
+        JSONArray resultSet = new JSONArray();
+        JSONArray resultSet2 = new JSONArray();
+        JSONObject rowObject2 = new JSONObject();
+
+        //  resultSet.put();
+
+        cursor.moveToFirst();
+       // while (!cursor.isAfterLast()) {
+            try
+            {
+                int totalColumn = cursor.getCount();
+                JSONObject rowObject = new JSONObject();
+                //looping data
+                Log.i("COUNT",""+totalColumn);
+                for( int i=0 ;  i< totalColumn ; i++ )
+                {
+                    /***
+                     * TODO
+                     * SET THE DATA FROM TABLE*/
+                    rowObject2.put("user_id","userteset");
+                    rowObject2.put("location_id","Dusun_test");
+                    rowObject2.put("form_name","identitas_ibu");
+                    rowObject2.put("update_id",System.currentTimeMillis());
+                    // Log.i("ASDASD",resultSet2.toString());
+
+                    if( cursor.getColumnName(i) != null )
+                    {
+
+
+                        if( cursor.getString(i) != null )
+                        {
+                            Log.d("TAG_NAME", cursor.getString(i) );
+                            rowObject.put(cursor.getColumnName(i) ,  cursor.getString(i) );
+                        }
+                        else
+                        {
+                            rowObject.put( cursor.getColumnName(i) ,  "" );
+                        }
+
+                    }
+
+                    resultSet2.put(rowObject2);
+                    rowObject2.put("data",resultSet);
+
+
+                }
+
+                resultSet.put(rowObject);
+                cursor.moveToNext();
+            }
+            catch( Exception e )
+            {
+                Log.d("TAG_NAME", e.getMessage()  );
+            }
+       // }
+        cursor.close();
+        dbManager.close();
+        return resultSet2;
+    }
+    public void pulldata() {
         /***
          * *doing first pull data
          *
@@ -212,118 +344,41 @@ public class IdentitasIbuActivity extends AppCompatActivity
          * TODO
          * SEPARATE SYNC BETWEEN FIRST PULL AND UPDATE PULL
          * =================================================*/
+        mService.getData().enqueue(new Callback<List<ApiModel>>() {
+            @Override
+            public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
 
-        client.get(
-                "https://atma.theseforall.org/api/pull?location-id=Dusun_test&update-id=0&batch-size=100",
-                new TextHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, String response) {
-                     //   dbManager = new DbManager(this);
-                        dbManager.open();
-                       dbManager.saveTodb(response, statusCode);
-                       dbManager.close();
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        Toast.makeText(context, "PULL Data FAILED!",
-                                Toast.LENGTH_LONG).show();
-                    }
-
-                });
-    }
-
-
-    public void push(){
-        /***TODO
-         * =================================================
-         * Included the data from table transportasi and bank darah
-         * =================================================*/
-        dbManager.open();
-        //pull all identitasibu data from local db
-        Cursor cursor = dbManager.fetchUnSyncIbu();
-        String data = dbManager.formatToJson(cursor).toString();
-
-        try {
-
-            StringEntity entity = new StringEntity(data);
-            Log.i("ENTITYYY", entity.toString());
-            client.post(context, "https://atma.theseforall.org/api/push", entity, "application/json",
-                    new JsonHttpResponseHandler(){
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, String response) {
-                            //   dbManager = new DbManager(this);
-                           // dbManager.open();
-
-                         /**TODO
-                          * UPDATE DATABASE AFTER SUCCESFULL SEND TO SERVER (UPDATE IS_SEND AND IS_SYNC COLUMN TO 1)*/
-                           // dbManager.close();
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            Toast.makeText(context, "Sync FAILED!",
-                                    Toast.LENGTH_LONG).show();
-                        }
-
-                    });
-
-        } catch( Exception e )
-            {
-                Log.d("TAG_NAME", e.getMessage()  );
+                if(response.isSuccessful()) {
+                    dbManager.open();
+                    dbManager.saveTodb2(response.body(),null);
+                    dbManager.close();
+                    Toast.makeText(context, "Sync Finished!",
+                            Toast.LENGTH_LONG).show();
+                  //  Log.i("PULLING", response.body());
+                  //  mAdapter.updateAnswers(response.body().getItems());
+                    Log.d("MainActivity", "posts loaded from API");
+                }else {
+                    int statusCode  = response.code();
+                    // handle request errors depending on status code
+                }
             }
 
-        Log.d("POSTT", data);
+            @Override
+            public void onFailure(Call<List<ApiModel>> call, Throwable t) {
+               // showErrorMessage();
+                Toast.makeText(context, "Sync FAILED!",
+                        Toast.LENGTH_LONG).show();
+                Log.d("MainActivity", "error loading from API"+t);
 
-
-        dbManager.close();
-    }
-
-
-
-
-     class UpdateTask extends AsyncTask<Void, Void, Void> {
-       // private IdentitasIbuActivity identitasIbuActivity;
-        //  AsyncHttpClient client = new AsyncHttpClient("https://atma.theseforall.org");
-        private Context mCon;
-
-        private UpdateTask(Context con)
-        {
-            mCon = con;
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            // Set a time to simulate a long update process.
-            try {
-                Thread.sleep(4000);
-
-            } catch (Exception e) {
-                return null;
             }
+        });
 
-            /**====================================================
-             * *PUSH AND PULLING DATA*/
-            pull();
-            push();
-            return null;
-
-        }
-
-        @Override
-        protected void onPostExecute(Void param) {
-            // Give some feedback on the UI.
-            Toast.makeText(mCon, "Sync Finished!",
-                    Toast.LENGTH_LONG).show();
-
-            // Change the menu back
-            ((IdentitasIbuActivity) mCon).resetUpdating();
-            //((IdentitasIbuActivity) mCon).refreshView();
-            finish();
-            startActivity(getIntent());
-        }
-
-
+        resetUpdating();
+        finish();
+        startActivity(getIntent());
     }
+
+
+
 
 }

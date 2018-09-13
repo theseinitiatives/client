@@ -19,3 +19,29 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+# Retrofit does reflection on generic parameters and InnerClass is required to use Signature.
+# Retrofit does reflection on generic parameters and InnerClass is required to use Signature.
+## Retrofit
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+
+## RxJava
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+    long producerIndex;
+    long consumerIndex;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode producerNode;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode consumerNode;
+}
+-dontwarn sun.misc.Unsafe
+
+-keep class tgwofficial.atma.client.sync.ApiService
+-keep class tgwofficial.atma.client.sync.RetrofitClient
+-keep class tgwofficial.atma.client.activity.IdentitasIbuActivity
+
+

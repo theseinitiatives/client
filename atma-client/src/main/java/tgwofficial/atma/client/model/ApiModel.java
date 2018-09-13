@@ -3,10 +3,11 @@ package tgwofficial.atma.client.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class IdentitasIbuModel {
+public class ApiModel {
 
     @SerializedName("update_id")
     @Expose
@@ -25,9 +26,15 @@ public class IdentitasIbuModel {
     private String user_id;
 
 
+/*    @SerializedName("data")
+    @Expose
+    private ArrayList<IbuData> data;*/
+
+
+
     @Override
     public String toString() {
-        return "IdentitasIbuModel{" +
+        return "ApiModel{" +
                 ",\n update_id='" + update_id + '\'' +
                 ",\n form_name='" + form_name + '\'' +
                 ",\n location_id='" + location_id + '\'' +
@@ -76,8 +83,12 @@ public class IdentitasIbuModel {
         this.data = data;
     }
 
+/*    public ArrayList<IbuData> getData() {
+        return data;
+    }
 
-
-
+    public void setData(ArrayList<IbuData> data) {
+        this.data = data;
+    }*/
 }
 
