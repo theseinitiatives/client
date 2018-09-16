@@ -23,8 +23,19 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="90dp">
 
-    <include layout="@layout/transportasi_content_layout" />
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:dividerHeight="1dp"
+            android:padding="10dp"></ListView>
+    </FrameLayout>
+    <!--<include layout="@layout/transportasi_content_layout" />-->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
