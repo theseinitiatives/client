@@ -1,5 +1,6 @@
 package tgwofficial.atma.client.sync;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 
@@ -22,12 +23,9 @@ public interface ApiService {
    Call<List<ApiModel>> getData();
    // Call<ApiModel> getAnswers();
 
-/*
-    @POST("api/push")
-    @Headers({"Content-Type: application/json"})
-    Call<ResponseBody> savePost(@Body JSONArray post);*/
 
+    @Headers( "Content-Type: application/json; charset=utf-8")
     @POST("api/push")
-    @Headers("Accept: application/json")
-    Call<String> savePost(@Body String post);
+    Call<String> savePost(@Body RequestBody req);
+
 }

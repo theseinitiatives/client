@@ -19,15 +19,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.SyncHttpClient;
 import com.vijay.jsonwizard.activities.JsonFormActivity;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -70,14 +73,13 @@ public class IdentitasIbuActivity extends AppCompatActivity
         setContentView(R.layout.identitas_ibu_main_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-       // pushToServer.getResults();
+
 
         dbHelper = new DbHelper(this);
         dbManager = new DbManager(this);
         dbManager.open();
         Cursor cursor = dbManager.fetchIbu();
         Log.d("CURSORS", cursor.toString());
-       // cur2Json(cursor);
 
         // Find ListView to populate
         ListView lvItems = (ListView) findViewById(R.id.list_view);
@@ -90,18 +92,28 @@ public class IdentitasIbuActivity extends AppCompatActivity
         todoAdapter.changeCursor(cursor);
 
         dbManager.close();
-       // push();
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, JsonFormActivity.class);
-                String json = "Your complete JSON";
+                String json = "{\"Ibu\":{\"fields\":[{\"key\":\"Nama\",\"type\":\"edit_text\",\"hint\":\"Enter Your Name\"},{\"key\":\"spouse\",\"type\":\"edit_text\",\"hint\":\"Husband Name\"},{\"key\":\"dob\",\"type\":\"edit_text\",\"hint\":\"Date Of Birth\"},{\"key\":\"Gubug\",\"type\":\"edit_text\",\"hint\":\"Gubug\"},{\"key\":\"HPHT\",\"type\":\"edit_text\",\"hint\":\"Hari Pertama Haid Terkhir\"},{\"key\":\"HTP\",\"type\":\"edit_text\",\"hint\":\"HTP\"},{\"key\":\"radioData\",\"type\":\"radio\",\"label\":\"Gol Darah\",\"options\":[{\"key\":\"A\",\"text\":\"A\"},{\"key\":\"B\",\"text\":\"B\"},{\"key\":\"AB\",\"text\":\"AB\"},{\"key\":\"O\",\"text\":\"O\"}],\"value\":\"gol_darah\"},{\"key\":\"radioData\",\"type\":\"radio\",\"label\":\"STATUS\",\"options\":[{\"key\":\"Hamil\",\"text\":\"Hamil\"},{\"key\":\"Nifas\",\"text\":\"Nifas\"},{\"key\":\"RISTI\",\"text\":\"RISTI\"}],\"value\":\"status\"},{\"key\":\"kader\",\"type\":\"edit_text\",\"hint\":\"kader\"},{\"key\":\"telp\",\"type\":\"edit_text\",\"hint\":\"No Telp\"}],\"title\":\"Identitas Ibu\"}}";
                 intent.putExtra("json", json);
                 startActivityForResult(intent, REQUEST_CODE_GET_JSON);
 
                 //Snackbar.make(view, "Untuk Tambah Patient Baru", Snackbar.LENGTH_LONG)
                   //      .setAction("Action", null).show();
+            }
+        });*/
+
+        ImageButton buttons = (ImageButton) findViewById(R.id.btn_tambah);
+        buttons.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, JsonFormActivity.class);
+                String json = "{\"Ibu\":{\"fields\":[{\"key\":\"Nama\",\"type\":\"edit_text\",\"hint\":\"Enter Your Name\"},{\"key\":\"spouse\",\"type\":\"edit_text\",\"hint\":\"Husband Name\"},{\"key\":\"dob\",\"type\":\"edit_text\",\"hint\":\"Date Of Birth\"},{\"key\":\"Gubug\",\"type\":\"edit_text\",\"hint\":\"Gubug\"},{\"key\":\"HPHT\",\"type\":\"edit_text\",\"hint\":\"Hari Pertama Haid Terkhir\"},{\"key\":\"HTP\",\"type\":\"edit_text\",\"hint\":\"HTP\"},{\"key\":\"radioData\",\"type\":\"radio\",\"label\":\"Gol Darah\",\"options\":[{\"key\":\"A\",\"text\":\"A\"},{\"key\":\"B\",\"text\":\"B\"},{\"key\":\"AB\",\"text\":\"AB\"},{\"key\":\"O\",\"text\":\"O\"}],\"value\":\"gol_darah\"},{\"key\":\"radioData\",\"type\":\"radio\",\"label\":\"STATUS\",\"options\":[{\"key\":\"Hamil\",\"text\":\"Hamil\"},{\"key\":\"Nifas\",\"text\":\"Nifas\"},{\"key\":\"RISTI\",\"text\":\"RISTI\"}],\"value\":\"status\"},{\"key\":\"kader\",\"type\":\"edit_text\",\"hint\":\"kader\"},{\"key\":\"telp\",\"type\":\"edit_text\",\"hint\":\"No Telp\"}],\"title\":\"Identitas Ibu\"}}";
+                intent.putExtra("json", json);
+                startActivityForResult(intent, REQUEST_CODE_GET_JSON);
             }
         });
 
@@ -124,7 +136,6 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         mService = ApiUtils.getSOService();
         Log.i("MSERVICE", mService.toString());
-       // pulldata();
 
     }
 
@@ -161,7 +172,11 @@ public class IdentitasIbuActivity extends AppCompatActivity
             iv.startAnimation(rotation);
             item.setActionView(iv);
 
-            push();
+            /**
+             *
+             * DATA Sync (For right now disabled)*/
+           // push();
+            ///pulldata();
 
           //  new UpdateTask(this).execute();
             refreshView();
@@ -224,48 +239,39 @@ public class IdentitasIbuActivity extends AppCompatActivity
          * =================================================
          * Included the data from table transportasi and bank darah
          * =================================================*/
-        String dummy ="[{\"user_id\":\"userteset\",\"location_id\":\"Dusun_test\",\"form_name\":\"identitas_ibu\",\"update_id\":1536829291275,\"data\":[{\"_id\":\"19\"}]}]";
-       // Call<String> login = mService.savePost(formatToJson().toString());
-        Call<String> login = mService.savePost(dummy);
+        String dummy ="[\n" +
+                "    {\n" +
+                "        \"update_id\": \"1535462387138\",\n" +
+                "        \"form_name\": \"identitas_ibu\",\n" +
+                "        \"data\": \"{\\\"_id\\\":\\\"747\\\",\\\"name\\\":\\\"Zimbabwe\\\",\\\"spousename\\\":\\\" DUmmy2\\\",\\\"tgl_lahir\\\":\\\"\\\",\\\"dusun\\\":\\\"\\\",\\\"hpht\\\":\\\"\\\",\\\"htp\\\":\\\"\\\",\\\"gol_darah\\\":\\\"\\\",\\\"status\\\":\\\"Patient Baru\\\",\\\"kader\\\":\\\"\\\",\\\"telp\\\":\\\"\\\",\\\"tgl_persalinan\\\":\\\"\\\",\\\"kondisi_ibu\\\":\\\"\\\",\\\"kondisi_anak\\\":\\\"\\\",\\\"is_send\\\":\\\"0\\\",\\\"is_sync\\\":\\\"0\\\",\\\"timestamp\\\":\\\"2018-08-28 10:04:09\\\"}\",\n" +
+                "        \"location_id\": \"Dusun_test\",\n" +
+                "        \"user_id\": \"userteset\"\n" +
+                "    }\n" +
+                "]";
 
-        login.enqueue(new Callback<String>() {
+        RequestBody myreqbody = null;
+        try {
+            myreqbody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                    (new JSONArray(dummy)).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Call<String> call =mService.savePost(myreqbody);
+        Log.e("myreqbody", ""+myreqbody);
+
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-              //  dialog.dismiss();
-                Log.i("Successsssss", response.toString());
-               /* try {
-                    String val = response.body();
-
-
-                } catch (Exception e) {
-                    e.getMessage();
-                }*/
+            public void onResponse(Call<String>callback,Response<String>response) {
+                String res = response.body();
+                Log.e("DEMO", "post submitted to API." + response);
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                Log.e("DEMO", "Unable to submit post to API.",t);
+                Log.e("call", String.valueOf(call));
             }
         });
-
-       /* Log.e(TAG, formatToJson().toString());
-
-        mService.savePost(formatToJson()).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.i("Successsssss", response.toString());
-                if(response.isSuccessful()) {
-                   // showResponse(response.body().toString());
-                    Log.i("Successsssss", response.toString());
-                    Log.i("SUCCERRR", "post submitted to API." + response.body().toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("FAILLLLL", "Unable to submit post to API.");
-            }
-        });*/
 
         resetUpdating();
     }

@@ -24,6 +24,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="90dp">
@@ -37,12 +38,19 @@
     </FrameLayout>
    <!-- <include layout="@layout/identitas_ibu_content_layout" />-->
 
-    <android.support.design.widget.FloatingActionButton
+    <!--<android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/tambah" />
+        android:src="@drawable/tambah" />-->
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/tambah"
+        app:layout_anchor="@+id/frameLayout"
+        app:layout_anchorGravity="right|bottom"
+        android:id="@+id/btn_tambah"/>
 
 </android.support.design.widget.CoordinatorLayout>

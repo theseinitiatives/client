@@ -58,6 +58,10 @@ public class DbManager {
                     if(model.getData().contains("[")){
                         data_ = model.getData();
                     }
+                    else if (model.getData().contains("\"[")){
+                        data_ = model.getData().replace("\"[","[").replace("]\"","]");
+
+                    }
                     else{
                         data_ = "["+model.getData()+"]";
                     }
