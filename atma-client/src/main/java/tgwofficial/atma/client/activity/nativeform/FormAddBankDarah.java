@@ -1,4 +1,4 @@
-package tgwofficial.atma.client.activity;
+package tgwofficial.atma.client.activity.nativeform;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 import tgwofficial.atma.client.R;
+import tgwofficial.atma.client.activity.BankDarahActivity;
 import tgwofficial.atma.client.db.DbManager;
 
 public class FormAddBankDarah extends AppCompatActivity {

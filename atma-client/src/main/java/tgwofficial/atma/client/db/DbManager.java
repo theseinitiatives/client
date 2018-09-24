@@ -234,4 +234,18 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);
     }
+
+    public void insertbanktransportasi(String text_pemiliks, String jenis,String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.NAME,text_pemiliks);
+        contentValue.put( DbHelper.Jenis,jenis);
+        contentValue.put( DbHelper.GUBUG,text_gubug);
+        contentValue.put( DbHelper.Kapasitas,text_kapasitass);
+        contentValue.put( DbHelper.DUSUN,text_dusuns);
+        contentValue.put( DbHelper.PROFESI,text_profesis);
+        contentValue.put( DbHelper.KET,text_kets);
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
+    }
 }

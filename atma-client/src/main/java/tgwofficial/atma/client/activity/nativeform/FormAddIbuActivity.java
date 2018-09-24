@@ -1,4 +1,4 @@
-package tgwofficial.atma.client.activity;
+package tgwofficial.atma.client.activity.nativeform;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
-import tgwofficial.atma.client.LoginActivity;
 import tgwofficial.atma.client.R;
-import tgwofficial.atma.client.db.DbHelper;
+import tgwofficial.atma.client.activity.IdentitasIbuActivity;
 import tgwofficial.atma.client.db.DbManager;
 
 public class FormAddIbuActivity extends AppCompatActivity {

@@ -40,11 +40,15 @@
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".activity.FormAddIbuActivity"
+            android:name=".activity.nativeform.FormAddIbuActivity"
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".activity.FormAddBankDarah"
+            android:name=".activity.nativeform.FormAddBankDarah"
+            android:label="@string/detail_ibu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activity.nativeform.FormAddTransportasi"
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         
