@@ -104,27 +104,22 @@ public class FormAddIbuActivity extends AppCompatActivity {
             case R.id.hidup:
                 if (checked)
                     setStatuss("Hidup");
-                    // Pirates are the best
                     break;
             case R.id.meinggal:
                 if (checked)
                     setStatuss("Meninggal");
-                    // Ninjas rule
                     break;
             case R.id.hamil:
                 if (checked)
                     setStatuss2("hamil");
-                // Ninjas rule
                 break;
             case R.id.nifas:
                 if (checked)
                     setStatuss2("nifas");
-                // Ninjas rule
                 break;
             case R.id.risti:
                 if (checked)
                     setStatuss2("risti");
-                // Ninjas rule
                 break;
         }
     }

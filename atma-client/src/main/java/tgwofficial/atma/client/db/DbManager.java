@@ -118,6 +118,8 @@ public class DbManager {
         contentValue.put( DbHelper.STATUS,radioStatus);
         contentValue.put( DbHelper.TELP,notelponss);
         contentValue.put( DbHelper.KADER,kaderss);
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
     }
     public Cursor fetchIbu() {
@@ -221,5 +223,15 @@ public class DbManager {
     }
 
 
+    public void insertbankdarah(String mothername,String donor, String notelponss, String radioStatus, String radioStatus2) {
 
+        ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.NAME,mothername);
+        contentValue.put( DbHelper.NAME_PENDONOR,donor);
+        contentValue.put( DbHelper.STATUS,radioStatus);
+        contentValue.put( DbHelper.GOL_DARAH,radioStatus2);
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);
+    }
 }

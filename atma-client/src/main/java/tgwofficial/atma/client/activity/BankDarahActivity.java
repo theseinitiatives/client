@@ -56,8 +56,10 @@ public class BankDarahActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Untuk Tambah Patient Baru", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent myIntent = new Intent(BankDarahActivity.this, FormAddBankDarah.class);
+                startActivity(myIntent);
+                /*Snackbar.make(view, "Untuk Tambah Patient Baru", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
             }
         });
 

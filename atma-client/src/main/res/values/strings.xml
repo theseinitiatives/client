@@ -41,4 +41,10 @@
     <string name="kader">Nama Kader</string>
     <string name="notelp">Nomor Telpon Kader</string>
     <string name="meinggal">Meninggal</string>
+    <string name="nama_donor">Nama Donor</string>
+    <string name="suami">Suami</string>
+    <string name="nenek">Nenek</string>
+    <string name="kakek">kakek</string>
+    <string name="adik">Adik</string>
+    <string name="lainnya">Lainnya</string>
 </resources>
