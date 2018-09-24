@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,13 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
+import tgwofficial.atma.client.activity.nativeform.FormAddBankDarah;
 import tgwofficial.atma.client.adapter.BankDarahCursorAdapter;
-import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
 import tgwofficial.atma.client.db.DbManager;
 
 public class BankDarahActivity extends AppCompatActivity
@@ -56,8 +54,10 @@ public class BankDarahActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Untuk Tambah Patient Baru", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent myIntent = new Intent(BankDarahActivity.this, FormAddBankDarah.class);
+                startActivity(myIntent);
+                /*Snackbar.make(view, "Untuk Tambah Patient Baru", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
             }
         });
 

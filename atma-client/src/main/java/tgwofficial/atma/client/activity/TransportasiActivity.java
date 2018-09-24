@@ -20,6 +20,8 @@ import android.widget.ListView;
 
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
+import tgwofficial.atma.client.activity.nativeform.FormAddIbuActivity;
+import tgwofficial.atma.client.activity.nativeform.FormAddTransportasi;
 import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
 import tgwofficial.atma.client.adapter.TransportasiCursorAdapter;
 import tgwofficial.atma.client.db.DbManager;
@@ -56,8 +58,10 @@ public class TransportasiActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Untuk Tambah Patient Baru", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent myIntent = new Intent(TransportasiActivity.this, FormAddTransportasi.class);
+                startActivity(myIntent);
+               /* Snackbar.make(view, "Untuk Tambah Patient Baru", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
             }
         });
 

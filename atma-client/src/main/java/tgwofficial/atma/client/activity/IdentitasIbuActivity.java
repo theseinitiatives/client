@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.util.ArrayMap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,30 +22,22 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.SyncHttpClient;
-import com.vijay.jsonwizard.activities.JsonFormActivity;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.StringEntity;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.Utils.ApiUtils;
+import tgwofficial.atma.client.activity.nativeform.FormAddIbuActivity;
 import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
 import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
@@ -70,14 +61,13 @@ public class IdentitasIbuActivity extends AppCompatActivity
         setContentView(R.layout.identitas_ibu_main_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-       // pushToServer.getResults();
+
 
         dbHelper = new DbHelper(this);
         dbManager = new DbManager(this);
         dbManager.open();
         Cursor cursor = dbManager.fetchIbu();
         Log.d("CURSORS", cursor.toString());
-       // cur2Json(cursor);
 
         // Find ListView to populate
         ListView lvItems = (ListView) findViewById(R.id.list_view);
@@ -90,16 +80,12 @@ public class IdentitasIbuActivity extends AppCompatActivity
         todoAdapter.changeCursor(cursor);
 
         dbManager.close();
-       // push();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, JsonFormActivity.class);
-                String json = "Your complete JSON";
-                intent.putExtra("json", json);
-                startActivityForResult(intent, REQUEST_CODE_GET_JSON);
-
+                Intent myIntent = new Intent(IdentitasIbuActivity.this, FormAddIbuActivity.class);
+                startActivity(myIntent);
                 //Snackbar.make(view, "Untuk Tambah Patient Baru", Snackbar.LENGTH_LONG)
                   //      .setAction("Action", null).show();
             }
@@ -124,7 +110,6 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         mService = ApiUtils.getSOService();
         Log.i("MSERVICE", mService.toString());
-       // pulldata();
 
     }
 
@@ -161,9 +146,12 @@ public class IdentitasIbuActivity extends AppCompatActivity
             iv.startAnimation(rotation);
             item.setActionView(iv);
 
-            push();
+            /**
+             *
+             * DATA Sync (For right now disabled)*/
+            // push();
+            ///pulldata();
 
-          //  new UpdateTask(this).execute();
             refreshView();
             return true;
         }
@@ -224,48 +212,39 @@ public class IdentitasIbuActivity extends AppCompatActivity
          * =================================================
          * Included the data from table transportasi and bank darah
          * =================================================*/
-        String dummy ="[{\"user_id\":\"userteset\",\"location_id\":\"Dusun_test\",\"form_name\":\"identitas_ibu\",\"update_id\":1536829291275,\"data\":[{\"_id\":\"19\"}]}]";
-       // Call<String> login = mService.savePost(formatToJson().toString());
-        Call<String> login = mService.savePost(dummy);
+        String dummy ="[\n" +
+                "    {\n" +
+                "        \"update_id\": \"1535462387138\",\n" +
+                "        \"form_name\": \"identitas_ibu\",\n" +
+                "        \"data\": \"{\\\"_id\\\":\\\"747\\\",\\\"name\\\":\\\"Zimbabwe\\\",\\\"spousename\\\":\\\" DUmmy2\\\",\\\"tgl_lahir\\\":\\\"\\\",\\\"dusun\\\":\\\"\\\",\\\"hpht\\\":\\\"\\\",\\\"htp\\\":\\\"\\\",\\\"gol_darah\\\":\\\"\\\",\\\"status\\\":\\\"Patient Baru\\\",\\\"kader\\\":\\\"\\\",\\\"telp\\\":\\\"\\\",\\\"tgl_persalinan\\\":\\\"\\\",\\\"kondisi_ibu\\\":\\\"\\\",\\\"kondisi_anak\\\":\\\"\\\",\\\"is_send\\\":\\\"0\\\",\\\"is_sync\\\":\\\"0\\\",\\\"timestamp\\\":\\\"2018-08-28 10:04:09\\\"}\",\n" +
+                "        \"location_id\": \"Dusun_test\",\n" +
+                "        \"user_id\": \"userteset\"\n" +
+                "    }\n" +
+                "]";
 
-        login.enqueue(new Callback<String>() {
+        RequestBody myreqbody = null;
+        try {
+            myreqbody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                    (new JSONArray(dummy)).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Call<String> call =mService.savePost(myreqbody);
+        Log.e("myreqbody", ""+myreqbody);
+
+        call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-              //  dialog.dismiss();
-                Log.i("Successsssss", response.toString());
-               /* try {
-                    String val = response.body();
-
-
-                } catch (Exception e) {
-                    e.getMessage();
-                }*/
+            public void onResponse(Call<String>callback,Response<String>response) {
+                String res = response.body();
+                Log.e("DEMO", "post submitted to API." + response);
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-
+                Log.e("DEMO", "Unable to submit post to API.",t);
+                Log.e("call", String.valueOf(call));
             }
         });
-
-       /* Log.e(TAG, formatToJson().toString());
-
-        mService.savePost(formatToJson()).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.i("Successsssss", response.toString());
-                if(response.isSuccessful()) {
-                   // showResponse(response.body().toString());
-                    Log.i("Successsssss", response.toString());
-                    Log.i("SUCCERRR", "post submitted to API." + response.body().toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("FAILLLLL", "Unable to submit post to API.");
-            }
-        });*/
 
         resetUpdating();
     }
@@ -344,7 +323,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
          * TODO
          * SEPARATE SYNC BETWEEN FIRST PULL AND UPDATE PULL
          * =================================================*/
-        mService.getData().enqueue(new Callback<List<ApiModel>>() {
+        mService.getData(0).enqueue(new Callback<List<ApiModel>>() {
             @Override
             public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
 

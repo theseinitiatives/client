@@ -58,6 +58,10 @@ public class DbManager {
                     if(model.getData().contains("[")){
                         data_ = model.getData();
                     }
+                    else if (model.getData().contains("\"[")){
+                        data_ = model.getData().replace("\"[","[").replace("]\"","]");
+
+                    }
                     else{
                         data_ = "["+model.getData()+"]";
                     }
@@ -100,13 +104,24 @@ public class DbManager {
             // database.endTransaction();
         }
     }
-   /* public void insert(String name, String desc) {
+
+    public void insertibu(String mothername, String husbandname,String dobss, String gubugss,
+    String hphtss, String htpss,String goldarahss, String kaderss,String notelponss, String radioStatus, String radioStatus2) {
         ContentValues contentValue = new ContentValues();
-        contentValue.put(DbHelper.NAME, name);
-        contentValue.put(DbHelper.TIMESTAMP, desc);
-        database.insert(DbHelper.TABLE_NAME, null, contentValue);
+        contentValue.put(  DbHelper.NAME, mothername);
+        contentValue.put(  DbHelper.SPOUSENAME, husbandname);
+        contentValue.put( DbHelper.TGL_LAHIR,dobss);
+        contentValue.put( DbHelper.DUSUN,gubugss);
+        contentValue.put( DbHelper.HPHT,hphtss);
+        contentValue.put( DbHelper.HTP,htpss);
+        contentValue.put( DbHelper.GOL_DARAH,goldarahss);
+        contentValue.put( DbHelper.STATUS,radioStatus);
+        contentValue.put( DbHelper.TELP,notelponss);
+        contentValue.put( DbHelper.KADER,kaderss);
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
     }
-*/
     public Cursor fetchIbu() {
         String[] columns = new String[] { DbHelper._ID,
                 DbHelper.NAME,
@@ -208,5 +223,29 @@ public class DbManager {
     }
 
 
+    public void insertbankdarah(String mothername,String donor, String notelponss, String radioStatus, String radioStatus2) {
 
+        ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.NAME,mothername);
+        contentValue.put( DbHelper.NAME_PENDONOR,donor);
+        contentValue.put( DbHelper.STATUS,radioStatus);
+        contentValue.put( DbHelper.GOL_DARAH,radioStatus2);
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);
+    }
+
+    public void insertbanktransportasi(String text_pemiliks, String jenis,String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.NAME,text_pemiliks);
+        contentValue.put( DbHelper.Jenis,jenis);
+        contentValue.put( DbHelper.GUBUG,text_gubug);
+        contentValue.put( DbHelper.Kapasitas,text_kapasitass);
+        contentValue.put( DbHelper.DUSUN,text_dusuns);
+        contentValue.put( DbHelper.PROFESI,text_profesis);
+        contentValue.put( DbHelper.KET,text_kets);
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
+    }
 }

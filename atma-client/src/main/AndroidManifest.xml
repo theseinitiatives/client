@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppThemeCustomized">
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">
@@ -39,6 +39,19 @@
             android:name=".activity.IdentitasIbuDetailActivity"
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activity.nativeform.FormAddIbuActivity"
+            android:label="@string/detail_ibu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activity.nativeform.FormAddBankDarah"
+            android:label="@string/detail_ibu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activity.nativeform.FormAddTransportasi"
+            android:label="@string/detail_ibu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        
     </application>
 
 </manifest>
