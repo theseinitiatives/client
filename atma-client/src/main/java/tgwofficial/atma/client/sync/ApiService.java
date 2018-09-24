@@ -19,8 +19,8 @@ import tgwofficial.atma.client.model.ApiModel;
 
 public interface ApiService {
 
-    @GET("api/pull?location-id=Dusun_test&update-id=0&batch-size=100")
-   Call<List<ApiModel>> getData();
+    @GET("api/pull?location-id=Dusun_test&update-id={update_id}&batch-size=100")
+   Call<List<ApiModel>> getData(@Path("update_id") int updateId);
    // Call<ApiModel> getAnswers();
 
 
