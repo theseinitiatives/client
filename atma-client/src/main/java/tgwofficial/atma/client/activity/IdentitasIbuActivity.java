@@ -92,28 +92,14 @@ public class IdentitasIbuActivity extends AppCompatActivity
         todoAdapter.changeCursor(cursor);
 
         dbManager.close();
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, JsonFormActivity.class);
-                String json = "{\"Ibu\":{\"fields\":[{\"key\":\"Nama\",\"type\":\"edit_text\",\"hint\":\"Enter Your Name\"},{\"key\":\"spouse\",\"type\":\"edit_text\",\"hint\":\"Husband Name\"},{\"key\":\"dob\",\"type\":\"edit_text\",\"hint\":\"Date Of Birth\"},{\"key\":\"Gubug\",\"type\":\"edit_text\",\"hint\":\"Gubug\"},{\"key\":\"HPHT\",\"type\":\"edit_text\",\"hint\":\"Hari Pertama Haid Terkhir\"},{\"key\":\"HTP\",\"type\":\"edit_text\",\"hint\":\"HTP\"},{\"key\":\"radioData\",\"type\":\"radio\",\"label\":\"Gol Darah\",\"options\":[{\"key\":\"A\",\"text\":\"A\"},{\"key\":\"B\",\"text\":\"B\"},{\"key\":\"AB\",\"text\":\"AB\"},{\"key\":\"O\",\"text\":\"O\"}],\"value\":\"gol_darah\"},{\"key\":\"radioData\",\"type\":\"radio\",\"label\":\"STATUS\",\"options\":[{\"key\":\"Hamil\",\"text\":\"Hamil\"},{\"key\":\"Nifas\",\"text\":\"Nifas\"},{\"key\":\"RISTI\",\"text\":\"RISTI\"}],\"value\":\"status\"},{\"key\":\"kader\",\"type\":\"edit_text\",\"hint\":\"kader\"},{\"key\":\"telp\",\"type\":\"edit_text\",\"hint\":\"No Telp\"}],\"title\":\"Identitas Ibu\"}}";
-                intent.putExtra("json", json);
-                startActivityForResult(intent, REQUEST_CODE_GET_JSON);
-
+                Intent myIntent = new Intent(IdentitasIbuActivity.this, FormAddIbuActivity.class);
+                startActivity(myIntent);
                 //Snackbar.make(view, "Untuk Tambah Patient Baru", Snackbar.LENGTH_LONG)
                   //      .setAction("Action", null).show();
-            }
-        });*/
-
-        ImageButton buttons = (ImageButton) findViewById(R.id.btn_tambah);
-        buttons.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, JsonFormActivity.class);
-                String json = "{\"Ibu\":{\"fields\":[{\"key\":\"Nama\",\"type\":\"edit_text\",\"hint\":\"Enter Your Name\"},{\"key\":\"spouse\",\"type\":\"edit_text\",\"hint\":\"Husband Name\"},{\"key\":\"dob\",\"type\":\"edit_text\",\"hint\":\"Date Of Birth\"},{\"key\":\"Gubug\",\"type\":\"edit_text\",\"hint\":\"Gubug\"},{\"key\":\"HPHT\",\"type\":\"edit_text\",\"hint\":\"Hari Pertama Haid Terkhir\"},{\"key\":\"HTP\",\"type\":\"edit_text\",\"hint\":\"HTP\"},{\"key\":\"radioData\",\"type\":\"radio\",\"label\":\"Gol Darah\",\"options\":[{\"key\":\"A\",\"text\":\"A\"},{\"key\":\"B\",\"text\":\"B\"},{\"key\":\"AB\",\"text\":\"AB\"},{\"key\":\"O\",\"text\":\"O\"}],\"value\":\"gol_darah\"},{\"key\":\"radioData\",\"type\":\"radio\",\"label\":\"STATUS\",\"options\":[{\"key\":\"Hamil\",\"text\":\"Hamil\"},{\"key\":\"Nifas\",\"text\":\"Nifas\"},{\"key\":\"RISTI\",\"text\":\"RISTI\"}],\"value\":\"status\"},{\"key\":\"kader\",\"type\":\"edit_text\",\"hint\":\"kader\"},{\"key\":\"telp\",\"type\":\"edit_text\",\"hint\":\"No Telp\"}],\"title\":\"Identitas Ibu\"}}";
-                intent.putExtra("json", json);
-                startActivityForResult(intent, REQUEST_CODE_GET_JSON);
             }
         });
 
@@ -175,10 +161,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
             /**
              *
              * DATA Sync (For right now disabled)*/
-           // push();
+            // push();
             ///pulldata();
 
-          //  new UpdateTask(this).execute();
             refreshView();
             return true;
         }
@@ -350,7 +335,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
          * TODO
          * SEPARATE SYNC BETWEEN FIRST PULL AND UPDATE PULL
          * =================================================*/
-        mService.getData().enqueue(new Callback<List<ApiModel>>() {
+        mService.getData(0).enqueue(new Callback<List<ApiModel>>() {
             @Override
             public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
 

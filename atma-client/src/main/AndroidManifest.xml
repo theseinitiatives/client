@@ -39,6 +39,10 @@
             android:name=".activity.IdentitasIbuDetailActivity"
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activity.FormAddIbuActivity"
+            android:label="@string/detail_ibu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         
     </application>
 
