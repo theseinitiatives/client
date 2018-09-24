@@ -25,11 +25,14 @@ public class TransportasiCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
 
         TextView name = (TextView) view.findViewById(R.id.name);
-        TextView spousename = (TextView) view.findViewById(R.id.kendaraan);
-
+        TextView dusunss = (TextView) view.findViewById(R.id.dusuns);
+        TextView kend = (TextView) view.findViewById(R.id.kendaraan);
         String nama = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-
+        String jenis = cursor.getString(cursor.getColumnIndexOrThrow("jenis_kendaraan"));
+        String dusun = cursor.getString(cursor.getColumnIndexOrThrow("dusun"));
 
         name.setText("NAMA :"+nama);
+        kend.setText("Jenis Kendaraan :"+jenis);
+        dusunss.setText("Dusun :"+dusun);
     }
 }

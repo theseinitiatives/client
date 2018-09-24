@@ -51,6 +51,13 @@
                 android:text="Transportasi : Motor"
                 android:textSize="12sp"
                 android:id="@+id/kendaraan" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Transportasi : Motor"
+                android:textSize="12sp"
+                android:id="@+id/dusuns" />
 
         </LinearLayout>
 

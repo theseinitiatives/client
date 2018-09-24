@@ -230,6 +230,7 @@ public class DbManager {
         contentValue.put( DbHelper.NAME_PENDONOR,donor);
         contentValue.put( DbHelper.STATUS,radioStatus);
         contentValue.put( DbHelper.GOL_DARAH,radioStatus2);
+        contentValue.put( DbHelper.TELP,notelponss);
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);

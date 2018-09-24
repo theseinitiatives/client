@@ -26,12 +26,17 @@ public class BankDarahCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
 
         TextView name = (TextView) view.findViewById(R.id.name);
-        TextView spousename = (TextView) view.findViewById(R.id.gol_d);
-
+        TextView gold = (TextView) view.findViewById(R.id.gol_d);
+        TextView telp = (TextView) view.findViewById(R.id.notelp);
+        TextView nama_donor = (TextView) view.findViewById(R.id.donor);
 
         String nama = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-
-        
+        String golds = cursor.getString(cursor.getColumnIndexOrThrow("gol_darah"));
+        String nomor = cursor.getString(cursor.getColumnIndexOrThrow("telp"));
+        String pendonor = cursor.getString(cursor.getColumnIndexOrThrow("name_pendonor"));
         name.setText("NAMA :"+nama);
+        nama_donor.setText("NAMA Donor :"+pendonor);
+        gold.setText("Gol Darah :"+golds);
+        telp.setText("No Telp :"+nomor);
     }
 }
