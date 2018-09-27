@@ -249,4 +249,29 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
     }
+
+    public Cursor fetchdetaildata(String id) {
+        String[] columns = new String[] { DbHelper._ID,
+                DbHelper.NAME,
+                DbHelper.SPOUSENAME,
+                DbHelper.TGL_LAHIR,
+                DbHelper.DUSUN,
+                DbHelper.HPHT,
+                DbHelper.HTP,
+                DbHelper.GOL_DARAH,
+                DbHelper.STATUS,
+                DbHelper.KADER,
+                DbHelper.TELP,
+                DbHelper.TGL_PERSALINAN,
+                DbHelper.KONDISI_IBU,
+                DbHelper.KONDISI_ANAK,
+                DbHelper.IS_SEND,
+                DbHelper.IS_SYNC,
+                DbHelper.TIMESTAMP };
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper._ID +"="+id, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
 }

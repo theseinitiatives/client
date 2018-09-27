@@ -18,8 +18,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.SyncHttpClient;
@@ -76,7 +78,15 @@ public class IdentitasIbuActivity extends AppCompatActivity
         // Attach cursor adapter to the ListView
         lvItems.setAdapter(todoAdapter);
 
-
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("__id", ""+id);
+                IdentitasIbuDetailActivity.id = String.valueOf(id);
+                Intent intent = new Intent(IdentitasIbuActivity.this,IdentitasIbuDetailActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         todoAdapter.changeCursor(cursor);
 
         dbManager.close();
@@ -97,8 +107,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 Intent myIntent = new Intent(IdentitasIbuActivity.this, IdentitasIbuDetailActivity.class);
                 startActivity(myIntent);
             }
-        });
-*/
+        });*/
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -171,8 +180,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         int id = item.getItemId();
        // MenuItem register = R.id.nav_identitas_ibu;
         if (id == R.id.nav_identitas_ibu) {
-            Intent myIntent = new Intent(IdentitasIbuActivity.this, IdentitasIbuDetailActivity.class);
-            startActivity(myIntent);
+            navi.startIdentitasIbu();
         }
         if (id == R.id.nav_transportasi) {
             navi.startTransportasi();
