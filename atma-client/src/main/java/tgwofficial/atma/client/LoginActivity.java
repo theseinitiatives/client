@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent myIntent = new Intent(LoginActivity.this, IdentitasIbuActivity.class);
                     finish();
                     startActivity(myIntent);
+                    overridePendingTransition(0,0);
 
                     //do login
                    // doLogin(username, password);

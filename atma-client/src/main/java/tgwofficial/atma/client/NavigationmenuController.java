@@ -16,13 +16,19 @@ public class NavigationmenuController {
     }
 
     public void startIdentitasIbu() {
+        activity.finish();
         activity.startActivity(new Intent(activity, IdentitasIbuActivity.class));
+        activity.overridePendingTransition(0,0);
     }
     public void startTransportasi() {
+        activity.finish();
         activity.startActivity(new Intent(activity, TransportasiActivity.class));
+        activity.overridePendingTransition(0,0);
     }
     public void startBankDarah() {
+        activity.finish();
         activity.startActivity(new Intent(activity, BankDarahActivity.class));
+        activity.overridePendingTransition(0,0);
     }
 
 }

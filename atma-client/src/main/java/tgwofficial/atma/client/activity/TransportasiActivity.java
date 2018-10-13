@@ -1,6 +1,7 @@
 package tgwofficial.atma.client.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -15,8 +16,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
@@ -36,6 +41,7 @@ public class TransportasiActivity extends AppCompatActivity
         setContentView(R.layout.transportasi_main_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        initDropdownSort();
 
         dbManager = new DbManager(this);
         dbManager.open();
@@ -138,5 +144,29 @@ public class TransportasiActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void initDropdownSort(){
+        Spinner dropdownSort = (Spinner) findViewById(R.id.dropdownSort);
+        dropdownSort.setAdapter(spinnerAdapter());
+        final Context context= this.getApplicationContext();
+        dropdownSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(context,position+"Selected",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                return;
+            }
+        });
+    }
+    private ArrayAdapter<String> spinnerAdapter(){
+        String [] item = {
+                "Nama ASC",
+                "Nama Desc"
+        };
+        return new ArrayAdapter<>(this.getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, item);
     }
 }

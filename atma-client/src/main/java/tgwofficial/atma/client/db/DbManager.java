@@ -140,7 +140,7 @@ public class DbManager {
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
-        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, null, null, null, null, null);
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, selection, selectionArgs, groupBy, having, orderBy);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -184,7 +184,7 @@ public class DbManager {
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
-        Cursor cursor = database.query(DbHelper.TABLE_NAME_TRANS, columns, null, null, null, null, null);
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_TRANS, columns, selection, selectionArgs, groupBy, having, orderBy);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -201,11 +201,11 @@ public class DbManager {
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
-        Cursor cursor = database.query(DbHelper.TABLE_NAME_BANK, columns, null, null, null, null, null);
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_BANK, columns, selection, selectionArgs, groupBy, having, orderBy);
         if (cursor != null) {
             cursor.moveToFirst();
         }
-
+        clearClause();
         return cursor;
 
     }
@@ -274,4 +274,34 @@ public class DbManager {
         }
         return cursor;
     }
+
+    private void clearClause(){
+        selection = null;
+        selectionArgs = null;
+        groupBy = null;
+        having = null;
+        orderBy = null;
+    }
+
+    public void setSelection(String args){
+        this.selection = args;
+    }
+    public void setSelectionArgs(String[] args){
+        this.selectionArgs = args;
+    }
+    public void setGroupBy(String args){
+        this.groupBy = args;
+    }
+    public void setHaving(String args){
+        this.having = args;
+    }
+    public void setOrderBy(String args){
+        this.orderBy = args;
+    }
+
+    private String selection = null;
+    private String selectionArgs[] = null;
+    private String groupBy = null;
+    private String having = null;
+    private String orderBy = null;
 }

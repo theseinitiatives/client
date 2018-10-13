@@ -19,9 +19,12 @@ import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.loopj.android.http.SyncHttpClient;
@@ -71,6 +74,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         Cursor cursor = dbManager.fetchIbu();
         Log.d("CURSORS", cursor.toString());
 
+        initDropdownSort();
         // Find ListView to populate
         ListView lvItems = (ListView) findViewById(R.id.list_view);
         // Setup cursor adapter using cursor from last step
@@ -96,6 +100,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             public void onClick(View view) {
                 Intent myIntent = new Intent(IdentitasIbuActivity.this, FormAddIbuActivity.class);
                 startActivity(myIntent);
+                overridePendingTransition(0,0);
                 //Snackbar.make(view, "Untuk Tambah Patient Baru", Snackbar.LENGTH_LONG)
                   //      .setAction("Action", null).show();
             }
@@ -365,7 +370,28 @@ public class IdentitasIbuActivity extends AppCompatActivity
         startActivity(getIntent());
     }
 
+    public void initDropdownSort(){
+        Spinner dropdownSort = (Spinner) findViewById(R.id.dropdownSort);
+        dropdownSort.setAdapter(spinnerAdapter());
+        final Context context= this.getApplicationContext();
+        dropdownSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(context,position+"Selected",Toast.LENGTH_SHORT).show();
+            }
 
-
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                return;
+            }
+        });
+    }
+    private ArrayAdapter<String> spinnerAdapter(){
+        String [] item = {
+                "Nama ASC",
+                "Nama Desc"
+        };
+        return new ArrayAdapter<>(this.getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, item);
+    }
 
 }
