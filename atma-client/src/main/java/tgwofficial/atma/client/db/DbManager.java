@@ -122,7 +122,8 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
     }
-    public Cursor fetchIbu() {
+
+    public Cursor fetchIbu(String searchTerm, String orderByASCDESC) {
         String[] columns = new String[] { DbHelper._ID,
                 DbHelper.NAME,
                 DbHelper.SPOUSENAME,
@@ -140,11 +141,16 @@ public class DbManager {
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
-        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, selection, selectionArgs, groupBy, having, orderBy);
-        if (cursor != null) {
-            cursor.moveToFirst();
+        Cursor c=null;
+
+        if(searchTerm != null && searchTerm.length()>0) {
+            c = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.NAME+" LIKE '%"+searchTerm+"%'", selectionArgs, groupBy, having, orderByASCDESC);
+            return c;
         }
-        return cursor;
+
+        c = database.query(DbHelper.TABLE_NAME_IBU, columns, selection, selectionArgs, groupBy, having, orderBy);
+
+        return c;
     }
     public Cursor fetchUnSyncIbu() {
         String[] columns = new String[] { DbHelper._ID,

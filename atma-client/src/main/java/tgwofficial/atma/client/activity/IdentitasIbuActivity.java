@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.RequestBody;
@@ -43,6 +45,7 @@ import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.Utils.ApiUtils;
 import tgwofficial.atma.client.activity.nativeform.FormAddIbuActivity;
+import tgwofficial.atma.client.adapter.IdentitasModel;
 import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
 import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
@@ -54,12 +57,15 @@ public class IdentitasIbuActivity extends AppCompatActivity
     private DbManager dbManager;
     private DbHelper dbHelper;
     private Context context;
-    private static final int    REQUEST_CODE_GET_JSON = 1;
-    private static final String DATA_JSON_PATH        = "identitasibu.json";
+    ListView lv;
+    SearchView sv;
     private Menu mymenu;
     private ApiService mService;
-    SyncHttpClient client = new SyncHttpClient();
     private  String TAG = "POSTTT";
+
+    IdentitasibuCursorAdapter adapter;
+    ArrayList<IdentitasModel> identitasModels=new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,33 +73,36 @@ public class IdentitasIbuActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        lv = (ListView) findViewById(R.id.list_view);
+        sv= (SearchView) findViewById(R.id.sv);
+        //lv.setAdapter(adapter);
+        adapter=new IdentitasibuCursorAdapter(this,identitasModels);
+        getIbu("","name ASC");
 
-        dbHelper = new DbHelper(this);
-        dbManager = new DbManager(this);
-        dbManager.open();
-        Cursor cursor = dbManager.fetchIbu();
-        Log.d("CURSORS", cursor.toString());
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                getIbu(newText, "name ASC");
+                return false;
+            }
+        });
         initDropdownSort();
-        // Find ListView to populate
-        ListView lvItems = (ListView) findViewById(R.id.list_view);
-        // Setup cursor adapter using cursor from last step
-        IdentitasibuCursorAdapter todoAdapter = new IdentitasibuCursorAdapter(this, cursor);
-        // Attach cursor adapter to the ListView
-        lvItems.setAdapter(todoAdapter);
 
-        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Long ids = id+1;
                 Log.i("__id", ""+id);
-                IdentitasIbuDetailActivity.id = String.valueOf(id);
+                IdentitasIbuDetailActivity.id = String.valueOf(ids);
                 Intent intent = new Intent(IdentitasIbuActivity.this,IdentitasIbuDetailActivity.class);
                 startActivity(intent);
                 finish();
             }
         });
-        todoAdapter.changeCursor(cursor);
-
-        dbManager.close();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,13 +115,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             }
         });
 
-        /*TextView img = (TextView) findViewById(R.id.name);
-        img.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent myIntent = new Intent(IdentitasIbuActivity.this, IdentitasIbuDetailActivity.class);
-                startActivity(myIntent);
-            }
-        });*/
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -124,6 +127,64 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         mService = ApiUtils.getSOService();
         Log.i("MSERVICE", mService.toString());
+
+    }
+    private void getIbu(String searchTerm, String orderBy)
+    {
+        identitasModels.clear();
+        if(!searchTerm.equalsIgnoreCase("")) {
+            dbManager = new DbManager(this);
+            dbManager.open();
+            IdentitasModel p = null;
+            Cursor c = dbManager.fetchIbu(searchTerm,orderBy);
+            while (c.moveToNext()) {
+                int id = c.getInt(0);
+                String name = c.getString(1);
+                String spouse = c.getString(2);
+                String dusun = c.getString(3);
+                String status = c.getString(4);
+
+                p = new IdentitasModel();
+                p.setNama(name);
+                p.setPasangan(spouse);
+                p.setDusuns(dusun);
+
+                p.setStatus1(status);
+
+                identitasModels.add(p);
+            }
+
+            dbManager.close();
+
+            lv.setAdapter(adapter);
+        }
+        else{
+            dbManager = new DbManager(this);
+            dbManager.open();
+            IdentitasModel p = null;
+            Cursor c = dbManager.fetchIbu("", orderBy);
+            while (c.moveToNext()) {
+                int id = c.getInt(0);
+                String name = c.getString(1);
+                String spouse = c.getString(2);
+                String dusun = c.getString(3);
+                String status = c.getString(4);
+
+                p = new IdentitasModel();
+                p.setNama(name);
+                p.setPasangan(spouse);
+                p.setDusuns(dusun);
+
+                p.setStatus1(status);
+
+                identitasModels.add(p);
+            }
+
+            dbManager.close();
+
+            lv.setAdapter(adapter);
+
+        }
 
     }
 
@@ -377,7 +438,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
         dropdownSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(context,position+"Selected",Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context,position+"Selected",Toast.LENGTH_SHORT).show();
+
+                getIbu("",position+"");
             }
 
             @Override
