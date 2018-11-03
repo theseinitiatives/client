@@ -1,5 +1,6 @@
 package tgwofficial.atma.client.activity.nativeform;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
@@ -78,12 +80,22 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 String radioStatus = getStatuss();
                 String radioStatus2 = getStatuss2();
 
-                dbManager.open();
-                dbManager.insertibu(mothername,husbandname,dobss,gubugss,hphtss,htpss,goldarahss,kaderss,notelponss,radioStatus,radioStatus2);
-                dbManager.close();
+                if(mothername.contains("'") || husbandname.contains("'")) {
+                    Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
+                            Toast.LENGTH_LONG).show();
+                }
+                else if (mothername.isEmpty() || husbandname.isEmpty() || dobss.isEmpty() || htpss.isEmpty() || hphtss.isEmpty() || goldarahss.isEmpty() || kaderss.isEmpty() || radioStatus.isEmpty() || radioStatus2.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Data Harus Diisi Semua!",
+                            Toast.LENGTH_LONG).show();
+                }
+                else {
+                    dbManager.open();
+                    dbManager.insertibu(mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, kaderss, notelponss, radioStatus, radioStatus2);
+                    dbManager.close();
+                    Intent myIntent = new Intent(FormAddIbuActivity.this, IdentitasIbuActivity.class);
+                    startActivity(myIntent);
+                }
 
-                Intent myIntent = new Intent(FormAddIbuActivity.this, IdentitasIbuActivity.class);
-                startActivity(myIntent);
                 //validate form
               //  if(validateinput(mothername,husbandname,dobss,gubugss,hphtss,htpss,goldarahss,kaderss,notelponss,radioStatus,radioStatus2)){
                   //  dbManager.open();

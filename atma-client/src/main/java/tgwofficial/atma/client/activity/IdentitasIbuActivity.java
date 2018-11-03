@@ -257,6 +257,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
         if (id == R.id.nav_bank_darah) {
             navi.startBankDarah();
         }
+        if(id == R.id.nav_logout){
+            super.onBackPressed();
+        }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -175,7 +175,9 @@ public class BankDarahActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            finish();
+            Intent myIntent = new Intent(BankDarahActivity.this, IdentitasIbuActivity.class);
+            startActivity(myIntent);
         }
     }
 

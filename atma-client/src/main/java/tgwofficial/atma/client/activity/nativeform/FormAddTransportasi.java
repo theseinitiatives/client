@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.BankDarahActivity;
@@ -57,12 +58,22 @@ public class FormAddTransportasi extends AppCompatActivity {
                 String text_profesis = profesis.getText().toString();
                 String text_kets = kets.getText().toString();
                 String jeniss = getJenis();
-                dbManager.open();
-                dbManager.insertbanktransportasi(text_pemiliks,jeniss, text_gubug,text_kapasitass,text_dusuns,text_profesis,text_kets);
-                dbManager.close();
+                if(text_pemiliks.contains("'") ) {
+                    Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
+                            Toast.LENGTH_LONG).show();
+                }
+                else if (text_pemiliks.isEmpty() || jeniss.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Data nama dan Jenis Kendarran Harus Diisi!",
+                            Toast.LENGTH_LONG).show();
+                }
+                else {
+                    dbManager.open();
+                    dbManager.insertbanktransportasi(text_pemiliks, jeniss, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets);
+                    dbManager.close();
 
-                Intent myIntent = new Intent(FormAddTransportasi.this, TransportasiActivity.class);
-                startActivity(myIntent);
+                    Intent myIntent = new Intent(FormAddTransportasi.this, TransportasiActivity.class);
+                    startActivity(myIntent);
+                }
                 //validate form
                 //  if(validateinput(mothername,donor,notelponss,radioStatus,radioStatus2)){
                 //  dbManager.open();

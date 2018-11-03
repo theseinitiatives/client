@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.BankDarahActivity;
@@ -59,13 +60,22 @@ public class FormAddBankDarah extends AppCompatActivity {
                 String notelponss = notelpons.getText().toString();
                 String radioStatus = getStatuss();
                 String radiogolDarah = getStatuss2();
+                if(mothername.contains("'") || donor.contains("'") ) {
+                    Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
+                            Toast.LENGTH_LONG).show();
+                }
+                else if (mothername.isEmpty() || donor.isEmpty() || notelponss.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Data Harus Diisi Semua!",
+                            Toast.LENGTH_LONG).show();
+                }
+                else {
+                    dbManager.open();
+                    dbManager.insertbankdarah(mothername, donor, notelponss, radioStatus, radiogolDarah);
+                    dbManager.close();
 
-                dbManager.open();
-                dbManager.insertbankdarah(mothername,donor,notelponss,radioStatus,radiogolDarah);
-                dbManager.close();
-
-                Intent myIntent = new Intent(FormAddBankDarah.this, BankDarahActivity.class);
-                startActivity(myIntent);
+                    Intent myIntent = new Intent(FormAddBankDarah.this, BankDarahActivity.class);
+                    startActivity(myIntent);
+                }
                 //validate form
                 //  if(validateinput(mothername,donor,notelponss,radioStatus,radioStatus2)){
                 //  dbManager.open();
