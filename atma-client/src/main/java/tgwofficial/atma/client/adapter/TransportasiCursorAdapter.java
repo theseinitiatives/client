@@ -5,12 +5,69 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import tgwofficial.atma.client.R;
+import java.util.ArrayList;
 
-public class TransportasiCursorAdapter extends CursorAdapter {
+import tgwofficial.atma.client.R;
+import tgwofficial.atma.client.model.BankDarahmodel;
+import tgwofficial.atma.client.model.TransportasiModel;
+
+public class TransportasiCursorAdapter extends BaseAdapter {
+
+    Context c;
+    ArrayList<TransportasiModel> transportasiModels;
+    LayoutInflater inflater;
+
+    public TransportasiCursorAdapter(Context c, ArrayList<TransportasiModel> transportasiModels) {
+        this.c = c;
+        this.transportasiModels = transportasiModels;
+    }
+
+    @Override
+    public int getCount() {
+        return transportasiModels.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return transportasiModels.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if(inflater==null)
+        {
+            inflater= (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+        if(convertView==null)
+        {
+            convertView=inflater.inflate(R.layout.transportasi_content_layout,parent,false);
+        }
+
+        TextView name = (TextView) convertView.findViewById(R.id.name);
+        TextView dusunss = (TextView) convertView.findViewById(R.id.dusuns);
+        TextView kend = (TextView) convertView.findViewById(R.id.kendaraan);
+
+        name.setText(transportasiModels.get(position).getNama());
+        dusunss.setText(transportasiModels.get(position).getDusuns());
+        kend.setText(transportasiModels.get(position).getKendaraan());
+
+
+        final int pos=position;
+
+
+        return convertView;
+    }
+}
+/*extends CursorAdapter {
     public TransportasiCursorAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
     }
@@ -36,3 +93,4 @@ public class TransportasiCursorAdapter extends CursorAdapter {
         dusunss.setText("Dusun :"+dusun);
     }
 }
+*/

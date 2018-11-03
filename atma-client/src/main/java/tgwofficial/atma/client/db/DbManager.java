@@ -10,15 +10,12 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import tgwofficial.atma.client.model.ApiModel;
-import tgwofficial.atma.client.model.IbuData;
+import tgwofficial.atma.client.model.syncmodel.ApiModel;
+import tgwofficial.atma.client.model.syncmodel.IbuData;
 
 public class DbManager {
     private DbHelper dbHelper;
@@ -177,7 +174,7 @@ public class DbManager {
         return cursor;
     }
 
-    public Cursor fetchTrans() {
+    public Cursor fetchTrans(String searchTerm, String orderByASCDESC) {
         String[] columns = new String[] { DbHelper._ID,
                 DbHelper.NAME,
                 DbHelper.Jenis,
@@ -190,14 +187,19 @@ public class DbManager {
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
-        Cursor cursor = database.query(DbHelper.TABLE_NAME_TRANS, columns, selection, selectionArgs, groupBy, having, orderBy);
-        if (cursor != null) {
-            cursor.moveToFirst();
+        Cursor c=null;
+
+        if(searchTerm != null && searchTerm.length()>0) {
+            c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.NAME+" LIKE '%"+searchTerm+"%'", selectionArgs, groupBy, having, orderByASCDESC);
+            return c;
         }
-        return cursor;
+
+        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, selection, selectionArgs, groupBy, having, orderBy);
+
+        return c;
     }
 
-    public Cursor fetchBankDarah() {
+    public Cursor fetchBankDarah(String searchTerm, String orderByASCDESC) {
         String[] columns = new String[] { DbHelper._ID,
                 DbHelper.NAME,
                 DbHelper.NAME_PENDONOR,
@@ -207,12 +209,17 @@ public class DbManager {
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
-        Cursor cursor = database.query(DbHelper.TABLE_NAME_BANK, columns, selection, selectionArgs, groupBy, having, orderBy);
-        if (cursor != null) {
-            cursor.moveToFirst();
+        Cursor c=null;
+
+        if(searchTerm != null && searchTerm.length()>0) {
+            c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.NAME+" LIKE '%"+searchTerm+"%'", selectionArgs, groupBy, having, orderByASCDESC);
+            return c;
         }
+
+        c = database.query(DbHelper.TABLE_NAME_BANK, columns, selection, selectionArgs, groupBy, having, orderBy);
         clearClause();
-        return cursor;
+        return c;
+
 
     }
 

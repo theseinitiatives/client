@@ -13,6 +13,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import tgwofficial.atma.client.R;
+import tgwofficial.atma.client.model.IdentitasModel;
 
 public class IdentitasibuCursorAdapter extends BaseAdapter {
 
@@ -68,20 +69,4 @@ public class IdentitasibuCursorAdapter extends BaseAdapter {
     }
 }
 
-/*
-    TextView name = (TextView) view.findViewById(R.id.name);
-        TextView spousename = (TextView) view.findViewById(R.id.spousename);
-        TextView status = (TextView) view.findViewById(R.id.status);
-        TextView dusunss = (TextView) view.findViewById(R.id.dusun);
 
-        String nama = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-        String pasangan = cursor.getString(cursor.getColumnIndexOrThrow("spousename"));
-        String status1 = cursor.getString(cursor.getColumnIndexOrThrow("status"));
-        String Dusuns = cursor.getString(cursor.getColumnIndexOrThrow("dusun"));
-        name.setText("NAMA :"+nama);
-        spousename.setText("NAMA PASANGAN :"+pasangan);
-        status.setText("STATUS:"+status1);
-        dusunss.setText("Dusun: "+Dusuns);
-    }
-}
-*/

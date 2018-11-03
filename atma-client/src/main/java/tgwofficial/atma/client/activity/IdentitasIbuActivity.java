@@ -20,15 +20,11 @@ import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import com.loopj.android.http.SyncHttpClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,11 +41,11 @@ import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.Utils.ApiUtils;
 import tgwofficial.atma.client.activity.nativeform.FormAddIbuActivity;
-import tgwofficial.atma.client.adapter.IdentitasModel;
 import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
 import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
-import tgwofficial.atma.client.model.ApiModel;
+import tgwofficial.atma.client.model.IdentitasModel;
+import tgwofficial.atma.client.model.syncmodel.ApiModel;
 import tgwofficial.atma.client.sync.ApiService;
 
 public class IdentitasIbuActivity extends AppCompatActivity
@@ -65,6 +61,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
     IdentitasibuCursorAdapter adapter;
     ArrayList<IdentitasModel> identitasModels=new ArrayList<>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,10 +137,13 @@ public class IdentitasIbuActivity extends AppCompatActivity
             Cursor c = dbManager.fetchIbu(searchTerm,orderBy);
             while (c.moveToNext()) {
                 int id = c.getInt(0);
-                String name = c.getString(1);
-                String spouse = c.getString(2);
-                String dusun = c.getString(3);
-                String status = c.getString(4);
+
+
+                String name = c.getString(c.getColumnIndexOrThrow("name"));
+                String spouse = c.getString(c.getColumnIndexOrThrow("spousename"));
+                String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
+                String status = c.getString(c.getColumnIndexOrThrow("status"));
+
 
                 p = new IdentitasModel();
                 p.setNama(name);
@@ -165,10 +166,11 @@ public class IdentitasIbuActivity extends AppCompatActivity
             Cursor c = dbManager.fetchIbu("", orderBy);
             while (c.moveToNext()) {
                 int id = c.getInt(0);
-                String name = c.getString(1);
-                String spouse = c.getString(2);
-                String dusun = c.getString(3);
-                String status = c.getString(4);
+
+                String name = c.getString(c.getColumnIndexOrThrow("name"));
+                String spouse = c.getString(c.getColumnIndexOrThrow("spousename"));
+                String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
+                String status = c.getString(c.getColumnIndexOrThrow("status"));
 
                 p = new IdentitasModel();
                 p.setNama(name);

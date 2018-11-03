@@ -42,9 +42,9 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         txt_desa.setText("Dusun: "+cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
         txt_hpht.setText("hpht: "+cursor.getString(cursor.getColumnIndexOrThrow("hpht")));
         txt_htp.setText("Dusun: "+cursor.getString(cursor.getColumnIndexOrThrow("htp")));
-        txt_gol_darah.setText("Dusun: "+cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")));
-        txt_kader.setText("Dusun: "+cursor.getString(cursor.getColumnIndexOrThrow("kader")));
-        txt_hp.setText("Dusun: "+cursor.getString(cursor.getColumnIndexOrThrow("telp")));
+        txt_gol_darah.setText("Gol Darah: "+cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")));
+        txt_kader.setText("Nama Kader: "+cursor.getString(cursor.getColumnIndexOrThrow("kader")));
+        txt_hp.setText("No Telp: "+cursor.getString(cursor.getColumnIndexOrThrow("telp")));
 
         dbManager.close();
     }

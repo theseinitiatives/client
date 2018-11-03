@@ -1,4 +1,4 @@
-package tgwofficial.atma.client.adapter;
+package tgwofficial.atma.client.model;
 
 public class IdentitasModel {
 

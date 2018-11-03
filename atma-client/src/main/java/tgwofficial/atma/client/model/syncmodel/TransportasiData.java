@@ -1,10 +1,9 @@
-package tgwofficial.atma.client.model;
+package tgwofficial.atma.client.model.syncmodel;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class BankdarahData {
-
+public class TransportasiData {
 
     @SerializedName("kapasitas_kendaraan")
     @Expose
@@ -21,9 +20,6 @@ public class BankdarahData {
     @SerializedName("keterangan")
     @Expose
     private String keterangan;
-
-
-
     @SerializedName("is_send")
     @Expose
     private String isSend;
@@ -73,6 +69,7 @@ public class BankdarahData {
     public void setKeterangan(String keterangan) {
         this.keterangan = keterangan;
     }
+
     public String getIsSend() {
         return isSend;
     }

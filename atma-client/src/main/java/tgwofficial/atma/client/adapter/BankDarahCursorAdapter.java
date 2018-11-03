@@ -5,38 +5,66 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import tgwofficial.atma.client.R;
+import tgwofficial.atma.client.model.BankDarahmodel;
+import tgwofficial.atma.client.model.IdentitasModel;
 
-public class BankDarahCursorAdapter extends CursorAdapter {
-    public BankDarahCursorAdapter(Context context, Cursor cursor) {
-        super(context, cursor, 0);
+public class BankDarahCursorAdapter extends BaseAdapter {
+
+    Context c;
+    ArrayList<BankDarahmodel> bankDarahmodels;
+    LayoutInflater inflater;
+
+    public BankDarahCursorAdapter(Context c, ArrayList<BankDarahmodel> bankDarahmodels) {
+        this.c = c;
+        this.bankDarahmodels = bankDarahmodels;
     }
 
-
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.bankdarah_content_layout, parent, false);
+    public int getCount() {
+        return bankDarahmodels.size();
     }
 
+    @Override
+    public Object getItem(int position) {
+        return bankDarahmodels.get(position);
+    }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public long getItemId(int position) {
+        return position;
+    }
 
-        TextView name = (TextView) view.findViewById(R.id.name);
-        TextView gold = (TextView) view.findViewById(R.id.gol_d);
-        TextView telp = (TextView) view.findViewById(R.id.notelp);
-        TextView nama_donor = (TextView) view.findViewById(R.id.donor);
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if(inflater==null)
+        {
+            inflater= (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+        if(convertView==null)
+        {
+            convertView=inflater.inflate(R.layout.bankdarah_content_layout,parent,false);
+        }
 
-        String nama = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-        String golds = cursor.getString(cursor.getColumnIndexOrThrow("gol_darah"));
-        String nomor = cursor.getString(cursor.getColumnIndexOrThrow("telp"));
-        String pendonor = cursor.getString(cursor.getColumnIndexOrThrow("name_pendonor"));
-        name.setText("NAMA :"+nama);
-        nama_donor.setText("NAMA Donor :"+pendonor);
-        gold.setText("Gol Darah :"+golds);
-        telp.setText("No Telp :"+nomor);
+        TextView name = (TextView) convertView.findViewById(R.id.name);
+        TextView gold = (TextView) convertView.findViewById(R.id.gol_d);
+        TextView telp = (TextView) convertView.findViewById(R.id.notelp);
+        TextView nama_donor = (TextView) convertView.findViewById(R.id.donor);
+
+        name.setText(bankDarahmodels.get(position).getNama());
+        gold.setText(bankDarahmodels.get(position).getGolds());
+        telp.setText(bankDarahmodels.get(position).getNomor());
+        nama_donor.setText(bankDarahmodels.get(position).getPendonor());
+
+        final int pos=position;
+
+
+        return convertView;
     }
 }

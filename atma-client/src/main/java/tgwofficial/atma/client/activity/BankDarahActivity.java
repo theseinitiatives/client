@@ -11,7 +11,9 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,16 +23,25 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.nativeform.FormAddBankDarah;
 import tgwofficial.atma.client.adapter.BankDarahCursorAdapter;
+import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
 import tgwofficial.atma.client.db.DbManager;
+import tgwofficial.atma.client.model.BankDarahmodel;
+import tgwofficial.atma.client.model.IdentitasModel;
 
 public class BankDarahActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Activity activity;
     private DbManager dbManager;
+    ListView lv;
+    SearchView sv;
+    BankDarahCursorAdapter adapter;
+    ArrayList<BankDarahmodel> bankDarahmodels=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,21 +50,37 @@ public class BankDarahActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         initDropdownSort();
 
-        dbManager = new DbManager(this);
-        dbManager.open();
-        Cursor cursor = dbManager.fetchBankDarah();
+        lv = (ListView) findViewById(R.id.list_view);
+        sv= (SearchView) findViewById(R.id.sv);
+        //lv.setAdapter(adapter);
+        adapter=new BankDarahCursorAdapter(this,bankDarahmodels);
 
-        // Find ListView to populate
-        ListView lvItems = (ListView) findViewById(R.id.list_view);
-// Setup cursor adapter using cursor from last step
-        BankDarahCursorAdapter todoAdapter = new BankDarahCursorAdapter(this, cursor);
-// Attach cursor adapter to the ListView
-        lvItems.setAdapter(todoAdapter);
+        getBankDarah("","name ASC");
 
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-        todoAdapter.changeCursor(cursor);
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                getBankDarah(newText, "name ASC");
+                return false;
+            }
+        });
+        initDropdownSort();
 
-        dbManager.close();
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Long ids = id+1;
+                Log.i("__id", ""+id);
+                IdentitasIbuDetailActivity.id = String.valueOf(ids);
+                Intent intent = new Intent(BankDarahActivity.this,IdentitasIbuDetailActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -67,13 +94,7 @@ public class BankDarahActivity extends AppCompatActivity
             }
         });
 
-       /* ImageView img = (ImageView) findViewById(R.id.ibu);
-        img.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent myIntent = new Intent(BankDarahActivity.this, IdentitasIbuDetailActivity.class);
-                startActivity(myIntent);
-            }
-        });*/
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -83,6 +104,69 @@ public class BankDarahActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+
+    private void getBankDarah(String searchTerm, String orderBy)
+    {
+        bankDarahmodels.clear();
+        if(!searchTerm.equalsIgnoreCase("")) {
+            dbManager = new DbManager(this);
+            dbManager.open();
+            BankDarahmodel p = null;
+            Cursor c = dbManager.fetchBankDarah(searchTerm,orderBy);
+            while (c.moveToNext()) {
+                int id = c.getInt(0);
+                String name = c.getString(c.getColumnIndexOrThrow("name"));
+                String gol_darah = c.getString(c.getColumnIndexOrThrow("gol_darah"));
+                String hp = c.getString(c.getColumnIndexOrThrow("telp"));
+                String pendonors = c.getString(c.getColumnIndexOrThrow("name_pendonor"));
+
+                p = new BankDarahmodel();
+                p.setNama(name);
+                p.setGolds(gol_darah);
+                p.setNomor(hp);
+
+                p.setPendonor(pendonors);
+
+                bankDarahmodels.add(p);
+            }
+
+            dbManager.close();
+
+            lv.setAdapter(adapter);
+        }
+        else{
+            dbManager = new DbManager(this);
+            dbManager.open();
+            BankDarahmodel p = null;
+            Cursor c = dbManager.fetchBankDarah("", orderBy);
+            while (c.moveToNext()) {
+                int id = c.getInt(0);
+
+                String name = c.getString(c.getColumnIndexOrThrow("name"));
+                String gol_darah = c.getString(c.getColumnIndexOrThrow("gol_darah"));
+                String hp = c.getString(c.getColumnIndexOrThrow("telp"));
+                String pendonors = c.getString(c.getColumnIndexOrThrow("name_pendonor"));
+
+
+                p = new BankDarahmodel();
+                p.setNama(name);
+                p.setGolds(gol_darah);
+                p.setNomor(hp);
+
+                p.setPendonor(pendonors);
+
+
+                bankDarahmodels.add(p);
+            }
+
+            dbManager.close();
+
+            lv.setAdapter(adapter);
+
+        }
+
     }
 
     @Override
@@ -149,7 +233,7 @@ public class BankDarahActivity extends AppCompatActivity
         dropdownSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(context,position+"Selected",Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context,position+"Selected",Toast.LENGTH_SHORT).show();
             }
 
             @Override

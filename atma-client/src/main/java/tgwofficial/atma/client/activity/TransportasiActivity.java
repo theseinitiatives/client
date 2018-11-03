@@ -12,6 +12,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,41 +24,55 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.nativeform.FormAddIbuActivity;
 import tgwofficial.atma.client.activity.nativeform.FormAddTransportasi;
+import tgwofficial.atma.client.adapter.BankDarahCursorAdapter;
 import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
 import tgwofficial.atma.client.adapter.TransportasiCursorAdapter;
 import tgwofficial.atma.client.db.DbManager;
+import tgwofficial.atma.client.model.BankDarahmodel;
+import tgwofficial.atma.client.model.IdentitasModel;
+import tgwofficial.atma.client.model.TransportasiModel;
 
 public class TransportasiActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Activity activity;
     private DbManager dbManager;
+    ListView lv;
+    SearchView sv;
+    TransportasiCursorAdapter adapter;
+    ArrayList<TransportasiModel> transportasiModels=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.transportasi_main_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        lv = (ListView) findViewById(R.id.list_view);
+        sv= (SearchView) findViewById(R.id.sv);
+        //lv.setAdapter(adapter);
+        adapter=new TransportasiCursorAdapter(this,transportasiModels);
+
+        getkendaraan("","name ASC");
+
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                getkendaraan(newText, "name ASC");
+                return false;
+            }
+        });
         initDropdownSort();
 
-        dbManager = new DbManager(this);
-        dbManager.open();
-        Cursor cursor = dbManager.fetchTrans();
-
-        // Find ListView to populate
-        ListView lvItems = (ListView) findViewById(R.id.list_view);
-// Setup cursor adapter using cursor from last step
-        TransportasiCursorAdapter todoAdapter = new TransportasiCursorAdapter(this, cursor);
-// Attach cursor adapter to the ListView
-        lvItems.setAdapter(todoAdapter);
-
-
-        todoAdapter.changeCursor(cursor);
-
-        dbManager.close();
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -71,13 +86,7 @@ public class TransportasiActivity extends AppCompatActivity
             }
         });
 
-       /* ImageView img = (ImageView) findViewById(R.id.ibu);
-        img.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent myIntent = new Intent(TransportasiActivity.this, IdentitasIbuDetailActivity.class);
-                startActivity(myIntent);
-            }
-        });*/
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -89,6 +98,62 @@ public class TransportasiActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private void getkendaraan(String searchTerm, String orderBy)
+    {
+        transportasiModels.clear();
+        if(!searchTerm.equalsIgnoreCase("")) {
+            dbManager = new DbManager(this);
+            dbManager.open();
+            TransportasiModel p = null;
+            Cursor c = dbManager.fetchTrans(searchTerm,orderBy);
+            while (c.moveToNext()) {
+                int id = c.getInt(0);
+                String name = c.getString(c.getColumnIndexOrThrow("name"));
+                String jenis = c.getString(c.getColumnIndexOrThrow("jenis_kendaraan"));
+                String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
+
+
+                p = new TransportasiModel();
+                p.setNama(name);
+                p.setKendaraan(jenis);
+                p.setDusuns(dusun);
+
+                transportasiModels.add(p);
+            }
+
+            dbManager.close();
+
+            lv.setAdapter(adapter);
+        }
+        else{
+            dbManager = new DbManager(this);
+            dbManager.open();
+            TransportasiModel p = null;
+            Cursor c = dbManager.fetchTrans("", orderBy);
+            while (c.moveToNext()) {
+                int id = c.getInt(0);
+
+                String name = c.getString(c.getColumnIndexOrThrow("name"));
+                String jenis = c.getString(c.getColumnIndexOrThrow("jenis_kendaraan"));
+                String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
+
+
+
+                p = new TransportasiModel();
+                p.setNama(name);
+                p.setKendaraan(jenis);
+                p.setDusuns(dusun);
+
+                transportasiModels.add(p);
+            }
+
+            dbManager.close();
+
+            lv.setAdapter(adapter);
+
+        }
+
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -153,7 +218,7 @@ public class TransportasiActivity extends AppCompatActivity
         dropdownSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(context,position+"Selected",Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context,position+"Selected",Toast.LENGTH_SHORT).show();
             }
 
             @Override
