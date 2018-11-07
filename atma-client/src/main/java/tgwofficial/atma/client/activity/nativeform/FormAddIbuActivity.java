@@ -86,7 +86,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
                             Toast.LENGTH_LONG).show();
                 }
-                else if (mothername.isEmpty() || husbandname.isEmpty() || dobss.isEmpty() || htpss.isEmpty() || hphtss.isEmpty() || goldarahss.isEmpty() || kaderss.isEmpty() || radioStatus.isEmpty() || radioStatus2.isEmpty()){
+                else if (mothername.isEmpty() || husbandname.isEmpty() || dobss.isEmpty() || htpss.isEmpty() || hphtss.isEmpty() || goldarahss.isEmpty() || kaderss.isEmpty() || radioStatus.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Data Harus Diisi Semua!",
                             Toast.LENGTH_LONG).show();
                 }
@@ -114,8 +114,10 @@ public class FormAddIbuActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
-        if(!id.equalsIgnoreCase(""))
-            fillField(id);
+        if(id != null)
+            if (!id.equalsIgnoreCase(""))
+                fillField(id);
+
 
     }
     public void onRadioButtonClicked(View view) {
