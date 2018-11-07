@@ -26,6 +26,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
     EditText kaders;
     EditText notelpons;
     private DbManager dbManager;
+    private String id ="";
     public String getStatuss() {
         return Statuss;
     }
@@ -91,7 +92,12 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 }
                 else {
                     dbManager.open();
-                    dbManager.insertibu(mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, kaderss, notelponss, radioStatus, radioStatus2);
+                    if(id != null) {
+                        if(!id.equals(""))
+                        dbManager.updateIbu(id,mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, kaderss, notelponss, radioStatus, radioStatus2);
+                    }
+                    else
+                        dbManager.insertibu(mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, kaderss, notelponss, radioStatus, radioStatus2);
                     dbManager.close();
                     Intent myIntent = new Intent(FormAddIbuActivity.this, IdentitasIbuActivity.class);
                     startActivity(myIntent);
@@ -107,7 +113,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
+        id = intent.getStringExtra("id");
         if(!id.equalsIgnoreCase(""))
             fillField(id);
 
@@ -157,6 +163,18 @@ public class FormAddIbuActivity extends AppCompatActivity {
         goldarahs.setText(cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")));
         kaders.setText(cursor.getString(cursor.getColumnIndexOrThrow("kader")));
         notelpons.setText(cursor.getString(cursor.getColumnIndexOrThrow("telp")));
+        RadioButton radio1 = (RadioButton) findViewById(R.id.hidup);
+        RadioButton radio2 = (RadioButton) findViewById(R.id.meinggal);
+        String temp = cursor.getString(cursor.getColumnIndexOrThrow("kondisi_ibu"));
+        if(temp != null){
+            if(temp.equalsIgnoreCase("Meninggal"))
+                setStatuss("meninggal");
+            else
+                setStatuss("Hidup");
+        }else{
+            setStatuss("Hidup");
+        }
+        setStatuss2("null");
     }
 
 }

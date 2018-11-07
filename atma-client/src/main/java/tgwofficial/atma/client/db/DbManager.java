@@ -120,6 +120,24 @@ public class DbManager {
         database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
     }
 
+    public void updateIbu(String _id, String mothername, String husbandname,String dobss, String gubugss,
+                          String hphtss, String htpss,String goldarahss, String kaderss,String notelponss, String radioStatus, String radioStatus2) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put(  DbHelper.NAME, mothername);
+        contentValue.put(  DbHelper.SPOUSENAME, husbandname);
+        contentValue.put( DbHelper.TGL_LAHIR,dobss);
+        contentValue.put( DbHelper.DUSUN,gubugss);
+        contentValue.put( DbHelper.HPHT,hphtss);
+        contentValue.put( DbHelper.HTP,htpss);
+        contentValue.put( DbHelper.GOL_DARAH,goldarahss);
+        contentValue.put( DbHelper.STATUS,radioStatus);
+        contentValue.put( DbHelper.TELP,notelponss);
+        contentValue.put( DbHelper.KADER,kaderss);
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        database.update(DbHelper.TABLE_NAME_IBU, contentValue,"_id = ?",new String[]{_id});
+    }
+
     public Cursor fetchIbu(String searchTerm, String orderByASCDESC) {
         String[] columns = new String[] { DbHelper._ID,
                 DbHelper.NAME,
