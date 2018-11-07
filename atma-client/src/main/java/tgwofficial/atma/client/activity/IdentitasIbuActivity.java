@@ -130,63 +130,28 @@ public class IdentitasIbuActivity extends AppCompatActivity
     private void getIbu(String searchTerm, String orderBy)
     {
         identitasModels.clear();
-        if(!searchTerm.equalsIgnoreCase("")) {
-            dbManager = new DbManager(this);
-            dbManager.open();
-            IdentitasModel p = null;
-            Cursor c = dbManager.fetchIbu(searchTerm,orderBy);
-            while (c.moveToNext()) {
-                int id = c.getInt(0);
+        dbManager = new DbManager(this);
+        dbManager.open();
+        IdentitasModel p = null;
+        if(searchTerm.equalsIgnoreCase(""))
+            dbManager.setOrderBy(orderBy);
+        Cursor c = dbManager.fetchIbu(searchTerm,orderBy);
+        while (c.moveToNext()) {
+            int id = c.getInt(0);
+            String name = c.getString(c.getColumnIndexOrThrow("name"));
+            String spouse = c.getString(c.getColumnIndexOrThrow("spousename"));
+            String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
+            String status = c.getString(c.getColumnIndexOrThrow("status"));
+            p = new IdentitasModel();
+            p.setNama(name);
+            p.setPasangan(spouse);
+            p.setDusuns(dusun);
+            p.setStatus1(status);
 
-
-                String name = c.getString(c.getColumnIndexOrThrow("name"));
-                String spouse = c.getString(c.getColumnIndexOrThrow("spousename"));
-                String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
-                String status = c.getString(c.getColumnIndexOrThrow("status"));
-
-
-                p = new IdentitasModel();
-                p.setNama(name);
-                p.setPasangan(spouse);
-                p.setDusuns(dusun);
-
-                p.setStatus1(status);
-
-                identitasModels.add(p);
-            }
-
-            dbManager.close();
-
-            lv.setAdapter(adapter);
+            identitasModels.add(p);
         }
-        else{
-            dbManager = new DbManager(this);
-            dbManager.open();
-            IdentitasModel p = null;
-            Cursor c = dbManager.fetchIbu("", orderBy);
-            while (c.moveToNext()) {
-                int id = c.getInt(0);
-
-                String name = c.getString(c.getColumnIndexOrThrow("name"));
-                String spouse = c.getString(c.getColumnIndexOrThrow("spousename"));
-                String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
-                String status = c.getString(c.getColumnIndexOrThrow("status"));
-
-                p = new IdentitasModel();
-                p.setNama(name);
-                p.setPasangan(spouse);
-                p.setDusuns(dusun);
-
-                p.setStatus1(status);
-
-                identitasModels.add(p);
-            }
-
-            dbManager.close();
-
-            lv.setAdapter(adapter);
-
-        }
+        dbManager.close();
+        lv.setAdapter(adapter);
 
     }
 
@@ -445,7 +410,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                // Toast.makeText(context,position+"Selected",Toast.LENGTH_SHORT).show();
 
-                getIbu("",position+"");
+                getIbu("",item[1][position]+"");
             }
 
             @Override
@@ -455,11 +420,11 @@ public class IdentitasIbuActivity extends AppCompatActivity
         });
     }
     private ArrayAdapter<String> spinnerAdapter(){
-        String [] item = {
-                "Nama ASC",
-                "Nama Desc"
-        };
-        return new ArrayAdapter<>(this.getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, item);
+        return new ArrayAdapter<>(this.getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, item[0]);
     }
 
+    private final String [][] item = {
+            {"Nama A-Z","Nama Z-A"},
+            {"name ASC","name DESC"}
+    };
 }

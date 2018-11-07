@@ -146,7 +146,7 @@ public class DbManager {
         }
 
         c = database.query(DbHelper.TABLE_NAME_IBU, columns, selection, selectionArgs, groupBy, having, orderBy);
-
+        clearClause();
         return c;
     }
     public Cursor fetchUnSyncIbu() {
