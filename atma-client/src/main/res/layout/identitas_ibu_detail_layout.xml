@@ -109,11 +109,13 @@
                 android:text="No Telpon : DD/MM/YYYY"
                 android:textSize="12sp"
                 android:id="@+id/hp" />
+
             <Button
+                android:id="@+id/ibu_detail_edit_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="Edit Data"/>
+                android:text="Edit Data" />
         </LinearLayout>
 
 

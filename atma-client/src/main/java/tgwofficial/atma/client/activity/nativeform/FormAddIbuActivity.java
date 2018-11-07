@@ -2,6 +2,7 @@ package tgwofficial.atma.client.activity.nativeform;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -105,6 +106,11 @@ public class FormAddIbuActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("id");
+        if(!id.equalsIgnoreCase(""))
+            fillField(id);
+
     }
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
@@ -133,6 +139,24 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     setStatuss2("risti");
                 break;
         }
+    }
+
+    private void fillField(String id){
+        if(dbManager == null) {
+            dbManager = new DbManager(getApplicationContext());
+        }
+        dbManager.open();
+        Cursor cursor = dbManager.fetchdetaildata(id);
+        dbManager.close();
+        mother_names.setText(cursor.getString(cursor.getColumnIndexOrThrow("name")));
+        husband_names.setText(cursor.getString(cursor.getColumnIndexOrThrow("spousename")));
+        dobs.setText(cursor.getString(cursor.getColumnIndexOrThrow("tgl_lahir")));
+        gubugs.setText(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
+        hphts.setText(cursor.getString(cursor.getColumnIndexOrThrow("hpht")));
+        htps.setText(cursor.getString(cursor.getColumnIndexOrThrow("htp")));
+        goldarahs.setText(cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")));
+        kaders.setText(cursor.getString(cursor.getColumnIndexOrThrow("kader")));
+        notelpons.setText(cursor.getString(cursor.getColumnIndexOrThrow("telp")));
     }
 
 }

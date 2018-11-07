@@ -3,14 +3,21 @@ package tgwofficial.atma.client.activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.gson.JsonElement;
 
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 import tgwofficial.atma.client.R;
+import tgwofficial.atma.client.activity.nativeform.FormAddIbuActivity;
 import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
 
@@ -24,7 +31,6 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         dbManager = new DbManager(this);
         dbManager.open();
         Cursor cursor = dbManager.fetchdetaildata(id);
-
 
         TextView txt_name = (TextView) findViewById(R.id.name);
         TextView txt_spousename = (TextView) findViewById(R.id.spousename);
@@ -47,6 +53,17 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         txt_hp.setText("No Telp: "+cursor.getString(cursor.getColumnIndexOrThrow("telp")));
 
         dbManager.close();
+        Button editButton = (Button) findViewById(R.id.ibu_detail_edit_button);
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(IdentitasIbuDetailActivity.this, FormAddIbuActivity.class);
+                myIntent.putExtra("id",IdentitasIbuDetailActivity.id);
+                startActivity(myIntent);
+                overridePendingTransition(0,0);
+            }
+        });
     }
     @Override
     public void onBackPressed() {
