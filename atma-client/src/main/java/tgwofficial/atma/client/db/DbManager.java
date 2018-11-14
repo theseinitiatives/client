@@ -213,7 +213,7 @@ public class DbManager {
         }
 
         c = database.query(DbHelper.TABLE_NAME_TRANS, columns, selection, selectionArgs, groupBy, having, orderBy);
-
+        clearClause();
         return c;
     }
 

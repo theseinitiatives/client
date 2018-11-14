@@ -101,18 +101,17 @@ public class TransportasiActivity extends AppCompatActivity
     private void getkendaraan(String searchTerm, String orderBy)
     {
         transportasiModels.clear();
-        if(!searchTerm.equalsIgnoreCase("")) {
-            dbManager = new DbManager(this);
-            dbManager.open();
-            TransportasiModel p = null;
-            Cursor c = dbManager.fetchTrans(searchTerm,orderBy);
-            while (c.moveToNext()) {
+        dbManager = new DbManager(this);
+        dbManager.open();
+        TransportasiModel p = null;
+        if(searchTerm.equalsIgnoreCase(""))
+            dbManager.setOrderBy(orderBy);
+        Cursor c = dbManager.fetchTrans(searchTerm, orderBy);
+        while (c.moveToNext()) {
                 int id = c.getInt(0);
                 String name = c.getString(c.getColumnIndexOrThrow("name"));
                 String jenis = c.getString(c.getColumnIndexOrThrow("jenis_kendaraan"));
                 String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
-
-
                 p = new TransportasiModel();
                 p.setNama(name);
                 p.setKendaraan(jenis);
@@ -124,36 +123,9 @@ public class TransportasiActivity extends AppCompatActivity
             dbManager.close();
 
             lv.setAdapter(adapter);
-        }
-        else{
-            dbManager = new DbManager(this);
-            dbManager.open();
-            TransportasiModel p = null;
-            Cursor c = dbManager.fetchTrans("", orderBy);
-            while (c.moveToNext()) {
-                int id = c.getInt(0);
-
-                String name = c.getString(c.getColumnIndexOrThrow("name"));
-                String jenis = c.getString(c.getColumnIndexOrThrow("jenis_kendaraan"));
-                String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
-
-
-
-                p = new TransportasiModel();
-                p.setNama(name);
-                p.setKendaraan(jenis);
-                p.setDusuns(dusun);
-
-                transportasiModels.add(p);
-            }
-
-            dbManager.close();
-
-            lv.setAdapter(adapter);
-
-        }
-
     }
+
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -221,6 +193,7 @@ public class TransportasiActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                // Toast.makeText(context,position+"Selected",Toast.LENGTH_SHORT).show();
+                getkendaraan("",item[1][position]+"");
             }
 
             @Override
@@ -230,10 +203,10 @@ public class TransportasiActivity extends AppCompatActivity
         });
     }
     private ArrayAdapter<String> spinnerAdapter(){
-        String [] item = {
-                "Nama ASC",
-                "Nama Desc"
-        };
-        return new ArrayAdapter<>(this.getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, item);
+        return new ArrayAdapter<>(this.getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, item[0]);
     }
+    private final String [][] item = {
+            {"Nama A-Z","Nama Z-A"},
+            {"name ASC","name DESC"}
+    };
 }

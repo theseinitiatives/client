@@ -109,39 +109,17 @@ public class BankDarahActivity extends AppCompatActivity
 
     private void getBankDarah(String searchTerm, String orderBy)
     {
+        dbManager = new DbManager(this);
+        dbManager.open();
         bankDarahmodels.clear();
-        if(!searchTerm.equalsIgnoreCase("")) {
-            dbManager = new DbManager(this);
-            dbManager.open();
-            BankDarahmodel p = null;
-            Cursor c = dbManager.fetchBankDarah(searchTerm,orderBy);
-            while (c.moveToNext()) {
-                int id = c.getInt(0);
-                String name = c.getString(c.getColumnIndexOrThrow("name"));
-                String gol_darah = c.getString(c.getColumnIndexOrThrow("gol_darah"));
-                String hp = c.getString(c.getColumnIndexOrThrow("telp"));
-                String pendonors = c.getString(c.getColumnIndexOrThrow("name_pendonor"));
+        BankDarahmodel p = null;
+        if(searchTerm.equalsIgnoreCase(""))
+            dbManager.setOrderBy(orderBy);
 
-                p = new BankDarahmodel();
-                p.setNama(name);
-                p.setGolds(gol_darah);
-                p.setNomor(hp);
 
-                p.setPendonor(pendonors);
 
-                bankDarahmodels.add(p);
-            }
-
-            dbManager.close();
-
-            lv.setAdapter(adapter);
-        }
-        else{
-            dbManager = new DbManager(this);
-            dbManager.open();
-            BankDarahmodel p = null;
-            Cursor c = dbManager.fetchBankDarah("", orderBy);
-            while (c.moveToNext()) {
+        Cursor c = dbManager.fetchBankDarah(searchTerm, orderBy);
+        while (c.moveToNext()) {
                 int id = c.getInt(0);
 
                 String name = c.getString(c.getColumnIndexOrThrow("name"));
@@ -165,7 +143,7 @@ public class BankDarahActivity extends AppCompatActivity
 
             lv.setAdapter(adapter);
 
-        }
+
 
     }
 
@@ -236,6 +214,7 @@ public class BankDarahActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                // Toast.makeText(context,position+"Selected",Toast.LENGTH_SHORT).show();
+                getBankDarah("",item[1][position]+"");
             }
 
             @Override
@@ -245,10 +224,10 @@ public class BankDarahActivity extends AppCompatActivity
         });
     }
     private ArrayAdapter<String> spinnerAdapter(){
-        String [] item = {
-                "Nama ASC",
-                "Nama Desc"
-        };
-        return new ArrayAdapter<>(this.getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, item);
+        return new ArrayAdapter<>(this.getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, item[0]);
     }
+    private final String [][] item = {
+            {"Nama A-Z","Nama Z-A"},
+            {"name ASC","name DESC"}
+    };
 }
