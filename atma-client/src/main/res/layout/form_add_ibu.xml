@@ -134,6 +134,31 @@
 
 
                     <AutoCompleteTextView
+                        android:id="@+id/dusun"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/dusun"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+            <include
+                layout="@layout/divider"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <AutoCompleteTextView
                         android:id="@+id/gubug"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -243,25 +268,6 @@
                         android:hint="@string/status"
                         android:maxLines="1"
                         android:singleLine="true" />
-                    <RadioGroup
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:orientation="vertical">
-                        <RadioButton
-                            android:id="@+id/hidup"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/Hidup"
-                            android:onClick="onRadioButtonClicked" />
-                        <RadioButton
-                            android:id="@+id/meinggal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/meinggal"
-                            android:onClick="onRadioButtonClicked" />
-
-                    </RadioGroup>
 
                     <RadioGroup
                         android:layout_width="match_parent"

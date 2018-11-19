@@ -20,9 +20,10 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
-    <ScrollView
+    <LinearLayout
         android:id="@+id/login_form"
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -37,8 +38,17 @@
                 android:layout_gravity="center"
                 android:layout_width="150dp"
                 android:layout_height="70dp"
-                android:layout_marginBottom="100dp"
-                android:src="@drawable/logo_temp"/>
+                android:layout_marginBottom="30dp"
+                android:src="@mipmap/these_logo_192"/>
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="0dp"
+                android:layout_weight="@integer/navigationAnimTime"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"
+                android:text="P4K"/>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -82,6 +92,33 @@
                 android:text="@string/action_sign_in"
                 android:textStyle="bold" />
 
+
+
         </LinearLayout>
-    </ScrollView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="160dp">
+
+
+                <TextView
+                    android:id="@+id/atma_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:text="Atma Project @2019" />
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="170dp"
+                android:layout_toRightOf="@+id/atma_text"
+                android:src="@mipmap/these_logo_48" />
+        </RelativeLayout>
+
+    </LinearLayout>
 </LinearLayout>

@@ -28,7 +28,7 @@
     <string name="bankdarah">Bank Darah</string>
     <string name="mother_names">Nama Ibu :</string>
     <string name="husband_name">Nama Suami</string>
-    <string name="gubug">Gubug</string>
+    <string name="gubug">RT/Gubug</string>
     <string name="hpht">HPHT</string>
     <string name="htp">HTP</string>
     <string name="gol_darah">Golongan Darah</string>
@@ -55,4 +55,5 @@
     <string name="Mobil">Mobil</string>
     <string name="motor">Motor</string>
     <string name="kapasitass">Kapasitas Kendaraan</string>
+    <string name="dusun">Dusun</string>
 </resources>
