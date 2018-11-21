@@ -25,8 +25,22 @@ public class FormAddIbuActivity extends AppCompatActivity {
     EditText goldarahs;
     EditText kaders;
     EditText notelpons;
+
+
+
+    String rhesus;
+
+    public String getRhesus() {
+        return rhesus;
+    }
+
+    public void setRhesus(String rhesus) {
+        this.rhesus = rhesus;
+    }
+
     private DbManager dbManager;
     private String id ="";
+
     public String getStatuss() {
         return Statuss;
     }
@@ -37,6 +51,15 @@ public class FormAddIbuActivity extends AppCompatActivity {
 
     String Statuss;
 
+    public String getDarah() {
+        return darah;
+    }
+
+    public void setDarah(String darah) {
+        this.darah = darah;
+    }
+
+    String darah;
     public String getStatuss2() {
         return Statuss2;
     }
@@ -60,10 +83,9 @@ public class FormAddIbuActivity extends AppCompatActivity {
         gubugs = (EditText) findViewById(R.id.gubug);
         hphts = (EditText) findViewById(R.id.hpht);
         htps = (EditText) findViewById(R.id.htp);
-        goldarahs = (EditText) findViewById(R.id.goldarah);
+//        goldarahs = (EditText) findViewById(R.id.goldarah);
         kaders = (EditText) findViewById(R.id.kader);
         notelpons = (EditText) findViewById(R.id.notelpon);
-
         btnLogin = (Button) findViewById(R.id.saved);
         //  userService = ApiUtils.getUserService();
 
@@ -76,17 +98,17 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 String gubugss = gubugs.getText().toString();
                 String hphtss = hphts.getText().toString();
                 String htpss = htps.getText().toString();
-                String goldarahss = goldarahs.getText().toString();
+                String goldarahss = getDarah() + " - "+getRhesus();
                 String kaderss = kaders.getText().toString();
                 String notelponss = notelpons.getText().toString();
-                String radioStatus = getStatuss();
+               // String rhesus = getRhesus();
                 String radioStatus2 = getStatuss2();
 
                 if(mothername.contains("'") || husbandname.contains("'")) {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
                             Toast.LENGTH_LONG).show();
                 }
-                else if (mothername.isEmpty() || husbandname.isEmpty() || dobss.isEmpty() || htpss.isEmpty() || hphtss.isEmpty() || goldarahss.isEmpty() || kaderss.isEmpty() || radioStatus.isEmpty()){
+                else if (mothername.isEmpty() || husbandname.isEmpty() || dobss.isEmpty() || htpss.isEmpty() || hphtss.isEmpty() || goldarahss.isEmpty() || kaderss.isEmpty() || radioStatus2.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Data Harus Diisi Semua!",
                             Toast.LENGTH_LONG).show();
                 }
@@ -94,10 +116,10 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     dbManager.open();
                     if(id != null) {
                         if(!id.equals(""))
-                        dbManager.updateIbu(id,mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, kaderss, notelponss, radioStatus, radioStatus2);
+                        dbManager.updateIbu(id,mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, kaderss, notelponss,  radioStatus2);
                     }
                     else
-                        dbManager.insertibu(mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, kaderss, notelponss, radioStatus, radioStatus2);
+                        dbManager.insertibu(mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, kaderss, notelponss,  radioStatus2);
                     dbManager.close();
                     Intent myIntent = new Intent(FormAddIbuActivity.this, IdentitasIbuActivity.class);
                     startActivity(myIntent);
@@ -126,14 +148,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
 
         // Check which radio button was clicked
         switch(view.getId()) {
-            case R.id.hidup:
-                if (checked)
-                    setStatuss("Hidup");
-                    break;
-            case R.id.meinggal:
-                if (checked)
-                    setStatuss("Meninggal");
-                    break;
+
             case R.id.hamil:
                 if (checked)
                     setStatuss2("hamil");
@@ -145,6 +160,38 @@ public class FormAddIbuActivity extends AppCompatActivity {
             case R.id.risti:
                 if (checked)
                     setStatuss2("risti");
+                break;
+
+                //set gol darah
+            case R.id.a:
+                if (checked)
+                    setDarah("a");
+                break;
+            case R.id.b:
+                if (checked)
+                    setDarah("b");
+                break;
+            case R.id.ab:
+                if (checked)
+                    setDarah("ab");
+                break;
+            case R.id.o:
+                if (checked)
+                    setDarah("o");
+                break;
+
+                // set rhesus
+            case R.id.positive:
+                if (checked)
+                    setRhesus("Positif");
+                break;
+            case R.id.negative:
+                if (checked)
+                    setRhesus("negatif");
+                break;
+            case R.id.tidak_tahu:
+                if (checked)
+                    setRhesus("tidak_tahu");
                 break;
         }
     }
@@ -165,8 +212,6 @@ public class FormAddIbuActivity extends AppCompatActivity {
         goldarahs.setText(cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")));
         kaders.setText(cursor.getString(cursor.getColumnIndexOrThrow("kader")));
         notelpons.setText(cursor.getString(cursor.getColumnIndexOrThrow("telp")));
-        RadioButton radio1 = (RadioButton) findViewById(R.id.hidup);
-        RadioButton radio2 = (RadioButton) findViewById(R.id.meinggal);
         String temp = cursor.getString(cursor.getColumnIndexOrThrow("kondisi_ibu"));
         if(temp != null){
             if(temp.equalsIgnoreCase("Meninggal"))
