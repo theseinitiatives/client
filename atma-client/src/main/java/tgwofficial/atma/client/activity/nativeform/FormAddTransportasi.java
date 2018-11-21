@@ -28,6 +28,7 @@ public class FormAddTransportasi extends AppCompatActivity {
     }
 
     EditText kapasitass;
+    EditText no_hp;
     EditText gubugs;
     EditText dusuns;
     EditText profesis;
@@ -40,6 +41,7 @@ public class FormAddTransportasi extends AppCompatActivity {
         setContentView(R.layout.form_add_transportasi);
         dbManager = new DbManager(this);
         nama_pemiliks = (EditText) findViewById(R.id.nama_pemilik);
+        no_hp = (EditText) findViewById(R.id.nohp);
         gubugs = (EditText) findViewById(R.id.gubug);
         kapasitass = (EditText) findViewById(R.id.kapasitas);
         dusuns = (EditText) findViewById(R.id.dusun);
@@ -57,6 +59,7 @@ public class FormAddTransportasi extends AppCompatActivity {
                 String text_dusuns = dusuns.getText().toString();
                 String text_profesis = profesis.getText().toString();
                 String text_kets = kets.getText().toString();
+                String text_nohp = no_hp.getText().toString();
                 String jeniss = getJenis();
                 if(text_pemiliks.contains("'") ) {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
@@ -68,7 +71,7 @@ public class FormAddTransportasi extends AppCompatActivity {
                 }
                 else {
                     dbManager.open();
-                    dbManager.insertbanktransportasi(text_pemiliks, jeniss, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets);
+                    dbManager.insertbanktransportasi(text_pemiliks, jeniss,text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets);
                     dbManager.close();
 
                     Intent myIntent = new Intent(FormAddTransportasi.this, TransportasiActivity.class);
@@ -102,6 +105,10 @@ public class FormAddTransportasi extends AppCompatActivity {
             case R.id.cidomo:
                 if (checked)
                     setJenis("cidomo");
+                break;
+            case R.id.pickup:
+                if (checked)
+                    setJenis("mobil_pickup");
                 break;
             case R.id.id_lainnya:
                 if (checked)

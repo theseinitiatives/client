@@ -5,6 +5,14 @@ import com.google.gson.annotations.SerializedName;
 
 public class TransportasiData {
 
+
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("telp")
+    @Expose
+    private String telp;
+
     @SerializedName("kapasitas_kendaraan")
     @Expose
     private String kapasitas_kendaraan;
@@ -30,6 +38,21 @@ public class TransportasiData {
     @Expose
     private String timestamp;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTelp() {
+        return telp;
+    }
+
+    public void setTelp(String telp) {
+        this.telp = telp;
+    }
     public String getKapasitas_kendaraan() {
         return kapasitas_kendaraan;
     }
