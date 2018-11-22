@@ -16,7 +16,26 @@ import tgwofficial.atma.client.db.DbManager;
 public class FormAddBankDarah extends AppCompatActivity {
     EditText mother_names;
     EditText nama_donors;
+    String rhesus;
+    EditText gubugs;
+    EditText dusun;
 
+    public String getRhesus() {
+        return rhesus;
+    }
+
+    public void setRhesus(String rhesus) {
+        this.rhesus = rhesus;
+    }
+    public String getDarah() {
+        return darah;
+    }
+
+    public void setDarah(String darah) {
+        this.darah = darah;
+    }
+
+    String darah;
     public String getStatuss() {
         return statuss;
     }
@@ -46,31 +65,35 @@ public class FormAddBankDarah extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.form_add_bank_darah);
         dbManager = new DbManager(this);
-        mother_names = (EditText) findViewById(R.id.mother_name);
-        nama_donors = (EditText) findViewById(R.id.nama_donor);
 
+        nama_donors = (EditText) findViewById(R.id.nama_donor);
+        gubugs = (EditText) findViewById(R.id.gubug);
+        dusun = (EditText) findViewById(R.id.dusun_s);
         notelpons = (EditText) findViewById(R.id.notelpon);
 
         btnLogin = (Button) findViewById(R.id.saved);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mothername = mother_names.getText().toString();
+               // String mothername = mother_names.getText().toString();
                 String donor = nama_donors.getText().toString();
                 String notelponss = notelpons.getText().toString();
+                String text_gubug = gubugs.getText().toString();
+                String text_dusun = dusun.getText().toString();
                 String radioStatus = getStatuss();
-                String radiogolDarah = getStatuss2();
-                if(mothername.contains("'") || donor.contains("'") ) {
+                String radiogolDarah = getDarah() +" - "+ getRhesus();
+
+                if( donor.contains("'") ) {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
                             Toast.LENGTH_LONG).show();
                 }
-                else if (mothername.isEmpty() || donor.isEmpty() || notelponss.isEmpty()){
+                else if (donor.isEmpty() || notelponss.isEmpty() || radiogolDarah.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Data Harus Diisi Semua!",
                             Toast.LENGTH_LONG).show();
                 }
                 else {
                     dbManager.open();
-                    dbManager.insertbankdarah(mothername, donor, notelponss, radioStatus, radiogolDarah);
+                    dbManager.insertbankdarah(donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah);
                     dbManager.close();
 
                     Intent myIntent = new Intent(FormAddBankDarah.this, BankDarahActivity.class);
@@ -114,19 +137,32 @@ public class FormAddBankDarah extends AppCompatActivity {
                 break;
             case R.id.a:
                 if (checked)
-                    setStatuss2("a");
+                    setDarah("a");
                 break;
             case R.id.b:
                 if (checked)
-                    setStatuss2("b");
+                    setDarah("b");
                 break;
             case R.id.ab:
                 if (checked)
-                    setStatuss2("ab");
+                    setDarah("ab");
                 break;
             case R.id.o:
                 if (checked)
-                    setStatuss2("o");
+                    setDarah("o");
+                break;
+            // set rhesus
+            case R.id.positive:
+                if (checked)
+                    setRhesus("Positif");
+                break;
+            case R.id.negative:
+                if (checked)
+                    setRhesus("negatif");
+                break;
+            case R.id.tidak_tahu:
+                if (checked)
+                    setRhesus("tidak_tahu");
                 break;
         }
         }

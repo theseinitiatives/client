@@ -56,4 +56,8 @@
     <string name="motor">Motor</string>
     <string name="kapasitass">Kapasitas Kendaraan</string>
     <string name="dusun">Dusun</string>
+    <string name="cidomo">Cidomo</string>
+    <string name="rhesus">Rhesus</string>
+    <string name="pickup">Mobil pick-up</string>
+    <string name="nohp">No Hp</string>
 </resources>

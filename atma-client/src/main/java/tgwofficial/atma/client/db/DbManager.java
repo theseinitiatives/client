@@ -15,7 +15,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import tgwofficial.atma.client.model.syncmodel.ApiModel;
+import tgwofficial.atma.client.model.syncmodel.BankdarahData;
 import tgwofficial.atma.client.model.syncmodel.IbuData;
+import tgwofficial.atma.client.model.syncmodel.TransportasiData;
 
 public class DbManager {
     private DbHelper dbHelper;
@@ -84,16 +86,35 @@ public class DbManager {
                     contentValue.put(DbHelper.IS_SYNC, 1);
                     contentValue.put(DbHelper.TIMESTAMP, listIbuData.getTimestamp());
 
-
                     database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
 
                 }
             }
             else if(model.getform_name().equals("transportasi")){
+               /* TransportasiData[] transportasiData = gson.fromJson(data_, TransportasiData[].class);
+                List<TransportasiData> TransportasiDataList = new ArrayList<>(Arrays.asList(transportasiData));
+                for (TransportasiData listTransportasi : TransportasiDataList){
+                    contentValue.put(DbHelper.NAME, listTransportasi.getName());
+                    contentValue.put(DbHelper.Jenis, listTransportasi.getJenis_kendaraan());
+                    contentValue.put(DbHelper.Kapasitas, listTransportasi.getKapasitas_kendaraan());
+                    contentValue.put(DbHelper.DUSUN, listTransportasi.get());
+                    contentValue.put(DbHelper.TELP, listTransportasi.getHpht());
+                    contentValue.put(DbHelper.GUBUG, listTransportasi.getHtp());
+                    contentValue.put(DbHelper.GUBUG, listTransportasi.getHtp());
+                    contentValue.put(DbHelper.IS_SEND, 1);
+                    contentValue.put(DbHelper.IS_SYNC, 1);
+                    contentValue.put(DbHelper.TIMESTAMP, listIbuData.getTimestamp());
+
+                }*/
                 /**TODO
                  * Get data from form transportasi and transform the data using TransportasiData model and put into database**/
             }
             else if(model.getform_name().equals("transportasi")){
+                BankdarahData[] bankdarahData = gson.fromJson(data_, BankdarahData[].class);
+                List<BankdarahData> BankDarahDataListed = new ArrayList<>(Arrays.asList(bankdarahData));
+                for (BankdarahData listBankDarah : BankDarahDataListed){
+
+                }
                 /**TODO
                  * Get data from form transportasi and transform the data using BankDarahData model and put into database**/
             }
@@ -103,7 +124,7 @@ public class DbManager {
     }
 
     public void insertibu(String mothername, String husbandname,String dobss, String gubugss,
-    String hphtss, String htpss,String goldarahss, String kaderss,String notelponss, String radioStatus, String radioStatus2) {
+    String hphtss, String htpss,String goldarahss, String kaderss,String notelponss,  String radioStatus2) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.NAME, mothername);
         contentValue.put(  DbHelper.SPOUSENAME, husbandname);
@@ -112,7 +133,7 @@ public class DbManager {
         contentValue.put( DbHelper.HPHT,hphtss);
         contentValue.put( DbHelper.HTP,htpss);
         contentValue.put( DbHelper.GOL_DARAH,goldarahss);
-        contentValue.put( DbHelper.STATUS,radioStatus);
+        contentValue.put( DbHelper.STATUS,radioStatus2);
         contentValue.put( DbHelper.TELP,notelponss);
         contentValue.put( DbHelper.KADER,kaderss);
         contentValue.put( DbHelper.IS_SEND,"0");
@@ -121,7 +142,7 @@ public class DbManager {
     }
 
     public void updateIbu(String _id, String mothername, String husbandname,String dobss, String gubugss,
-                          String hphtss, String htpss,String goldarahss, String kaderss,String notelponss, String radioStatus, String radioStatus2) {
+                          String hphtss, String htpss,String goldarahss, String kaderss,String notelponss, String radioStatus2) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.NAME, mothername);
         contentValue.put(  DbHelper.SPOUSENAME, husbandname);
@@ -130,7 +151,7 @@ public class DbManager {
         contentValue.put( DbHelper.HPHT,hphtss);
         contentValue.put( DbHelper.HTP,htpss);
         contentValue.put( DbHelper.GOL_DARAH,goldarahss);
-        contentValue.put( DbHelper.STATUS,radioStatus);
+        contentValue.put( DbHelper.STATUS,radioStatus2);
         contentValue.put( DbHelper.TELP,notelponss);
         contentValue.put( DbHelper.KADER,kaderss);
         contentValue.put( DbHelper.IS_SEND,"0");
@@ -254,11 +275,13 @@ public class DbManager {
     }
 
 
-    public void insertbankdarah(String mothername,String donor, String notelponss, String radioStatus, String radioStatus2) {
+    public void insertbankdarah(String donor,String text_gubug,String text_dusun,String notelponss, String radioStatus, String radioStatus2) {
 
         ContentValues contentValue = new ContentValues();
-        contentValue.put( DbHelper.NAME,mothername);
+
         contentValue.put( DbHelper.NAME_PENDONOR,donor);
+        contentValue.put( DbHelper.GUBUG,text_gubug);
+        contentValue.put( DbHelper.DUSUN,text_dusun);
         contentValue.put( DbHelper.STATUS,radioStatus);
         contentValue.put( DbHelper.GOL_DARAH,radioStatus2);
         contentValue.put( DbHelper.TELP,notelponss);
@@ -267,9 +290,10 @@ public class DbManager {
         database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);
     }
 
-    public void insertbanktransportasi(String text_pemiliks, String jenis,String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets) {
+    public void insertbanktransportasi(String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.NAME,text_pemiliks);
+        contentValue.put( DbHelper.TELP,text_nohp);
         contentValue.put( DbHelper.Jenis,jenis);
         contentValue.put( DbHelper.GUBUG,text_gubug);
         contentValue.put( DbHelper.Kapasitas,text_kapasitass);

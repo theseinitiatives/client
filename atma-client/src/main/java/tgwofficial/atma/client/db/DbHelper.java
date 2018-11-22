@@ -78,6 +78,7 @@ public class DbHelper  extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_TRANS = "create table "
             + TABLE_NAME_TRANS + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + NAME + " TEXT NOT NULL, "
+            + TELP  + " TEXT,  "
             + Jenis + " TEXT, "
             + Kapasitas + " TEXT , "
             + TELP + " TEXT , "
@@ -92,8 +93,9 @@ public class DbHelper  extends SQLiteOpenHelper {
     // Creating table Bank Darah
     private static final String CREATE_TABLE_BANK = "create table "
             + TABLE_NAME_BANK + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + NAME + " TEXT NOT NULL, "
             + NAME_PENDONOR + " TEXT , "
+            + DUSUN + " TEXT , "
+            + GUBUG + " TEXT , "
             + STATUS + " TEXT , "
             + GOL_DARAH + " TEXT , "
             + TELP + " TEXT , "

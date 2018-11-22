@@ -304,13 +304,13 @@
                             android:id="@+id/positive"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Positive"
+                            android:text="Positive (+)"
                             android:onClick="onRadioButtonClicked" />
                         <RadioButton
                             android:id="@+id/negative"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Negatif"
+                            android:text="Negatif (-)"
                             android:onClick="onRadioButtonClicked" />
                         <RadioButton
                             android:id="@+id/tidak_tahu"

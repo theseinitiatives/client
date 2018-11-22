@@ -43,29 +43,6 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <include
-                layout="@layout/divider"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/mother_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/mother_names"
-                        android:inputType="textPersonName"
-                        android:maxLines="1"
-                        android:singleLine="true" />
-
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
 
             <include
                 layout="@layout/divider"/>
@@ -96,63 +73,6 @@
         <include
             layout="@layout/divider"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-            <TextView
-                android:id="@+id/status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/status"
-                android:maxLines="1"
-                android:singleLine="true" />
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:orientation="vertical">
-                <RadioButton
-                    android:id="@+id/suami"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/suami"
-                    android:onClick="onRadioButtonClicked" />
-                <RadioButton
-                    android:id="@+id/nenek"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/nenek"
-                    android:onClick="onRadioButtonClicked" />
-                <RadioButton
-                    android:id="@+id/kakek"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/kakek"
-                    android:onClick="onRadioButtonClicked" />
-                <RadioButton
-                    android:id="@+id/adik"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/adik"
-                    android:onClick="onRadioButtonClicked" />
-                <RadioButton
-                    android:id="@+id/lainnya"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lainnya"
-                    android:onClick="onRadioButtonClicked" />
-            </RadioGroup>
-
-            </android.support.design.widget.TextInputLayout>
-
-        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -207,6 +127,103 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/rhesus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/rhesus"
+                        android:maxLines="1"
+                        android:singleLine="true" />
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:orientation="vertical">
+                        <RadioButton
+                            android:id="@+id/positive"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Positif (+)"
+                            android:onClick="onRadioButtonClicked" />
+                        <RadioButton
+                            android:id="@+id/negative"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Negatif (-)"
+                            android:onClick="onRadioButtonClicked" />
+                        <RadioButton
+                            android:id="@+id/tidak_tahu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Tidak Tahu"
+                            android:onClick="onRadioButtonClicked" />
+
+
+                    </RadioGroup>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <include
+                layout="@layout/divider"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dusun_s"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/dusun"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+            <include
+                layout="@layout/divider"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <AutoCompleteTextView
+                        android:id="@+id/gubug"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/gubug"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
             <include
                 layout="@layout/divider"/>
 
@@ -224,7 +241,7 @@
                         android:id="@+id/notelpon"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/notelp"
+                        android:hint="@string/nohp"
                         android:inputType="phone"
                         android:maxLines="1"
                         android:singleLine="true" />
