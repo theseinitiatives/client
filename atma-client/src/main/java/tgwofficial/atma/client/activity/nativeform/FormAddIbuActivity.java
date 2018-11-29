@@ -155,8 +155,6 @@ public class FormAddIbuActivity extends AppCompatActivity {
         if(id != null)
             if (!id.equalsIgnoreCase(""))
                 fillField(id);
-
-
     }
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?

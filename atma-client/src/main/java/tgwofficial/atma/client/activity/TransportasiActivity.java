@@ -53,6 +53,16 @@ public class TransportasiActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         lv = (ListView) findViewById(R.id.list_view);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Long ids = l+1;
+                Intent intent = new Intent(TransportasiActivity.this,TransportasiDetailActivity.class);
+                intent.putExtra("id",ids);
+                startActivity(intent);
+            }
+        });
+
         sv= (SearchView) findViewById(R.id.sv);
         //lv.setAdapter(adapter);
         adapter=new TransportasiCursorAdapter(this,transportasiModels);

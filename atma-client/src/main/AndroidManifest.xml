@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tgwofficial.atma.client">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -26,32 +27,35 @@
         <activity
             android:name=".activity.IdentitasIbuActivity"
             android:label="@string/identitas_ibu"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.TransportasiActivity"
             android:label="@string/transportasi"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.BankDarahActivity"
             android:label="@string/bankdarah"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.IdentitasIbuDetailActivity"
             android:label="@string/detail_ibu"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.nativeform.FormAddIbuActivity"
             android:label="@string/detail_ibu"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.nativeform.FormAddBankDarah"
             android:label="@string/detail_ibu"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.nativeform.FormAddTransportasi"
             android:label="@string/detail_ibu"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.TransportasiDetailActivity"
+            android:label="@string/title_activity_transportasi_detail"
+            android:theme="@style/AppThemeCustomized"></activity>
     </application>
 
 </manifest>

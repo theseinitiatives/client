@@ -60,4 +60,5 @@
     <string name="rhesus">Rhesus</string>
     <string name="pickup">Mobil pick-up</string>
     <string name="nohp">No Hp</string>
+    <string name="title_activity_transportasi_detail">TransportasiDetailActivity</string>
 </resources>
