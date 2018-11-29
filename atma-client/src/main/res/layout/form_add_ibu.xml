@@ -301,19 +301,19 @@
                         android:layout_marginLeft="30dp"
                         android:orientation="vertical">
                         <RadioButton
-                            android:id="@+id/positive"
+                            android:id="@+id/rh_positive"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Positive (+)"
                             android:onClick="onRadioButtonClicked" />
                         <RadioButton
-                            android:id="@+id/negative"
+                            android:id="@+id/rh_negative"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Negatif (-)"
                             android:onClick="onRadioButtonClicked" />
                         <RadioButton
-                            android:id="@+id/tidak_tahu"
+                            android:id="@+id/rh_tidak_tahu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Tidak Tahu"

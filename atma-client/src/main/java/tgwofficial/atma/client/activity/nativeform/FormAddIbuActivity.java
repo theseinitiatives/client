@@ -26,6 +26,11 @@ public class FormAddIbuActivity extends AppCompatActivity {
     EditText kaders;
     EditText notelpons;
 
+    private RadioButton a,b,ab,o;
+    private RadioButton rhPositive,rhNegative,rhUnknown;
+    private RadioButton hamil,nifas,risti;
+
+
 
 
     String rhesus;
@@ -89,6 +94,19 @@ public class FormAddIbuActivity extends AppCompatActivity {
         btnLogin = (Button) findViewById(R.id.saved);
         //  userService = ApiUtils.getUserService();
 
+        a = (RadioButton)findViewById(R.id.a);
+        b = (RadioButton)findViewById(R.id.b);
+        ab = (RadioButton)findViewById(R.id.ab);
+        o = (RadioButton)findViewById(R.id.o);
+
+        rhPositive = (RadioButton)findViewById(R.id.rh_positive);
+        rhNegative = (RadioButton)findViewById(R.id.rh_negative);
+        rhUnknown = (RadioButton)findViewById(R.id.rh_tidak_tahu);
+
+        hamil = (RadioButton)findViewById(R.id.hamil);
+        nifas = (RadioButton)findViewById(R.id.nifas);
+        risti = (RadioButton)findViewById(R.id.risti);
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,10 +132,8 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 }
                 else {
                     dbManager.open();
-                    if(id != null) {
-                        if(!id.equals(""))
+                    if(valueExist(id))
                         dbManager.updateIbu(id,mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, kaderss, notelponss,  radioStatus2);
-                    }
                     else
                         dbManager.insertibu(mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, kaderss, notelponss,  radioStatus2);
                     dbManager.close();
@@ -203,13 +219,15 @@ public class FormAddIbuActivity extends AppCompatActivity {
         dbManager.open();
         Cursor cursor = dbManager.fetchdetaildata(id);
         dbManager.close();
+        preloadEditVariable(cursor);
         mother_names.setText(cursor.getString(cursor.getColumnIndexOrThrow("name")));
         husband_names.setText(cursor.getString(cursor.getColumnIndexOrThrow("spousename")));
         dobs.setText(cursor.getString(cursor.getColumnIndexOrThrow("tgl_lahir")));
         gubugs.setText(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
         hphts.setText(cursor.getString(cursor.getColumnIndexOrThrow("hpht")));
         htps.setText(cursor.getString(cursor.getColumnIndexOrThrow("htp")));
-        goldarahs.setText(cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")));
+        setDarahRhChecked(cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")));
+        setStatusChecked(cursor.getString(cursor.getColumnIndexOrThrow("status")));
         kaders.setText(cursor.getString(cursor.getColumnIndexOrThrow("kader")));
         notelpons.setText(cursor.getString(cursor.getColumnIndexOrThrow("telp")));
         String temp = cursor.getString(cursor.getColumnIndexOrThrow("kondisi_ibu"));
@@ -223,5 +241,67 @@ public class FormAddIbuActivity extends AppCompatActivity {
         }
         setStatuss2("null");
     }
+
+    private boolean valueExist(String value){
+        if(value!=null)
+            return !value.equalsIgnoreCase("");
+        return false;
+    }
+
+    private void preloadEditVariable(Cursor cursor){
+        String[]data = cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")).split(" - ");
+        setDarah(data[0]);
+        setRhesus(data[1]);
+        setStatuss2(cursor.getString(cursor.getColumnIndexOrThrow("status")));
+    }
+
+    private void setDarahRhChecked(String value){
+        String[]data = value.contains(" - ") ? value.split(" - ") : new String[]{"",""};
+        setDarahChecked(data[0]);
+        setRhesusChecked(data[1]);
+    }
+
+    private void setDarahChecked(String value){
+        switch(value.toLowerCase()){
+            case "a" : a.setChecked(true); break;
+            case "b" : b.setChecked(true); break;
+            case "ab" : ab.setChecked(true);break;
+            case "o" : o.setChecked(true); break;
+            default:
+                a.setChecked(false);
+                b.setChecked(false);
+                ab.setChecked(false);
+                o.setChecked(false);
+                break;
+        }
+    }
+
+    private void setRhesusChecked(String value){
+        switch(value.toLowerCase()){
+            case "positif" : rhPositive.setChecked(true); break;
+            case "negatif" : rhNegative.setChecked(true); break;
+            case "tidak_tahu" : rhUnknown.setChecked(true); break;
+            default:
+                rhPositive.setChecked(false);
+                rhNegative.setChecked(false);
+                rhUnknown.setChecked(false);
+                break;
+        }
+    }
+
+    private void setStatusChecked(String value){
+        switch(value.toLowerCase()){
+            case "hamil" : hamil.setChecked(true); break;
+            case "nifas" : nifas.setChecked(true); break;
+            case "risti": risti.setChecked(true); break;
+            default:
+                hamil.setChecked(false);
+                nifas.setChecked(false);
+                risti.setChecked(false);
+                break;
+        }
+    }
+
+
 
 }

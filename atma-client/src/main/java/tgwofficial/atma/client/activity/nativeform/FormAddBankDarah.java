@@ -115,7 +115,7 @@ public class FormAddBankDarah extends AppCompatActivity {
 
         // Check which radio button was clicked
         switch(view.getId()) {
-            case R.id.suami:
+            /*case R.id.suami:
                 if (checked)
                     setStatuss("suami");
                 break;
@@ -134,7 +134,7 @@ public class FormAddBankDarah extends AppCompatActivity {
             case R.id.lainnya:
                 if (checked)
                     setStatuss("lainnya");
-                break;
+                break;*/
             case R.id.a:
                 if (checked)
                     setDarah("a");
