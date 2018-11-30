@@ -26,12 +26,50 @@ public class FormAddIbuActivity extends AppCompatActivity {
     EditText kaders;
     EditText notelpons;
 
+    EditText tgl_bersalin;
+
+
     private RadioButton a,b,ab,o;
     private RadioButton rhPositive,rhNegative,rhUnknown;
     private RadioButton hamil,nifas,risti;
 
 
+    String statusibu;
+    String kondisiibu;
+    String kondisianak;
+    String nifasberakhir;
 
+    public String getNifasberakhir() {
+        return nifasberakhir;
+    }
+
+    public void setNifasberakhir(String nifasberakhir) {
+        this.nifasberakhir = nifasberakhir;
+    }
+
+    public String getStatusibu() {
+        return statusibu;
+    }
+
+    public void setStatusibu(String statusibu) {
+        this.statusibu = statusibu;
+    }
+
+    public String getKondisiibu() {
+        return kondisiibu;
+    }
+
+    public void setKondisiibu(String kondisiibu) {
+        this.kondisiibu = kondisiibu;
+    }
+
+    public String getKondisianak() {
+        return kondisianak;
+    }
+
+    public void setKondisianak(String kondisianak) {
+        this.kondisianak = kondisianak;
+    }
 
     String rhesus;
 
@@ -87,7 +125,10 @@ public class FormAddIbuActivity extends AppCompatActivity {
         dobs = (EditText) findViewById(R.id.dob);
         gubugs = (EditText) findViewById(R.id.gubug);
         hphts = (EditText) findViewById(R.id.hpht);
-        htps = (EditText) findViewById(R.id.htp);
+
+
+
+      //  htps = (EditText) findViewById(R.id.htp);
 //        goldarahs = (EditText) findViewById(R.id.goldarah);
         kaders = (EditText) findViewById(R.id.kader);
         notelpons = (EditText) findViewById(R.id.notelpon);
@@ -115,12 +156,16 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 String dobss = dobs.getText().toString();
                 String gubugss = gubugs.getText().toString();
                 String hphtss = hphts.getText().toString();
-                String htpss = htps.getText().toString();
+                String htpss = "";
                 String goldarahss = getDarah() + " - "+getRhesus();
                 String kaderss = kaders.getText().toString();
                 String notelponss = notelpons.getText().toString();
-               // String rhesus = getRhesus();
+                String tgl_persalinn = tgl_bersalin.getText().toString();
                 String radioStatus2 = getStatuss2();
+                String ibubersalin = getStatusibu();
+                String kondisi_ibu = getKondisiibu();
+                String kondisi_anak = getKondisianak();
+                String nifas_berakhir = getNifasberakhir();
 
                 if(mothername.contains("'") || husbandname.contains("'")) {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
@@ -133,9 +178,9 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 else {
                     dbManager.open();
                     if(valueExist(id))
-                        dbManager.updateIbu(id,mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, kaderss, notelponss,  radioStatus2);
+                        dbManager.updateIbu(id,mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, kaderss, notelponss,  radioStatus2,tgl_persalinn, ibubersalin,kondisi_ibu,kondisi_anak, nifas_berakhir);
                     else
-                        dbManager.insertibu(mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, kaderss, notelponss,  radioStatus2);
+                        dbManager.insertibu(mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, kaderss, notelponss,  radioStatus2,tgl_persalinn, ibubersalin,kondisi_ibu,kondisi_anak, nifas_berakhir);
                     dbManager.close();
                     Intent myIntent = new Intent(FormAddIbuActivity.this, IdentitasIbuActivity.class);
                     startActivity(myIntent);
@@ -206,6 +251,40 @@ public class FormAddIbuActivity extends AppCompatActivity {
             case R.id.tidak_tahu:
                 if (checked)
                     setRhesus("tidak_tahu");
+                break;
+
+            // set nifas
+            case R.id.bersalin_ya:
+                if (checked)
+                    setStatusibu("ya");
+                break;
+            case R.id.bersalin_tidak:
+                if (checked)
+                    setStatusibu("tidak");
+                break;
+            case R.id.ibu_hidup:
+                if (checked)
+                    setKondisiibu("hidup");
+                break;
+            case R.id.ibu_mati:
+                if (checked)
+                    setKondisiibu("meninggal");
+                break;
+            case R.id.anak_hidup:
+                if (checked)
+                    setKondisianak("hidup");
+                break;
+            case R.id.anak_mati:
+                if (checked)
+                    setKondisianak("meninggal");
+                break;
+            case R.id.nifas_ya:
+                if (checked)
+                    setNifasberakhir("ya");
+                break;
+            case R.id.nifas_tidak:
+                if (checked)
+                    setNifasberakhir("tidak");
                 break;
         }
     }

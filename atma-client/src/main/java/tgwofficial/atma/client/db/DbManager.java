@@ -124,7 +124,7 @@ public class DbManager {
     }
 
     public void insertibu(String mothername, String husbandname,String dobss, String gubugss,
-    String hphtss, String htpss,String goldarahss, String kaderss,String notelponss,  String radioStatus2) {
+    String hphtss, String htpss,String goldarahss, String kaderss,String notelponss,  String radioStatus2, String tgl_bersalin,String ibubersalin, String kondisi_ibu, String kondisi_anak, String nifas_berakhir) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.NAME, mothername);
         contentValue.put(  DbHelper.SPOUSENAME, husbandname);
@@ -136,13 +136,17 @@ public class DbManager {
         contentValue.put( DbHelper.STATUS,radioStatus2);
         contentValue.put( DbHelper.TELP,notelponss);
         contentValue.put( DbHelper.KADER,kaderss);
+        contentValue.put( DbHelper.TGL_PERSALINAN,tgl_bersalin);
+        contentValue.put( DbHelper.KONDISI_ANAK,kondisi_anak);
+        contentValue.put( DbHelper.KONDISI_IBU,kondisi_ibu);
+        contentValue.put( DbHelper.NIFAS_SELESAI,nifas_berakhir);
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
     }
 
     public void updateIbu(String _id, String mothername, String husbandname,String dobss, String gubugss,
-                          String hphtss, String htpss,String goldarahss, String kaderss,String notelponss, String radioStatus2) {
+                          String hphtss, String htpss,String goldarahss, String kaderss,String notelponss, String radioStatus2,String tgl_bersalin, String ibubersalin, String kondisi_ibu, String kondisi_anak, String nifas_berakhir) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.NAME, mothername);
         contentValue.put(  DbHelper.SPOUSENAME, husbandname);
@@ -154,6 +158,10 @@ public class DbManager {
         contentValue.put( DbHelper.STATUS,radioStatus2);
         contentValue.put( DbHelper.TELP,notelponss);
         contentValue.put( DbHelper.KADER,kaderss);
+        contentValue.put( DbHelper.TGL_PERSALINAN,tgl_bersalin);
+        contentValue.put( DbHelper.KONDISI_ANAK,kondisi_anak);
+        contentValue.put( DbHelper.KONDISI_IBU,kondisi_ibu);
+        contentValue.put( DbHelper.NIFAS_SELESAI,nifas_berakhir);
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.update(DbHelper.TABLE_NAME_IBU, contentValue,"_id = ?",new String[]{_id});

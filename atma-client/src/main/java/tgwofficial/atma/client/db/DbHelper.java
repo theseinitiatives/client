@@ -28,6 +28,9 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String TGL_PERSALINAN = "tgl_persalinan";
     public static final String KONDISI_IBU = "kondisi_ibu";
     public static final String KONDISI_ANAK = "kondisi_anak";
+    public static final String STATUS_NIFAS = "status_nifas";
+    public static final String NIFAS_SELESAI = "nifas_selesai";
+
 
 
     //Table Column Transportasi
