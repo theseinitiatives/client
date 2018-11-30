@@ -38,11 +38,11 @@ public class LoginActivity extends AppCompatActivity {
                 String password = edtPassword.getText().toString();
                 //validate form
                 if(validateLogin(username, password)){
-                    //bypass login
-                    Intent myIntent = new Intent(LoginActivity.this, IdentitasIbuActivity.class);
-                    finish();
-                    startActivity(myIntent);
-                    overridePendingTransition(0,0);
+
+                        Intent myIntent = new Intent(LoginActivity.this, IdentitasIbuActivity.class);
+                        finish();
+                        startActivity(myIntent);
+                        overridePendingTransition(0, 0);
 
                     //do login
                    // doLogin(username, password);
@@ -60,6 +60,10 @@ public class LoginActivity extends AppCompatActivity {
         if(password == null || password.trim().length() == 0){
             Toast.makeText(this, "Password is required", Toast.LENGTH_SHORT).show();
             return false;
+        }
+        if(!username.equalsIgnoreCase("demo") & !password.equalsIgnoreCase("demo")) {
+            Toast.makeText(this, "Username and Password Incorrect!!", Toast.LENGTH_SHORT).show();
+            return  false;
         }
         return true;
     }

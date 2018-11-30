@@ -248,9 +248,9 @@ public class DbManager {
 
     public Cursor fetchBankDarah(String searchTerm, String orderByASCDESC) {
         String[] columns = new String[] { DbHelper._ID,
-                DbHelper.NAME,
                 DbHelper.NAME_PENDONOR,
                 DbHelper.STATUS,
+                DbHelper.GUBUG,
                 DbHelper.GOL_DARAH,
                 DbHelper.TELP,
                 DbHelper.IS_SEND,
@@ -259,7 +259,7 @@ public class DbManager {
         Cursor c=null;
 
         if(searchTerm != null && searchTerm.length()>0) {
-            c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.NAME+" LIKE '%"+searchTerm+"%'", selectionArgs, groupBy, having, orderByASCDESC);
+            c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.NAME_PENDONOR+" LIKE '%"+searchTerm+"%'", selectionArgs, groupBy, having, orderByASCDESC);
             return c;
         }
 

@@ -76,6 +76,7 @@ public class FormAddTransportasi extends AppCompatActivity {
 
                     Intent myIntent = new Intent(FormAddTransportasi.this, TransportasiActivity.class);
                     startActivity(myIntent);
+                    finish();
                 }
                 //validate form
                 //  if(validateinput(mothername,donor,notelponss,radioStatus,radioStatus2)){

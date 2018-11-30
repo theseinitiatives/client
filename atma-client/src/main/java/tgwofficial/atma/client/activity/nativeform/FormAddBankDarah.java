@@ -98,6 +98,7 @@ public class FormAddBankDarah extends AppCompatActivity {
 
                     Intent myIntent = new Intent(FormAddBankDarah.this, BankDarahActivity.class);
                     startActivity(myIntent);
+                    finish();
                 }
                 //validate form
                 //  if(validateinput(mothername,donor,notelponss,radioStatus,radioStatus2)){

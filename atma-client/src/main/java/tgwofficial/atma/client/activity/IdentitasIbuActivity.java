@@ -269,7 +269,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         RequestBody myreqbody = null;
         try {
             myreqbody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
-                    (new JSONArray(dummy)).toString());
+                    (new JSONArray(ibudata_formatToJson())).toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -292,7 +292,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         resetUpdating();
     }
-    public JSONArray formatToJson()
+    public JSONArray ibudata_formatToJson()
     {
         dbManager.open();
         //pull all identitasibu data from local db
@@ -319,8 +319,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     /***
                      * TODO
                      * SET THE DATA FROM TABLE*/
-                    rowObject2.put("user_id","userteset");
-                    rowObject2.put("location_id","Dusun_test");
+                    rowObject2.put("user_id","demo");
+                    rowObject2.put("location_id","Dusun_demo");
                     rowObject2.put("form_name","identitas_ibu");
                     rowObject2.put("update_id",System.currentTimeMillis());
                     // Log.i("ASDASD",resultSet2.toString());

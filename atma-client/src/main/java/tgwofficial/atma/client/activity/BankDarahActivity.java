@@ -55,7 +55,7 @@ public class BankDarahActivity extends AppCompatActivity
         //lv.setAdapter(adapter);
         adapter=new BankDarahCursorAdapter(this,bankDarahmodels);
 
-        getBankDarah("","name ASC");
+        getBankDarah("","name_pendonor ASC");
 
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -65,7 +65,7 @@ public class BankDarahActivity extends AppCompatActivity
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                getBankDarah(newText, "name ASC");
+                getBankDarah(newText, "name_pendonor ASC");
                 return false;
             }
         });
@@ -122,10 +122,10 @@ public class BankDarahActivity extends AppCompatActivity
         while (c.moveToNext()) {
                 int id = c.getInt(0);
 
-                String name = c.getString(c.getColumnIndexOrThrow("name"));
+                String name = c.getString(c.getColumnIndexOrThrow("name_pendonor"));
                 String gol_darah = c.getString(c.getColumnIndexOrThrow("gol_darah"));
                 String hp = c.getString(c.getColumnIndexOrThrow("telp"));
-                String pendonors = c.getString(c.getColumnIndexOrThrow("name_pendonor"));
+               // String pendonors = c.getString(c.getColumnIndexOrThrow("name_pendonor"));
 
 
                 p = new BankDarahmodel();
@@ -133,7 +133,7 @@ public class BankDarahActivity extends AppCompatActivity
                 p.setGolds(gol_darah);
                 p.setNomor(hp);
 
-                p.setPendonor(pendonors);
+              //  p.setPendonor(pendonors);
 
 
                 bankDarahmodels.add(p);
@@ -228,6 +228,6 @@ public class BankDarahActivity extends AppCompatActivity
     }
     private final String [][] item = {
             {"Nama A-Z","Nama Z-A"},
-            {"name ASC","name DESC"}
+            {"name_pendonor ASC","name_pendonor DESC"}
     };
 }

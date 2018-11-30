@@ -125,7 +125,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         dobs = (EditText) findViewById(R.id.dob);
         gubugs = (EditText) findViewById(R.id.gubug);
         hphts = (EditText) findViewById(R.id.hpht);
-
+        tgl_bersalin = (EditText) findViewById(R.id.tgl_persalinan);
 
 
       //  htps = (EditText) findViewById(R.id.htp);
@@ -171,7 +171,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
                             Toast.LENGTH_LONG).show();
                 }
-                else if (mothername.isEmpty() || husbandname.isEmpty() || dobss.isEmpty() || htpss.isEmpty() || hphtss.isEmpty() || goldarahss.isEmpty() || kaderss.isEmpty() || radioStatus2.isEmpty()){
+                else if (mothername.isEmpty() || husbandname.isEmpty() || dobss.isEmpty() || hphtss.isEmpty() || goldarahss.isEmpty() || kaderss.isEmpty() || radioStatus2.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Data Harus Diisi Semua!",
                             Toast.LENGTH_LONG).show();
                 }
