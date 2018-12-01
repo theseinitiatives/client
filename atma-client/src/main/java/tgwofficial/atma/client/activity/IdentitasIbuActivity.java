@@ -93,7 +93,10 @@ public class IdentitasIbuActivity extends AppCompatActivity
             }
         });
         initDropdownSort();
-
+        String extra = getIntent().getStringExtra("login status");
+        if(extra.equalsIgnoreCase("Login Success")){
+            Toast.makeText(getApplicationContext(),extra,Toast.LENGTH_LONG).show();
+        }
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Long ids = id+1;

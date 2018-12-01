@@ -39,15 +39,16 @@
                 android:layout_height="70dp"
                 android:layout_marginBottom="30dp"
                 android:src="@mipmap/these_logo_192"/>
+
             <TextView
                 android:layout_width="70dp"
                 android:layout_height="0dp"
-                android:layout_weight="@integer/navigationAnimTime"
                 android:layout_gravity="center"
-                android:textStyle="bold"
-                android:textSize="20sp"
+                android:layout_weight="@integer/navigationAnimTime"
+                android:text="P4K"
                 android:textColor="@color/colorPrimary"
-                android:text="P4K"/>
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -91,6 +92,12 @@
                 android:text="@string/action_sign_in"
                 android:textStyle="bold" />
 
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
 
 
         </LinearLayout>
