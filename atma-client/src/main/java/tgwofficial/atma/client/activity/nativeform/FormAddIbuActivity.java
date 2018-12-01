@@ -19,6 +19,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
     EditText mother_names;
     EditText husband_names;
     EditText dobs;
+    EditText dusun;
     EditText gubugs;
     EditText hphts;
     EditText htps;
@@ -123,6 +124,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         mother_names = (EditText) findViewById(R.id.mother_name);
         husband_names = (EditText) findViewById(R.id.husband_name);
         dobs = (EditText) findViewById(R.id.dob);
+        dusun = (EditText) findViewById(R.id.dusun);
         gubugs = (EditText) findViewById(R.id.gubug);
         hphts = (EditText) findViewById(R.id.hpht);
         tgl_bersalin = (EditText) findViewById(R.id.tgl_persalinan);
@@ -154,7 +156,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 String mothername = mother_names.getText().toString();
                 String husbandname = husband_names.getText().toString();
                 String dobss = dobs.getText().toString();
-                String gubugss = gubugs.getText().toString();
+                String gubugss = dusun.getText().toString();
                 String hphtss = hphts.getText().toString();
                 String htpss = "";
                 String goldarahss = getDarah() + " - "+getRhesus();
@@ -240,15 +242,15 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 break;
 
                 // set rhesus
-            case R.id.positive:
+            case R.id.rh_positive:
                 if (checked)
-                    setRhesus("Positif");
+                    setRhesus("positif");
                 break;
-            case R.id.negative:
+            case R.id.rh_negative:
                 if (checked)
                     setRhesus("negatif");
                 break;
-            case R.id.tidak_tahu:
+            case R.id.rh_tidak_tahu:
                 if (checked)
                     setRhesus("tidak_tahu");
                 break;
@@ -300,23 +302,19 @@ public class FormAddIbuActivity extends AppCompatActivity {
         mother_names.setText(cursor.getString(cursor.getColumnIndexOrThrow("name")));
         husband_names.setText(cursor.getString(cursor.getColumnIndexOrThrow("spousename")));
         dobs.setText(cursor.getString(cursor.getColumnIndexOrThrow("tgl_lahir")));
-        gubugs.setText(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
+        dusun.setText(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
+//        gubugs.setText(cursor.getString(cursor.getColumnIndexOrThrow("gubugss")));
         hphts.setText(cursor.getString(cursor.getColumnIndexOrThrow("hpht")));
-        htps.setText(cursor.getString(cursor.getColumnIndexOrThrow("htp")));
+//        htps.setText(cursor.getString(cursor.getColumnIndexOrThrow("htp")));
         setDarahRhChecked(cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")));
         setStatusChecked(cursor.getString(cursor.getColumnIndexOrThrow("status")));
         kaders.setText(cursor.getString(cursor.getColumnIndexOrThrow("kader")));
         notelpons.setText(cursor.getString(cursor.getColumnIndexOrThrow("telp")));
         String temp = cursor.getString(cursor.getColumnIndexOrThrow("kondisi_ibu"));
-        if(temp != null){
-            if(temp.equalsIgnoreCase("Meninggal"))
-                setStatuss("meninggal");
-            else
-                setStatuss("Hidup");
-        }else{
-            setStatuss("Hidup");
-        }
-        setStatuss2("null");
+        setKondisiIbuChecked(cursor.getString(cursor.getColumnIndexOrThrow("kondisi_ibu")));
+        setKondisiAnakChecked(cursor.getString(cursor.getColumnIndexOrThrow("kondisi_anak")));
+        tgl_bersalin.setText(cursor.getString(cursor.getColumnIndexOrThrow("tgl_persalinan")));
+
     }
 
     private boolean valueExist(String value){
@@ -330,6 +328,9 @@ public class FormAddIbuActivity extends AppCompatActivity {
         setDarah(data[0]);
         setRhesus(data[1]);
         setStatuss2(cursor.getString(cursor.getColumnIndexOrThrow("status")));
+        setStatuss(cursor.getString(cursor.getColumnIndexOrThrow("status")));
+        setKondisiibu(cursor.getString(cursor.getColumnIndexOrThrow("kondisi_ibu")));
+        setKondisianak(cursor.getString(cursor.getColumnIndexOrThrow("kondisi_anak")));
     }
 
     private void setDarahRhChecked(String value){
@@ -375,6 +376,28 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 hamil.setChecked(false);
                 nifas.setChecked(false);
                 risti.setChecked(false);
+                break;
+        }
+    }
+
+    private void setKondisiIbuChecked(String value){
+        switch(value.toLowerCase()){
+            case "hidup" : ((RadioButton)findViewById(R.id.ibu_hidup)).setChecked(true); break;
+            case "meninggal" : ((RadioButton)findViewById(R.id.ibu_mati)).setChecked(true); break;
+            default:
+                ((RadioButton)findViewById(R.id.ibu_hidup)).setChecked(false);
+                ((RadioButton)findViewById(R.id.ibu_mati)).setChecked(false);
+                break;
+        }
+    }
+
+    private void setKondisiAnakChecked(String value){
+        switch(value.toLowerCase()){
+            case "hidup" : ((RadioButton)findViewById(R.id.anak_hidup)).setChecked(true); break;
+            case "meninggal" : ((RadioButton)findViewById(R.id.anak_mati)).setChecked(true); break;
+            default:
+                ((RadioButton)findViewById(R.id.anak_hidup)).setChecked(false);
+                ((RadioButton)findViewById(R.id.anak_mati)).setChecked(false);
                 break;
         }
     }

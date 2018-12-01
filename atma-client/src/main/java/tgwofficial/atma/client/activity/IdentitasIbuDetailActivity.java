@@ -44,10 +44,10 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
 
         txt_name.setText("NAMA :"+cursor.getString(cursor.getColumnIndexOrThrow("name")));
         txt_spousename.setText("NAMA PASANGAN :"+cursor.getString(cursor.getColumnIndexOrThrow("spousename")));
-        txt_dob.setText("STATUS:"+cursor.getString(cursor.getColumnIndexOrThrow("tgl_lahir")));
-        txt_desa.setText("Dusun: "+cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
-        txt_hpht.setText("hpht: "+cursor.getString(cursor.getColumnIndexOrThrow("hpht")));
-        txt_htp.setText("Dusun: "+cursor.getString(cursor.getColumnIndexOrThrow("htp")));
+        txt_dob.setText("TGL LAHIR:"+cursor.getString(cursor.getColumnIndexOrThrow("tgl_lahir")));
+        txt_desa.setText("DUSUN: "+cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
+        txt_hpht.setText("HPHT: "+cursor.getString(cursor.getColumnIndexOrThrow("hpht")));
+        txt_htp.setText("HTP: "+cursor.getString(cursor.getColumnIndexOrThrow("htp")));
         txt_gol_darah.setText("Gol Darah: "+cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")));
         txt_kader.setText("Nama Kader: "+cursor.getString(cursor.getColumnIndexOrThrow("kader")));
         txt_hp.setText("No Telp: "+cursor.getString(cursor.getColumnIndexOrThrow("telp")));
