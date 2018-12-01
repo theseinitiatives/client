@@ -1,6 +1,8 @@
 package tgwofficial.atma.client.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -96,9 +98,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 Long ids = id+1;
                 Log.i("__id", ""+id);
                 IdentitasIbuDetailActivity.id = String.valueOf(ids);
-                Intent intent = new Intent(IdentitasIbuActivity.this,IdentitasIbuDetailActivity.class);
-                startActivity(intent);
-                finish();
+
+                choose();
             }
         });
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -126,6 +127,28 @@ public class IdentitasIbuActivity extends AppCompatActivity
         mService = ApiUtils.getSOService();
         Log.i("MSERVICE", mService.toString());
 
+    }
+
+    public void choose (){
+        final String[] forms = {"Detail View Ibu", "Form Rencana Persalinan"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("");
+        builder.setItems(forms, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // the user clicked on colors[which]
+
+                if ("Form Rencana Persalinan".equals(forms[which])) {
+                    Intent intent = new Intent(IdentitasIbuActivity.this, IdentitasIbuDetailActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                Intent intent = new Intent(IdentitasIbuActivity.this, IdentitasIbuDetailActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        builder.show();
     }
     private void getIbu(String searchTerm, String orderBy)
     {

@@ -71,4 +71,15 @@
     <string name="kondisianak">Kondisi Anak</string>
     <string name="nifasberakhir">Ibu sudah Selesai Masa Nifas</string>
     <string name="title_activity_transportasi_detail">TransportasiDetailActivity</string>
+    <string name="penolong_persalinan">Penolong Persalinan</string>
+    <string name="tempat_bersalin">Tempat Persalinan</string>
+    <string name="ortu">Orang Tua</string>
+    <string name="saudara">Saudara</string>
+    <string name="anggota_keluarga">Anggota Keluarga</string>
+    <string name="tetannga">Tetangga</string>
+    <string name="ibu">Ibu</string>
+    <string name="ayah">Ayah</string>
+    <string name="calon_pendonor">Calon Pendonor</string>
+    <string name="transportasipemilik">Transportasi (Pemilik Kendaraan)</string>
+    <string name="hub_pemilik">Hubungan Pemilik Transportasi dengan ibu</string>
 </resources>

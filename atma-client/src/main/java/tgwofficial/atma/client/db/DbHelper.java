@@ -9,11 +9,15 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String TABLE_NAME_IBU = "identitas_ibu";
     public static final String TABLE_NAME_TRANS = "transportasi";
     public static final String TABLE_NAME_BANK = "bank_darah";
+    public static final String TABLE_NAME_RENCANA = "rencana_persalinan";
 
 
 
     // Table columns Ibu
     public static final String _ID = "_id";
+    public static final String ID_IBU = "id_ibu";
+    public static final String ID_TRANS = "id_ibu";
+
     public static final String NAME = "name";
     public static final String NAME_PENDONOR = "name_pendonor";
     public static final String SPOUSENAME = "spousename";
@@ -48,6 +52,20 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String UPDATE_ID = "update_id";
     public static final String LOCATION_ID = "location_id";
     public static final String USER_ID = "user_id";
+
+
+    // form Rencana Persalinan
+    public static final String PENOLONG_PERSALINAN = "penolong_persalinan";
+    public static final String TEMPAT_PERSALINAN = "tempat_persalinan";
+    public static final String PENDAMPING_PERSALINAN = "pendamping_persalinan";
+    public static final String HUBUNGAN_DENGAN_IBU = "hubungan_ibu";
+    public static final String HUBUNGAN_PENDONOR_IBU = "hubungan_pendonor";
+
+    public static final String NAME_PEMILIK = "pemilik_kendaraan";
+   // public static final String IS_SYNC = "is_sync";
+
+
+
 
     static final String DB_NAME = "atma.DB";
 
@@ -106,6 +124,21 @@ public class DbHelper  extends SQLiteOpenHelper {
             + IS_SEND + " INTEGER DEFAULT 0, "
             + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
 
+    // Creating table rencana_persalinan
+    private static final String CREATE_TABLE_RENCANA = "create table "
+            + TABLE_NAME_RENCANA + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + ID_IBU + "INTEGER , "
+            + ID_TRANS + "INTEGER , "
+            + PENOLONG_PERSALINAN + " TEXT , "
+            + TEMPAT_PERSALINAN + " TEXT , "
+            + PENDAMPING_PERSALINAN + " TEXT , "
+            + HUBUNGAN_DENGAN_IBU + " TEXT , "
+            + NAME_PENDONOR + "TEXT,"
+            + NAME_PEMILIK + "TEXT,"
+            + HUBUNGAN_PENDONOR_IBU + " TEXT , "
+            + IS_SYNC + " INTEGER DEFAULT 0, "
+            + IS_SEND + " INTEGER DEFAULT 0, "
+            + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
 
     public DbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);

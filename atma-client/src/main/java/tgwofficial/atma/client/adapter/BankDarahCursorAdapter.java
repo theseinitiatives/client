@@ -55,12 +55,11 @@ public class BankDarahCursorAdapter extends BaseAdapter {
         TextView name = (TextView) convertView.findViewById(R.id.name);
         TextView gold = (TextView) convertView.findViewById(R.id.gol_d);
         TextView telp = (TextView) convertView.findViewById(R.id.notelp);
-        TextView nama_donor = (TextView) convertView.findViewById(R.id.donor);
 
         name.setText(bankDarahmodels.get(position).getNama());
         gold.setText(bankDarahmodels.get(position).getGolds());
         telp.setText(bankDarahmodels.get(position).getNomor());
-        nama_donor.setText(bankDarahmodels.get(position).getPendonor());
+      //  nama_donor.setText(bankDarahmodels.get(position).getPendonor());
 
         final int pos=position;
 

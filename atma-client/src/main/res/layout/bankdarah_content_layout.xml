@@ -43,12 +43,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Nama Ibu : Z Rana"
                 android:id="@+id/name" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text=""
-                android:id="@+id/donor" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

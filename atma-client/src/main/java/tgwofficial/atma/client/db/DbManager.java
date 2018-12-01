@@ -312,6 +312,19 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
     }
+    public void insertRencanaPersalinan(String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.NAME_PENDONOR,namaDonor);
+        contentValue.put( DbHelper.TEMPAT_PERSALINAN,txt_tempatBersalin);
+        contentValue.put( DbHelper.PENOLONG_PERSALINAN,txt_penolognPersalinan);
+        contentValue.put( DbHelper.PENDAMPING_PERSALINAN,txt_pendampingPersalinan);
+        contentValue.put( DbHelper.HUBUNGAN_DENGAN_IBU,txt_hubunganPemilik);
+        contentValue.put( DbHelper.HUBUNGAN_PENDONOR_IBU,txt_hubunganPendonor);
+        contentValue.put( DbHelper.NAME_PEMILIK,namaTransportasi);
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
+    }
 
     public Cursor fetchdetaildata(String id) {
         String[] columns = new String[] { DbHelper._ID,
@@ -367,4 +380,6 @@ public class DbManager {
     private String groupBy = null;
     private String having = null;
     private String orderBy = null;
+
+
 }
