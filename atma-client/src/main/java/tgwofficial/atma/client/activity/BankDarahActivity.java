@@ -73,12 +73,12 @@ public class BankDarahActivity extends AppCompatActivity
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Long ids = id+1;
-                Log.i("__id", ""+id);
-                IdentitasIbuDetailActivity.id = String.valueOf(ids);
-                Intent intent = new Intent(BankDarahActivity.this,IdentitasIbuDetailActivity.class);
+                String ids = Long.toString(id+1);
+                String uid = bankDarahmodels.get((int)id).getId();
+                Log.i("__id", ""+uid);
+                Intent intent = new Intent(BankDarahActivity.this,BankDarahDetailActivity.class);
+                intent.putExtra("id",uid);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -115,13 +115,10 @@ public class BankDarahActivity extends AppCompatActivity
         BankDarahmodel p = null;
         if(searchTerm.equalsIgnoreCase(""))
             dbManager.setOrderBy(orderBy);
-
-
-
         Cursor c = dbManager.fetchBankDarah(searchTerm, orderBy);
         while (c.moveToNext()) {
                 int id = c.getInt(0);
-
+                String uid = c.getString(c.getColumnIndexOrThrow("_id"));
                 String name = c.getString(c.getColumnIndexOrThrow("name_pendonor"));
                 String gol_darah = c.getString(c.getColumnIndexOrThrow("gol_darah"));
                 String hp = c.getString(c.getColumnIndexOrThrow("telp"));
@@ -129,6 +126,7 @@ public class BankDarahActivity extends AppCompatActivity
 
 
                 p = new BankDarahmodel();
+                p.setId(uid);
                 p.setNama(name);
                 p.setGolds(gol_darah);
                 p.setNomor(hp);

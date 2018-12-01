@@ -349,6 +349,19 @@ public class DbManager {
         database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);
     }
 
+    public void updatebankdarah(String id,String donor,String text_gubug,String text_dusun,String notelponss, String radioStatus, String radioStatus2) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.NAME_PENDONOR,donor);
+        contentValue.put( DbHelper.GUBUG,text_gubug);
+        contentValue.put( DbHelper.DUSUN,text_dusun);
+        contentValue.put( DbHelper.STATUS,radioStatus);
+        contentValue.put( DbHelper.GOL_DARAH,radioStatus2);
+        contentValue.put( DbHelper.TELP,notelponss);
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        database.update(DbHelper.TABLE_NAME_BANK, contentValue,"id = ?",new String[]{id});
+    }
+
     public void insertbanktransportasi(String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.NAME,text_pemiliks);
@@ -376,6 +389,21 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
+    }
+
+    public void updatebanktransportasi(String id,String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.NAME,text_pemiliks);
+        contentValue.put( DbHelper.TELP,text_nohp);
+        contentValue.put( DbHelper.Jenis,jenis);
+        contentValue.put( DbHelper.GUBUG,text_gubug);
+        contentValue.put( DbHelper.Kapasitas,text_kapasitass);
+        contentValue.put( DbHelper.DUSUN,text_dusuns);
+        contentValue.put( DbHelper.PROFESI,text_profesis);
+        contentValue.put( DbHelper.KET,text_kets);
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        database.update(DbHelper.TABLE_NAME_TRANS, contentValue,DbHelper._ID+" = ?",new String[]{id});
     }
 
     public Cursor fetchdetaildata(String id) {

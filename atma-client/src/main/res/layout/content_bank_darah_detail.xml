@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activity.BankDarahDetailActivity"
+    tools:showIn="@layout/activity_bank_darah_detail">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="5"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/almostWhite"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/woman" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="600dp"
+            android:layout_marginLeft="5dp"
+            android:background="@color/almostWhite"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/donor_detail_nama"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama Donor : "
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/donor_detail_golongan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Golongan Darah : "
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/donor_detail_dusun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dusun : "
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/donor_detail_gubug"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gubug : "
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/donor_detail_telepon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Telepon : "
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/donor_detail_edit_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="Edit Data" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

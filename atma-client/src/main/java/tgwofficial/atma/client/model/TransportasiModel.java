@@ -6,9 +6,17 @@ public class TransportasiModel {
     {
 
     }
+    private String id;
     String nama  ;
 
     String Dusuns ;
+
+    public void setId(String id){
+        this.id=id;
+    }
+    public String getId(){
+        return id;
+    }
 
     public String getNama() {
         return nama;

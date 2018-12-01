@@ -1,5 +1,3 @@
-
-
 <resources>
     <string name="app_name">ATMA</string>
     <string name="title_activity_login">ATMA
@@ -82,4 +80,5 @@
     <string name="calon_pendonor">Calon Pendonor</string>
     <string name="transportasipemilik">Transportasi (Pemilik Kendaraan)</string>
     <string name="hub_pemilik">Hubungan Pemilik Transportasi dengan ibu</string>
+    <string name="title_activity_bank_darah_detail">BankDarahDetailActivity</string>
 </resources>

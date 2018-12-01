@@ -97,25 +97,25 @@
                         android:layout_marginLeft="30dp"
                         android:orientation="vertical">
                         <RadioButton
-                            android:id="@+id/a"
+                            android:id="@+id/gol_a"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="A"
                             android:onClick="onRadioButtonClicked" />
                         <RadioButton
-                            android:id="@+id/b"
+                            android:id="@+id/gol_b"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="B"
                             android:onClick="onRadioButtonClicked" />
                         <RadioButton
-                            android:id="@+id/ab"
+                            android:id="@+id/gol_ab"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="AB"
                             android:onClick="onRadioButtonClicked" />
                         <RadioButton
-                            android:id="@+id/o"
+                            android:id="@+id/gol_o"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="O"

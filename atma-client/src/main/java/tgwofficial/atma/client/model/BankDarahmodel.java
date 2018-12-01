@@ -1,6 +1,7 @@
 package tgwofficial.atma.client.model;
 
 public class BankDarahmodel {
+    private String id;
     String nama;
     String golds;
     String nomor ;
@@ -11,6 +12,12 @@ public class BankDarahmodel {
 
     }
 
+    public void setId(String id){
+        this.id = id;
+    }
+    public String getId(){
+        return id;
+    }
     public String getNama() {
         return nama;
     }

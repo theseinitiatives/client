@@ -59,6 +59,10 @@
         <activity
             android:name=".activity.TransportasiDetailActivity"
             android:label="@string/title_activity_transportasi_detail"
+            android:theme="@style/AppThemeCustomized" />
+        <activity
+            android:name=".activity.BankDarahDetailActivity"
+            android:label="@string/title_activity_bank_darah_detail"
             android:theme="@style/AppThemeCustomized"></activity>
     </application>
 
