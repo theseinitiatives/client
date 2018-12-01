@@ -53,18 +53,18 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         txt_hp.setText("No Telp: "+cursor.getString(cursor.getColumnIndexOrThrow("telp")));
         dbManager.close();
 
-       // dbManager = new DbManager(this);
-       // dbManager.open();
-        /*Cursor cursorRencanaPersalinan = dbManager.fetchRencanaPersalinan(id);
+       /* dbManager = new DbManager(this);
+        dbManager.open();
+        Cursor cursorRencanaPersalinan = dbManager.fetchRencanaPersalinan(id);
 
         if(cursorRencanaPersalinan != null) {
             TextView txt_tempatbersalin = (TextView) findViewById(R.id.tempatbersalins);
             TextView txt_penolognbersalin = (TextView) findViewById(R.id.penoling_bersalin);
 
-            txt_kader.setText("Penolong Persalinan: " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("penolong_persalinan")));
-            txt_hp.setText("Tempat Persalinan: " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("tempat_persalinan")));
-        }*/
-       // dbManager.close();
+          //  txt_penolognbersalin.setText("Penolong Persalinan: " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("penolong_persalinan")));
+          //  txt_tempatbersalin.setText("Tempat Persalinan: " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("tempat_persalinan")));
+        }
+        dbManager.close();*/
         Button editButton = (Button) findViewById(R.id.ibu_detail_edit_button);
 
         editButton.setOnClickListener(new View.OnClickListener() {
