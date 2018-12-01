@@ -95,8 +95,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Long ids = id+1;
                 Log.i("__id", ""+id);
-                IdentitasIbuDetailActivity.id = String.valueOf(ids);
+                String uid = identitasModels.get((int)id).getId();
                 Intent intent = new Intent(IdentitasIbuActivity.this,IdentitasIbuDetailActivity.class);
+                intent.putExtra("id",uid);
                 startActivity(intent);
                 finish();
             }
@@ -138,11 +139,13 @@ public class IdentitasIbuActivity extends AppCompatActivity
         Cursor c = dbManager.fetchIbu(searchTerm,orderBy);
         while (c.moveToNext()) {
             int id = c.getInt(0);
+            String uid = c.getString(c.getColumnIndexOrThrow("_id"));
             String name = c.getString(c.getColumnIndexOrThrow("name"));
             String spouse = c.getString(c.getColumnIndexOrThrow("spousename"));
             String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
             String status = c.getString(c.getColumnIndexOrThrow("status"));
             p = new IdentitasModel();
+            p.setId(uid);
             p.setNama(name);
             p.setPasangan(spouse);
             p.setDusuns(dusun);

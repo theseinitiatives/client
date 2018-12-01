@@ -6,6 +6,7 @@ public class IdentitasModel {
     {
 
     }
+    private String id;
     String nama  ;
     String pasangan ;
     String status1 ;
@@ -41,5 +42,11 @@ public class IdentitasModel {
 
     public void setDusuns(String dusuns) {
         Dusuns = dusuns;
+    }
+    public void setId(String id){
+        this.id = id;
+    }
+    public String getId(){
+        return id;
     }
 }

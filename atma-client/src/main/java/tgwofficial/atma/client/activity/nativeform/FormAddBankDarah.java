@@ -1,6 +1,7 @@
 package tgwofficial.atma.client.activity.nativeform;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.BankDarahActivity;
+import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
 
 public class FormAddBankDarah extends AppCompatActivity {
@@ -71,6 +73,16 @@ public class FormAddBankDarah extends AppCompatActivity {
         dusun = (EditText) findViewById(R.id.dusun_s);
         notelpons = (EditText) findViewById(R.id.notelpon);
 
+        final String id = getIntent().getStringExtra("id");
+        if(id!=null) {
+            dbManager.open();
+            dbManager.setSelection(DbHelper._ID+" = '"+id+"'");
+            Cursor cursor = dbManager.fetchBankDarah("","");
+            if(cursor!=null)
+                cursor.moveToFirst();
+            preloadFromData(cursor);
+            dbManager.close();
+        }
         btnLogin = (Button) findViewById(R.id.saved);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +105,10 @@ public class FormAddBankDarah extends AppCompatActivity {
                 }
                 else {
                     dbManager.open();
-                    dbManager.insertbankdarah(donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah);
+                    if(id!=null)
+                        dbManager.updatebankdarah(id,donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah);
+                    else
+                        dbManager.insertbankdarah(donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah);
                     dbManager.close();
 
                     Intent myIntent = new Intent(FormAddBankDarah.this, BankDarahActivity.class);
@@ -136,26 +151,26 @@ public class FormAddBankDarah extends AppCompatActivity {
                 if (checked)
                     setStatuss("lainnya");
                 break;*/
-            case R.id.a:
+            case R.id.gol_a:
                 if (checked)
                     setDarah("a");
                 break;
-            case R.id.b:
+            case R.id.gol_b:
                 if (checked)
                     setDarah("b");
                 break;
-            case R.id.ab:
+            case R.id.gol_ab:
                 if (checked)
                     setDarah("ab");
                 break;
-            case R.id.o:
+            case R.id.gol_o:
                 if (checked)
                     setDarah("o");
                 break;
             // set rhesus
             case R.id.positive:
                 if (checked)
-                    setRhesus("Positif");
+                    setRhesus("positif");
                 break;
             case R.id.negative:
                 if (checked)
@@ -166,5 +181,38 @@ public class FormAddBankDarah extends AppCompatActivity {
                     setRhesus("tidak_tahu");
                 break;
         }
+        }
+
+        private void preloadFromData(Cursor c){
+            nama_donors.setText(c.getString(c.getColumnIndexOrThrow("name_pendonor")));
+            gubugs.setText(c.getString(c.getColumnIndexOrThrow("gubug")));
+            notelpons.setText(c.getString(c.getColumnIndexOrThrow("telp")));
+            setGolonganDarahClicked(c.getString(c.getColumnIndexOrThrow("gol_darah")));
+        }
+
+        private void setGolonganDarahClicked(String value){
+            String[]values = value.split(" - ");
+            switch(values[0].toLowerCase()){
+                case "a" : ((RadioButton)findViewById(R.id.gol_a)).setChecked(true); break;
+                case "b" : ((RadioButton)findViewById(R.id.gol_b)).setChecked(true); break;
+                case "ab" : ((RadioButton)findViewById(R.id.gol_ab)).setChecked(true); break;
+                case "o" : ((RadioButton)findViewById(R.id.gol_o)).setChecked(true); break;
+                default :
+                     ((RadioButton)findViewById(R.id.gol_a)).setChecked(false);
+                     ((RadioButton)findViewById(R.id.gol_b)).setChecked(false);
+                     ((RadioButton)findViewById(R.id.gol_ab)).setChecked(false);
+                     ((RadioButton)findViewById(R.id.gol_o)).setChecked(false);
+                     break;
+            }
+            switch(values[1].toLowerCase()){
+                case "positif" :   ((RadioButton)findViewById(R.id.positive)).setChecked(true); break;
+                case "negatif" :   ((RadioButton)findViewById(R.id.negative)).setChecked(true); break;
+                case "tidak_tahu" :   ((RadioButton)findViewById(R.id.tidak_tahu)).setChecked(true); break;
+                default:
+                     ((RadioButton)findViewById(R.id.positive)).setChecked(false);
+                     ((RadioButton)findViewById(R.id.negative)).setChecked(false);
+                     ((RadioButton)findViewById(R.id.tidak_tahu)).setChecked(false);
+                     break;
+            }
         }
 }

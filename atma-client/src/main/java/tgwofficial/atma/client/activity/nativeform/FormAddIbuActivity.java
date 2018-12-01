@@ -186,6 +186,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     dbManager.close();
                     Intent myIntent = new Intent(FormAddIbuActivity.this, IdentitasIbuActivity.class);
                     startActivity(myIntent);
+                    finish();
                 }
 
                 //validate form
@@ -324,6 +325,8 @@ public class FormAddIbuActivity extends AppCompatActivity {
     }
 
     private void preloadEditVariable(Cursor cursor){
+        if(cursor==null)
+            return;
         String[]data = cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")).split(" - ");
         setDarah(data[0]);
         setRhesus(data[1]);
@@ -334,12 +337,16 @@ public class FormAddIbuActivity extends AppCompatActivity {
     }
 
     private void setDarahRhChecked(String value){
+        if(value==null)
+            return;
         String[]data = value.contains(" - ") ? value.split(" - ") : new String[]{"",""};
         setDarahChecked(data[0]);
         setRhesusChecked(data[1]);
     }
 
     private void setDarahChecked(String value){
+        if(value==null)
+            return;
         switch(value.toLowerCase()){
             case "a" : a.setChecked(true); break;
             case "b" : b.setChecked(true); break;
@@ -355,6 +362,8 @@ public class FormAddIbuActivity extends AppCompatActivity {
     }
 
     private void setRhesusChecked(String value){
+        if(value==null)
+            return;
         switch(value.toLowerCase()){
             case "positif" : rhPositive.setChecked(true); break;
             case "negatif" : rhNegative.setChecked(true); break;
@@ -368,6 +377,8 @@ public class FormAddIbuActivity extends AppCompatActivity {
     }
 
     private void setStatusChecked(String value){
+        if(value==null)
+            return;
         switch(value.toLowerCase()){
             case "hamil" : hamil.setChecked(true); break;
             case "nifas" : nifas.setChecked(true); break;
@@ -381,6 +392,8 @@ public class FormAddIbuActivity extends AppCompatActivity {
     }
 
     private void setKondisiIbuChecked(String value){
+        if(value==null)
+            return;
         switch(value.toLowerCase()){
             case "hidup" : ((RadioButton)findViewById(R.id.ibu_hidup)).setChecked(true); break;
             case "meninggal" : ((RadioButton)findViewById(R.id.ibu_mati)).setChecked(true); break;
@@ -392,6 +405,8 @@ public class FormAddIbuActivity extends AppCompatActivity {
     }
 
     private void setKondisiAnakChecked(String value){
+        if(value==null)
+            return;
         switch(value.toLowerCase()){
             case "hidup" : ((RadioButton)findViewById(R.id.anak_hidup)).setChecked(true); break;
             case "meninggal" : ((RadioButton)findViewById(R.id.anak_mati)).setChecked(true); break;

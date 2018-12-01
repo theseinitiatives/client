@@ -151,6 +151,9 @@ public class FormAddTransportasi extends AppCompatActivity {
     }
 
     private void setJenisKendaraanChecked(String value){
+        if(value==null)
+            return;
+        setJenis(value);
         switch(value.toLowerCase()){
             case "mobil" : ((RadioButton)findViewById(R.id.mobil)).setChecked(true);break;
             case "motor" : ((RadioButton)findViewById(R.id.motor)).setChecked(true);break;

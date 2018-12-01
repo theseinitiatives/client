@@ -1,5 +1,3 @@
-
-
 <resources>
     <string name="app_name">ATMA</string>
     <string name="title_activity_login">ATMA
@@ -71,4 +69,5 @@
     <string name="kondisianak">Kondisi Anak</string>
     <string name="nifasberakhir">Ibu sudah Selesai Masa Nifas</string>
     <string name="title_activity_transportasi_detail">TransportasiDetailActivity</string>
+    <string name="title_activity_bank_darah_detail">BankDarahDetailActivity</string>
 </resources>

@@ -56,9 +56,9 @@ public class TransportasiActivity extends AppCompatActivity
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String ids = Long.toString(l+1);
+                String uid = transportasiModels.get((int)l).getId();
                 Intent intent = new Intent(TransportasiActivity.this,TransportasiDetailActivity.class);
-                intent.putExtra("id",ids);
+                intent.putExtra("id",uid);
                 startActivity(intent);
             }
         });
@@ -119,10 +119,12 @@ public class TransportasiActivity extends AppCompatActivity
         Cursor c = dbManager.fetchTrans(searchTerm, orderBy);
         while (c.moveToNext()) {
                 int id = c.getInt(0);
+                String uid = c.getString(c.getColumnIndexOrThrow("_id"));
                 String name = c.getString(c.getColumnIndexOrThrow("name"));
                 String jenis = c.getString(c.getColumnIndexOrThrow("jenis_kendaraan"));
                 String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
                 p = new TransportasiModel();
+                p.setId(uid);
                 p.setNama(name);
                 p.setKendaraan(jenis);
                 p.setDusuns(dusun);

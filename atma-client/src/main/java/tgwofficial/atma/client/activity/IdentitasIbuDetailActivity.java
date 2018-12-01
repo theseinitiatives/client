@@ -23,13 +23,13 @@ import tgwofficial.atma.client.db.DbManager;
 
 public class IdentitasIbuDetailActivity extends AppCompatActivity {
     private DbManager dbManager;
-    public static String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.identitas_ibu_detail_layout);
         dbManager = new DbManager(this);
         dbManager.open();
+        final String id = getIntent().getStringExtra("id");
         Cursor cursor = dbManager.fetchdetaildata(id);
 
         TextView txt_name = (TextView) findViewById(R.id.name);
@@ -59,9 +59,10 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(IdentitasIbuDetailActivity.this, FormAddIbuActivity.class);
-                myIntent.putExtra("id",IdentitasIbuDetailActivity.id);
+                myIntent.putExtra("id",id);
                 startActivity(myIntent);
                 overridePendingTransition(0,0);
+                finish();
             }
         });
     }
