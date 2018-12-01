@@ -1,6 +1,7 @@
 package tgwofficial.atma.client.activity.nativeform;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.BankDarahActivity;
 import tgwofficial.atma.client.activity.TransportasiActivity;
+import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
 
 public class FormAddTransportasi extends AppCompatActivity {
@@ -39,6 +41,8 @@ public class FormAddTransportasi extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.form_add_transportasi);
+        Intent intent = getIntent();
+        final String id = intent.getStringExtra("id");
         dbManager = new DbManager(this);
         nama_pemiliks = (EditText) findViewById(R.id.nama_pemilik);
         no_hp = (EditText) findViewById(R.id.nohp);
@@ -49,6 +53,17 @@ public class FormAddTransportasi extends AppCompatActivity {
         kets = (EditText) findViewById(R.id.ket);
       //  LinearLayout kapasitas_layoutss=(LinearLayout)this.findViewById(R.id.kapasitas_layout);
         kapasitass.setVisibility(View.INVISIBLE);
+
+        if(id!=null){
+            dbManager.open();
+            dbManager.setSelection(DbHelper._ID+" = '"+id+"'");
+            Cursor c = dbManager.fetchTrans("","");
+
+            if(c!=null)
+                c.moveToFirst();
+            preloadForm(c);
+            dbManager.close();
+        }
         btnLogin = (Button) findViewById(R.id.saved);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +86,10 @@ public class FormAddTransportasi extends AppCompatActivity {
                 }
                 else {
                     dbManager.open();
-                    dbManager.insertbanktransportasi(text_pemiliks, jeniss,text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets);
+                    if(id!=null)
+                        dbManager.updatebanktransportasi(id,text_pemiliks, jeniss,text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets);
+                    else
+                        dbManager.insertbanktransportasi(text_pemiliks, jeniss,text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets);
                     dbManager.close();
 
                     Intent myIntent = new Intent(FormAddTransportasi.this, TransportasiActivity.class);
@@ -118,4 +136,34 @@ public class FormAddTransportasi extends AppCompatActivity {
 
         }
         }
+
+    private void preloadForm(Cursor c){
+        nama_pemiliks.setText(c.getString(c.getColumnIndexOrThrow("name")));
+        gubugs.setText(c.getString(c.getColumnIndexOrThrow("gubug")));
+        no_hp.setText(c.getString(c.getColumnIndexOrThrow("telp")));
+        dusuns.setText(c.getString(c.getColumnIndexOrThrow("dusun")));
+        setJenisKendaraanChecked(c.getString(c.getColumnIndexOrThrow("jenis_kendaraan")));
+        if(c.getString(c.getColumnIndexOrThrow("jenis_kendaraan")).equalsIgnoreCase("mobil"))
+            kapasitass.setVisibility(View.VISIBLE);
+        kapasitass.setText(c.getString(c.getColumnIndexOrThrow("kapasitas_kendaraan")));
+        kets.setText(c.getString(c.getColumnIndexOrThrow("keterangan")));
+        profesis.setText(c.getString(c.getColumnIndexOrThrow("profesi")));
+    }
+
+    private void setJenisKendaraanChecked(String value){
+        switch(value.toLowerCase()){
+            case "mobil" : ((RadioButton)findViewById(R.id.mobil)).setChecked(true);break;
+            case "motor" : ((RadioButton)findViewById(R.id.motor)).setChecked(true);break;
+            case "cidomo": ((RadioButton)findViewById(R.id.cidomo)).setChecked(true);break;
+            case "pickup": ((RadioButton)findViewById(R.id.pickup)).setChecked(true);break;
+            case "id_lainnya" : ((RadioButton)findViewById(R.id.id_lainnya)).setChecked(true);break;
+            default:
+                ((RadioButton)findViewById(R.id.mobil)).setChecked(true);
+                ((RadioButton)findViewById(R.id.motor)).setChecked(true);
+                ((RadioButton)findViewById(R.id.cidomo)).setChecked(true);
+                ((RadioButton)findViewById(R.id.pickup)).setChecked(true);
+                ((RadioButton)findViewById(R.id.id_lainnya)).setChecked(true);
+                break;
+        }
+    }
 }

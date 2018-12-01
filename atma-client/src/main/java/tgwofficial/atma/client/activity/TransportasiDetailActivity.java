@@ -1,5 +1,6 @@
 package tgwofficial.atma.client.activity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,18 +9,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.sql.SQLOutput;
 
 import tgwofficial.atma.client.R;
+import tgwofficial.atma.client.activity.nativeform.FormAddTransportasi;
 import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
 
 public class TransportasiDetailActivity extends AppCompatActivity {
 
-    TextView nama,dusun,gubug,profesi,telepon,jenisKendaraan,kapasitas,keterangan;
+    private TextView nama,dusun,gubug,profesi,telepon,jenisKendaraan,kapasitas,keterangan;
+    private Button edit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +54,16 @@ public class TransportasiDetailActivity extends AppCompatActivity {
         kapasitas.setText("KAPASITAS : "+cursor.getString(cursor.getColumnIndexOrThrow("kapasitas_kendaraan")));
         keterangan.setText("KETERANGAN : "+cursor.getString(cursor.getColumnIndexOrThrow("keterangan")));
 
+        edit = (Button) findViewById(R.id.transportasi_edit_button);
+        final String entityID = id;
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TransportasiDetailActivity.this,FormAddTransportasi.class);
+                intent.putExtra("id",entityID);
+                startActivity(intent);
+            }
+        });
     }
 
 }
