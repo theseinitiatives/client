@@ -313,6 +313,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             public void onResponse(Call<String>callback,Response<String>response) {
                 String res = response.body();
                 Log.e("DEMO", "post submitted to API." + response);
+                updateSyncFlagIbu();
             }
             @Override
             public void onFailure(Call<String> call, Throwable t) {
@@ -336,6 +337,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             public void onResponse(Call<String> call, Response<String> response) {
                 String resp = response.body();
                 Log.e("DEMO", "post trans submitted to API." + response);
+                updateSyncFlagTrans();
             }
 
             @Override
@@ -360,6 +362,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             public void onResponse(Call<String> call, Response<String> response) {
                 String resp = response.body();
                 Log.e("DEMO", "post bank darah submitted to API." + response);
+                updateSyncFlagBank();
             }
 
             @Override
@@ -369,8 +372,27 @@ public class IdentitasIbuActivity extends AppCompatActivity
             }
         });
 
+//        Toast.makeText(context, "Sync Finished!",
+  //              Toast.LENGTH_LONG).show();
         resetUpdating();
     }
+
+    private void updateSyncFlagIbu() {
+        dbManager.open();
+        dbManager.updateFlagIbu();
+        dbManager.close();
+    }
+    private void updateSyncFlagTrans() {
+        dbManager.open();
+        dbManager.updateFlagTrans();
+        dbManager.close();
+    }
+    private void updateSyncFlagBank() {
+        dbManager.open();
+        dbManager.updateFlagBank();
+        dbManager.close();
+    }
+
     public JSONArray ibudata_formatToJson()
     {
         dbManager.open();
@@ -398,7 +420,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     /***
                      * TODO
                      * SET THE DATA FROM TABLE*/
-                    rowObject2.put("user_id","demo");
+                    rowObject2.put("user_id","test");
                     rowObject2.put("location_id","Dusun_demo");
                     rowObject2.put("form_name","identitas_ibu");
                     rowObject2.put("update_id",System.currentTimeMillis());
@@ -466,7 +488,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 /***
                  * TODO
                  * SET THE DATA FROM TABLE*/
-                rowObject2.put("user_id","demo");
+                rowObject2.put("user_id","test");
                 rowObject2.put("location_id","Dusun_demo");
                 rowObject2.put("form_name","transportasi");
                 rowObject2.put("update_id",System.currentTimeMillis());
@@ -534,7 +556,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 /***
                  * TODO
                  * SET THE DATA FROM TABLE*/
-                rowObject2.put("user_id","demo");
+                rowObject2.put("user_id","test");
                 rowObject2.put("location_id","Dusun_demo");
                 rowObject2.put("form_name","bank_darah");
                 rowObject2.put("update_id",System.currentTimeMillis());

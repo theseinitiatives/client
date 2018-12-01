@@ -481,4 +481,26 @@ public class DbManager {
     private String orderBy = null;
 
 
+    public void updateFlagIbu() {
+        ContentValues contentValue = new ContentValues();
+
+        contentValue.put( DbHelper.IS_SEND,"1");
+        contentValue.put( DbHelper.IS_SYNC,"1");
+        database.update(DbHelper.TABLE_NAME_IBU, contentValue,DbHelper.IS_SEND+" = 0",null);
+    }
+    public void updateFlagTrans() {
+        ContentValues contentValue = new ContentValues();
+
+        contentValue.put( DbHelper.IS_SEND,"1");
+        contentValue.put( DbHelper.IS_SYNC,"1");
+        database.update(DbHelper.TABLE_NAME_TRANS, contentValue,DbHelper.IS_SEND+" = 0",null);
+    }
+    public void updateFlagBank() {
+        ContentValues contentValue = new ContentValues();
+
+        contentValue.put( DbHelper.IS_SEND,"1");
+        contentValue.put( DbHelper.IS_SYNC,"1");
+        database.update(DbHelper.TABLE_NAME_BANK, contentValue,DbHelper.IS_SEND+" = 0",null);
+    }
+
 }
