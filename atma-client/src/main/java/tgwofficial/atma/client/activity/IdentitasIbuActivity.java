@@ -301,15 +301,12 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         // api post for ibu data
         RequestBody myreqbody = null;
-        try {
-            myreqbody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
-                    (new JSONArray(ibudata_formatToJson())).toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        myreqbody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                    ("{"+ibudata_formatToJson()).toString()+"}");
+
 
         Call<String> call =mService.savePost(myreqbody);
-        Log.e("myreqbody", ""+myreqbody);
+        Log.e("myreqbody========", ""+ibudata_formatToJson().toString());
 
         call.enqueue(new Callback<String>() {
             @Override
@@ -326,13 +323,13 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         // api post for transportasi
         RequestBody reqTrans = null;
-        try{
+       // try{
             reqTrans = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
-                    (new JSONArray(transportasi_formatToJson())).toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
+                    ("{"+transportasi_formatToJson().toString()+"}"));
+       // } catch (JSONException e) {
+         //   e.printStackTrace();
 
-        }
+       // }
         Call<String> postTrans = mService.savePost(reqTrans);
         postTrans.enqueue(new Callback<String>() {
             @Override
@@ -350,13 +347,13 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         // api post for Bank daraj
         RequestBody reqDarah = null;
-        try{
+       // try{
             reqDarah = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
-                    (new JSONArray(bankDarah_formatToJson())).toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
+                    (bankDarah_formatToJson().toString()));
+       // } catch (JSONException e) {
+        //    e.printStackTrace();
 
-        }
+        //}
         Call<String> postDarah = mService.savePost(reqDarah);
         postDarah.enqueue(new Callback<String>() {
             @Override
