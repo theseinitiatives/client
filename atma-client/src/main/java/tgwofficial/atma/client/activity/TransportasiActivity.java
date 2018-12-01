@@ -56,7 +56,7 @@ public class TransportasiActivity extends AppCompatActivity
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Long ids = l+1;
+                String ids = Long.toString(l+1);
                 Intent intent = new Intent(TransportasiActivity.this,TransportasiDetailActivity.class);
                 intent.putExtra("id",ids);
                 startActivity(intent);
