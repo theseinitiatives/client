@@ -91,30 +91,40 @@ public class DbManager {
                 }
             }
             else if(model.getform_name().equals("transportasi")){
-               /* TransportasiData[] transportasiData = gson.fromJson(data_, TransportasiData[].class);
+                TransportasiData[] transportasiData = gson.fromJson(data_, TransportasiData[].class);
                 List<TransportasiData> TransportasiDataList = new ArrayList<>(Arrays.asList(transportasiData));
                 for (TransportasiData listTransportasi : TransportasiDataList){
                     contentValue.put(DbHelper.NAME, listTransportasi.getName());
                     contentValue.put(DbHelper.Jenis, listTransportasi.getJenis_kendaraan());
                     contentValue.put(DbHelper.Kapasitas, listTransportasi.getKapasitas_kendaraan());
-                    contentValue.put(DbHelper.DUSUN, listTransportasi.get());
-                    contentValue.put(DbHelper.TELP, listTransportasi.getHpht());
-                    contentValue.put(DbHelper.GUBUG, listTransportasi.getHtp());
-                    contentValue.put(DbHelper.GUBUG, listTransportasi.getHtp());
+                    contentValue.put(DbHelper.DUSUN, listTransportasi.getGubug());
+                    contentValue.put(DbHelper.TELP, listTransportasi.getTelp());
+                    contentValue.put(DbHelper.GUBUG, listTransportasi.getGubug());
+                    contentValue.put(DbHelper.PROFESI, listTransportasi.getProfesi());
+                    contentValue.put(DbHelper.KET, listTransportasi.getKeterangan());
                     contentValue.put(DbHelper.IS_SEND, 1);
                     contentValue.put(DbHelper.IS_SYNC, 1);
-                    contentValue.put(DbHelper.TIMESTAMP, listIbuData.getTimestamp());
-
-                }*/
+                    contentValue.put(DbHelper.TIMESTAMP, listTransportasi.getTimestamp());
+                    database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
+                }
                 /**TODO
                  * Get data from form transportasi and transform the data using TransportasiData model and put into database**/
             }
-            else if(model.getform_name().equals("transportasi")){
+            else if(model.getform_name().equals("bank_darah")){
                 BankdarahData[] bankdarahData = gson.fromJson(data_, BankdarahData[].class);
                 List<BankdarahData> BankDarahDataListed = new ArrayList<>(Arrays.asList(bankdarahData));
                 for (BankdarahData listBankDarah : BankDarahDataListed){
-
+                    contentValue.put(DbHelper.NAME_PENDONOR, listBankDarah.getName_pendonor());
+                    contentValue.put(DbHelper.DUSUN, listBankDarah.getDusun());
+                    contentValue.put(DbHelper.GUBUG, listBankDarah.getGubug());
+                    contentValue.put(DbHelper.GOL_DARAH, listBankDarah.getGolDarah());
+                    contentValue.put(DbHelper.TELP, listBankDarah.getTelp());
+                    contentValue.put(DbHelper.IS_SEND, 1);
+                    contentValue.put(DbHelper.IS_SYNC, 1);
+                    contentValue.put(DbHelper.TIMESTAMP, listBankDarah.getTimestamp());
+                    database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);
                 }
+
                 /**TODO
                  * Get data from form transportasi and transform the data using BankDarahData model and put into database**/
             }
@@ -245,7 +255,28 @@ public class DbManager {
         clearClause();
         return c;
     }
+    public Cursor fetchunSyncTrans() {
+        String[] columns = new String[] { DbHelper._ID,
+                DbHelper.NAME,
+                DbHelper.Jenis,
+                DbHelper.Kapasitas,
+                DbHelper.TELP,
+                DbHelper.DUSUN,
+                DbHelper.GUBUG,
+                DbHelper.PROFESI,
+                DbHelper.KET,
+                DbHelper.IS_SEND,
+                DbHelper.IS_SYNC,
+                DbHelper.TIMESTAMP };
+        Cursor c=null;
 
+
+            c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+    }
     public Cursor fetchBankDarah(String searchTerm, String orderByASCDESC) {
         String[] columns = new String[] { DbHelper._ID,
                 DbHelper.NAME_PENDONOR,
@@ -265,6 +296,26 @@ public class DbManager {
 
         c = database.query(DbHelper.TABLE_NAME_BANK, columns, selection, selectionArgs, groupBy, having, orderBy);
         clearClause();
+        return c;
+
+
+    }
+    public Cursor fetchUnsyncBankDarah() {
+        String[] columns = new String[] { DbHelper._ID,
+                DbHelper.NAME_PENDONOR,
+                DbHelper.STATUS,
+                DbHelper.GUBUG,
+                DbHelper.GOL_DARAH,
+                DbHelper.TELP,
+                DbHelper.IS_SEND,
+                DbHelper.IS_SYNC,
+                DbHelper.TIMESTAMP };
+        Cursor c=null;
+            c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+        if (c != null) {
+            c.moveToFirst();
+        }
+
         return c;
 
 
@@ -312,8 +363,9 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
     }
-    public void insertRencanaPersalinan(String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi) {
+    public void insertRencanaPersalinan(String idIbu, String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi) {
         ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.ID_IBU,idIbu);
         contentValue.put( DbHelper.NAME_PENDONOR,namaDonor);
         contentValue.put( DbHelper.TEMPAT_PERSALINAN,txt_tempatBersalin);
         contentValue.put( DbHelper.PENOLONG_PERSALINAN,txt_penolognPersalinan);
@@ -350,7 +402,26 @@ public class DbManager {
         }
         return cursor;
     }
+    public Cursor fetchRencanaPersalinan(String id) {
+        String[] columns = new String[] { DbHelper._ID,
+                DbHelper.ID_IBU,
+                DbHelper.PENOLONG_PERSALINAN,
+                DbHelper.TEMPAT_PERSALINAN,
+                DbHelper.PENDAMPING_PERSALINAN,
+                DbHelper.HUBUNGAN_DENGAN_IBU,
+                DbHelper.NAME_PEMILIK,
+                DbHelper.HUBUNGAN_PENDONOR_IBU,
+                DbHelper.IS_SEND,
+                DbHelper.IS_SYNC,
+                DbHelper.TIMESTAMP };
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_RENCANA, columns, DbHelper.ID_IBU +"="+id, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
 
+
+    }
     private void clearClause(){
         selection = null;
         selectionArgs = null;

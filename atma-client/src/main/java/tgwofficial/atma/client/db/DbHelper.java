@@ -16,7 +16,7 @@ public class DbHelper  extends SQLiteOpenHelper {
     // Table columns Ibu
     public static final String _ID = "_id";
     public static final String ID_IBU = "id_ibu";
-    public static final String ID_TRANS = "id_ibu";
+    public static final String ID_TRANS = "id_trans";
 
     public static final String NAME = "name";
     public static final String NAME_PENDONOR = "name_pendonor";
@@ -149,32 +149,21 @@ public class DbHelper  extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_IBU);
         db.execSQL(CREATE_TABLE_TRANS);
         db.execSQL(CREATE_TABLE_BANK);
-
+        db.execSQL(CREATE_TABLE_RENCANA);
         /** hapus kalo udah mulai release
          *
          * ***/
-       // insertDummy(db,"Zimbabwe"," ADSDS"," Patient Baru");
-        //inserting dummy data
-      /*  insertDummy(db,"Rana"," Iqbal", "Patient Baru");
 
         insertDummy(db,"Siti"," Adawiyah"," Patient Baru");
-        insertDummy(db,"Marwan Nulhakam", "Belum Dapat","Patient AKut");
-        insertDummy(db,"Haneefa", "Ibrahim", "Patient");
-        insertDummy(db,"Iqbal", "Muhammad", "P");
-        insertDummy(db,"Ainul", "Hamdani", "");
-        insertDummy(db,"Nina", "Hidayati", "TOINK");
-        insertDummy(db,"Zahroh", "Rana", "ASD");
-        insertDummy(db,"Moya", "Dyah", "Patient Baru");*/
-
+        insertDummy(db,"Moya", "Dyah", "Patient Baru");
 
     }
 
     private static void insertDummy(SQLiteDatabase db, String data,String data2, String data3) {
         db.execSQL("INSERT INTO " + TABLE_NAME_IBU + " (" + NAME+","+SPOUSENAME+","+STATUS
                 + ") VALUES ('" + data + "','"+data2+"','"+data3+"');");
-
-        db.execSQL("INSERT INTO " + TABLE_NAME_TRANS + " (" + NAME+") VALUES ('" + data + "');");
-        db.execSQL("INSERT INTO " + TABLE_NAME_BANK + " (" + NAME+") VALUES ('" + data + "');");
+        db.execSQL("INSERT INTO " + TABLE_NAME_TRANS + " (" + NAME+","+Jenis+") VALUES ('" + data + "','"+"mobil"+"');");
+        db.execSQL("INSERT INTO " + TABLE_NAME_BANK + " (" + NAME_PENDONOR+","+GOL_DARAH+") VALUES ('" + data + "','"+"a - positif"+"');");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

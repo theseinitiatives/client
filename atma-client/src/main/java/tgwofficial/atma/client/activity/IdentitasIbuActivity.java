@@ -43,6 +43,7 @@ import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.Utils.ApiUtils;
 import tgwofficial.atma.client.activity.nativeform.FormAddIbuActivity;
+import tgwofficial.atma.client.activity.nativeform.FormRencanaPersalinan;
 import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
 import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
@@ -98,7 +99,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 Long ids = id+1;
                 Log.i("__id", ""+id);
                 IdentitasIbuDetailActivity.id = String.valueOf(ids);
-
+                FormRencanaPersalinan.id = String.valueOf(ids);
                 choose();
             }
         });
@@ -139,7 +140,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 // the user clicked on colors[which]
 
                 if ("Form Rencana Persalinan".equals(forms[which])) {
-                    Intent intent = new Intent(IdentitasIbuActivity.this, IdentitasIbuDetailActivity.class);
+                    Intent intent = new Intent(IdentitasIbuActivity.this, FormRencanaPersalinan.class);
                     startActivity(intent);
                     finish();
                 }
@@ -216,7 +217,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
              * DATA Sync (For right now disabled)*/
             // push();
             ///pulldata();
-
+            push();
             refreshView();
             return true;
         }
@@ -289,6 +290,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 "    }\n" +
                 "]";
 
+
+        // api post for ibu data
         RequestBody myreqbody = null;
         try {
             myreqbody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
@@ -306,6 +309,54 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 String res = response.body();
                 Log.e("DEMO", "post submitted to API." + response);
             }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e("DEMO", "Unable to submit post to API.",t);
+                Log.e("call", String.valueOf(call));
+            }
+        });
+
+        // api post for transportasi
+        RequestBody reqTrans = null;
+        try{
+            reqTrans = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                    (new JSONArray(transportasi_formatToJson())).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+        Call<String> postTrans = mService.savePost(reqTrans);
+        postTrans.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                String resp = response.body();
+                Log.e("DEMO", "post trans submitted to API." + response);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e("DEMO", "Unable to submit post to API.",t);
+                Log.e("call", String.valueOf(call));
+            }
+        });
+
+        // api post for Bank daraj
+        RequestBody reqDarah = null;
+        try{
+            reqDarah = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                    (new JSONArray(bankDarah_formatToJson())).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+        Call<String> postDarah = mService.savePost(reqDarah);
+        postDarah.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                String resp = response.body();
+                Log.e("DEMO", "post bank darah submitted to API." + response);
+            }
+
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Log.e("DEMO", "Unable to submit post to API.",t);
@@ -382,6 +433,143 @@ public class IdentitasIbuActivity extends AppCompatActivity
         dbManager.close();
         return resultSet2;
     }
+
+    public JSONArray transportasi_formatToJson()
+    {
+        dbManager.open();
+        //pull all identitasibu data from local db
+        Cursor cursor = dbManager.fetchunSyncTrans();
+        // String data = dbManager.formatToJson(cursor).toString();
+        //JSONArray resultSet     = new JSONArray();
+
+        JSONArray resultSet = new JSONArray();
+        JSONArray resultSet2 = new JSONArray();
+        JSONObject rowObject2 = new JSONObject();
+
+        //  resultSet.put();
+
+        cursor.moveToFirst();
+        // while (!cursor.isAfterLast()) {
+        try
+        {
+            int totalColumn = cursor.getCount();
+            JSONObject rowObject = new JSONObject();
+            //looping data
+            Log.i("COUNT",""+totalColumn);
+            for( int i=0 ;  i< totalColumn ; i++ )
+            {
+                /***
+                 * TODO
+                 * SET THE DATA FROM TABLE*/
+                rowObject2.put("user_id","demo");
+                rowObject2.put("location_id","Dusun_demo");
+                rowObject2.put("form_name","transportasi");
+                rowObject2.put("update_id",System.currentTimeMillis());
+                // Log.i("ASDASD",resultSet2.toString());
+
+                if( cursor.getColumnName(i) != null )
+                {
+
+
+                    if( cursor.getString(i) != null )
+                    {
+                        Log.d("TAG_NAME", cursor.getString(i) );
+                        rowObject.put(cursor.getColumnName(i) ,  cursor.getString(i) );
+                    }
+                    else
+                    {
+                        rowObject.put( cursor.getColumnName(i) ,  "" );
+                    }
+
+                }
+
+                resultSet2.put(rowObject2);
+                rowObject2.put("data",resultSet);
+
+
+            }
+
+            resultSet.put(rowObject);
+            cursor.moveToNext();
+        }
+        catch( Exception e )
+        {
+            Log.d("TAG_NAME", e.getMessage()  );
+        }
+        // }
+        cursor.close();
+        dbManager.close();
+        return resultSet2;
+    }
+
+    public JSONArray bankDarah_formatToJson()
+    {
+        dbManager.open();
+        //pull all identitasibu data from local db
+        Cursor cursor = dbManager.fetchUnsyncBankDarah();
+        // String data = dbManager.formatToJson(cursor).toString();
+        //JSONArray resultSet     = new JSONArray();
+
+        JSONArray resultSet = new JSONArray();
+        JSONArray resultSet2 = new JSONArray();
+        JSONObject rowObject2 = new JSONObject();
+
+        //  resultSet.put();
+
+        cursor.moveToFirst();
+        // while (!cursor.isAfterLast()) {
+        try
+        {
+            int totalColumn = cursor.getCount();
+            JSONObject rowObject = new JSONObject();
+            //looping data
+            Log.i("COUNT",""+totalColumn);
+            for( int i=0 ;  i< totalColumn ; i++ )
+            {
+                /***
+                 * TODO
+                 * SET THE DATA FROM TABLE*/
+                rowObject2.put("user_id","demo");
+                rowObject2.put("location_id","Dusun_demo");
+                rowObject2.put("form_name","bank_darah");
+                rowObject2.put("update_id",System.currentTimeMillis());
+                // Log.i("ASDASD",resultSet2.toString());
+
+                if( cursor.getColumnName(i) != null )
+                {
+
+
+                    if( cursor.getString(i) != null )
+                    {
+                        Log.d("TAG_NAME", cursor.getString(i) );
+                        rowObject.put(cursor.getColumnName(i) ,  cursor.getString(i) );
+                    }
+                    else
+                    {
+                        rowObject.put( cursor.getColumnName(i) ,  "" );
+                    }
+
+                }
+
+                resultSet2.put(rowObject2);
+                rowObject2.put("data",resultSet);
+
+
+            }
+
+            resultSet.put(rowObject);
+            cursor.moveToNext();
+        }
+        catch( Exception e )
+        {
+            Log.d("TAG_NAME", e.getMessage()  );
+        }
+        // }
+        cursor.close();
+        dbManager.close();
+        return resultSet2;
+    }
+
     public void pulldata() {
         /***
          * *doing first pull data

@@ -18,6 +18,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
     EditText transportasiNama;
     EditText nama_donors;
 
+    public static String id;
 
 
     String penolongPersalinan;
@@ -88,6 +89,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                // String mothername = mother_names.getText().toString();
+                String idIbu = id;
                 String namaDonor = nama_donors.getText().toString();
                 String namaTransportasi = transportasiNama.getText().toString();
                 String txt_penolognPersalinan = getPenolongPersalinan();
@@ -102,7 +104,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
 
                 else {
                     dbManager.open();
-                    dbManager.insertRencanaPersalinan(namaDonor, txt_tempatBersalin, txt_penolognPersalinan,txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi);
+                    dbManager.insertRencanaPersalinan(idIbu, namaDonor, txt_tempatBersalin, txt_penolognPersalinan,txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi);
                     dbManager.close();
 
                     Intent myIntent = new Intent(FormRencanaPersalinan.this, IdentitasIbuActivity.class);

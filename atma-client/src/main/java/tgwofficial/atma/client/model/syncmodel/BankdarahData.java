@@ -6,6 +6,12 @@ import com.google.gson.annotations.SerializedName;
 public class BankdarahData {
 
 
+    @SerializedName("dusun")
+    @Expose
+    private String dusun;
+    @SerializedName("name_pendonor")
+    @Expose
+    private String name_pendonor;
     @SerializedName("kapasitas_kendaraan")
     @Expose
     private String kapasitas_kendaraan;
@@ -21,6 +27,12 @@ public class BankdarahData {
     @SerializedName("keterangan")
     @Expose
     private String keterangan;
+    @SerializedName("gol_darah")
+    @Expose
+    private String golDarah;
+    @SerializedName("telp")
+    @Expose
+    private String telp;
 
 
 
@@ -33,6 +45,38 @@ public class BankdarahData {
     @SerializedName("timestamp")
     @Expose
     private String timestamp;
+
+
+    public String getTelp() {
+        return telp;
+    }
+
+    public void setTelp(String telp) {
+        this.telp = telp;
+    }
+
+    public String getGolDarah() {
+        return golDarah;
+    }
+
+    public void setGolDarah(String golDarah) {
+        this.golDarah = golDarah;
+    }
+    public String getDusun() {
+        return dusun;
+    }
+
+    public void setDusun(String dusun) {
+        this.dusun = dusun;
+    }
+
+    public String getName_pendonor() {
+        return name_pendonor;
+    }
+
+    public void setName_pendonor(String name_pendonor) {
+        this.name_pendonor = name_pendonor;
+    }
 
     public String getKapasitas_kendaraan() {
         return kapasitas_kendaraan;

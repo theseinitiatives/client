@@ -53,6 +53,10 @@
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".activity.nativeform.FormRencanaPersalinan"
+            android:label="@string/detail_ibu"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".activity.TransportasiDetailActivity"
             android:label="@string/title_activity_transportasi_detail"
             android:theme="@style/AppThemeCustomized"></activity>
