@@ -49,7 +49,8 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = (EditText) findViewById(R.id.password);
         btnLogin = (Button) findViewById(R.id.email_sign_in_button);
 
-
+        edtUsername.setText("demo");
+        edtPassword.setText("Satu2345");
       //  userService = ApiUtils.getUserService();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {

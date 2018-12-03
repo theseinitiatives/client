@@ -154,8 +154,8 @@ public class DbHelper  extends SQLiteOpenHelper {
          *
          * ***/
 
-        insertDummy(db,"Siti"," Adawiyah"," Patient Baru");
-        insertDummy(db,"Moya", "Dyah", "Patient Baru");
+      //  insertDummy(db,"Siti"," Adawiyah"," Patient Baru");
+      //  insertDummy(db,"Moya", "Dyah", "Patient Baru");
 
     }
 
