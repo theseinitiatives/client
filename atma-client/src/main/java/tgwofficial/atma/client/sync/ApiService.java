@@ -12,12 +12,17 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import tgwofficial.atma.client.model.syncmodel.ApiModel;
 
 public interface ApiService {
 
-    @GET("api/pull?location-id=Dusun_test&update-id={update_id}&batch-size=100")
-   Call<List<ApiModel>> getData(@Path("update_id") int updateId);
+    @GET("api/pull")
+   Call<List<ApiModel>> getData(
+            @Query("location-id") String location_ids,
+            @Query("update-id") int updateIds,
+            @Query("batch-size") int batch
+        );
    // Call<ApiModel> getAnswers();
 
 
