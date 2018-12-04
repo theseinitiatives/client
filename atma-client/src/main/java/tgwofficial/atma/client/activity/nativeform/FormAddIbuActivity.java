@@ -1,13 +1,17 @@
 package tgwofficial.atma.client.activity.nativeform;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -28,7 +32,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
     EditText notelpons;
 
     EditText tgl_bersalin;
-
+    LinearLayout layout_nifas;
 
     private RadioButton a,b,ab,o;
     private RadioButton rhPositive,rhNegative,rhUnknown;
@@ -129,10 +133,9 @@ public class FormAddIbuActivity extends AppCompatActivity {
         hphts = (EditText) findViewById(R.id.hpht);
         tgl_bersalin = (EditText) findViewById(R.id.tgl_persalinan);
 
-
       //  htps = (EditText) findViewById(R.id.htp);
 //        goldarahs = (EditText) findViewById(R.id.goldarah);
-        kaders = (EditText) findViewById(R.id.kader);
+       // kaders = (EditText) findViewById(R.id.kader);
         notelpons = (EditText) findViewById(R.id.notelpon);
         btnLogin = (Button) findViewById(R.id.saved);
         //  userService = ApiUtils.getUserService();
@@ -150,6 +153,72 @@ public class FormAddIbuActivity extends AppCompatActivity {
         nifas = (RadioButton)findViewById(R.id.nifas);
         risti = (RadioButton)findViewById(R.id.risti);
 
+        dobs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DatePickerDialog.OnDateSetListener dpd = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
+
+                        int s=monthOfYear+1;
+                        String a = dayOfMonth+"-"+s+"-"+year;
+                        dobs.setText(""+a);
+                    }
+                };
+
+                Time date = new Time();
+                DatePickerDialog d = new DatePickerDialog(FormAddIbuActivity.this, dpd, date.year ,date.month, date.monthDay);
+                d.show();
+
+            }
+        });
+
+        hphts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DatePickerDialog.OnDateSetListener dpd = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
+
+                        int s=monthOfYear+1;
+                        String a = dayOfMonth+"-"+s+"-"+year;
+                        hphts.setText(""+a);
+                    }
+                };
+
+                Time date = new Time();
+                DatePickerDialog d = new DatePickerDialog(FormAddIbuActivity.this, dpd, date.year ,date.month, date.monthDay);
+                d.show();
+
+            }
+        });
+
+        tgl_bersalin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DatePickerDialog.OnDateSetListener dpd = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
+
+                        int s=monthOfYear+1;
+                        String a = dayOfMonth+"-"+s+"-"+year;
+                        tgl_bersalin.setText(""+a);
+                    }
+                };
+
+                Time date = new Time();
+                DatePickerDialog d = new DatePickerDialog(FormAddIbuActivity.this, dpd, date.year ,date.month, date.monthDay);
+                d.show();
+
+            }
+        });
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +229,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 String hphtss = hphts.getText().toString();
                 String htpss = "";
                 String goldarahss = getDarah() + " - "+getRhesus();
-                String kaderss = kaders.getText().toString();
+//                String kaderss = kaders.getText().toString();
                 String notelponss = notelpons.getText().toString();
                 String tgl_persalinn = tgl_bersalin.getText().toString();
                 String radioStatus2 = getStatuss2();
@@ -173,16 +242,16 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
                             Toast.LENGTH_LONG).show();
                 }
-                else if (mothername.isEmpty() || husbandname.isEmpty() || dobss.isEmpty() || hphtss.isEmpty() || goldarahss.isEmpty() || kaderss.isEmpty() || radioStatus2.isEmpty()){
+                else if (mothername.isEmpty() || husbandname.isEmpty() || dobss.isEmpty() || hphtss.isEmpty() || goldarahss.isEmpty() ||  radioStatus2.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Data Harus Diisi Semua!",
                             Toast.LENGTH_LONG).show();
                 }
                 else {
                     dbManager.open();
                     if(valueExist(id))
-                        dbManager.updateIbu(id,mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, kaderss, notelponss,  radioStatus2,tgl_persalinn, ibubersalin,kondisi_ibu,kondisi_anak, nifas_berakhir);
+                        dbManager.updateIbu(id,mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, "", notelponss,  radioStatus2,tgl_persalinn, ibubersalin,kondisi_ibu,kondisi_anak, nifas_berakhir);
                     else
-                        dbManager.insertibu(mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, kaderss, notelponss,  radioStatus2,tgl_persalinn, ibubersalin,kondisi_ibu,kondisi_anak, nifas_berakhir);
+                        dbManager.insertibu(mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, "", notelponss,  radioStatus2,tgl_persalinn, ibubersalin,kondisi_ibu,kondisi_anak, nifas_berakhir);
                     dbManager.close();
                     Intent myIntent = new Intent(FormAddIbuActivity.this, IdentitasIbuActivity.class);
                     startActivity(myIntent);
@@ -260,6 +329,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
             case R.id.bersalin_ya:
                 if (checked)
                     setStatusibu("ya");
+
                 break;
             case R.id.bersalin_tidak:
                 if (checked)
