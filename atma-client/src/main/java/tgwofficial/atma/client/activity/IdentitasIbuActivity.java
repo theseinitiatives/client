@@ -608,7 +608,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
          * TODO
          * SEPARATE SYNC BETWEEN FIRST PULL AND UPDATE PULL
          * =================================================*/
-        mService.getData(0).enqueue(new Callback<List<ApiModel>>() {
+        mService.getData("Dusun_test",0,100).enqueue(new Callback<List<ApiModel>>() {
             @Override
             public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
 
