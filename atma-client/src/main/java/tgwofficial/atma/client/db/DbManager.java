@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import tgwofficial.atma.client.AllConstants;
 import tgwofficial.atma.client.model.syncmodel.ApiModel;
 import tgwofficial.atma.client.model.syncmodel.BankdarahData;
 import tgwofficial.atma.client.model.syncmodel.IbuData;
@@ -404,6 +405,53 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.update(DbHelper.TABLE_NAME_TRANS, contentValue,DbHelper._ID+" = ?",new String[]{id});
+    }
+
+    public void insertUserData(String id,String username,String password, String email,String first_name, String last_name, String company, String phone, String groups,
+                               String location_id, String location_name, String location_tag_id, String parent_location) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.PERSON_ID,id);
+        contentValue.put( DbHelper.USERNAME,username);
+        contentValue.put( DbHelper.PASSWORD,password);
+        contentValue.put( DbHelper.EMAIL,email);
+        contentValue.put( DbHelper.FIRST_NAME,first_name);
+        contentValue.put( DbHelper.LAST_NAME,last_name);
+        contentValue.put( DbHelper.COMPANY,company);
+        contentValue.put( DbHelper.PHONE,phone);
+        contentValue.put( DbHelper.GROUPS,groups);
+        contentValue.put( DbHelper.LOCATION_ID,location_id);
+        contentValue.put( DbHelper.LOCATION_NAME,location_name);
+        contentValue.put( DbHelper.LOCATION_TAG_ID,location_tag_id);
+        contentValue.put( DbHelper.PARENT_LOCATION,parent_location);
+        database.insert(DbHelper.TABLE_NAME_USER, null, contentValue);
+    }
+    public void insertLocationTree(String location_id, String location_name, String location_tag_id, String parent_location) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.LOCATION_ID,location_id);
+        contentValue.put( DbHelper.LOCATION_NAME,location_name);
+        contentValue.put( DbHelper.LOCATION_TAG_ID,location_tag_id);
+        contentValue.put( DbHelper.PARENT_LOCATION,parent_location);
+        database.insert(DbHelper.TABLE_LOCATION_TREE, null, contentValue);
+    }
+
+    public Cursor fetchUserData(){
+        clearClause();
+        return database.query(DbHelper.TABLE_NAME_USER,DbHelper.USER_VARIABLE,selection,selectionArgs,groupBy,having,orderBy);
+    }
+
+    public Cursor fetchUserCredential(){
+        clearClause();
+        String[]var = {"username","password"};
+        return database.query(DbHelper.TABLE_NAME_USER,var,selection,selectionArgs,groupBy,having,orderBy);
+    }
+    public Cursor fetchLocationTree(){
+        String[]variable = new String[]{
+                DbHelper.LOCATION_ID,
+                DbHelper.LOCATION_NAME,
+                DbHelper.LOCATION_TAG_ID,
+                DbHelper.PARENT_LOCATION
+        };
+        return database.query(DbHelper.TABLE_LOCATION_TREE,variable,selection,selectionArgs,groupBy,having,orderBy);
     }
 
     public Cursor fetchdetaildata(String id) {

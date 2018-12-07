@@ -94,10 +94,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         });
         initDropdownSort();
         String extra = getIntent().getStringExtra("login status");
-        if(extra.isEmpty()){
-            //do nothing
-        }
-        if(extra.equalsIgnoreCase("Login Success")){
+        if(extra!=null){
             Toast.makeText(getApplicationContext(),extra,Toast.LENGTH_LONG).show();
         }
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

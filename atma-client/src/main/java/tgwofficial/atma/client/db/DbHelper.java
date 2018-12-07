@@ -3,6 +3,10 @@ package tgwofficial.atma.client.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class DbHelper  extends SQLiteOpenHelper {
 
     // Table Name
@@ -10,6 +14,8 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String TABLE_NAME_TRANS = "transportasi";
     public static final String TABLE_NAME_BANK = "bank_darah";
     public static final String TABLE_NAME_RENCANA = "rencana_persalinan";
+    public static final String TABLE_NAME_USER = "app_user";
+    public static final String TABLE_LOCATION_TREE = "location_tree";
 
 
 
@@ -65,6 +71,41 @@ public class DbHelper  extends SQLiteOpenHelper {
    // public static final String IS_SYNC = "is_sync";
 
 
+    // user field
+
+    /*
+    "id": "2",
+    "username": "demo",
+    "email": "demo@these.org",
+    "created_on": "1543626363",
+    "last_login": "1543827608",
+    "active": "1",
+    "first_name": "Ainul",
+    "last_name": "Hamdani",
+    "company": "THESE",
+    "phone": "081916029525",
+    "groups": "kader"
+    */
+    /*  Application User Variable*/
+    public static final String PERSON_ID = "id";
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
+    public static final String EMAIL = "email";
+//    public static final String CREATED_ON = "created_on";
+//    public static final String LAST_LOGIN = "last_login";
+//    public static final String ACTIVE = "active";
+    public static final String FIRST_NAME = "first_name";
+    public static final String LAST_NAME = "last_name";
+    public static final String COMPANY = "company";
+    public static final String PHONE = "phone";
+    public static final String GROUPS = "groups";
+    public static final String LOCATION_NAME = "location_name";
+    public static final String PARENT_LOCATION = "parent_location";
+    public static final String LOCATION_TAG_ID = "location_tag_id";
+
+
+    /*  Location Tree Variable*/
+    public static final String LOC_NAME = "name";
 
 
     static final String DB_NAME = "atma.DB";
@@ -140,6 +181,54 @@ public class DbHelper  extends SQLiteOpenHelper {
             + IS_SEND + " INTEGER DEFAULT 0, "
             + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
 
+    // Creating table app user
+    private static final String CREATE_TABLE_USER = "create table "
+            +TABLE_NAME_USER+" ( "
+            +PERSON_ID + " INTEGER NOT NULL PRIMARY KEY, "
+            +USERNAME + " TEXT, "
+            +PASSWORD + " TEXT, "
+            +EMAIL + " TEXT, "
+//            +CREATED_ON + " TEXT, "
+//            +LAST_LOGIN + " TEXT, "
+//            +ACTIVE + " TEXT, "
+            +FIRST_NAME + " TEXT, "
+            +LAST_NAME + " TEXT, "
+            +COMPANY + " TEXT, "
+            +PHONE + " TEXT, "
+            +GROUPS + " TEXT, "
+            +LOCATION_ID+ " TEXT, "
+            +LOCATION_NAME+ " TEXT,"
+            +PARENT_LOCATION+ " TEXT,"
+            +LOCATION_TAG_ID+ " TEXT"
+            +")";
+
+    // Creating table location tree
+    private static final String CREATE_TABLE_LOCATION_TREE = "create table "
+            +TABLE_LOCATION_TREE+" ( "
+            +LOCATION_ID+ " TEXT, "
+            +LOCATION_NAME+ " TEXT,"
+            +PARENT_LOCATION+ " TEXT,"
+            +LOCATION_TAG_ID+ " TEXT"
+            +")";
+
+    public static final String [] USER_VARIABLE = new String[]{
+            PERSON_ID,
+            USERNAME,
+            EMAIL,
+//            CREATED_ON,
+//            LAST_LOGIN,
+//            ACTIVE,
+            FIRST_NAME,
+            LAST_NAME,
+            COMPANY,
+            PHONE,
+            GROUPS,
+            LOCATION_ID,
+            LOCATION_NAME,
+            PARENT_LOCATION,
+            LOCATION_TAG_ID
+        };
+
     public DbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
@@ -150,6 +239,8 @@ public class DbHelper  extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_TRANS);
         db.execSQL(CREATE_TABLE_BANK);
         db.execSQL(CREATE_TABLE_RENCANA);
+        db.execSQL(CREATE_TABLE_USER);
+        db.execSQL(CREATE_TABLE_LOCATION_TREE);
         /** hapus kalo udah mulai release
          *
          * ***/
