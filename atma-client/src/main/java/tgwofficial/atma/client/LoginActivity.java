@@ -76,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                             try {
                                 if(response.body()!=null) {
                                     String temp = response.body().string();
+                                    Log.d("onResponse",temp);
                                     saveUserData(temp);
                                     saveLocationTree(temp);
                                     AllConstants.MAY_PROCEED = temp.length() > 50;
@@ -125,10 +126,13 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
                 overridePendingTransition(0, 0);
                 return false;
+            }else{
+                Toast.makeText(getApplicationContext(), "Failed to Login, please check your connection, username or password", Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.INVISIBLE);
+                return false;
             }
         }catch(Exception e){
-            Toast.makeText(getApplicationContext(), "Failed to Login, please check your connection, username or password", Toast.LENGTH_LONG).show();
-            return false;
+
         }
         return true;
     }
@@ -144,14 +148,13 @@ public class LoginActivity extends AppCompatActivity {
                 if(AllConstants.MAY_PROCEED) {
                     progressBar.setVisibility(View.INVISIBLE);
                     go=AllConstants.MAY_PROCEED;
-                    AllConstants.MAY_PROCEED=false;
                     Intent myIntent = new Intent(getApplicationContext(), IdentitasIbuActivity.class);
                     myIntent.putExtra("login status","Login Success");
                     startActivity(myIntent);
                     finish();
                     overridePendingTransition(0, 0);
                     break;
-                }if(attempt>20)
+                }if(attempt>30)
                     break;
                 try {
                     Thread.sleep(250);
@@ -168,6 +171,7 @@ public class LoginActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(getApplicationContext(), "Failed to Login, please check your connection, username or password", Toast.LENGTH_LONG).show();
             }
+            AllConstants.MAY_PROCEED=false;
         }
     }
 
