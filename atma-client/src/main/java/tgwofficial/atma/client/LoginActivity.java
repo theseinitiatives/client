@@ -2,6 +2,7 @@ package tgwofficial.atma.client;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 
@@ -29,6 +30,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import tgwofficial.atma.client.Utils.LoginAuth;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
+import tgwofficial.atma.client.db.DbHelper;
+import tgwofficial.atma.client.db.DbManager;
 import tgwofficial.atma.client.sync.ApiService;
 
 /**
@@ -48,14 +51,14 @@ public class LoginActivity extends AppCompatActivity {
         edtUsername = (EditText) findViewById(R.id.email);
         edtPassword = (EditText) findViewById(R.id.password);
         btnLogin = (Button) findViewById(R.id.email_sign_in_button);
+        progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
-        edtUsername.setText("demo");
-        edtPassword.setText("Satu2345");
       //  userService = ApiUtils.getUserService();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
                 String username = edtUsername.getText().toString();
                 String password = edtPassword.getText().toString();
                 //validate form
@@ -72,9 +75,10 @@ public class LoginActivity extends AppCompatActivity {
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                             try {
                                 if(response.body()!=null) {
-//                                    Toast.makeText(LoginActivity.this," response message "+response.body().string(),Toast.LENGTH_LONG).show();
-                                    Log.d("Response", response.body().string());
-                                    AllConstants.MAY_PROCEED = true;
+                                    String temp = response.body().string();
+                                    saveUserData(temp);
+                                    saveLocationTree(temp);
+                                    AllConstants.MAY_PROCEED = temp.length() > 50;
                                 }
                             }catch (Exception e){
                                 e.printStackTrace();
@@ -88,7 +92,6 @@ public class LoginActivity extends AppCompatActivity {
                             AllConstants.MAY_PROCEED = false;
                         }
                     });
-//
                     new AuthLogin().execute();
 
                     //do login
@@ -108,11 +111,25 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Password is required", Toast.LENGTH_SHORT).show();
             return false;
         }
-        /*if(!username.equalsIgnoreCase("demo") & !password.equalsIgnoreCase("demo")) {
-            Toast.makeText(this, "Username and Password Incorrect!!", Toast.LENGTH_SHORT).show();
-            return  false;
-        }*/
 
+        DbManager db = new DbManager(getApplicationContext()).open();
+        Cursor c = db.fetchUserCredential();
+        c.moveToFirst();
+        Log.e("cursor length",c.getColumnCount()+"");
+        try {
+            if (c.getString(c.getColumnIndexOrThrow("username")).equalsIgnoreCase(username) &&
+                    c.getString(c.getColumnIndexOrThrow("password")).equals(password)) {
+                Intent myIntent = new Intent(getApplicationContext(), IdentitasIbuActivity.class);
+                myIntent.putExtra("login status", "Login Success");
+                startActivity(myIntent);
+                finish();
+                overridePendingTransition(0, 0);
+                return false;
+            }
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(), "Failed to Login, please check your connection, username or password", Toast.LENGTH_LONG).show();
+            return false;
+        }
         return true;
     }
 
@@ -125,10 +142,13 @@ public class LoginActivity extends AppCompatActivity {
             while(!go){
                 attempt++;
                 if(AllConstants.MAY_PROCEED) {
+                    progressBar.setVisibility(View.INVISIBLE);
                     go=AllConstants.MAY_PROCEED;
+                    AllConstants.MAY_PROCEED=false;
                     Intent myIntent = new Intent(getApplicationContext(), IdentitasIbuActivity.class);
                     myIntent.putExtra("login status","Login Success");
                     startActivity(myIntent);
+                    finish();
                     overridePendingTransition(0, 0);
                     break;
                 }if(attempt>20)
@@ -144,12 +164,59 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            if(!AllConstants.MAY_PROCEED)
-                Toast.makeText(getApplicationContext(),"Failed to Login, please check your connection, username or password", Toast.LENGTH_LONG).show();
+            if(!AllConstants.MAY_PROCEED) {
+                progressBar.setVisibility(View.INVISIBLE);
+                Toast.makeText(getApplicationContext(), "Failed to Login, please check your connection, username or password", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
+    private void saveUserData(String jsonString){
+        try{
+            JSONObject obj = new JSONObject(jsonString);
+            JSONObject user = new JSONObject(obj.get("user").toString());
+            JSONObject user_location = new JSONObject((obj.get("user_location").toString()));
+            DbManager db = new DbManager(getApplicationContext()).open();
+            db.insertUserData(
+                    user.getString(DbHelper.PERSON_ID),
+                    user.getString(DbHelper.USERNAME),
+                    edtPassword.getText().toString(),
+                    user.getString(DbHelper.EMAIL),
+                    user.getString(DbHelper.FIRST_NAME),
+                    user.getString(DbHelper.LAST_NAME),
+                    user.getString(DbHelper.COMPANY),
+                    user.getString(DbHelper.PHONE),
+                    user.getString(DbHelper.GROUPS),
+                    user_location.getString(DbHelper.LOCATION_ID),
+                    user_location.getString("name"),
+                    user_location.getString(DbHelper.LOCATION_TAG_ID),
+                    user_location.getString(DbHelper.PARENT_LOCATION)
+            );
+        }catch (JSONException e){
+            Log.e(getLocalClassName(),e.getMessage());
+        }
+    }
 
+    private void saveLocationTree(String jsonString){
+        try {
+            JSONObject obj = new JSONObject(jsonString);
+            JSONArray location = new JSONArray((obj.get("locations_tree").toString()));
+            DbManager db = new DbManager(getApplicationContext()).open();
+
+            for (int i = 0; i < location.length(); i++) {
+                JSONObject var = location.getJSONObject(i);
+                Log.e("Variable "+i,var.toString());
+                db.insertLocationTree(
+                        var.getString(DbHelper.LOCATION_ID),
+                        var.getString("name"),
+                        var.getString(DbHelper.LOCATION_TAG_ID),
+                        var.getString(DbHelper.PARENT_LOCATION)
+                );
+            }
+        }catch (JSONException e){
+            Log.e(getLocalClassName(),e.getMessage());
+        }
+    }
 
     /*private void doLogin(final String username,final String password){
         AsyncHttpClient client = new AsyncHttpClient();
