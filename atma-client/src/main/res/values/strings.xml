@@ -71,6 +71,7 @@
     <string name="title_activity_transportasi_detail">TransportasiDetailActivity</string>
     <string name="penolong_persalinan">Penolong Persalinan</string>
     <string name="tempat_bersalin">Tempat Persalinan</string>
+    <string name="pendamping">Pendamping Persalinan</string>
     <string name="ortu">Orang Tua</string>
     <string name="saudara">Saudara</string>
     <string name="anggota_keluarga">Anggota Keluarga</string>
@@ -84,4 +85,5 @@
     <string name="tutup">Apakah Anda ingin mengeluarkan ibu dari aplikasi?</string>
     <string name="alasan">Alasan Penutupan</string>
     <string name="faktor_resiko">Faktor Resiko</string>
+    <string name="terakhirdonor">Tanggal Terakhir Donor</string>
 </resources>

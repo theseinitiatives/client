@@ -151,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                     overridePendingTransition(0, 0);
                     break;
-                }if(attempt>20)
+                }if(attempt>40)
                     break;
                 try {
                     Thread.sleep(250);

@@ -65,8 +65,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
     IdentitasibuCursorAdapter adapter;
     ArrayList<IdentitasModel> identitasModels=new ArrayList<>();
-    String userId= "iqbal";
-    String locaId = "batulayar";
+    String userId= "";
+    String locaId = "";
 
 
     @Override
@@ -80,6 +80,19 @@ public class IdentitasIbuActivity extends AppCompatActivity
         sv= (SearchView) findViewById(R.id.sv);
         //lv.setAdapter(adapter);
         adapter=new IdentitasibuCursorAdapter(this,identitasModels);
+
+        //get user detail
+        dbManager = new DbManager(this);
+        dbManager.open();
+        Cursor c = dbManager.fetchUserData();
+        while (c.moveToNext()) {
+            int id = c.getInt(0);
+            userId = c.getString(c.getColumnIndexOrThrow("username"));
+            locaId = c.getString(c.getColumnIndexOrThrow("location_id"));
+
+        }
+        dbManager.close();
+
         getIbu("","name ASC");
 
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
