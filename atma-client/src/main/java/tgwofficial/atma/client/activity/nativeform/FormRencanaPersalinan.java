@@ -18,7 +18,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
     EditText transportasiNama;
     EditText nama_donors;
 
-    public static String id;
+  //  public static String id;
 
 
     String penolongPersalinan;
@@ -74,7 +74,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.form_rencana_persalinan);
         dbManager = new DbManager(this);
-
+        final String idIbu = getIntent().getStringExtra("id");
         nama_donors = (EditText) findViewById(R.id.calon_pendonor);
         transportasiNama = (EditText) findViewById(R.id.transportsis);
 
@@ -89,7 +89,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                // String mothername = mother_names.getText().toString();
-                String idIbu = id;
+              //  String idIbu = id;
                 String namaDonor = nama_donors.getText().toString();
                 String namaTransportasi = transportasiNama.getText().toString();
                 String txt_penolognPersalinan = getPenolongPersalinan();

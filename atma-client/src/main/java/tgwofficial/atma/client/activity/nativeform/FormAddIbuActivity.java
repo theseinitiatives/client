@@ -28,53 +28,14 @@ public class FormAddIbuActivity extends AppCompatActivity {
     EditText hphts;
     EditText htps;
     EditText goldarahs;
-    EditText kaders;
     EditText notelpons;
+    EditText faktorResiko;
 
-    EditText tgl_bersalin;
-    LinearLayout layout_nifas;
+
 
     private RadioButton a,b,ab,o;
     private RadioButton rhPositive,rhNegative,rhUnknown;
     private RadioButton hamil,nifas,risti;
-
-
-    String statusibu;
-    String kondisiibu;
-    String kondisianak;
-    String nifasberakhir;
-
-    public String getNifasberakhir() {
-        return nifasberakhir;
-    }
-
-    public void setNifasberakhir(String nifasberakhir) {
-        this.nifasberakhir = nifasberakhir;
-    }
-
-    public String getStatusibu() {
-        return statusibu;
-    }
-
-    public void setStatusibu(String statusibu) {
-        this.statusibu = statusibu;
-    }
-
-    public String getKondisiibu() {
-        return kondisiibu;
-    }
-
-    public void setKondisiibu(String kondisiibu) {
-        this.kondisiibu = kondisiibu;
-    }
-
-    public String getKondisianak() {
-        return kondisianak;
-    }
-
-    public void setKondisianak(String kondisianak) {
-        this.kondisianak = kondisianak;
-    }
 
     String rhesus;
 
@@ -123,7 +84,6 @@ public class FormAddIbuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.form_add_ibu);
-       // dbHelper = new DbHelper(this);
         dbManager = new DbManager(this);
         mother_names = (EditText) findViewById(R.id.mother_name);
         husband_names = (EditText) findViewById(R.id.husband_name);
@@ -131,11 +91,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         dusun = (EditText) findViewById(R.id.dusun);
         gubugs = (EditText) findViewById(R.id.gubug);
         hphts = (EditText) findViewById(R.id.hpht);
-        tgl_bersalin = (EditText) findViewById(R.id.tgl_persalinan);
-
-      //  htps = (EditText) findViewById(R.id.htp);
-//        goldarahs = (EditText) findViewById(R.id.goldarah);
-       // kaders = (EditText) findViewById(R.id.kader);
+        faktorResiko = (EditText) findViewById(R.id.resiko) ;
         notelpons = (EditText) findViewById(R.id.notelpon);
         btnLogin = (Button) findViewById(R.id.saved);
         //  userService = ApiUtils.getUserService();
@@ -149,9 +105,9 @@ public class FormAddIbuActivity extends AppCompatActivity {
         rhNegative = (RadioButton)findViewById(R.id.rh_negative);
         rhUnknown = (RadioButton)findViewById(R.id.rh_tidak_tahu);
 
-        hamil = (RadioButton)findViewById(R.id.hamil);
-        nifas = (RadioButton)findViewById(R.id.nifas);
-        risti = (RadioButton)findViewById(R.id.risti);
+        //hamil = (RadioButton)findViewById(R.id.hamil);
+        //nifas = (RadioButton)findViewById(R.id.nifas);
+        //risti = (RadioButton)findViewById(R.id.risti);
 
         dobs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,27 +153,6 @@ public class FormAddIbuActivity extends AppCompatActivity {
             }
         });
 
-        tgl_bersalin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                DatePickerDialog.OnDateSetListener dpd = new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                          int dayOfMonth) {
-
-                        int s=monthOfYear+1;
-                        String a = dayOfMonth+"-"+s+"-"+year;
-                        tgl_bersalin.setText(""+a);
-                    }
-                };
-
-                Time date = new Time();
-                DatePickerDialog d = new DatePickerDialog(FormAddIbuActivity.this, dpd, date.year ,date.month, date.monthDay);
-                d.show();
-
-            }
-        });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,29 +164,24 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 String hphtss = hphts.getText().toString();
                 String htpss = "";
                 String goldarahss = getDarah() + " - "+getRhesus();
-//                String kaderss = kaders.getText().toString();
                 String notelponss = notelpons.getText().toString();
-                String tgl_persalinn = tgl_bersalin.getText().toString();
                 String radioStatus2 = getStatuss2();
-                String ibubersalin = getStatusibu();
-                String kondisi_ibu = getKondisiibu();
-                String kondisi_anak = getKondisianak();
-                String nifas_berakhir = getNifasberakhir();
-
+                String fResiko = faktorResiko.getText().toString();
+                String gubug = gubugs.getText().toString();
                 if(mothername.contains("'") || husbandname.contains("'")) {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
                             Toast.LENGTH_LONG).show();
                 }
-                else if (mothername.isEmpty() || husbandname.isEmpty() || dobss.isEmpty() || hphtss.isEmpty() || goldarahss.isEmpty() ||  radioStatus2.isEmpty()){
+                else if (mothername.isEmpty() || husbandname.isEmpty() || dobss.isEmpty() || hphtss.isEmpty() || goldarahss.isEmpty() ){
                     Toast.makeText(getApplicationContext(), "Data Harus Diisi Semua!",
                             Toast.LENGTH_LONG).show();
                 }
                 else {
                     dbManager.open();
                     if(valueExist(id))
-                        dbManager.updateIbu(id,mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, "", notelponss,  radioStatus2,tgl_persalinn, ibubersalin,kondisi_ibu,kondisi_anak, nifas_berakhir);
+                        dbManager.updateIbu(id,mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, "", notelponss,  radioStatus2, fResiko,gubug,"");
                     else
-                        dbManager.insertibu(mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, "", notelponss,  radioStatus2,tgl_persalinn, ibubersalin,kondisi_ibu,kondisi_anak, nifas_berakhir);
+                        dbManager.insertibu(mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, "", notelponss,  radioStatus2,fResiko,gubug,"");
                     dbManager.close();
                     Intent myIntent = new Intent(FormAddIbuActivity.this, IdentitasIbuActivity.class);
                     startActivity(myIntent);
@@ -280,7 +210,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         // Check which radio button was clicked
         switch(view.getId()) {
 
-            case R.id.hamil:
+            /*case R.id.hamil:
                 if (checked)
                     setStatuss2("hamil");
                 break;
@@ -291,7 +221,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
             case R.id.risti:
                 if (checked)
                     setStatuss2("risti");
-                break;
+                break;*/
 
                 //set gol darah
             case R.id.a:
@@ -325,40 +255,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     setRhesus("tidak_tahu");
                 break;
 
-            // set nifas
-            case R.id.bersalin_ya:
-                if (checked)
-                    setStatusibu("ya");
 
-                break;
-            case R.id.bersalin_tidak:
-                if (checked)
-                    setStatusibu("tidak");
-                break;
-            case R.id.ibu_hidup:
-                if (checked)
-                    setKondisiibu("hidup");
-                break;
-            case R.id.ibu_mati:
-                if (checked)
-                    setKondisiibu("meninggal");
-                break;
-            case R.id.anak_hidup:
-                if (checked)
-                    setKondisianak("hidup");
-                break;
-            case R.id.anak_mati:
-                if (checked)
-                    setKondisianak("meninggal");
-                break;
-            case R.id.nifas_ya:
-                if (checked)
-                    setNifasberakhir("ya");
-                break;
-            case R.id.nifas_tidak:
-                if (checked)
-                    setNifasberakhir("tidak");
-                break;
         }
     }
 
@@ -378,13 +275,10 @@ public class FormAddIbuActivity extends AppCompatActivity {
         hphts.setText(cursor.getString(cursor.getColumnIndexOrThrow("hpht")));
 //        htps.setText(cursor.getString(cursor.getColumnIndexOrThrow("htp")));
         setDarahRhChecked(cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")));
-        setStatusChecked(cursor.getString(cursor.getColumnIndexOrThrow("status")));
-        kaders.setText(cursor.getString(cursor.getColumnIndexOrThrow("kader")));
+//        setStatusChecked(cursor.getString(cursor.getColumnIndexOrThrow("status")));
+      //  kaders.setText(cursor.getString(cursor.getColumnIndexOrThrow("kader")));
         notelpons.setText(cursor.getString(cursor.getColumnIndexOrThrow("telp")));
-        String temp = cursor.getString(cursor.getColumnIndexOrThrow("kondisi_ibu"));
-        setKondisiIbuChecked(cursor.getString(cursor.getColumnIndexOrThrow("kondisi_ibu")));
-        setKondisiAnakChecked(cursor.getString(cursor.getColumnIndexOrThrow("kondisi_anak")));
-        tgl_bersalin.setText(cursor.getString(cursor.getColumnIndexOrThrow("tgl_persalinan")));
+        faktorResiko.setText(cursor.getString(cursor.getColumnIndexOrThrow("resiko")));
 
     }
 
@@ -400,10 +294,9 @@ public class FormAddIbuActivity extends AppCompatActivity {
         String[]data = cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")).split(" - ");
         setDarah(data[0]);
         setRhesus(data[1]);
-        setStatuss2(cursor.getString(cursor.getColumnIndexOrThrow("status")));
-        setStatuss(cursor.getString(cursor.getColumnIndexOrThrow("status")));
-        setKondisiibu(cursor.getString(cursor.getColumnIndexOrThrow("kondisi_ibu")));
-        setKondisianak(cursor.getString(cursor.getColumnIndexOrThrow("kondisi_anak")));
+//        setStatuss2(cursor.getString(cursor.getColumnIndexOrThrow("status")));
+ //       setStatuss(cursor.getString(cursor.getColumnIndexOrThrow("status")));
+
     }
 
     private void setDarahRhChecked(String value){
@@ -461,31 +354,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         }
     }
 
-    private void setKondisiIbuChecked(String value){
-        if(value==null)
-            return;
-        switch(value.toLowerCase()){
-            case "hidup" : ((RadioButton)findViewById(R.id.ibu_hidup)).setChecked(true); break;
-            case "meninggal" : ((RadioButton)findViewById(R.id.ibu_mati)).setChecked(true); break;
-            default:
-                ((RadioButton)findViewById(R.id.ibu_hidup)).setChecked(false);
-                ((RadioButton)findViewById(R.id.ibu_mati)).setChecked(false);
-                break;
-        }
-    }
 
-    private void setKondisiAnakChecked(String value){
-        if(value==null)
-            return;
-        switch(value.toLowerCase()){
-            case "hidup" : ((RadioButton)findViewById(R.id.anak_hidup)).setChecked(true); break;
-            case "meninggal" : ((RadioButton)findViewById(R.id.anak_mati)).setChecked(true); break;
-            default:
-                ((RadioButton)findViewById(R.id.anak_hidup)).setChecked(false);
-                ((RadioButton)findViewById(R.id.anak_mati)).setChecked(false);
-                break;
-        }
-    }
 
 
 

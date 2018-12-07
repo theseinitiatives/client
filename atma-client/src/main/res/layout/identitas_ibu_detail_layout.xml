@@ -109,6 +109,14 @@
                 android:text="No Telpon : DD/MM/YYYY"
                 android:textSize="12sp"
                 android:id="@+id/hp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Faktor Resiko :"
+                android:textSize="12sp"
+                android:id="@+id/resioko" />
+
 
             <include
                 layout="@layout/divider"/>

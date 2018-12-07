@@ -44,6 +44,7 @@ import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.Utils.ApiUtils;
 import tgwofficial.atma.client.activity.nativeform.FormAddIbuActivity;
 import tgwofficial.atma.client.activity.nativeform.FormRencanaPersalinan;
+import tgwofficial.atma.client.activity.nativeform.FormStatusPersalinanActivity;
 import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
 import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
@@ -64,7 +65,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
     IdentitasibuCursorAdapter adapter;
     ArrayList<IdentitasModel> identitasModels=new ArrayList<>();
-
+    String userId= "iqbal";
+    String locaId = "batulayar";
 
 
     @Override
@@ -94,9 +96,6 @@ public class IdentitasIbuActivity extends AppCompatActivity
         });
         initDropdownSort();
         String extra = getIntent().getStringExtra("login status");
-        if(extra.isEmpty()){
-            //do nothing
-        }
         if(extra.equalsIgnoreCase("Login Success")){
             Toast.makeText(getApplicationContext(),extra,Toast.LENGTH_LONG).show();
         }
@@ -106,7 +105,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 Log.i("__id", ""+id);
 
              //   IdentitasIbuDetailActivity.id = String.valueOf(ids);
-                FormRencanaPersalinan.id = String.valueOf(ids);
+             //   FormRencanaPersalinan.id = String.valueOf(ids);
                 choose(id);
 
             }
@@ -139,7 +138,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
     }
 
     public void choose (final  long ids){
-        final String[] forms = {"Detail View Ibu", "Form Rencana Persalinan"};
+        final String[] forms = {"Form Status Persalinan","Form Rencana Persalinan","Detail View Ibu" };
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("");
         builder.setItems(forms, new DialogInterface.OnClickListener() {
@@ -148,7 +147,15 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 // the user clicked on colors[which]
 
                 if ("Form Rencana Persalinan".equals(forms[which])) {
+                    String uid = identitasModels.get((int) ids).getId();
                     Intent intent = new Intent(IdentitasIbuActivity.this, FormRencanaPersalinan.class);
+                    intent.putExtra("id", uid);
+                    startActivity(intent);
+                    finish();
+                }if ("Form Status Persalinan".equals(forms[which])) {
+                    String uid = identitasModels.get((int) ids).getId();
+                    Intent intent = new Intent(IdentitasIbuActivity.this, FormStatusPersalinanActivity.class);
+                    intent.putExtra("id", uid);
                     startActivity(intent);
                     finish();
                 }
@@ -178,13 +185,13 @@ public class IdentitasIbuActivity extends AppCompatActivity
             String name = c.getString(c.getColumnIndexOrThrow("name"));
             String spouse = c.getString(c.getColumnIndexOrThrow("spousename"));
             String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
-            String status = c.getString(c.getColumnIndexOrThrow("status"));
+           String goldarah = c.getString(c.getColumnIndexOrThrow("gol_darah"));
             p = new IdentitasModel();
             p.setId(uid);
             p.setNama(name);
             p.setPasangan(spouse);
             p.setDusuns(dusun);
-            p.setStatus1(status);
+            p.setStatus1(goldarah);
 
             identitasModels.add(p);
         }
@@ -229,9 +236,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
             /**
              *
              * DATA Sync (For right now disabled)*/
-            // push();
-            ///pulldata();
-            push();
+             push();
+           // pulldata();
+            //push();
             refreshView();
             return true;
         }
@@ -399,6 +406,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         dbManager.close();
     }
 
+
     public JSONArray ibudata_formatToJson()
     {
         dbManager.open();
@@ -414,10 +422,10 @@ public class IdentitasIbuActivity extends AppCompatActivity
         //  resultSet.put();
 
         cursor.moveToFirst();
-       // while (!cursor.isAfterLast()) {
+      //  while (!cursor.isAfterLast()) {
             try
             {
-                int totalColumn = cursor.getCount();
+                int totalColumn = cursor.getColumnCount();
                 JSONObject rowObject = new JSONObject();
                 //looping data
                 Log.i("COUNT",""+totalColumn);
@@ -426,8 +434,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     /***
                      * TODO
                      * SET THE DATA FROM TABLE*/
-                    rowObject2.put("user_id","test");
-                    rowObject2.put("location_id","Dusun_demo");
+                    rowObject2.put("user_id",userId);
+                    rowObject2.put("location_id",locaId);
                     rowObject2.put("form_name","identitas_ibu");
                     rowObject2.put("update_id",System.currentTimeMillis());
                     // Log.i("ASDASD",resultSet2.toString());
@@ -461,7 +469,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             {
                 Log.d("TAG_NAME", e.getMessage()  );
             }
-       // }
+     //   }
         cursor.close();
         dbManager.close();
         return resultSet2;
@@ -482,10 +490,10 @@ public class IdentitasIbuActivity extends AppCompatActivity
         //  resultSet.put();
 
         cursor.moveToFirst();
-        // while (!cursor.isAfterLast()) {
+         while (!cursor.isAfterLast()) {
         try
         {
-            int totalColumn = cursor.getCount();
+            int totalColumn = cursor.getColumnCount();
             JSONObject rowObject = new JSONObject();
             //looping data
             Log.i("COUNT",""+totalColumn);
@@ -494,8 +502,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 /***
                  * TODO
                  * SET THE DATA FROM TABLE*/
-                rowObject2.put("user_id","test");
-                rowObject2.put("location_id","Dusun_demo");
+                rowObject2.put("user_id",userId);
+                rowObject2.put("location_id",locaId);
                 rowObject2.put("form_name","transportasi");
                 rowObject2.put("update_id",System.currentTimeMillis());
                 // Log.i("ASDASD",resultSet2.toString());
@@ -529,7 +537,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         {
             Log.d("TAG_NAME", e.getMessage()  );
         }
-        // }
+         }
         cursor.close();
         dbManager.close();
         return resultSet2;
@@ -550,10 +558,10 @@ public class IdentitasIbuActivity extends AppCompatActivity
         //  resultSet.put();
 
         cursor.moveToFirst();
-        // while (!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast()) {
         try
         {
-            int totalColumn = cursor.getCount();
+            int totalColumn = cursor.getColumnCount();
             JSONObject rowObject = new JSONObject();
             //looping data
             Log.i("COUNT",""+totalColumn);
@@ -562,8 +570,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 /***
                  * TODO
                  * SET THE DATA FROM TABLE*/
-                rowObject2.put("user_id","test");
-                rowObject2.put("location_id","Dusun_demo");
+                rowObject2.put("user_id",userId);
+                rowObject2.put("location_id",locaId);
                 rowObject2.put("form_name","bank_darah");
                 rowObject2.put("update_id",System.currentTimeMillis());
                 // Log.i("ASDASD",resultSet2.toString());
@@ -597,7 +605,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         {
             Log.d("TAG_NAME", e.getMessage()  );
         }
-        // }
+         }
         cursor.close();
         dbManager.close();
         return resultSet2;
@@ -611,7 +619,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
          * TODO
          * SEPARATE SYNC BETWEEN FIRST PULL AND UPDATE PULL
          * =================================================*/
-        mService.getData("Dusun_test",0,100).enqueue(new Callback<List<ApiModel>>() {
+        mService.getData(locaId,0,100).enqueue(new Callback<List<ApiModel>>() {
             @Override
             public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
 

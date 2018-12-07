@@ -5,7 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class BankdarahData {
 
-
+    @SerializedName("_id")
+    @Expose
+    private String id;
     @SerializedName("dusun")
     @Expose
     private String dusun;
@@ -46,7 +48,13 @@ public class BankdarahData {
     @Expose
     private String timestamp;
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
     public String getTelp() {
         return telp;
     }

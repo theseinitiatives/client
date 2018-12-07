@@ -45,11 +45,14 @@ public class DbManager {
         Gson gson = new GsonBuilder().create();
 
         for(ApiModel model : DataList) {
+            ContentValues contentValue2 = new ContentValues();
             ContentValues contentValue = new ContentValues();
-            contentValue.put(DbHelper.UPDATE_ID, model.getupdate_id());
+
             //  contentValue.put(DbHelper.FORM_NAME, model.getform_name());
-            contentValue.put(DbHelper.LOCATION_ID, model.getlocation_id());
-            contentValue.put(DbHelper.USER_ID, model.getuser_id());
+            contentValue2.put(DbHelper.LOCATION_ID, model.getlocation_id());
+            contentValue2.put(DbHelper.USER_ID, model.getuser_id());
+
+            contentValue.put(DbHelper.UPDATE_ID, model.getupdate_id());
 
             String data_ = null;
 
@@ -70,17 +73,19 @@ public class DbManager {
 
             if(model.getform_name().equals("identitas_ibu")) {
                 for (IbuData listIbuData : ibuDataListed) {
+                    contentValue.put(DbHelper._ID, listIbuData.getId());
                     contentValue.put(DbHelper.NAME, listIbuData.getName());
                     contentValue.put(DbHelper.SPOUSENAME, listIbuData.getSpousename());
-                    contentValue.put(DbHelper.STATUS, listIbuData.getStatus());
+                   // contentValue.put(DbHelper.STATUS, listIbuData.getStatus());
                     contentValue.put(DbHelper.DUSUN, listIbuData.getDusun());
                     contentValue.put(DbHelper.HPHT, listIbuData.getHpht());
                     contentValue.put(DbHelper.HTP, listIbuData.getHtp());
                     contentValue.put(DbHelper.TGL_LAHIR, listIbuData.getTglLahir());
                     contentValue.put(DbHelper.TELP, listIbuData.getTelp());
-                    contentValue.put(DbHelper.TGL_PERSALINAN, listIbuData.getTglPersalinan());
+                    /*contentValue.put(DbHelper.TGL_PERSALINAN, listIbuData.getTglPersalinan());
                     contentValue.put(DbHelper.KONDISI_IBU, listIbuData.getKondisiIbu());
                     contentValue.put(DbHelper.KONDISI_ANAK, listIbuData.getKondisiAnak());
+                    */
                     contentValue.put(DbHelper.KADER, listIbuData.getKader());
                     contentValue.put(DbHelper.IS_SEND, 1);
                     contentValue.put(DbHelper.IS_SYNC, 1);
@@ -94,6 +99,7 @@ public class DbManager {
                 TransportasiData[] transportasiData = gson.fromJson(data_, TransportasiData[].class);
                 List<TransportasiData> TransportasiDataList = new ArrayList<>(Arrays.asList(transportasiData));
                 for (TransportasiData listTransportasi : TransportasiDataList){
+                    contentValue.put(DbHelper._ID, listTransportasi.getId());
                     contentValue.put(DbHelper.NAME, listTransportasi.getName());
                     contentValue.put(DbHelper.Jenis, listTransportasi.getJenis_kendaraan());
                     contentValue.put(DbHelper.Kapasitas, listTransportasi.getKapasitas_kendaraan());
@@ -114,6 +120,7 @@ public class DbManager {
                 BankdarahData[] bankdarahData = gson.fromJson(data_, BankdarahData[].class);
                 List<BankdarahData> BankDarahDataListed = new ArrayList<>(Arrays.asList(bankdarahData));
                 for (BankdarahData listBankDarah : BankDarahDataListed){
+                    contentValue.put(DbHelper._ID, listBankDarah.getId());
                     contentValue.put(DbHelper.NAME_PENDONOR, listBankDarah.getName_pendonor());
                     contentValue.put(DbHelper.DUSUN, listBankDarah.getDusun());
                     contentValue.put(DbHelper.GUBUG, listBankDarah.getGubug());
@@ -134,7 +141,7 @@ public class DbManager {
     }
 
     public void insertibu(String mothername, String husbandname,String dobss, String gubugss,
-    String hphtss, String htpss,String goldarahss, String kaderss,String notelponss,  String radioStatus2, String tgl_bersalin,String ibubersalin, String kondisi_ibu, String kondisi_anak, String nifas_berakhir) {
+    String hphtss, String htpss,String goldarahss, String kaderss,String notelponss,  String radioStatus2, String resiko,String gubug, String nifas_berakhir) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.NAME, mothername);
         contentValue.put(  DbHelper.SPOUSENAME, husbandname);
@@ -143,20 +150,32 @@ public class DbManager {
         contentValue.put( DbHelper.HPHT,hphtss);
         contentValue.put( DbHelper.HTP,htpss);
         contentValue.put( DbHelper.GOL_DARAH,goldarahss);
-        contentValue.put( DbHelper.STATUS,radioStatus2);
+        contentValue.put( DbHelper.GUBUG,gubug);
         contentValue.put( DbHelper.TELP,notelponss);
+        contentValue.put( DbHelper.RESIKO,resiko);
         contentValue.put( DbHelper.KADER,kaderss);
-        contentValue.put( DbHelper.TGL_PERSALINAN,tgl_bersalin);
-        contentValue.put( DbHelper.KONDISI_ANAK,kondisi_anak);
-        contentValue.put( DbHelper.KONDISI_IBU,kondisi_ibu);
         contentValue.put( DbHelper.NIFAS_SELESAI,nifas_berakhir);
+        contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
     }
 
+    public void insertStatusPersalinan(String idIbu, String tgl_bersalin,String ibubersalin, String kondisi_ibu, String kondisi_anak){
+        ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.ID_IBU,idIbu);
+        contentValue.put( DbHelper.STATUS_BERSALIN,ibubersalin);
+        contentValue.put( DbHelper.TGL_PERSALINAN,tgl_bersalin);
+        contentValue.put( DbHelper.KONDISI_ANAK,kondisi_anak);
+        contentValue.put( DbHelper.KONDISI_IBU,kondisi_ibu);
+        contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        database.insert(DbHelper.TABLE_PERSALINAN, null, contentValue);
+    }
+
     public void updateIbu(String _id, String mothername, String husbandname,String dobss, String gubugss,
-                          String hphtss, String htpss,String goldarahss, String kaderss,String notelponss, String radioStatus2,String tgl_bersalin, String ibubersalin, String kondisi_ibu, String kondisi_anak, String nifas_berakhir) {
+                          String hphtss, String htpss,String goldarahss, String kaderss,String notelponss, String radioStatus2,  String resiko,String gubug,String nifas_berakhir) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.NAME, mothername);
         contentValue.put(  DbHelper.SPOUSENAME, husbandname);
@@ -165,13 +184,12 @@ public class DbManager {
         contentValue.put( DbHelper.HPHT,hphtss);
         contentValue.put( DbHelper.HTP,htpss);
         contentValue.put( DbHelper.GOL_DARAH,goldarahss);
-        contentValue.put( DbHelper.STATUS,radioStatus2);
+        contentValue.put( DbHelper.GUBUG,gubug);
         contentValue.put( DbHelper.TELP,notelponss);
+        contentValue.put( DbHelper.RESIKO,resiko);
         contentValue.put( DbHelper.KADER,kaderss);
-        contentValue.put( DbHelper.TGL_PERSALINAN,tgl_bersalin);
-        contentValue.put( DbHelper.KONDISI_ANAK,kondisi_anak);
-        contentValue.put( DbHelper.KONDISI_IBU,kondisi_ibu);
         contentValue.put( DbHelper.NIFAS_SELESAI,nifas_berakhir);
+        contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.update(DbHelper.TABLE_NAME_IBU, contentValue,"_id = ?",new String[]{_id});
@@ -183,15 +201,18 @@ public class DbManager {
                 DbHelper.SPOUSENAME,
                 DbHelper.TGL_LAHIR,
                 DbHelper.DUSUN,
+                DbHelper.GUBUG,
                 DbHelper.HPHT,
                 DbHelper.HTP,
                 DbHelper.GOL_DARAH,
-                DbHelper.STATUS,
                 DbHelper.KADER,
                 DbHelper.TELP,
-                DbHelper.TGL_PERSALINAN,
+                DbHelper.RESIKO,
+                DbHelper.NIFAS_SELESAI,
+                DbHelper.ALASAN,
+               /* DbHelper.TGL_PERSALINAN,
                 DbHelper.KONDISI_IBU,
-                DbHelper.KONDISI_ANAK,
+                DbHelper.KONDISI_ANAK,*/
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
@@ -212,15 +233,18 @@ public class DbManager {
                 DbHelper.SPOUSENAME,
                 DbHelper.TGL_LAHIR,
                 DbHelper.DUSUN,
+                DbHelper.GUBUG,
                 DbHelper.HPHT,
                 DbHelper.HTP,
                 DbHelper.GOL_DARAH,
-                DbHelper.STATUS,
                 DbHelper.KADER,
                 DbHelper.TELP,
-                DbHelper.TGL_PERSALINAN,
-                DbHelper.KONDISI_IBU,
-                DbHelper.KONDISI_ANAK,
+                DbHelper.RESIKO,
+                DbHelper.NIFAS_SELESAI,
+                DbHelper.ALASAN,
+                DbHelper.USER_ID,
+                DbHelper.LOCATION_ID,
+                DbHelper.UPDATE_ID,
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
@@ -344,6 +368,7 @@ public class DbManager {
         contentValue.put( DbHelper.STATUS,radioStatus);
         contentValue.put( DbHelper.GOL_DARAH,radioStatus2);
         contentValue.put( DbHelper.TELP,notelponss);
+        contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);
@@ -357,6 +382,7 @@ public class DbManager {
         contentValue.put( DbHelper.STATUS,radioStatus);
         contentValue.put( DbHelper.GOL_DARAH,radioStatus2);
         contentValue.put( DbHelper.TELP,notelponss);
+        contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.update(DbHelper.TABLE_NAME_BANK, contentValue,"id = ?",new String[]{id});
@@ -372,6 +398,7 @@ public class DbManager {
         contentValue.put( DbHelper.DUSUN,text_dusuns);
         contentValue.put( DbHelper.PROFESI,text_profesis);
         contentValue.put( DbHelper.KET,text_kets);
+        contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
@@ -386,6 +413,7 @@ public class DbManager {
         contentValue.put( DbHelper.HUBUNGAN_DENGAN_IBU,txt_hubunganPemilik);
         contentValue.put( DbHelper.HUBUNGAN_PENDONOR_IBU,txt_hubunganPendonor);
         contentValue.put( DbHelper.NAME_PEMILIK,namaTransportasi);
+        contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
@@ -401,6 +429,7 @@ public class DbManager {
         contentValue.put( DbHelper.DUSUN,text_dusuns);
         contentValue.put( DbHelper.PROFESI,text_profesis);
         contentValue.put( DbHelper.KET,text_kets);
+        contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.update(DbHelper.TABLE_NAME_TRANS, contentValue,DbHelper._ID+" = ?",new String[]{id});
@@ -415,12 +444,15 @@ public class DbManager {
                 DbHelper.HPHT,
                 DbHelper.HTP,
                 DbHelper.GOL_DARAH,
-                DbHelper.STATUS,
+
                 DbHelper.KADER,
                 DbHelper.TELP,
-                DbHelper.TGL_PERSALINAN,
+                DbHelper.RESIKO,
+                DbHelper.NIFAS_SELESAI,
+                DbHelper.ALASAN,
+               /* DbHelper.TGL_PERSALINAN,
                 DbHelper.KONDISI_IBU,
-                DbHelper.KONDISI_ANAK,
+                DbHelper.KONDISI_ANAK,*/
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };

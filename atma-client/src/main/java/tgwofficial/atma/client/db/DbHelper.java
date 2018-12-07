@@ -7,6 +7,7 @@ public class DbHelper  extends SQLiteOpenHelper {
 
     // Table Name
     public static final String TABLE_NAME_IBU = "identitas_ibu";
+    public static final String TABLE_PERSALINAN = "status_persalinan";
     public static final String TABLE_NAME_TRANS = "transportasi";
     public static final String TABLE_NAME_BANK = "bank_darah";
     public static final String TABLE_NAME_RENCANA = "rencana_persalinan";
@@ -22,6 +23,7 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String NAME_PENDONOR = "name_pendonor";
     public static final String SPOUSENAME = "spousename";
     public static final String STATUS = "status";
+    public static final String STATUS_BERSALIN = "status_bersalin";
     public static final String TGL_LAHIR = "tgl_lahir";
     public static final String DUSUN = "dusun";
     public static final String HPHT = "hpht";
@@ -34,8 +36,8 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String KONDISI_ANAK = "kondisi_anak";
     public static final String STATUS_NIFAS = "status_nifas";
     public static final String NIFAS_SELESAI = "nifas_selesai";
-
-
+    public static final String ALASAN = "alasan";
+    public static final String RESIKO = "resiko";
 
     //Table Column Transportasi
     public static final String Jenis = "jenis_kendaraan";
@@ -72,29 +74,41 @@ public class DbHelper  extends SQLiteOpenHelper {
     // database version
     static final int DB_VERSION = 1;
 
+
     // Creating table Ibu
     private static final String CREATE_TABLE_IBU = "create table "
             + TABLE_NAME_IBU + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + NAME + " TEXT NOT NULL, "
-            + SPOUSENAME + " TEXT NOT NULL, "
-            + STATUS + " TEXT , "
+            + SPOUSENAME + " TEXT , "
             + TGL_LAHIR + " TEXT , "
             + DUSUN + " TEXT , "
+            + GUBUG + " TEXT , "
             + HPHT + " TEXT , "
             + HTP + " TEXT , "
             + GOL_DARAH + " TEXT , "
             + KADER + " TEXT, "
             + TELP + " TEXT , "
-            + TGL_PERSALINAN + " TEXT , "
-            + KONDISI_IBU + " TEXT, "
-            + KONDISI_ANAK + " TEXT , "
+            + RESIKO + " TEXT , "
             + NIFAS_SELESAI + " TEXT , "
-            + USER_ID + " TEXT , "
-            + LOCATION_ID + " TEXT , "
+            + ALASAN + " TEXT , "
             + UPDATE_ID + " TEXT , "
             + IS_SYNC + " INTEGER DEFAULT 0, "
             + IS_SEND + " INTEGER DEFAULT 0, "
             + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
+
+    private static final String CREATE_TABLE_STATUS_PERSALINAN = "create table "
+            + TABLE_PERSALINAN + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + ID_IBU + " INTEGER , "
+            + STATUS_BERSALIN + " INTEGER DEFAULT 0, "
+            + TGL_PERSALINAN + " TEXT , "
+            + KONDISI_IBU + " INTEGER DEFAULT 0, "
+            + KONDISI_ANAK + " TEXT , "
+            + UPDATE_ID + " TEXT , "
+            + IS_SYNC + " INTEGER DEFAULT 0, "
+            + IS_SEND + " INTEGER DEFAULT 0, "
+            + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
+
+
 
     // Creating table Transportasi
     private static final String CREATE_TABLE_TRANS = "create table "
@@ -107,6 +121,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + GUBUG + " TEXT , "
             + PROFESI + " TEXT , "
             + KET + " TEXT , "
+            + UPDATE_ID + " TEXT , "
             + IS_SYNC + " INTEGER DEFAULT 0, "
             + IS_SEND + " INTEGER DEFAULT 0, "
             + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
@@ -120,6 +135,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + STATUS + " TEXT , "
             + GOL_DARAH + " TEXT , "
             + TELP + " TEXT , "
+            + UPDATE_ID + " TEXT , "
             + IS_SYNC + " INTEGER DEFAULT 0, "
             + IS_SEND + " INTEGER DEFAULT 0, "
             + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
@@ -136,6 +152,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + NAME_PENDONOR + " TEXT,"
             + NAME_PEMILIK + " TEXT,"
             + HUBUNGAN_PENDONOR_IBU + " TEXT , "
+            + UPDATE_ID + " TEXT , "
             + IS_SYNC + " INTEGER DEFAULT 0, "
             + IS_SEND + " INTEGER DEFAULT 0, "
             + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
@@ -147,6 +164,7 @@ public class DbHelper  extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_IBU);
+        db.execSQL(CREATE_TABLE_STATUS_PERSALINAN);
         db.execSQL(CREATE_TABLE_TRANS);
         db.execSQL(CREATE_TABLE_BANK);
         db.execSQL(CREATE_TABLE_RENCANA);

@@ -41,16 +41,18 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         TextView txt_gol_darah = (TextView) findViewById(R.id.gol_darah);
         TextView txt_kader = (TextView) findViewById(R.id.kader);
         TextView txt_hp = (TextView) findViewById(R.id.hp);
+        TextView txt_resiko = (TextView) findViewById(R.id.resioko);
 
         txt_name.setText("NAMA :"+cursor.getString(cursor.getColumnIndexOrThrow("name")));
         txt_spousename.setText("NAMA PASANGAN :"+cursor.getString(cursor.getColumnIndexOrThrow("spousename")));
-        txt_dob.setText("TGL LAHIR:"+cursor.getString(cursor.getColumnIndexOrThrow("tgl_lahir")));
-        txt_desa.setText("DUSUN: "+cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
-        txt_hpht.setText("HPHT: "+cursor.getString(cursor.getColumnIndexOrThrow("hpht")));
-        txt_htp.setText("HTP: "+cursor.getString(cursor.getColumnIndexOrThrow("htp")));
-        txt_gol_darah.setText("Gol Darah: "+cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")));
-        txt_kader.setText("Nama Kader: "+cursor.getString(cursor.getColumnIndexOrThrow("kader")));
-        txt_hp.setText("No Telp: "+cursor.getString(cursor.getColumnIndexOrThrow("telp")));
+        txt_dob.setText("TGL LAHIR :"+cursor.getString(cursor.getColumnIndexOrThrow("tgl_lahir")));
+        txt_desa.setText("DUSUN : "+cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
+        txt_hpht.setText("HPHT : "+cursor.getString(cursor.getColumnIndexOrThrow("hpht")));
+        txt_htp.setText("HTP : "+cursor.getString(cursor.getColumnIndexOrThrow("htp")));
+        txt_gol_darah.setText("Gol Darah : "+cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")));
+        txt_kader.setText("Nama Kader : "+cursor.getString(cursor.getColumnIndexOrThrow("kader")));
+        txt_hp.setText("No Telp : "+cursor.getString(cursor.getColumnIndexOrThrow("telp")));
+        txt_resiko.setText("Faktor Resiko : "+cursor.getString(cursor.getColumnIndexOrThrow("resiko")));
         dbManager.close();
 
        /* dbManager = new DbManager(this);
