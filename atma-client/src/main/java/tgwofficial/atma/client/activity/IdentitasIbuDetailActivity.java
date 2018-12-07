@@ -16,6 +16,7 @@ import com.google.gson.JsonElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.nativeform.FormAddIbuActivity;
 import tgwofficial.atma.client.db.DbHelper;
@@ -82,10 +83,9 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        finish();
-        startActivity(new Intent(this, IdentitasIbuActivity.class));
-        overridePendingTransition(0, 0);
-
+        Log.d("CDA", "onBackPressed Called");
+        NavigationmenuController navi= new NavigationmenuController(this);
+        navi.backtoIbu();
 
     }
 }

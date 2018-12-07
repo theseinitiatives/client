@@ -7,11 +7,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TextView;
 
+import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.nativeform.FormAddBankDarah;
 import tgwofficial.atma.client.db.DbHelper;
@@ -60,4 +62,11 @@ public class BankDarahDetailActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        NavigationmenuController navi= new NavigationmenuController(this);
+        navi.backtodarah();
+
+    }
 }

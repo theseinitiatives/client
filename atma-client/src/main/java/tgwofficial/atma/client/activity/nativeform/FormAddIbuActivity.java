@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -15,7 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
+import tgwofficial.atma.client.activity.BankDarahActivity;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
 import tgwofficial.atma.client.db.DbManager;
 
@@ -355,7 +358,13 @@ public class FormAddIbuActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        NavigationmenuController navi= new NavigationmenuController(this);
+        navi.backtoIbu();
 
+    }
 
 
 }

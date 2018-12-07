@@ -1,15 +1,18 @@
 package tgwofficial.atma.client.activity.nativeform;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.BankDarahActivity;
 import tgwofficial.atma.client.db.DbHelper;
@@ -21,7 +24,6 @@ public class FormAddBankDarah extends AppCompatActivity {
     String rhesus;
     EditText gubugs;
     EditText dusun;
-
     public String getRhesus() {
         return rhesus;
     }
@@ -215,4 +217,12 @@ public class FormAddBankDarah extends AppCompatActivity {
                      break;
             }
         }
+
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+
+        NavigationmenuController navi= new NavigationmenuController(this);
+        navi.backtodarah();
+    }
 }

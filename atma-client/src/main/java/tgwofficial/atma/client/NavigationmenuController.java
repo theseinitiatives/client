@@ -31,4 +31,21 @@ public class NavigationmenuController {
         activity.overridePendingTransition(0,0);
     }
 
+    public void backtoIbu(){
+        activity.finish();
+        activity.startActivity(new Intent(activity, IdentitasIbuActivity.class));
+        activity.overridePendingTransition(0,0);
+    }
+    public void backtoTrans(){
+        activity.finish();
+        activity.startActivity(new Intent(activity, TransportasiActivity.class));
+        activity.overridePendingTransition(0,0);
+    }
+    public void backtodarah(){
+        activity.finish();
+        activity.startActivity(new Intent(activity, BankDarahActivity.class));
+        activity.overridePendingTransition(0,0);
+    }
+
+
 }

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import java.sql.SQLOutput;
 
+import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.nativeform.FormAddTransportasi;
 import tgwofficial.atma.client.db.DbHelper;
@@ -64,6 +65,14 @@ public class TransportasiDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        NavigationmenuController navi= new NavigationmenuController(this);
+        navi.backtoIbu();
+
     }
 
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.BankDarahActivity;
 import tgwofficial.atma.client.activity.TransportasiActivity;
@@ -168,5 +170,12 @@ public class FormAddTransportasi extends AppCompatActivity {
                 ((RadioButton)findViewById(R.id.id_lainnya)).setChecked(true);
                 break;
         }
+    }
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        NavigationmenuController navi= new NavigationmenuController(this);
+        navi.backtoTrans();
+
     }
 }
