@@ -361,7 +361,7 @@
                         android:id="@+id/hub_pendonor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/tempat_bersalin"
+                        android:hint="@string/hub_pendonor"
                         android:maxLines="1"
                         android:singleLine="true" />
                     <RadioGroup

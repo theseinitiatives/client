@@ -108,10 +108,10 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                     dbManager.open();
                     dbManager.insertRencanaPersalinan(idIbu, namaDonor, txt_tempatBersalin, txt_penolognPersalinan,txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi);
                     dbManager.close();
-
+                    finish();
                     Intent myIntent = new Intent(FormRencanaPersalinan.this, IdentitasIbuActivity.class);
                     startActivity(myIntent);
-                    finish();
+
                 }
                 //validate form
                 //  if(validateinput(mothername,donor,notelponss,radioStatus,radioStatus2)){

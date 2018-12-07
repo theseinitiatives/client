@@ -186,9 +186,10 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     else
                         dbManager.insertibu(mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, "", notelponss,  radioStatus2,fResiko,gubug,"");
                     dbManager.close();
+                    finish();
                     Intent myIntent = new Intent(FormAddIbuActivity.this, IdentitasIbuActivity.class);
                     startActivity(myIntent);
-                    finish();
+
                 }
 
                 //validate form

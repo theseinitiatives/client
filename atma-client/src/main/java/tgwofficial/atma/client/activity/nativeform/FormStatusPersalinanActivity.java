@@ -146,9 +146,10 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                     dbManager.open();
                     dbManager.insertStatusPersalinan(idIbu,tgl_persalinn,ibubersalin,kondisi_ibu,kondisi_anak);
                                 dbManager.close();
+                    finish();
                     Intent myIntent = new Intent(FormStatusPersalinanActivity.this, IdentitasIbuActivity.class);
                     startActivity(myIntent);
-                    finish();
+
 
 
                 //validate form

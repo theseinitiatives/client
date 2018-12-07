@@ -112,10 +112,10 @@ public class FormAddBankDarah extends AppCompatActivity {
                     else
                         dbManager.insertbankdarah(donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah);
                     dbManager.close();
-
+                    finish();
                     Intent myIntent = new Intent(FormAddBankDarah.this, BankDarahActivity.class);
                     startActivity(myIntent);
-                    finish();
+
                 }
                 //validate form
                 //  if(validateinput(mothername,donor,notelponss,radioStatus,radioStatus2)){

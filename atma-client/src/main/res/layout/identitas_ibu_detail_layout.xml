@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="400dp"
+    android:layout_height="fill_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activity.IdentitasIbuDetailActivity"
     android:weightSum="10"
@@ -120,22 +120,85 @@
 
             <include
                 layout="@layout/divider"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text=""
+                android:textSize="12sp"
+                android:id="@+id/tgl_persalinan" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text=""
+                android:textSize="12sp"
+                android:id="@+id/ibuhidup" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text=""
+                android:textSize="12sp"
+                android:id="@+id/anakhidup" />
+
             <include
                 layout="@layout/divider"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Tempat Bersalin"
+                android:text=""
+                android:textSize="12sp"
+                android:id="@+id/nama_donors" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text=" "
+                android:textSize="12sp"
+                android:id="@+id/hub_pendonor" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text=""
+                android:textSize="12sp"
+                android:id="@+id/transport" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text=" "
+                android:textSize="12sp"
+                android:id="@+id/hubPemilik" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text=""
+                android:textSize="12sp"
+                android:id="@+id/penolong" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text=" "
                 android:textSize="12sp"
                 android:id="@+id/tempatbersalins" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Penologn Persalinan"
+                android:text=" "
                 android:textSize="12sp"
-                android:id="@+id/penoling_bersalin" />
+                android:id="@+id/pendampingPersalinan" />
+
+
+
+            <include
+                layout="@layout/divider"/>
 
             <Button
                 android:id="@+id/ibu_detail_edit_button"

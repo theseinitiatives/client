@@ -436,7 +436,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         //  resultSet.put();
 
         cursor.moveToFirst();
-      //  while (!cursor.isAfterLast()) {
+        while (cursor.moveToNext()) {
             try
             {
                 int totalColumn = cursor.getColumnCount();
@@ -483,7 +483,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             {
                 Log.d("TAG_NAME", e.getMessage()  );
             }
-     //   }
+        }
         cursor.close();
         dbManager.close();
         return resultSet2;

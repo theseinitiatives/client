@@ -417,7 +417,7 @@ public class DbManager {
         contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
-        database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
+        database.insert(DbHelper.TABLE_NAME_RENCANA, null, contentValue);
     }
 
     public void updatebanktransportasi(String id,String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets) {
@@ -518,11 +518,30 @@ public class DbManager {
                 DbHelper.PENDAMPING_PERSALINAN,
                 DbHelper.HUBUNGAN_DENGAN_IBU,
                 DbHelper.NAME_PEMILIK,
+                DbHelper.NAME_PENDONOR,
                 DbHelper.HUBUNGAN_PENDONOR_IBU,
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
         Cursor cursor = database.query(DbHelper.TABLE_NAME_RENCANA, columns, DbHelper.ID_IBU +"="+id, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+
+
+    }
+
+    public Cursor fetchstatuspersalinan(String id) {
+        String[] columns = new String[] { DbHelper._ID,
+                DbHelper.ID_IBU,
+                DbHelper.TGL_PERSALINAN,
+                DbHelper.KONDISI_IBU,
+                DbHelper.KONDISI_ANAK,
+                DbHelper.IS_SEND,
+                DbHelper.IS_SYNC,
+                DbHelper.TIMESTAMP };
+        Cursor cursor = database.query(DbHelper.TABLE_PERSALINAN, columns, DbHelper.ID_IBU +"="+id, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }

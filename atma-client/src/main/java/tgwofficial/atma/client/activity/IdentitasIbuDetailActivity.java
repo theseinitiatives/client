@@ -24,6 +24,7 @@ import tgwofficial.atma.client.db.DbManager;
 
 public class IdentitasIbuDetailActivity extends AppCompatActivity {
     private DbManager dbManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +45,23 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         TextView txt_hp = (TextView) findViewById(R.id.hp);
         TextView txt_resiko = (TextView) findViewById(R.id.resioko);
 
+
+        TextView tgl_bersalin = (TextView) findViewById(R.id.tgl_persalinan);
+        TextView kondisi_ibu = (TextView) findViewById(R.id.ibuhidup);
+        TextView kondisi_anak = (TextView) findViewById(R.id.anakhidup);
+
+
+        TextView namaDonor = (TextView) findViewById(R.id.nama_donors);
+
+        TextView txt_hubunganPendonor = (TextView) findViewById(R.id.hub_pendonor);
+        TextView namaTransportasi = (TextView) findViewById(R.id.transport);
+        TextView txt_hubunganPemilik = (TextView) findViewById(R.id.hubPemilik);
+        TextView txt_penolognPersalinan = (TextView) findViewById(R.id.penolong);
+        TextView txt_tempatbersalin = (TextView) findViewById(R.id.tempatbersalins);
+        TextView txt_pendampingPersalinan = (TextView) findViewById(R.id.pendampingPersalinan);
+
+
+        //set detail
         txt_name.setText("NAMA :"+cursor.getString(cursor.getColumnIndexOrThrow("name")));
         txt_spousename.setText("NAMA PASANGAN :"+cursor.getString(cursor.getColumnIndexOrThrow("spousename")));
         txt_dob.setText("TGL LAHIR :"+cursor.getString(cursor.getColumnIndexOrThrow("tgl_lahir")));
@@ -54,20 +72,56 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         txt_kader.setText("Nama Kader : "+cursor.getString(cursor.getColumnIndexOrThrow("kader")));
         txt_hp.setText("No Telp : "+cursor.getString(cursor.getColumnIndexOrThrow("telp")));
         txt_resiko.setText("Faktor Resiko : "+cursor.getString(cursor.getColumnIndexOrThrow("resiko")));
-        dbManager.close();
 
-       /* dbManager = new DbManager(this);
-        dbManager.open();
-        Cursor cursorRencanaPersalinan = dbManager.fetchRencanaPersalinan(id);
+        //status bersalin
+        Cursor status_persalinan = dbManager.fetchstatuspersalinan(id);
+        if ( status_persalinan.moveToFirst() ) {
 
-        if(cursorRencanaPersalinan != null) {
-            TextView txt_tempatbersalin = (TextView) findViewById(R.id.tempatbersalins);
-            TextView txt_penolognbersalin = (TextView) findViewById(R.id.penoling_bersalin);
 
-          //  txt_penolognbersalin.setText("Penolong Persalinan: " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("penolong_persalinan")));
-          //  txt_tempatbersalin.setText("Tempat Persalinan: " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("tempat_persalinan")));
+            tgl_bersalin.setText("Tgl Persalinan : " + status_persalinan.getString(status_persalinan.getColumnIndexOrThrow("tgl_persalinan")));
+            kondisi_ibu.setText("Kondisi Ibu : " + status_persalinan.getString(status_persalinan.getColumnIndexOrThrow("kondisi_ibu")));
+            kondisi_anak.setText("Kondisi anak : " + status_persalinan.getString(status_persalinan.getColumnIndexOrThrow("kondisi_anak")));
+
         }
-        dbManager.close();*/
+        else{
+            tgl_bersalin.setText("Tgl Persalinan : ");
+
+            kondisi_ibu.setText("Kondisi Ibu : ");
+            kondisi_anak.setText("Kondisi anak : ");
+
+
+        }
+        ///rencana persalinan
+        Cursor cursorRencanaPersalinan = dbManager.fetchRencanaPersalinan(id);
+        if ( status_persalinan.moveToFirst() ) {
+
+          //  TextView txt_tempatbersalins = (TextView) findViewById(R.id.tempatbersalins);
+          //  TextView txt_penolognbersalin = (TextView) findViewById(R.id.penoling_bersalin);
+
+            txt_penolognPersalinan.setText("Penolong Persalinan: " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("penolong_persalinan")));
+            namaDonor.setText("Nama Pendonor : " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("name_pendonor")));
+            txt_hubunganPendonor.setText("Hubungan dengan Pendonor : " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("hubungan_pendonor")));
+            namaTransportasi.setText("Kendaraan  : " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("pemilik_kendaraan")));
+            txt_hubunganPemilik.setText("Hubungan Dengan Pemilik Kendaraan : " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("hubungan_ibu")));
+            txt_tempatbersalin.setText("Tempat Persalinan: " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("tempat_persalinan")));
+
+            txt_pendampingPersalinan.setText("Pendamping Persalinan: " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("pendamping_persalinan")));
+            //  txt_tempatbersalin.setText("Tempat Persalinan: " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("tempat_persalinan")));
+        }
+        else{
+            txt_penolognPersalinan.setText("Penolong Persalinan: " );
+            namaDonor.setText("Nama Pendonor : " );
+            txt_hubunganPendonor.setText("Hubungan dengan Pendonor : " );
+            namaTransportasi.setText("Kendaraan  : " );
+            txt_hubunganPemilik.setText("Hubungan Dengan Pemilik Kendaraan : " );
+            txt_tempatbersalin.setText("Tempat Persalinan: " );
+            txt_pendampingPersalinan.setText("Pendamping Persalinan: " );
+
+        }
+
+
+
+        dbManager.close();
         Button editButton = (Button) findViewById(R.id.ibu_detail_edit_button);
 
         editButton.setOnClickListener(new View.OnClickListener() {

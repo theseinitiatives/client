@@ -93,10 +93,10 @@ public class FormAddTransportasi extends AppCompatActivity {
                     else
                         dbManager.insertbanktransportasi(text_pemiliks, jeniss,text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets);
                     dbManager.close();
-
+                    finish();
                     Intent myIntent = new Intent(FormAddTransportasi.this, TransportasiActivity.class);
                     startActivity(myIntent);
-                    finish();
+
                 }
                 //validate form
                 //  if(validateinput(mothername,donor,notelponss,radioStatus,radioStatus2)){
