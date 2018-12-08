@@ -276,6 +276,12 @@
                             android:layout_height="wrap_content"
                             android:text="O"
                             android:onClick="onRadioButtonClicked" />
+                        <RadioButton
+                            android:id="@+id/tidaktahu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="tidak Tahu"
+                            android:onClick="onRadioButtonClicked" />
 
                     </RadioGroup>
 

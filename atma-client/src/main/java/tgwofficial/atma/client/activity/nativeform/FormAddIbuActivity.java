@@ -244,6 +244,10 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 if (checked)
                     setDarah("o");
                 break;
+            case R.id.tidaktahu:
+                if (checked)
+                    setDarah("tidaktahu");
+                break;
 
                 // set rhesus
             case R.id.rh_positive:
