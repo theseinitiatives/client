@@ -564,6 +564,26 @@ public class DbManager {
 
 
     }
+    public Cursor fetchnamapemilik() {
+        String[] columns = new String[] {
+                DbHelper.NAME};
+        Cursor c=null;
+        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+    }
+    public Cursor fetchnamaDonor() {
+        String[] columns = new String[] {
+                DbHelper.NAME_PENDONOR};
+        Cursor c=null;
+        c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+    }
     private void clearClause(){
         selection = null;
         selectionArgs = null;
@@ -616,5 +636,6 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SYNC,"1");
         database.update(DbHelper.TABLE_NAME_BANK, contentValue,DbHelper.IS_SEND+" = 0",null);
     }
+
 
 }

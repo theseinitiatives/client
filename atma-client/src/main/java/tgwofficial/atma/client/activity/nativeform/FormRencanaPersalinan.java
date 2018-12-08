@@ -1,18 +1,22 @@
 package tgwofficial.atma.client.activity.nativeform;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
-import tgwofficial.atma.client.activity.BankDarahActivity;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
 import tgwofficial.atma.client.db.DbManager;
 
@@ -77,14 +81,34 @@ public class FormRencanaPersalinan extends AppCompatActivity {
         setContentView(R.layout.form_rencana_persalinan);
         dbManager = new DbManager(this);
         final String idIbu = getIntent().getStringExtra("id");
-        nama_donors = (EditText) findViewById(R.id.calon_pendonor);
-        transportasiNama = (EditText) findViewById(R.id.transportsis);
-
+       // nama_donors = (EditText) findViewById(R.id.calon_pendonor);
+      //  transportasiNama = (EditText) findViewById(R.id.transportsis);
 
         btnLogin = (Button) findViewById(R.id.saved);
-
         dbManager = new DbManager(this);
         dbManager.open();
+
+        //==========================
+        // Search Nama Pemilik
+         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, getNamaPemilik());
+        //Find TextView control
+        final AutoCompleteTextView transportasiNama = (AutoCompleteTextView) findViewById(R.id.transportsis);
+        //Set the number of characters the user must type before the drop down list is shown
+        transportasiNama.setThreshold(1);
+        //Set the adapter
+        transportasiNama.setAdapter(adapter);
+
+        //==========================
+        // Search Nama Donor
+        final ArrayAdapter<String> adapterDonor = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, getNamaDonor());
+        //Find TextView control
+        final AutoCompleteTextView nama_donors = (AutoCompleteTextView) findViewById(R.id.calon_pendonor);
+        //Set the number of characters the user must type before the drop down list is shown
+        nama_donors.setThreshold(1);
+        //Set the adapter
+        nama_donors.setAdapter(adapterDonor);
+
+
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -220,6 +244,45 @@ public class FormRencanaPersalinan extends AppCompatActivity {
 
         }
         }
+
+    public String[] getNamaPemilik() {
+        dbManager.open();
+        Cursor cursor = dbManager.fetchnamapemilik();
+        ArrayList<String> names = new ArrayList<String>();
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                names.add(cursor.getString(cursor.getColumnIndexOrThrow("name")));
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        dbManager.close();
+
+      //  String[] languagess = { "Budi","Joni","Bravo" };
+        return names.toArray(new String[0]);
+       // return languagess;
+    }
+
+    public String[] getNamaDonor() {
+        dbManager.open();
+        Cursor cursor = dbManager.fetchnamaDonor();
+        ArrayList<String> names = new ArrayList<String>();
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                names.add(cursor.getString(cursor.getColumnIndexOrThrow("name_pendonor")));
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        dbManager.close();
+
+        //  String[] languagess = { "Budi","Joni","Bravo" };
+        return names.toArray(new String[0]);
+        // return languagess;
+    }
+
 
     @Override
     public void onBackPressed() {
