@@ -463,6 +463,21 @@ public class DbManager {
         database.insert(DbHelper.TABLE_LOCATION_TREE, null, contentValue);
     }
 
+    public void insertKader(String name, String dusun, String hp) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.NAME,name);
+        contentValue.put( DbHelper.DUSUN,dusun);
+        contentValue.put( DbHelper.TELP,hp);
+        contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        database.insert(DbHelper.TABLE_KADER, null, contentValue);
+    }
+    public Cursor fetchKader(){
+        clearClause();
+        return database.query(DbHelper.KADER,DbHelper.KADER_VAR,selection,selectionArgs,groupBy,having,orderBy);
+    }
+
     public Cursor fetchUserData(){
         clearClause();
         return database.query(DbHelper.TABLE_NAME_USER,DbHelper.USER_VARIABLE,selection,selectionArgs,groupBy,having,orderBy);

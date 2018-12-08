@@ -17,6 +17,10 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Bank Darah" />
         <item
+            android:id="@+id/kader_add"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Add Kader" />
+        <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_menu_manage"
             android:title="Logout" />

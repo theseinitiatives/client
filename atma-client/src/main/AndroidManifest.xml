@@ -68,6 +68,10 @@
             android:name=".activity.BankDarahDetailActivity"
             android:label="@string/title_activity_bank_darah_detail"
             android:theme="@style/AppThemeCustomized"></activity>
+        <activity
+            android:name=".activity.nativeform.FormAddKader"
+            android:label="@string/title_add_kader"
+            android:theme="@style/AppThemeCustomized"></activity>
     </application>
 
 </manifest>

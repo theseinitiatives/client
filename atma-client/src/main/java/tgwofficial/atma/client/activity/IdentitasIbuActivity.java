@@ -284,6 +284,10 @@ public class IdentitasIbuActivity extends AppCompatActivity
         if(id == R.id.nav_logout){
             super.onBackPressed();
         }
+        if(id == R.id.kader_add){
+            navi.addKader();
+            //super.onBackPressed();
+        }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -350,7 +354,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         });
 
         // api post for transportasi
-        RequestBody reqTrans = null;
+        /*RequestBody reqTrans = null;
        // try{
             reqTrans = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                     ("{"+transportasi_formatToJson().toString()+"}"));
@@ -397,7 +401,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 Log.e("DEMO", "Unable to submit post to API.",t);
                 Log.e("call", String.valueOf(call));
             }
-        });
+        });*/
 
 //        Toast.makeText(context, "Sync Finished!",
   //              Toast.LENGTH_LONG).show();

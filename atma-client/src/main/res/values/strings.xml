@@ -87,4 +87,5 @@
     <string name="alasan">Alasan Penutupan</string>
     <string name="faktor_resiko">Faktor Resiko</string>
     <string name="terakhirdonor">Tanggal Terakhir Donor</string>
+    <string name="title_add_kader">Tambah Kader</string>
 </resources>

@@ -17,6 +17,7 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String TABLE_NAME_RENCANA = "rencana_persalinan";
     public static final String TABLE_NAME_USER = "app_user";
     public static final String TABLE_LOCATION_TREE = "location_tree";
+    public static final String TABLE_KADER = "kader";
 
 
 
@@ -245,6 +246,23 @@ public class DbHelper  extends SQLiteOpenHelper {
             PARENT_LOCATION,
             LOCATION_TAG_ID
         };
+    public static final String [] KADER_VAR = new String[]{
+            NAME,
+            DUSUN,
+            TELP,
+    };
+
+    // Creating table location tree
+    private static final String CREATE_TABLE_KADER = "create table "
+            + TABLE_KADER + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            +NAME+ " TEXT , "
+            +DUSUN+ " TEXT ,"
+            +TELP+ " TEXT ,"
+            +UPDATE_ID+ " TEXT ,"
+            + IS_SYNC + " INTEGER DEFAULT 0, "
+            + IS_SEND + " INTEGER DEFAULT 0, "
+            + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
+
 
     public DbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -259,10 +277,7 @@ public class DbHelper  extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_RENCANA);
         db.execSQL(CREATE_TABLE_USER);
         db.execSQL(CREATE_TABLE_LOCATION_TREE);
-        /** hapus kalo udah mulai release
-         *
-         * ***/
-
+       db.execSQL(CREATE_TABLE_KADER);
       //  insertDummy(db,"Siti"," Adawiyah"," Patient Baru");
       //  insertDummy(db,"Moya", "Dyah", "Patient Baru");
 
