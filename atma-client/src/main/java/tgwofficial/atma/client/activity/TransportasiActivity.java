@@ -190,7 +190,10 @@ public class TransportasiActivity extends AppCompatActivity
         if (id == R.id.nav_bank_darah) {
             navi.startBankDarah();
         }
-
+        if(id == R.id.kader_add){
+            navi.addKader();
+            //super.onBackPressed();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

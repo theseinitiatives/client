@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -72,8 +74,33 @@ public class FormAddBankDarah extends AppCompatActivity {
 
         nama_donors = (EditText) findViewById(R.id.nama_donor);
         gubugs = (EditText) findViewById(R.id.gubug);
-        dusun = (EditText) findViewById(R.id.dusun_s);
+       // dusun = (EditText) findViewById(R.id.dusun_s);
         notelpons = (EditText) findViewById(R.id.notelpon);
+
+        //==========================
+        String[] dusunsList = {
+                "Menges	"	,
+                "Penandak	"	,
+                "Menyiuh	"	,
+                "Selebung Lauk	"	,
+                "Selebung Daye	"	,
+                "Melar	"	,
+                "Jali	"	,
+                "Nyangget Lauk	"	,
+                "Nyangget Daye	"	,
+                "Pucung	"	,
+                "Selebung Tengak	"	,
+                "Mekar Sari	"
+        };
+        // Search Nama Donor
+        final ArrayAdapter<String> adapterDusun = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, dusunsList);
+        //Find TextView control
+        final AutoCompleteTextView dusun = (AutoCompleteTextView) findViewById(R.id.dusun_s);
+        //Set the number of characters the user must type before the drop down list is shown
+        dusun.setThreshold(1);
+        //Set the adapter
+        dusun.setAdapter(adapterDusun);
+
 
         final String id = getIntent().getStringExtra("id");
         if(id!=null) {

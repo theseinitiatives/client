@@ -198,7 +198,10 @@ public class BankDarahActivity extends AppCompatActivity
             navi.startBankDarah();
         }
 
-
+        if(id == R.id.kader_add){
+            navi.addKader();
+            //super.onBackPressed();
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -39,11 +41,35 @@ public class FormAddKader extends AppCompatActivity {
         dbManager = new DbManager(this);
         final String idIbu = getIntent().getStringExtra("id");
         kaders = (EditText) findViewById(R.id.kader);
-        dusuns = (EditText) findViewById(R.id.dusun);
+       // dusuns = (EditText) findViewById(R.id.dusun);
         nohps = (EditText) findViewById(R.id.hp);
 
         btnLogin = (Button) findViewById(R.id.saved);
         //  userService = ApiUtils.getUserService();
+
+        //==========================
+                String[] dusunsList = {
+                        "Menges	"	,
+                        "Penandak	"	,
+                        "Menyiuh	"	,
+                        "Selebung Lauk	"	,
+                        "Selebung Daye	"	,
+                        "Melar	"	,
+                        "Jali	"	,
+                        "Nyangget Lauk	"	,
+                        "Nyangget Daye	"	,
+                        "Pucung	"	,
+                        "Selebung Tengak	"	,
+                        "Mekar Sari	"
+                };
+                // Search Nama Donor
+                final ArrayAdapter<String> adapterDusun = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, dusunsList);
+                //Find TextView control
+                final AutoCompleteTextView dusuns = (AutoCompleteTextView) findViewById(R.id.dusun);
+                //Set the number of characters the user must type before the drop down list is shown
+                     dusuns.setThreshold(1);
+                //Set the adapter
+                    dusuns.setAdapter(adapterDusun);
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {

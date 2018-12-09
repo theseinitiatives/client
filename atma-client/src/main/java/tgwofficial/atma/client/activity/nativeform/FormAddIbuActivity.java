@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -83,6 +85,8 @@ public class FormAddIbuActivity extends AppCompatActivity {
     String Statuss2;
     Button btnLogin;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +95,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         mother_names = (EditText) findViewById(R.id.mother_name);
         husband_names = (EditText) findViewById(R.id.husband_name);
         dobs = (EditText) findViewById(R.id.dob);
-        dusun = (EditText) findViewById(R.id.dusun);
+       // dusun = (EditText) findViewById(R.id.dusun);
         gubugs = (EditText) findViewById(R.id.gubug);
         hphts = (EditText) findViewById(R.id.hpht);
         faktorResiko = (EditText) findViewById(R.id.resiko) ;
@@ -108,9 +112,29 @@ public class FormAddIbuActivity extends AppCompatActivity {
         rhNegative = (RadioButton)findViewById(R.id.rh_negative);
         rhUnknown = (RadioButton)findViewById(R.id.rh_tidak_tahu);
 
-        //hamil = (RadioButton)findViewById(R.id.hamil);
-        //nifas = (RadioButton)findViewById(R.id.nifas);
-        //risti = (RadioButton)findViewById(R.id.risti);
+        //==========================
+        String[] dusunsList = {
+                "Menges	"	,
+                "Penandak	"	,
+                "Menyiuh	"	,
+                "Selebung Lauk	"	,
+                "Selebung Daye	"	,
+                "Melar	"	,
+                "Jali	"	,
+                "Nyangget Lauk	"	,
+                "Nyangget Daye	"	,
+                "Pucung	"	,
+                "Selebung Tengak	"	,
+                "Mekar Sari	"
+        };
+        // Search Nama Donor
+        final ArrayAdapter<String> adapterDusun = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, dusunsList);
+        //Find TextView control
+        final AutoCompleteTextView dusun = (AutoCompleteTextView) findViewById(R.id.dusun);
+        //Set the number of characters the user must type before the drop down list is shown
+        dusun.setThreshold(1);
+        //Set the adapter
+        dusun.setAdapter(adapterDusun);
 
         dobs.setOnClickListener(new View.OnClickListener() {
             @Override
