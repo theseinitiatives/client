@@ -61,18 +61,18 @@ public class FormAddTransportasi extends AppCompatActivity {
 
         //==========================
         String[] dusunsList = {
-                "Menges	"	,
-                "Penandak	"	,
-                "Menyiuh	"	,
-                "Selebung Lauk	"	,
-                "Selebung Daye	"	,
-                "Melar	"	,
-                "Jali	"	,
-                "Nyangget Lauk	"	,
-                "Nyangget Daye	"	,
-                "Pucung	"	,
-                "Selebung Tengak	"	,
-                "Mekar Sari	"
+                "Menges"	,
+                "Penandak"	,
+                "Menyiuh"	,
+                "Selebung Lauk"	,
+                "Selebung Daye"	,
+                "Melar"	,
+                "Jali"	,
+                "Nyangget Lauk"	,
+                "Nyangget Daye"	,
+                "Pucung"	,
+                "Selebung Tengak"	,
+                "Mekar Sari"
         };
         // Search Nama Donor
         final ArrayAdapter<String> adapterDusun = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, dusunsList);
@@ -171,7 +171,7 @@ public class FormAddTransportasi extends AppCompatActivity {
         nama_pemiliks.setText(c.getString(c.getColumnIndexOrThrow("name")));
         gubugs.setText(c.getString(c.getColumnIndexOrThrow("gubug")));
         no_hp.setText(c.getString(c.getColumnIndexOrThrow("telp")));
-        dusuns.setText(c.getString(c.getColumnIndexOrThrow("dusun")));
+//        dusuns.setText(c.getString(c.getColumnIndexOrThrow("dusun")));
         setJenisKendaraanChecked(c.getString(c.getColumnIndexOrThrow("jenis_kendaraan")));
         if(c.getString(c.getColumnIndexOrThrow("jenis_kendaraan")).equalsIgnoreCase("mobil"))
             kapasitass.setVisibility(View.VISIBLE);

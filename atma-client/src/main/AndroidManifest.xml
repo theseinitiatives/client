@@ -72,6 +72,10 @@
             android:name=".activity.nativeform.FormAddKader"
             android:label="@string/title_add_kader"
             android:theme="@style/AppThemeCustomized"></activity>
+        <activity
+            android:name=".activity.nativeform.StikerActivity"
+            android:label="@string/title_add_kader"
+            android:theme="@style/AppThemeCustomized"></activity>
     </application>
 
 </manifest>

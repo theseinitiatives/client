@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import tgwofficial.atma.client.activity.BankDarahActivity;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
+import tgwofficial.atma.client.activity.IdentitasIbuDetailActivity;
 import tgwofficial.atma.client.activity.TransportasiActivity;
 import tgwofficial.atma.client.activity.nativeform.FormAddKader;
 
@@ -55,4 +56,9 @@ public class NavigationmenuController {
     }
 
 
+    public void backtoDetail() {
+        activity.finish();
+        activity.startActivity(new Intent(activity, IdentitasIbuDetailActivity.class));
+        activity.overridePendingTransition(0,0);
+    }
 }

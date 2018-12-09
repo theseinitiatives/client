@@ -48,20 +48,20 @@ public class FormAddKader extends AppCompatActivity {
         //  userService = ApiUtils.getUserService();
 
         //==========================
-                String[] dusunsList = {
-                        "Menges	"	,
-                        "Penandak	"	,
-                        "Menyiuh	"	,
-                        "Selebung Lauk	"	,
-                        "Selebung Daye	"	,
-                        "Melar	"	,
-                        "Jali	"	,
-                        "Nyangget Lauk	"	,
-                        "Nyangget Daye	"	,
-                        "Pucung	"	,
-                        "Selebung Tengak	"	,
-                        "Mekar Sari	"
-                };
+        String[] dusunsList = {
+                "Menges"	,
+                "Penandak"	,
+                "Menyiuh"	,
+                "Selebung Lauk"	,
+                "Selebung Daye"	,
+                "Melar"	,
+                "Jali"	,
+                "Nyangget Lauk"	,
+                "Nyangget Daye"	,
+                "Pucung"	,
+                "Selebung Tengak"	,
+                "Mekar Sari"
+        };
                 // Search Nama Donor
                 final ArrayAdapter<String> adapterDusun = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, dusunsList);
                 //Find TextView control

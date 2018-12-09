@@ -113,19 +113,20 @@ public class FormAddIbuActivity extends AppCompatActivity {
         rhUnknown = (RadioButton)findViewById(R.id.rh_tidak_tahu);
 
         //==========================
+        //==========================
         String[] dusunsList = {
-                "Menges	"	,
-                "Penandak	"	,
-                "Menyiuh	"	,
-                "Selebung Lauk	"	,
-                "Selebung Daye	"	,
-                "Melar	"	,
-                "Jali	"	,
-                "Nyangget Lauk	"	,
-                "Nyangget Daye	"	,
-                "Pucung	"	,
-                "Selebung Tengak	"	,
-                "Mekar Sari	"
+                "Menges"	,
+                "Penandak"	,
+                "Menyiuh"	,
+                "Selebung Lauk"	,
+                "Selebung Daye"	,
+                "Melar"	,
+                "Jali"	,
+                "Nyangget Lauk"	,
+                "Nyangget Daye"	,
+                "Pucung"	,
+                "Selebung Tengak"	,
+                "Mekar Sari"
         };
         // Search Nama Donor
         final ArrayAdapter<String> adapterDusun = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, dusunsList);
@@ -297,13 +298,13 @@ public class FormAddIbuActivity extends AppCompatActivity {
         }
         dbManager.open();
         Cursor cursor = dbManager.fetchdetaildata(id);
-        dbManager.close();
+
         preloadEditVariable(cursor);
         mother_names.setText(cursor.getString(cursor.getColumnIndexOrThrow("name")));
         husband_names.setText(cursor.getString(cursor.getColumnIndexOrThrow("spousename")));
         dobs.setText(cursor.getString(cursor.getColumnIndexOrThrow("tgl_lahir")));
-        dusun.setText(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
-//        gubugs.setText(cursor.getString(cursor.getColumnIndexOrThrow("gubugss")));
+       // dusun.setText(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
+       // gubugs.setText(cursor.getString(cursor.getColumnIndexOrThrow("gubugss")));
         hphts.setText(cursor.getString(cursor.getColumnIndexOrThrow("hpht")));
 //        htps.setText(cursor.getString(cursor.getColumnIndexOrThrow("htp")));
         setDarahRhChecked(cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")));
@@ -311,7 +312,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
       //  kaders.setText(cursor.getString(cursor.getColumnIndexOrThrow("kader")));
         notelpons.setText(cursor.getString(cursor.getColumnIndexOrThrow("telp")));
         faktorResiko.setText(cursor.getString(cursor.getColumnIndexOrThrow("resiko")));
-
+        dbManager.close();
     }
 
     private boolean valueExist(String value){

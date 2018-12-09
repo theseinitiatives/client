@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="35dp"
+    android:layout_height="46dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/green"
     android:focusableInTouchMode="true"
@@ -10,8 +10,8 @@
 
     <LinearLayout
         android:id="@+id/title_layout"
-        android:layout_width="382dp"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -22,23 +22,17 @@
         android:paddingLeft="5dp"
         android:paddingRight="13dp">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_weight="1"
-            android:text="Sort By" />
+
 
         <Spinner
             android:id="@+id/dropdownSort"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="2dp"
             android:layout_weight="1" />
 
         <ImageView
-            android:layout_width="0.5dp"
+            android:layout_width="2dp"
             android:layout_height="fill_parent"
             android:src="@color/colorPrimaryDark" />
 

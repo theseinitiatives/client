@@ -79,18 +79,18 @@ public class FormAddBankDarah extends AppCompatActivity {
 
         //==========================
         String[] dusunsList = {
-                "Menges	"	,
-                "Penandak	"	,
-                "Menyiuh	"	,
-                "Selebung Lauk	"	,
-                "Selebung Daye	"	,
-                "Melar	"	,
-                "Jali	"	,
-                "Nyangget Lauk	"	,
-                "Nyangget Daye	"	,
-                "Pucung	"	,
-                "Selebung Tengak	"	,
-                "Mekar Sari	"
+                "Menges"	,
+                "Penandak"	,
+                "Menyiuh"	,
+                "Selebung Lauk"	,
+                "Selebung Daye"	,
+                "Melar"	,
+                "Jali"	,
+                "Nyangget Lauk"	,
+                "Nyangget Daye"	,
+                "Pucung"	,
+                "Selebung Tengak"	,
+                "Mekar Sari"
         };
         // Search Nama Donor
         final ArrayAdapter<String> adapterDusun = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, dusunsList);

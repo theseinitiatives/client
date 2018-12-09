@@ -1,0 +1,91 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativelayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center">
+
+    <ImageView
+        android:id="@+id/myImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pempatk" />
+
+    <TextView
+        android:id="@+id/nama_ibu"
+        android:layout_width="120dp"
+        android:layout_marginStart="15dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="83dp"
+        android:text="Inaq Baiq" />
+
+    <TextView
+        android:id="@+id/htp"
+
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nama_ibu"
+        android:layout_alignStart="@+id/nama_ibu"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="0dp"
+        android:text="08-09-2018" />
+
+    <TextView
+        android:id="@+id/penolong"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/htp"
+        android:layout_alignStart="@+id/nama_ibu"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="-1dp"
+        android:text="Dokter " />
+
+    <TextView
+        android:id="@+id/tempat"
+        android:layout_width="160dp"
+        android:layout_marginStart="15dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/penolong"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="42dp"
+        android:text="Puskesmas Selebung" />
+
+    <TextView
+        android:id="@+id/pendamping"
+        android:layout_width="160dp"
+        android:layout_marginStart="15dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tempat"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="43dp"
+        android:text="Suami, Keluarga" />
+
+    <TextView
+        android:id="@+id/transportasi"
+        android:layout_width="160dp"
+        android:layout_marginStart="15dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pendamping"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="41dp"
+        android:text=" Engkel" />
+
+    <TextView
+        android:id="@+id/donor"
+        android:layout_width="160dp"
+        android:layout_marginStart="15dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/transportasi"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="39dp"
+        android:text="Suami" />
+
+
+</RelativeLayout>

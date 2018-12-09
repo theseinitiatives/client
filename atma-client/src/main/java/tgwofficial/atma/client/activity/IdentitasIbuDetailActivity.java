@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.nativeform.FormAddIbuActivity;
+import tgwofficial.atma.client.activity.nativeform.StikerActivity;
 import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
 
@@ -60,7 +61,7 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         TextView txt_tempatbersalin = (TextView) findViewById(R.id.tempatbersalins);
         TextView txt_pendampingPersalinan = (TextView) findViewById(R.id.pendampingPersalinan);
 
-
+        final String Nama = cursor.getString(cursor.getColumnIndexOrThrow("name"));
         //set detail
         txt_name.setText("NAMA :"+cursor.getString(cursor.getColumnIndexOrThrow("name")));
         txt_spousename.setText("NAMA PASANGAN :"+cursor.getString(cursor.getColumnIndexOrThrow("spousename")));
@@ -93,7 +94,7 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         }
         ///rencana persalinan
         Cursor cursorRencanaPersalinan = dbManager.fetchRencanaPersalinan(id);
-        if ( status_persalinan.moveToFirst() ) {
+        if ( cursorRencanaPersalinan.moveToFirst() ) {
 
           //  TextView txt_tempatbersalins = (TextView) findViewById(R.id.tempatbersalins);
           //  TextView txt_penolognbersalin = (TextView) findViewById(R.id.penoling_bersalin);
@@ -129,6 +130,20 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent(IdentitasIbuDetailActivity.this, FormAddIbuActivity.class);
                 myIntent.putExtra("id",id);
+
+                startActivity(myIntent);
+                overridePendingTransition(0,0);
+                finish();
+            }
+        });
+        Button stikers = (Button) findViewById(R.id.stiker);
+
+        stikers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(IdentitasIbuDetailActivity.this, StikerActivity.class);
+                myIntent.putExtra("id",id);
+                myIntent.putExtra("nama",Nama);
                 startActivity(myIntent);
                 overridePendingTransition(0,0);
                 finish();
