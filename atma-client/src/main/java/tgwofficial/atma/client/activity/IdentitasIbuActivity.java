@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.Image;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -32,6 +34,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +42,11 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import tgwofficial.atma.client.AllConstants;
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.Utils.ApiUtils;
+import tgwofficial.atma.client.Utils.FilterActivity;
 import tgwofficial.atma.client.activity.nativeform.FormAddIbuActivity;
 import tgwofficial.atma.client.activity.nativeform.FormRencanaPersalinan;
 import tgwofficial.atma.client.activity.nativeform.FormStatusPersalinanActivity;
@@ -67,6 +72,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
     ArrayList<IdentitasModel> identitasModels=new ArrayList<>();
     String userId= "";
     String locaId = "";
+    private boolean firstRun = true;
 
 
     @Override
@@ -151,6 +157,60 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if(firstRun) {
+            firstRun = false;
+            return;
+        }
+//        Log.d("On Resume params",AllConstants.params);
+        Toast.makeText(getApplicationContext(),AllConstants.params,Toast.LENGTH_LONG).show();
+        refreshList();
+
+    }
+
+    private void refreshList(){
+        if(AllConstants.params == null)
+            return;
+        dbManager.open();
+        String[]cond = AllConstants.params.split(AllConstants.FLAG_SEPARATOR);
+        if(cond.length<2)
+            cond = new String[]{"","","no"};
+        String selectionClause =
+                DbHelper.HPHT + " LIKE '%"+cond[0]+"%' AND "+
+                DbHelper.DUSUN + " LIKE '%"+cond[1]+"%' "+
+                (cond[2].equalsIgnoreCase("yes")
+                        ? " AND "+DbHelper.RESIKO + " != ''"
+                        : "");
+        //HTP    //DUSUN //RISTI
+        Log.d("Query refresh",selectionClause);
+        dbManager.clearClause();
+        dbManager.setSelection(selectionClause);
+        identitasModels.clear();
+        IdentitasModel p = null;
+        dbManager.setOrderBy("hpht desc");
+        Cursor c = dbManager.fetchIbu("","");
+        while (c.moveToNext()) {
+            int id = c.getInt(0);
+            String uid = c.getString(c.getColumnIndexOrThrow("_id"));
+            String name = c.getString(c.getColumnIndexOrThrow("name"));
+            String spouse = c.getString(c.getColumnIndexOrThrow("spousename"));
+            String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
+            String goldarah = c.getString(c.getColumnIndexOrThrow("gol_darah"));
+            p = new IdentitasModel();
+            p.setId(uid);
+            p.setNama(name);
+            p.setPasangan(spouse);
+            p.setDusuns(dusun);
+            p.setStatus1(goldarah);
+
+            identitasModels.add(p);
+        }
+        dbManager.close();
+        lv.setAdapter(adapter);
+
+    }
     public void choose (final  long ids){
         final String[] forms = {"Form Status Persalinan","Form Rencana Persalinan","Detail View Ibu" };
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -672,15 +732,27 @@ public class IdentitasIbuActivity extends AppCompatActivity
     }
 
     public void initDropdownSort(){
+        ImageView filterButton = (ImageView) findViewById(R.id.header_filter_icon);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in = new Intent(getApplicationContext(),FilterActivity.class);
+//                in.putExtra("database", (Parcelable) dbManager);
+                Cursor c = dbManager.open().fetchUserData();
+                c.moveToFirst();
+                in.putExtra("iddesa",c.getString(c.getColumnIndexOrThrow(DbHelper.PARENT_LOCATION)));
+                dbManager.close();
+                startActivity(in);
+            }
+        });
+
         Spinner dropdownSort = (Spinner) findViewById(R.id.dropdownSort);
         dropdownSort.setAdapter(spinnerAdapter());
-        final Context context= this.getApplicationContext();
         dropdownSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                // Toast.makeText(context,position+"Selected",Toast.LENGTH_SHORT).show();
-
-                getIbu("",item[1][position]+"");
+                getIbu("",sortItem[1][position]+"");
             }
 
             @Override
@@ -690,10 +762,10 @@ public class IdentitasIbuActivity extends AppCompatActivity
         });
     }
     private ArrayAdapter<String> spinnerAdapter(){
-        return new ArrayAdapter<>(this.getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, item[0]);
+        return new ArrayAdapter<>(this.getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, sortItem[0]);
     }
 
-    private final String [][] item = {
+    private final String [][] sortItem = {
             {"Nama A-Z","Nama Z-A"},
             {"name ASC","name DESC"}
     };

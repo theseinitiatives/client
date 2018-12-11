@@ -89,4 +89,5 @@
     <string name="terakhirdonor">Tanggal Terakhir Donor</string>
     <string name="title_add_kader">Tambah Kader</string>
     <string name="search">Search</string>
+    <string name="title_activity_filter">FilterActivity</string>
 </resources>
