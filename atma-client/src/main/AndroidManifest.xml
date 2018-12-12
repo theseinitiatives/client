@@ -75,6 +75,10 @@
         <activity
             android:name=".activity.nativeform.StikerActivity"
             android:label="@string/title_add_kader"
+            android:theme="@style/AppThemeCustomized"></activity>
+        <activity
+            android:name=".activity.nativeform.FormCloseIbu"
+            android:theme="@style/AppThemeCustomized"></activity>
             android:theme="@style/AppThemeCustomized" />
         <activity
             android:name=".Utils.FilterActivity"

@@ -48,6 +48,7 @@ import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.Utils.ApiUtils;
 import tgwofficial.atma.client.Utils.FilterActivity;
 import tgwofficial.atma.client.activity.nativeform.FormAddIbuActivity;
+import tgwofficial.atma.client.activity.nativeform.FormCloseIbu;
 import tgwofficial.atma.client.activity.nativeform.FormRencanaPersalinan;
 import tgwofficial.atma.client.activity.nativeform.FormStatusPersalinanActivity;
 import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
@@ -219,7 +220,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
     }
     public void choose (final  long ids){
-        final String[] forms = {"Form Status Persalinan","Form Rencana Persalinan","Detail View Ibu" };
+        final String[] forms = {"Form Status Persalinan","Form Rencana Persalinan","Detail View Ibu","Tutup Ibu" };
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("");
         builder.setItems(forms, new DialogInterface.OnClickListener() {
@@ -247,6 +248,13 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     startActivity(intent);
                     finish();
                 }
+                if ("Tutup Ibu".equals(forms[which])) {
+                    String uid = identitasModels.get((int) ids).getId();
+                    Intent intent = new Intent(IdentitasIbuActivity.this, FormCloseIbu.class);
+                    intent.putExtra("id", uid);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
         builder.show();
@@ -266,14 +274,14 @@ public class IdentitasIbuActivity extends AppCompatActivity
             String name = c.getString(c.getColumnIndexOrThrow("name"));
             String spouse = c.getString(c.getColumnIndexOrThrow("spousename"));
             String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
-           String goldarah = c.getString(c.getColumnIndexOrThrow("gol_darah"));
            String resiko = c.getString(c.getColumnIndexOrThrow("resiko"));
+           String htp = c.getString(c.getColumnIndexOrThrow("htp"));
             p = new IdentitasModel();
             p.setId(uid);
             p.setNama(name);
             p.setPasangan(spouse);
             p.setDusuns(dusun);
-            p.setStatus1(goldarah);
+            p.setStatus1(htp);
             p.setResiko(resiko);
 
             identitasModels.add(p);

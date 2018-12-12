@@ -84,7 +84,7 @@
                         android:id="@+id/status_bersalin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/statusbersalin"
+                        android:hint="@string/status"
                         android:maxLines="1"
                         android:singleLine="true" />
 
@@ -94,16 +94,16 @@
                         android:layout_marginLeft="30dp"
                         android:orientation="vertical">
                         <RadioButton
-                            android:id="@+id/bersalin_ya"
+                            android:id="@+id/hamil"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/ya"
+                            android:text="@string/hamil"
                             android:onClick="onRadioButtonClicked"/>=
                         <RadioButton
-                            android:id="@+id/bersalin_tidak"
+                            android:id="@+id/nifas"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/tidak"
+                            android:text="@string/nifas"
                             android:onClick="onRadioButtonClicked" />
                     </RadioGroup>
                 </android.support.design.widget.TextInputLayout>

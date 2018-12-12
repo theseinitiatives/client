@@ -220,11 +220,11 @@ public class DbManager {
         Cursor c=null;
 
         if(searchTerm != null && searchTerm.length()>0) {
-            c = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.NAME+" LIKE '%"+searchTerm+"%'", selectionArgs, groupBy, having, orderByASCDESC);
+            c = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.NAME+" LIKE '%"+searchTerm+"%' AND "+DbHelper.NIFAS_SELESAI+"!='ya'", selectionArgs, groupBy, having, orderByASCDESC);
             return c;
         }
 
-        c = database.query(DbHelper.TABLE_NAME_IBU, columns, selection, selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.NIFAS_SELESAI+"!='ya'", selectionArgs, groupBy, having, orderBy);
         clearClause();
         return c;
     }
@@ -639,4 +639,14 @@ public class DbManager {
     }
 
 
+    public void closeIbu(String _id, String status_, String alasans) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put(  DbHelper.NIFAS_SELESAI, status_);
+        contentValue.put(  DbHelper.ALASAN, alasans);
+        contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        database.update(DbHelper.TABLE_NAME_IBU, contentValue,"_id = ?",new String[]{_id});
+
+    }
 }
