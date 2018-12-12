@@ -61,6 +61,11 @@ public class IdentitasibuCursorAdapter extends BaseAdapter {
         status.setText("HTP : "+humanizes(identitasModels.get(position).getStatus1()));
         dusunss.setText( "Dusun : "+humanizes(identitasModels.get(position).getDusuns()));
 
+        if(identitasModels.get(position).getResiko()!=null) {
+            if (identitasModels.get(position).getResiko().length() > 2)
+                convertView.setBackgroundColor(0xFFFF0000);
+        }
+
         final int pos=position;
 
 

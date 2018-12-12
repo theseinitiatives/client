@@ -11,6 +11,7 @@ public class IdentitasModel {
     String pasangan ;
     String status1 ;
     String Dusuns ;
+    String resiko;
 
     public String getNama() {
         return nama;
@@ -49,4 +50,6 @@ public class IdentitasModel {
     public String getId(){
         return id;
     }
+    public void setResiko(String resiko){this.resiko=resiko;}
+    public String getResiko(){return this.resiko;}
 }

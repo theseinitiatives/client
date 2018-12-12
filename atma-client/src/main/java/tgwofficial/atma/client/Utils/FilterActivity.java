@@ -87,9 +87,9 @@ public class FilterActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if(filterByHPHT == null)
-                    filterByHPHT = "";
+                    filterByHPHT = "~";
                 if(filterByDusun == null)
-                    filterByDusun =  "";
+                    filterByDusun =  "~";
                 AllConstants.params = String.format("%s%s%s%s%s",
                         "-"+filterByHPHT+"-",
                         AllConstants.FLAG_SEPARATOR,
@@ -119,7 +119,7 @@ public class FilterActivity extends Activity {
     private String [][] htpString(){
         return new String[][]{
                 {"---", "januari", "februari", "maret",    "april",    "mei",  "juni", "juli", "agustus",  "september",    "oktober",  "november", "desember"},
-                {"~", "4",       "5",        "6",        "7",        "8",    "9",    "10",    "11",        "12",            "1",       "2",       "3"}
+                {"~", "01",       "02",        "03",        "04",        "05",    "06",    "07",    "08",        "09",            "10",       "11",       "12"}
         };
     }
 
