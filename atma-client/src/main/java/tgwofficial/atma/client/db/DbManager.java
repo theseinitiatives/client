@@ -504,6 +504,7 @@ public class DbManager {
                 DbHelper.SPOUSENAME,
                 DbHelper.TGL_LAHIR,
                 DbHelper.DUSUN,
+                DbHelper.GUBUG,
                 DbHelper.HPHT,
                 DbHelper.HTP,
                 DbHelper.GOL_DARAH,
@@ -584,7 +585,7 @@ public class DbManager {
         }
         return c;
     }
-    private void clearClause(){
+    public void clearClause(){
         selection = null;
         selectionArgs = null;
         groupBy = null;

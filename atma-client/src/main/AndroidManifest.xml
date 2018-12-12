@@ -67,11 +67,11 @@
         <activity
             android:name=".activity.BankDarahDetailActivity"
             android:label="@string/title_activity_bank_darah_detail"
-            android:theme="@style/AppThemeCustomized"></activity>
+            android:theme="@style/AppThemeCustomized" />
         <activity
             android:name=".activity.nativeform.FormAddKader"
             android:label="@string/title_add_kader"
-            android:theme="@style/AppThemeCustomized"></activity>
+            android:theme="@style/AppThemeCustomized" />
         <activity
             android:name=".activity.nativeform.StikerActivity"
             android:label="@string/title_add_kader"
@@ -79,6 +79,11 @@
         <activity
             android:name=".activity.nativeform.FormCloseIbu"
             android:theme="@style/AppThemeCustomized"></activity>
+            android:theme="@style/AppThemeCustomized" />
+        <activity
+            android:name=".Utils.FilterActivity"
+            android:label="@string/title_activity_filter"
+            android:theme="@style/popupWindow"></activity>
     </application>
 
 </manifest>

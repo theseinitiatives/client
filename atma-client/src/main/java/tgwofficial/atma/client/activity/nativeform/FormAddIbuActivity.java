@@ -1,7 +1,6 @@
 package tgwofficial.atma.client.activity.nativeform;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -23,7 +21,6 @@ import java.util.Calendar;
 
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
-import tgwofficial.atma.client.activity.BankDarahActivity;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
 import tgwofficial.atma.client.db.DbManager;
 
@@ -98,7 +95,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         mother_names = (EditText) findViewById(R.id.mother_name);
         husband_names = (EditText) findViewById(R.id.husband_name);
         dobs = (EditText) findViewById(R.id.dob);
-       // dusun = (EditText) findViewById(R.id.dusun);
+        dusun = (EditText) findViewById(R.id.dusun);
         gubugs = (EditText) findViewById(R.id.gubug);
         hphts = (EditText) findViewById(R.id.hpht);
         faktorResiko = (EditText) findViewById(R.id.resiko) ;
@@ -251,6 +248,8 @@ public class FormAddIbuActivity extends AppCompatActivity {
             if (!id.equalsIgnoreCase(""))
                 fillField(id);
     }
+
+
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
@@ -322,8 +321,8 @@ public class FormAddIbuActivity extends AppCompatActivity {
         mother_names.setText(cursor.getString(cursor.getColumnIndexOrThrow("name")));
         husband_names.setText(cursor.getString(cursor.getColumnIndexOrThrow("spousename")));
         dobs.setText(cursor.getString(cursor.getColumnIndexOrThrow("tgl_lahir")));
-       // dusun.setText(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
-       // gubugs.setText(cursor.getString(cursor.getColumnIndexOrThrow("gubugss")));
+        dusun.setText(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
+        gubugs.setText(cursor.getString(cursor.getColumnIndexOrThrow("gubug")));
         hphts.setText(cursor.getString(cursor.getColumnIndexOrThrow("hpht")));
 //        htps.setText(cursor.getString(cursor.getColumnIndexOrThrow("htp")));
         setDarahRhChecked(cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")));

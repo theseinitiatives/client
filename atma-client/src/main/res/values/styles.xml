@@ -28,4 +28,10 @@
     <style name="AppThemeCustomized.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppThemeCustomized.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="popupWindow">
+        <item name="android:background">#00F0F0F0</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
 </resources>
