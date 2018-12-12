@@ -1,16 +1,15 @@
 package tgwofficial.atma.client.adapter;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import static tgwofficial.atma.client.Utils.StringUtil.humanizes;
+
 
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.model.IdentitasModel;
@@ -57,16 +56,17 @@ public class IdentitasibuCursorAdapter extends BaseAdapter {
         TextView status = (TextView) convertView.findViewById(R.id.status);
         TextView dusunss = (TextView) convertView.findViewById(R.id.dusun);
 
-        nameTxt.setText("Nama : "+identitasModels.get(position).getNama());
-        spousename.setText("Nama Suami : "+identitasModels.get(position).getPasangan());
-        status.setText("HTP : "+identitasModels.get(position).getStatus1());
-        dusunss.setText( "Dusun : "+identitasModels.get(position).getDusuns());
+        nameTxt.setText("Nama : "+ humanizes(identitasModels.get(position).getNama()));
+        spousename.setText("Nama Suami : "+humanizes(identitasModels.get(position).getPasangan()));
+        status.setText("HTP : "+humanizes(identitasModels.get(position).getStatus1()));
+        dusunss.setText( "Dusun : "+humanizes(identitasModels.get(position).getDusuns()));
 
         final int pos=position;
 
 
         return convertView;
     }
+
 }
 
 

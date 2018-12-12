@@ -15,6 +15,8 @@ import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.model.BankDarahmodel;
 import tgwofficial.atma.client.model.IdentitasModel;
 
+import static tgwofficial.atma.client.Utils.StringUtil.humanizes;
+
 public class BankDarahCursorAdapter extends BaseAdapter {
 
     Context c;
@@ -56,9 +58,9 @@ public class BankDarahCursorAdapter extends BaseAdapter {
         TextView gold = (TextView) convertView.findViewById(R.id.gol_d);
         TextView telp = (TextView) convertView.findViewById(R.id.notelp);
 
-        name.setText(bankDarahmodels.get(position).getNama());
-        gold.setText(bankDarahmodels.get(position).getGolds());
-        telp.setText(bankDarahmodels.get(position).getNomor());
+        name.setText("Nama : "+humanizes( bankDarahmodels.get(position).getNama()));
+        gold.setText("Gol Darah : "+humanizes(bankDarahmodels.get(position).getGolds()));
+        telp.setText(humanizes("No HP : "+bankDarahmodels.get(position).getNomor()));
       //  nama_donor.setText(bankDarahmodels.get(position).getPendonor());
 
         final int pos=position;

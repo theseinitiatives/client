@@ -22,6 +22,7 @@ import tgwofficial.atma.client.activity.nativeform.FormAddIbuActivity;
 import tgwofficial.atma.client.activity.nativeform.StikerActivity;
 import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
+import static tgwofficial.atma.client.Utils.StringUtil.humanizes;
 
 public class IdentitasIbuDetailActivity extends AppCompatActivity {
     private DbManager dbManager;
@@ -63,25 +64,25 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
 
         final String Nama = cursor.getString(cursor.getColumnIndexOrThrow("name"));
         //set detail
-        txt_name.setText("NAMA :"+cursor.getString(cursor.getColumnIndexOrThrow("name")));
-        txt_spousename.setText("NAMA PASANGAN :"+cursor.getString(cursor.getColumnIndexOrThrow("spousename")));
-        txt_dob.setText("TGL LAHIR :"+cursor.getString(cursor.getColumnIndexOrThrow("tgl_lahir")));
-        txt_desa.setText("DUSUN : "+cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
-        txt_hpht.setText("HPHT : "+cursor.getString(cursor.getColumnIndexOrThrow("hpht")));
-        txt_htp.setText("HTP : "+cursor.getString(cursor.getColumnIndexOrThrow("htp")));
-        txt_gol_darah.setText("Gol Darah : "+cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")));
-        txt_kader.setText("Nama Kader : "+cursor.getString(cursor.getColumnIndexOrThrow("kader")));
-        txt_hp.setText("No Telp : "+cursor.getString(cursor.getColumnIndexOrThrow("telp")));
-        txt_resiko.setText("Faktor Resiko : "+cursor.getString(cursor.getColumnIndexOrThrow("resiko")));
+        txt_name.setText("NAMA :"+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("name"))));
+        txt_spousename.setText("NAMA PASANGAN :"+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("spousename"))));
+        txt_dob.setText("TGL LAHIR :"+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("tgl_lahir"))));
+        txt_desa.setText("DUSUN : "+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("dusun"))));
+        txt_hpht.setText("HPHT : "+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("hpht"))));
+        txt_htp.setText("HTP : "+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("htp"))));
+        txt_gol_darah.setText("Gol Darah : "+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("gol_darah"))));
+        txt_kader.setText("Nama Kader : "+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("kader"))));
+        txt_hp.setText("No Telp : "+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("telp"))));
+        txt_resiko.setText("Faktor Resiko : "+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("resiko"))));
 
         //status bersalin
         Cursor status_persalinan = dbManager.fetchstatuspersalinan(id);
         if ( status_persalinan.moveToFirst() ) {
 
 
-            tgl_bersalin.setText("Tgl Persalinan : " + status_persalinan.getString(status_persalinan.getColumnIndexOrThrow("tgl_persalinan")));
-            kondisi_ibu.setText("Kondisi Ibu : " + status_persalinan.getString(status_persalinan.getColumnIndexOrThrow("kondisi_ibu")));
-            kondisi_anak.setText("Kondisi anak : " + status_persalinan.getString(status_persalinan.getColumnIndexOrThrow("kondisi_anak")));
+            tgl_bersalin.setText("Tgl Persalinan : " + humanizes(status_persalinan.getString(status_persalinan.getColumnIndexOrThrow("tgl_persalinan"))));
+            kondisi_ibu.setText("Kondisi Ibu : " + humanizes(status_persalinan.getString(status_persalinan.getColumnIndexOrThrow("kondisi_ibu"))));
+            kondisi_anak.setText("Kondisi anak : " + humanizes(status_persalinan.getString(status_persalinan.getColumnIndexOrThrow("kondisi_anak"))));
 
         }
         else{
@@ -99,14 +100,14 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
           //  TextView txt_tempatbersalins = (TextView) findViewById(R.id.tempatbersalins);
           //  TextView txt_penolognbersalin = (TextView) findViewById(R.id.penoling_bersalin);
 
-            txt_penolognPersalinan.setText("Penolong Persalinan: " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("penolong_persalinan")));
-            namaDonor.setText("Nama Pendonor : " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("name_pendonor")));
-            txt_hubunganPendonor.setText("Hubungan dengan Pendonor : " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("hubungan_pendonor")));
-            namaTransportasi.setText("Kendaraan  : " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("pemilik_kendaraan")));
-            txt_hubunganPemilik.setText("Hubungan Dengan Pemilik Kendaraan : " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("hubungan_ibu")));
-            txt_tempatbersalin.setText("Tempat Persalinan: " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("tempat_persalinan")));
+            txt_penolognPersalinan.setText("Penolong Persalinan: " + humanizes(cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("penolong_persalinan"))));
+            namaDonor.setText("Nama Pendonor : " + humanizes(cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("name_pendonor"))));
+            txt_hubunganPendonor.setText("Hubungan dengan Pendonor : " + humanizes(cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("hubungan_pendonor"))));
+            namaTransportasi.setText("Kendaraan  : " + humanizes(cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("pemilik_kendaraan"))));
+            txt_hubunganPemilik.setText("Hubungan Dengan Pemilik Kendaraan : " + humanizes(cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("hubungan_ibu"))));
+            txt_tempatbersalin.setText("Tempat Persalinan: " + humanizes(cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("tempat_persalinan"))));
 
-            txt_pendampingPersalinan.setText("Pendamping Persalinan: " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("pendamping_persalinan")));
+            txt_pendampingPersalinan.setText("Pendamping Persalinan: " + humanizes(cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("pendamping_persalinan"))));
             //  txt_tempatbersalin.setText("Tempat Persalinan: " + cursorRencanaPersalinan.getString(cursorRencanaPersalinan.getColumnIndexOrThrow("tempat_persalinan")));
         }
         else{

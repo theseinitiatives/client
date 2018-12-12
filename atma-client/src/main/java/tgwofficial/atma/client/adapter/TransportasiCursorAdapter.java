@@ -15,6 +15,8 @@ import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.model.BankDarahmodel;
 import tgwofficial.atma.client.model.TransportasiModel;
 
+import static tgwofficial.atma.client.Utils.StringUtil.humanizes;
+
 public class TransportasiCursorAdapter extends BaseAdapter {
 
     Context c;
@@ -56,9 +58,9 @@ public class TransportasiCursorAdapter extends BaseAdapter {
         TextView dusunss = (TextView) convertView.findViewById(R.id.dusuns);
         TextView kend = (TextView) convertView.findViewById(R.id.kendaraan);
 
-        name.setText(transportasiModels.get(position).getNama());
-        dusunss.setText(transportasiModels.get(position).getDusuns());
-        kend.setText(transportasiModels.get(position).getKendaraan());
+        name.setText("Nama : "+humanizes(transportasiModels.get(position).getNama()));
+        dusunss.setText("Dusun : "+humanizes(transportasiModels.get(position).getDusuns()));
+        kend.setText("Jenis Kendaraan : "+humanizes(transportasiModels.get(position).getKendaraan()));
 
 
         final int pos=position;
