@@ -99,7 +99,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         }
         dbManager.close();
 
-        getIbu("","name ASC");
+        getIbu("","resiko DESC");
 
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -109,7 +109,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                getIbu(newText, "name ASC");
+                getIbu(newText, "resiko DESC");
                 return false;
             }
         });
@@ -154,6 +154,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         mService = ApiUtils.getSOService();
         Log.i("MSERVICE", mService.toString());
+        refreshList();
 
     }
 
@@ -165,7 +166,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             return;
         }
 //        Log.d("On Resume params",AllConstants.params);
-        Toast.makeText(getApplicationContext(),AllConstants.params,Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(),AllConstants.params,Toast.LENGTH_LONG).show();
         refreshList();
 
     }
@@ -175,6 +176,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
             return;
         dbManager.open();
         String[]cond = AllConstants.params.split(AllConstants.FLAG_SEPARATOR);
+        if(cond.length<2){
+            cond = new String[]{"","","no"};
+        }
         cond[0] = cond[0].contains("~") ? "" : cond[0];
         cond[1] = cond[1].contains("~") ? "" : cond[1];
         String selectionClause =
@@ -198,18 +202,20 @@ public class IdentitasIbuActivity extends AppCompatActivity
             String spouse = c.getString(c.getColumnIndexOrThrow("spousename"));
             String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
             String goldarah = c.getString(c.getColumnIndexOrThrow("gol_darah"));
+            String resiko = c.getString(c.getColumnIndexOrThrow("resiko"));
             p = new IdentitasModel();
             p.setId(uid);
             p.setNama(name);
             p.setPasangan(spouse);
             p.setDusuns(dusun);
             p.setStatus1(goldarah);
+            p.setResiko(resiko);
 
             identitasModels.add(p);
         }
         dbManager.close();
         lv.setAdapter(adapter);
-        AllConstants.params = null;
+//        AllConstants.params = null;
 
     }
     public void choose (final  long ids){
@@ -261,12 +267,14 @@ public class IdentitasIbuActivity extends AppCompatActivity
             String spouse = c.getString(c.getColumnIndexOrThrow("spousename"));
             String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
            String goldarah = c.getString(c.getColumnIndexOrThrow("gol_darah"));
+           String resiko = c.getString(c.getColumnIndexOrThrow("resiko"));
             p = new IdentitasModel();
             p.setId(uid);
             p.setNama(name);
             p.setPasangan(spouse);
             p.setDusuns(dusun);
             p.setStatus1(goldarah);
+            p.setResiko(resiko);
 
             identitasModels.add(p);
         }
@@ -767,7 +775,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
     }
 
     private final String [][] sortItem = {
-            {"Nama A-Z","Nama Z-A"},
-            {"name ASC","name DESC"}
+            {"Faktor Resiko","Nama A-Z","Nama Z-A"},
+            {"resiko DESC","name ASC","name DESC"}
     };
 }

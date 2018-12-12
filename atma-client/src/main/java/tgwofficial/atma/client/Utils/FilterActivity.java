@@ -87,9 +87,9 @@ public class FilterActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if(filterByHPHT == null)
-                    filterByHPHT = "";
+                    filterByHPHT = "~";
                 if(filterByDusun == null)
-                    filterByDusun =  "";
+                    filterByDusun =  "~";
                 AllConstants.params = String.format("%s%s%s%s%s",
                         "-"+filterByHPHT+"-",
                         AllConstants.FLAG_SEPARATOR,
