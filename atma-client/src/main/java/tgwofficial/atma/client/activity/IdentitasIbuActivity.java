@@ -167,7 +167,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             return;
         }
 //        Log.d("On Resume params",AllConstants.params);
-//        Toast.makeText(getApplicationContext(),AllConstants.params,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),AllConstants.params,Toast.LENGTH_LONG).show();
         refreshList();
 
     }
@@ -183,7 +183,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         cond[0] = cond[0].contains("~") ? "" : cond[0];
         cond[1] = cond[1].contains("~") ? "" : cond[1];
         String selectionClause =
-                DbHelper.HPHT + " LIKE '%"+cond[0]+"%' AND "+
+                DbHelper.HTP + " LIKE '%"+cond[0]+"%' AND "+
                 DbHelper.DUSUN + " LIKE '%"+cond[1]+"%' "+
                 (cond[2].equalsIgnoreCase("yes")
                         ? " AND "+DbHelper.RESIKO + " != ''"
@@ -202,7 +202,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             String name = c.getString(c.getColumnIndexOrThrow("name"));
             String spouse = c.getString(c.getColumnIndexOrThrow("spousename"));
             String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
-            String goldarah = c.getString(c.getColumnIndexOrThrow("gol_darah"));
+            String goldarah = c.getString(c.getColumnIndexOrThrow("htp"));
             String resiko = c.getString(c.getColumnIndexOrThrow("resiko"));
             p = new IdentitasModel();
             p.setId(uid);
