@@ -58,8 +58,8 @@ public class IdentitasibuCursorAdapter extends BaseAdapter {
         TextView dusunss = (TextView) convertView.findViewById(R.id.dusun);
 
         nameTxt.setText("Nama : "+identitasModels.get(position).getNama());
-        spousename.setText("Nama SUami : "+identitasModels.get(position).getPasangan());
-        status.setText("Gol Darah : "+identitasModels.get(position).getStatus1());
+        spousename.setText("Nama Suami : "+identitasModels.get(position).getPasangan());
+        status.setText("HTP : "+identitasModels.get(position).getStatus1());
         dusunss.setText( "Dusun : "+identitasModels.get(position).getDusuns());
 
         final int pos=position;

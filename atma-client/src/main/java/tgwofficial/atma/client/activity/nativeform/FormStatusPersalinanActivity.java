@@ -170,14 +170,14 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
 
 
             // set nifas
-            case R.id.bersalin_ya:
+            case R.id.hamil:
                 if (checked)
-                    setStatusibu("ya");
+                    setStatusibu("hamil");
 
                 break;
-            case R.id.bersalin_tidak:
+            case R.id.nifas:
                 if (checked)
-                    setStatusibu("tidak");
+                    setStatusibu("nifas");
                 break;
             case R.id.ibu_hidup:
                 if (checked)

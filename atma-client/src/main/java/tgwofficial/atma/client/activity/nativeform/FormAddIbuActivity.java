@@ -18,6 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.BankDarahActivity;
@@ -85,7 +88,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
     String Statuss2;
     Button btnLogin;
 
-
+    String htpss = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,12 +193,28 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 String dobss = dobs.getText().toString();
                 String gubugss = dusun.getText().toString();
                 String hphtss = hphts.getText().toString();
-                String htpss = "";
+
                 String goldarahss = getDarah() + " - "+getRhesus();
                 String notelponss = notelpons.getText().toString();
                 String radioStatus2 = getStatuss2();
                 String fResiko = faktorResiko.getText().toString();
                 String gubug = gubugs.getText().toString();
+
+                //hphtss = "2008-01-01";  // Start date
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                Calendar c = Calendar.getInstance();
+                try {
+                    c.setTime(sdf.parse(hphtss));
+                    c.add(Calendar.MONTH, 9);
+                    c.add(Calendar.DATE,7);// number of days to add
+                    htpss = sdf.format(c.getTime());  // dt is now the new date
+                    Log.e("HTP==========",htpss);
+                } catch( Exception e )
+                {
+                    Log.d("TAG_NAME", e.getMessage()  );
+                }
+
+
                 if(mothername.contains("'") || husbandname.contains("'")) {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
                             Toast.LENGTH_LONG).show();

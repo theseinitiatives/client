@@ -207,13 +207,13 @@ public class IdentitasIbuActivity extends AppCompatActivity
             String name = c.getString(c.getColumnIndexOrThrow("name"));
             String spouse = c.getString(c.getColumnIndexOrThrow("spousename"));
             String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
-           String goldarah = c.getString(c.getColumnIndexOrThrow("gol_darah"));
+           String htp = c.getString(c.getColumnIndexOrThrow("htp"));
             p = new IdentitasModel();
             p.setId(uid);
             p.setNama(name);
             p.setPasangan(spouse);
             p.setDusuns(dusun);
-            p.setStatus1(goldarah);
+            p.setStatus1(htp);
 
             identitasModels.add(p);
         }
