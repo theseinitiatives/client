@@ -43,6 +43,7 @@ import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.Utils.ApiUtils;
 import tgwofficial.atma.client.activity.nativeform.FormAddIbuActivity;
+import tgwofficial.atma.client.activity.nativeform.FormCloseIbu;
 import tgwofficial.atma.client.activity.nativeform.FormRencanaPersalinan;
 import tgwofficial.atma.client.activity.nativeform.FormStatusPersalinanActivity;
 import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
@@ -152,7 +153,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
     }
 
     public void choose (final  long ids){
-        final String[] forms = {"Form Status Persalinan","Form Rencana Persalinan","Detail View Ibu" };
+        final String[] forms = {"Form Status Persalinan","Form Rencana Persalinan","Detail View Ibu","Tutup Ibu" };
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("");
         builder.setItems(forms, new DialogInterface.OnClickListener() {
@@ -176,6 +177,13 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 if ("Detail View Ibu".equals(forms[which])) {
                     String uid = identitasModels.get((int) ids).getId();
                     Intent intent = new Intent(IdentitasIbuActivity.this, IdentitasIbuDetailActivity.class);
+                    intent.putExtra("id", uid);
+                    startActivity(intent);
+                    finish();
+                }
+                if ("Tutup Ibu".equals(forms[which])) {
+                    String uid = identitasModels.get((int) ids).getId();
+                    Intent intent = new Intent(IdentitasIbuActivity.this, FormCloseIbu.class);
                     intent.putExtra("id", uid);
                     startActivity(intent);
                     finish();
