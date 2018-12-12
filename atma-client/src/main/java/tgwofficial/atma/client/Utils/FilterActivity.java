@@ -57,7 +57,7 @@ public class FilterActivity extends Activity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                filterByHPHT = null;
             }
         });
 
@@ -71,7 +71,7 @@ public class FilterActivity extends Activity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                filterByDusun = null;
             }
         });
 
@@ -118,8 +118,8 @@ public class FilterActivity extends Activity {
 
     private String [][] htpString(){
         return new String[][]{
-                {"januari", "februari", "maret",    "april",    "mei",  "juni", "juli", "agustus",  "september",    "oktober",  "november", "desember"},
-                {"4",       "5",        "6",        "7",        "8",    "9",    "10",    "11",        "12",            "1",       "2",       "3"}
+                {"---", "januari", "februari", "maret",    "april",    "mei",  "juni", "juli", "agustus",  "september",    "oktober",  "november", "desember"},
+                {"~", "4",       "5",        "6",        "7",        "8",    "9",    "10",    "11",        "12",            "1",       "2",       "3"}
         };
     }
 
@@ -130,10 +130,11 @@ public class FilterActivity extends Activity {
         Cursor c = dbManager.fetchLocationTree();
         dbManager.clearClause();
         c.moveToFirst();
-        String temp[][] = new String[2][c.getCount()];
+        String temp[][] = new String[2][c.getCount()+1];
+        temp[0][0] = "---";temp[1][0]="~";
         for(int i=0;i<c.getCount();i++){
-            temp[0][i] = temp[1][i] = c.getString(c.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
-            System.out.println("isi temp : "+temp[1][i]);
+            temp[0][i+1] = temp[1][i+1] = c.getString(c.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
+            System.out.println("isi temp : "+temp[1][i+1]);
             c.moveToNext();
         }
         dbManager.close();

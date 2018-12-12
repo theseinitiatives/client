@@ -175,8 +175,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
             return;
         dbManager.open();
         String[]cond = AllConstants.params.split(AllConstants.FLAG_SEPARATOR);
-        if(cond.length<2)
-            cond = new String[]{"","","no"};
+        cond[0] = cond[0].contains("~") ? "" : cond[0];
+        cond[1] = cond[1].contains("~") ? "" : cond[1];
         String selectionClause =
                 DbHelper.HPHT + " LIKE '%"+cond[0]+"%' AND "+
                 DbHelper.DUSUN + " LIKE '%"+cond[1]+"%' "+
@@ -209,6 +209,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         }
         dbManager.close();
         lv.setAdapter(adapter);
+        AllConstants.params = null;
 
     }
     public void choose (final  long ids){
