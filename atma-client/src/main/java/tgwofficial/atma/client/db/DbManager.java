@@ -226,7 +226,7 @@ public class DbManager {
             return c;
         }
 
-        c = database.query(DbHelper.TABLE_NAME_IBU, columns, selection == null ? "" : selection+" AND " + DbHelper.NIFAS_SELESAI+"!='ya'", selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_IBU, columns, (selection == null ? "" : selection+" AND ") + DbHelper.NIFAS_SELESAI+"!='ya'", selectionArgs, groupBy, having, orderBy);
         clearClause();
         return c;
     }
