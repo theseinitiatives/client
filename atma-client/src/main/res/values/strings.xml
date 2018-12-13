@@ -90,4 +90,8 @@
     <string name="title_add_kader">Tambah Kader</string>
     <string name="search">Search</string>
     <string name="title_activity_filter">FilterActivity</string>
+    <string name="komplikasi">Komplikasi Ibu</string>
+    <string name="jumlah_bayi">Jumlah Bayi</string>
+    <string name="jenis_kel">Jenis Kelamin</string>
+    <string name="komplikasi_bayi">komplikasi bayi baru lahir</string>
 </resources>

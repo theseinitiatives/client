@@ -74,21 +74,12 @@ public class DbHelper  extends SQLiteOpenHelper {
    // public static final String IS_SYNC = "is_sync";
 
 
+    public static final String JUMLAHBAYI = "jumlah_bayi";
+    public static final String JENISKELAMIN =  "jenis_kelamin";
+    public static final String KOMPLIKASIIBU = "komplikasi_ibu";
+    public static final String KOMPLIKASIANAK = "komplikasi_anak";
     // user field
 
-    /*
-    "id": "2",
-    "username": "demo",
-    "email": "demo@these.org",
-    "created_on": "1543626363",
-    "last_login": "1543827608",
-    "active": "1",
-    "first_name": "Ainul",
-    "last_name": "Hamdani",
-    "company": "THESE",
-    "phone": "081916029525",
-    "groups": "kader"
-    */
     /*  Application User Variable*/
     public static final String PERSON_ID = "id";
     public static final String USERNAME = "username";
@@ -181,13 +172,17 @@ public class DbHelper  extends SQLiteOpenHelper {
             + ID_IBU + " TEXT NOT NULL, "
             + STATUS_BERSALIN + " INTEGER DEFAULT 0, "
             + TGL_PERSALINAN + " TEXT , "
-            + KONDISI_IBU + " INTEGER DEFAULT 0, "
+            + KONDISI_IBU + " TEXT , "
             + KONDISI_ANAK + " TEXT , "
+            + JUMLAHBAYI + " TEXT , "
+            + JENISKELAMIN + " TEXT , "
+            + KOMPLIKASIIBU + " TEXT , "
+            + KOMPLIKASIANAK + " TEXT , "
+            + TEMPAT_PERSALINAN + " TEXT , "
             + UPDATE_ID + " TEXT , "
             + IS_SYNC + " INTEGER DEFAULT 0, "
             + IS_SEND + " INTEGER DEFAULT 0, "
             + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
-
 
 
 

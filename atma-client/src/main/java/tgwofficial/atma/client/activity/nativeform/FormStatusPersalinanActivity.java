@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -20,14 +21,49 @@ import tgwofficial.atma.client.activity.IdentitasIbuActivity;
 import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class FormStatusPersalinanActivity extends AppCompatActivity {
 
     private RadioButton hamil,nifas,risti;
     EditText tgl_bersalin;
-    String statusibu;
-    String kondisiibu;
-    String kondisianak;
-    String nifasberakhir;
+    String   statusibu;
+    String   kondisiibu;
+    String   kondisianak;
+    String   nifasberakhir;
+    LinearLayout layout_nifas;
+    EditText jumlahBayi;
+    EditText jenisKelamin;
+
+    public String getTempatBersalin() {
+        return tempatBersalin;
+    }
+
+    public void setTempatBersalin(String tempatBersalin) {
+        this.tempatBersalin = tempatBersalin;
+    }
+
+    public String getKomplikasiIbu() {
+        return komplikasiIbu;
+    }
+
+    public void setKomplikasiIbu(String komplikasiIbu) {
+        this.komplikasiIbu = komplikasiIbu;
+    }
+
+    public String getKomplikasiAnak() {
+        return komplikasiAnak;
+    }
+
+    public void setKomplikasiAnak(String komplikasiAnak) {
+        this.komplikasiAnak = komplikasiAnak;
+    }
+
+    String   tempatBersalin;
+    String   komplikasiIbu;
+    String   komplikasiAnak;
+
 
     public String getNifasberakhir() {
         return nifasberakhir;
@@ -102,10 +138,10 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
         dbManager = new DbManager(this);
         final String idIbu = getIntent().getStringExtra("id");
         tgl_bersalin = (EditText) findViewById(R.id.tgl_persalinan);
-
+        layout_nifas = (LinearLayout) findViewById(R.id.layout_nifas);
       //  htps = (EditText) findViewById(R.id.htp);
-//        goldarahs = (EditText) findViewById(R.id.goldarah);
-       // kaders = (EditText) findViewById(R.id.kader);
+        jumlahBayi = (EditText) findViewById(R.id.jumlah);
+        jenisKelamin = (EditText) findViewById(R.id.jenis_kel);
 
 
         dbManager = new DbManager(this);
@@ -143,33 +179,32 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
             }
         });
 
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                jumlahBayi = (EditText) findViewById(R.id.jumlah);
+                String jumlahBayis = jumlahBayi.getText().toString();
+                String jenisKelamins = jenisKelamin.getText().toString();
                 String tgl_persalinn = tgl_bersalin.getText().toString();
                 String radioStatus2 = getStatuss2();
                 String ibubersalin = getStatusibu();
                 String kondisi_ibu = getKondisiibu();
                 String kondisi_anak = getKondisianak();
-                String locId = "Dusun_test";
-                String userId = "user_test";
+                String komplikasiIbus = getKomplikasiIbu();
+                String komplikasiAnak = getKomplikasiAnak();
+                String tempat = getTempatBersalin();
 
                     dbManager.open();
-                    dbManager.insertStatusPersalinan(uniqueId,tgl_persalinn,ibubersalin,kondisi_ibu,kondisi_anak);
-                                dbManager.close();
+                    dbManager.insertStatusPersalinan(uniqueId,tgl_persalinn,ibubersalin,kondisi_ibu,kondisi_anak,jumlahBayis,jenisKelamins, komplikasiIbus, komplikasiAnak,tempat);
+                    dbManager.close();
                     finish();
                     Intent myIntent = new Intent(FormStatusPersalinanActivity.this, IdentitasIbuActivity.class);
                     startActivity(myIntent);
 
 
 
-                //validate form
-              //  if(validateinput(mothername,husbandname,dobss,gubugss,hphtss,htpss,goldarahss,kaderss,notelponss,radioStatus,radioStatus2)){
-                  //  dbManager.open();
-                  //  dbManager.insertibu(mothername,husbandname,dobss,gubugss,hphtss,htpss,goldarahss,kaderss,notelponss,radioStatus,radioStatus2);
-                  //  dbManager.close();
-              //  }
+
             }
         });
     }
@@ -185,11 +220,12 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
             case R.id.hamil:
                 if (checked)
                     setStatusibu("hamil");
-
+                    layout_nifas.setVisibility(GONE);
                 break;
             case R.id.nifas:
                 if (checked)
                     setStatusibu("nifas");
+                    layout_nifas.setVisibility(VISIBLE);
                 break;
             case R.id.ibu_hidup:
                 if (checked)
@@ -206,6 +242,69 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
             case R.id.anak_mati:
                 if (checked)
                     setKondisianak("meninggal");
+                break;
+
+
+                //set tempat
+            case R.id.rs:
+                if (checked)
+                    setTempatBersalin("rumahsakit");
+                break;
+            case R.id.polindes:
+                if (checked)
+                    setTempatBersalin("polindes");
+                break;
+            case R.id.puskesmas:
+                if (checked)
+                    setTempatBersalin("puskesmas");
+                break;
+            case R.id.rumah:
+                if (checked)
+                    setTempatBersalin("rumah");
+                break;
+            case R.id.tempat_lainnya:
+                if (checked)
+                    setTempatBersalin("lainnya");
+                break;
+
+                //set komlikasi
+            case R.id.perdarahan:
+                if (checked)
+                    setKomplikasiIbu("perdarahan berat");
+                break;
+            case R.id.peb:
+                if (checked)
+                    setKomplikasiIbu("peb");
+                break;
+            case R.id.eklamsi:
+                if (checked)
+                    setKomplikasiIbu("eklamsi");
+                break;
+            case R.id.sepsis:
+                if (checked)
+                    setKomplikasiIbu("sepsis");
+                break;
+            case R.id.k_lainnya:
+                if (checked)
+                    setKomplikasiIbu("lainnya");
+                break;
+
+                //set komplikasi anak
+            case R.id.prem:
+                if (checked)
+                    setKomplikasiAnak("prematur");
+                break;
+            case R.id.bblr:
+                if (checked)
+                    setKomplikasiAnak("bblr");
+                break;
+            case R.id.asfiksia:
+                if (checked)
+                    setKomplikasiAnak("asfiksia");
+                break;
+            case R.id.k_babylainnya:
+                if (checked)
+                    setKomplikasiAnak("lainnya");
                 break;
         }
     }

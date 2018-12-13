@@ -164,16 +164,22 @@ public class DbManager {
         database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
     }
 
-    public void insertStatusPersalinan(String idIbu, String tgl_bersalin,String ibubersalin, String kondisi_ibu, String kondisi_anak){
+    public void insertStatusPersalinan(String idIbu, String tgl_bersalin,String ibubersalin, String kondisi_ibu, String kondisi_anak,String jumlahBayis, String jenisKelamins, String komplikasiIbus, String komplikasiAnak, String tempat){
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.ID_IBU,idIbu);
         contentValue.put( DbHelper.STATUS_BERSALIN,ibubersalin);
         contentValue.put( DbHelper.TGL_PERSALINAN,tgl_bersalin);
         contentValue.put( DbHelper.KONDISI_ANAK,kondisi_anak);
         contentValue.put( DbHelper.KONDISI_IBU,kondisi_ibu);
+        contentValue.put( DbHelper.JUMLAHBAYI,jumlahBayis);
+        contentValue.put( DbHelper.JENISKELAMIN,jenisKelamins);
+        contentValue.put( DbHelper.KOMPLIKASIIBU,komplikasiIbus);
+        contentValue.put( DbHelper.KOMPLIKASIANAK,komplikasiAnak);
+        contentValue.put( DbHelper.TEMPAT_PERSALINAN,tempat);
         contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
+        //String jumlahBayis, String jenisKelamins, String komplikasiIbus, String komplikasiAnak, String tempat
         database.insert(DbHelper.TABLE_PERSALINAN, null, contentValue);
     }
 
@@ -663,4 +669,6 @@ public class DbManager {
         database.update(DbHelper.TABLE_NAME_IBU, contentValue,"_id = ?",new String[]{_id});
 
     }
+
+
 }
