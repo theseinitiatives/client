@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import tgwofficial.atma.client.AllConstants;
 import tgwofficial.atma.client.model.syncmodel.ApiModel;
@@ -144,6 +145,7 @@ public class DbManager {
     public void insertibu(String mothername, String husbandname,String dobss, String gubugss,
     String hphtss, String htpss,String goldarahss, String kaderss,String notelponss,  String radioStatus2, String resiko,String gubug, String nifas_berakhir) {
         ContentValues contentValue = new ContentValues();
+        contentValue.put(  DbHelper.UNIQUEID, UUID.randomUUID().toString());
         contentValue.put(  DbHelper.NAME, mothername);
         contentValue.put(  DbHelper.SPOUSENAME, husbandname);
         contentValue.put( DbHelper.TGL_LAHIR,dobss);
@@ -362,7 +364,7 @@ public class DbManager {
     public void insertbankdarah(String donor,String text_gubug,String text_dusun,String notelponss, String radioStatus, String radioStatus2) {
 
         ContentValues contentValue = new ContentValues();
-
+        contentValue.put(  DbHelper.UNIQUEID, UUID.randomUUID().toString());
         contentValue.put( DbHelper.NAME_PENDONOR,donor);
         contentValue.put( DbHelper.GUBUG,text_gubug);
         contentValue.put( DbHelper.DUSUN,text_dusun);
@@ -391,6 +393,7 @@ public class DbManager {
 
     public void insertbanktransportasi(String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets) {
         ContentValues contentValue = new ContentValues();
+        contentValue.put(  DbHelper.UNIQUEID, UUID.randomUUID().toString());
         contentValue.put( DbHelper.NAME,text_pemiliks);
         contentValue.put( DbHelper.TELP,text_nohp);
         contentValue.put( DbHelper.Jenis,jenis);

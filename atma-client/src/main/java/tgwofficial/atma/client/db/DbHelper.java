@@ -111,6 +111,9 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String LOC_NAME = "name";
 
 
+    public static final String UNIQUEID = "unique_id";
+
+
     static final String DB_NAME = "atma.DB";
 
     // database version
@@ -120,7 +123,8 @@ public class DbHelper  extends SQLiteOpenHelper {
     // Creating table Ibu
     private static final String CREATE_TABLE_IBU = "create table "
             + TABLE_NAME_IBU + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + NAME + " TEXT NOT NULL, "
+            + UNIQUEID + " TEXT NOT NULL, "
+            + NAME + " TEXT ,"
             + SPOUSENAME + " TEXT , "
             + TGL_LAHIR + " TEXT , "
             + DUSUN + " TEXT , "
@@ -138,23 +142,11 @@ public class DbHelper  extends SQLiteOpenHelper {
             + IS_SEND + " INTEGER DEFAULT 0, "
             + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
 
-    private static final String CREATE_TABLE_STATUS_PERSALINAN = "create table "
-            + TABLE_PERSALINAN + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + ID_IBU + " INTEGER , "
-            + STATUS_BERSALIN + " INTEGER DEFAULT 0, "
-            + TGL_PERSALINAN + " TEXT , "
-            + KONDISI_IBU + " INTEGER DEFAULT 0, "
-            + KONDISI_ANAK + " TEXT , "
-            + UPDATE_ID + " TEXT , "
-            + IS_SYNC + " INTEGER DEFAULT 0, "
-            + IS_SEND + " INTEGER DEFAULT 0, "
-            + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
-
-
 
     // Creating table Transportasi
     private static final String CREATE_TABLE_TRANS = "create table "
             + TABLE_NAME_TRANS + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + UNIQUEID + " TEXT NOT NULL, "
             + NAME + " TEXT NOT NULL, "
             + Jenis + " TEXT, "
             + Kapasitas + " TEXT , "
@@ -171,6 +163,7 @@ public class DbHelper  extends SQLiteOpenHelper {
     // Creating table Bank Darah
     private static final String CREATE_TABLE_BANK = "create table "
             + TABLE_NAME_BANK + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + UNIQUEID + " TEXT NOT NULL, "
             + NAME_PENDONOR + " TEXT , "
             + DUSUN + " TEXT , "
             + GUBUG + " TEXT , "
@@ -181,6 +174,23 @@ public class DbHelper  extends SQLiteOpenHelper {
             + IS_SYNC + " INTEGER DEFAULT 0, "
             + IS_SEND + " INTEGER DEFAULT 0, "
             + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
+
+
+    private static final String CREATE_TABLE_STATUS_PERSALINAN = "create table "
+            + TABLE_PERSALINAN + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + ID_IBU + " INTEGER , "
+            + STATUS_BERSALIN + " INTEGER DEFAULT 0, "
+            + TGL_PERSALINAN + " TEXT , "
+            + KONDISI_IBU + " INTEGER DEFAULT 0, "
+            + KONDISI_ANAK + " TEXT , "
+            + UPDATE_ID + " TEXT , "
+            + IS_SYNC + " INTEGER DEFAULT 0, "
+            + IS_SEND + " INTEGER DEFAULT 0, "
+            + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
+
+
+
+
 
     // Creating table rencana_persalinan
     private static final String CREATE_TABLE_RENCANA = "create table "
