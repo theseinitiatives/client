@@ -33,7 +33,7 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         setContentView(R.layout.identitas_ibu_detail_layout);
         dbManager = new DbManager(this);
         dbManager.open();
-        final String id = getIntent().getStringExtra("id");
+        final String id = getIntent().getStringExtra("uniqueId");
         Cursor cursor = dbManager.fetchdetaildata(id);
 
         TextView txt_name = (TextView) findViewById(R.id.name);

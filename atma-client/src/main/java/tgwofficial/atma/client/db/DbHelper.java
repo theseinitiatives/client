@@ -147,7 +147,7 @@ public class DbHelper  extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_TRANS = "create table "
             + TABLE_NAME_TRANS + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + UNIQUEID + " TEXT NOT NULL, "
-            + NAME + " TEXT NOT NULL, "
+            + NAME + " TEXT , "
             + Jenis + " TEXT, "
             + Kapasitas + " TEXT , "
             + TELP + " TEXT , "
@@ -178,7 +178,7 @@ public class DbHelper  extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_STATUS_PERSALINAN = "create table "
             + TABLE_PERSALINAN + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + ID_IBU + " INTEGER , "
+            + ID_IBU + " TEXT NOT NULL, "
             + STATUS_BERSALIN + " INTEGER DEFAULT 0, "
             + TGL_PERSALINAN + " TEXT , "
             + KONDISI_IBU + " INTEGER DEFAULT 0, "
@@ -195,8 +195,8 @@ public class DbHelper  extends SQLiteOpenHelper {
     // Creating table rencana_persalinan
     private static final String CREATE_TABLE_RENCANA = "create table "
             + TABLE_NAME_RENCANA + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + ID_IBU + " INTEGER , "
-            + ID_TRANS + " INTEGER , "
+            + ID_IBU + " TEXT NOT NULL, "
+            + ID_TRANS + " TEXT , "
             + PENOLONG_PERSALINAN + " TEXT , "
             + TEMPAT_PERSALINAN + " TEXT , "
             + PENDAMPING_PERSALINAN + " TEXT , "

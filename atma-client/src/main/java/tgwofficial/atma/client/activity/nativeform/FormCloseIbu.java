@@ -1,6 +1,7 @@
 package tgwofficial.atma.client.activity.nativeform;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.RadioButton;
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
+import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
 
 public class FormCloseIbu extends AppCompatActivity {
@@ -36,6 +38,7 @@ public class FormCloseIbu extends AppCompatActivity {
     String Statuss;
     Button btnLogin;
 
+    String uniqueId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,8 @@ public class FormCloseIbu extends AppCompatActivity {
 
         btnLogin = (Button) findViewById(R.id.saved);
         //  userService = ApiUtils.getUserService();
+
+
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {

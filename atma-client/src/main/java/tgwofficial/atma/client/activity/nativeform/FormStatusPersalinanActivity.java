@@ -17,6 +17,7 @@ import android.widget.Toast;
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
+import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
 
 public class FormStatusPersalinanActivity extends AppCompatActivity {
@@ -92,7 +93,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
 
     String Statuss2;
     Button btnLogin;
-
+    String uniqueId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +106,17 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
       //  htps = (EditText) findViewById(R.id.htp);
 //        goldarahs = (EditText) findViewById(R.id.goldarah);
        // kaders = (EditText) findViewById(R.id.kader);
+
+
+        dbManager = new DbManager(this);
+        dbManager.open();
+        Cursor c = dbManager.fetchuniqueId(idIbu);
+        c.moveToFirst();
+        uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+        dbManager.close();
+        Log.e("UNIQUE======",uniqueId);
+
+
 
         btnLogin = (Button) findViewById(R.id.saved);
         //  userService = ApiUtils.getUserService();
@@ -144,7 +156,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                 String userId = "user_test";
 
                     dbManager.open();
-                    dbManager.insertStatusPersalinan(idIbu,tgl_persalinn,ibubersalin,kondisi_ibu,kondisi_anak);
+                    dbManager.insertStatusPersalinan(uniqueId,tgl_persalinn,ibubersalin,kondisi_ibu,kondisi_anak);
                                 dbManager.close();
                     finish();
                     Intent myIntent = new Intent(FormStatusPersalinanActivity.this, IdentitasIbuActivity.class);

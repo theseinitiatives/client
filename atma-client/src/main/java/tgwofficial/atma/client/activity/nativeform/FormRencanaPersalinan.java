@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
+import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
 
 public class FormRencanaPersalinan extends AppCompatActivity {
@@ -75,18 +76,27 @@ public class FormRencanaPersalinan extends AppCompatActivity {
 
     private DbManager dbManager;
     Button btnLogin;
-
+    String uniqueId;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.form_rencana_persalinan);
         dbManager = new DbManager(this);
         final String idIbu = getIntent().getStringExtra("id");
+
+
+       // dbManager.open();
        // nama_donors = (EditText) findViewById(R.id.calon_pendonor);
       //  transportasiNama = (EditText) findViewById(R.id.transportsis);
 
         btnLogin = (Button) findViewById(R.id.saved);
+
         dbManager = new DbManager(this);
         dbManager.open();
+        Cursor c = dbManager.fetchuniqueId(idIbu);
+        c.moveToFirst();
+        uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+        Log.e("UNIQUE======",uniqueId);
+
 
         //==========================
         // Search Nama Pemilik
@@ -130,7 +140,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
 
                 else {
                     dbManager.open();
-                    dbManager.insertRencanaPersalinan(idIbu, namaDonor, txt_tempatBersalin, txt_penolognPersalinan,txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi);
+                    dbManager.insertRencanaPersalinan(uniqueId, namaDonor, txt_tempatBersalin, txt_penolognPersalinan,txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi);
                     dbManager.close();
                     finish();
                     Intent myIntent = new Intent(FormRencanaPersalinan.this, IdentitasIbuActivity.class);

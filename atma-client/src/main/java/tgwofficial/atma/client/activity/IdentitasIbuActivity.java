@@ -244,7 +244,12 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 if ("Detail View Ibu".equals(forms[which])) {
                     String uid = identitasModels.get((int) ids).getId();
                     Intent intent = new Intent(IdentitasIbuActivity.this, IdentitasIbuDetailActivity.class);
-                    intent.putExtra("id", uid);
+                    dbManager.open();
+                    Cursor c = dbManager.fetchuniqueId(uid);
+                    c.moveToFirst();
+                    String uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+                    dbManager.close();
+                    intent.putExtra("uniqueId", uniqueId);
                     startActivity(intent);
                     finish();
                 }

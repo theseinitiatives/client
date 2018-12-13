@@ -503,6 +503,7 @@ public class DbManager {
 
     public Cursor fetchdetaildata(String id) {
         String[] columns = new String[] { DbHelper._ID,
+                DbHelper.UNIQUEID,
                 DbHelper.NAME,
                 DbHelper.SPOUSENAME,
                 DbHelper.TGL_LAHIR,
@@ -523,7 +524,7 @@ public class DbManager {
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
-        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper._ID +"="+id, null, null, null, null);
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.UNIQUEID +"='"+id+"'", null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -542,7 +543,7 @@ public class DbManager {
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
-        Cursor cursor = database.query(DbHelper.TABLE_NAME_RENCANA, columns, DbHelper.ID_IBU +"="+id, null, null, null, null);
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_RENCANA, columns, DbHelper.ID_IBU +"='"+id+"'", null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -560,7 +561,7 @@ public class DbManager {
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
-        Cursor cursor = database.query(DbHelper.TABLE_PERSALINAN, columns, DbHelper.ID_IBU +"="+id, null, null, null, null);
+        Cursor cursor = database.query(DbHelper.TABLE_PERSALINAN, columns, DbHelper.ID_IBU +"='"+id+"'", null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -583,6 +584,16 @@ public class DbManager {
                 DbHelper.NAME_PENDONOR};
         Cursor c=null;
         c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+    }
+    public Cursor fetchuniqueId(String id) {
+        String[] columns = new String[] {
+                DbHelper.UNIQUEID};
+        Cursor c=null;
+        c = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper._ID +"="+id, selectionArgs, groupBy, having, orderBy);
         if (c != null) {
             c.moveToFirst();
         }
