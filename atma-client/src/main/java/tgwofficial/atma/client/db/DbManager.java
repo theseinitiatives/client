@@ -158,10 +158,14 @@ public class DbManager {
         contentValue.put( DbHelper.RESIKO,resiko);
         contentValue.put( DbHelper.KADER,kaderss);
         contentValue.put( DbHelper.NIFAS_SELESAI,nifas_berakhir);
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
+        //+ USER_ID + " TEXT , "
+        //            + LOCATION_ID + " TEXT , "
     }
 
     public void insertStatusPersalinan(String idIbu, String tgl_bersalin,String ibubersalin, String kondisi_ibu, String kondisi_anak,String jumlahBayis, String jenisKelamins, String komplikasiIbus, String komplikasiAnak, String tempat){
@@ -176,6 +180,8 @@ public class DbManager {
         contentValue.put( DbHelper.KOMPLIKASIIBU,komplikasiIbus);
         contentValue.put( DbHelper.KOMPLIKASIANAK,komplikasiAnak);
         contentValue.put( DbHelper.TEMPAT_PERSALINAN,tempat);
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
@@ -198,6 +204,8 @@ public class DbManager {
         contentValue.put( DbHelper.RESIKO,resiko);
         contentValue.put( DbHelper.KADER,kaderss);
         contentValue.put( DbHelper.NIFAS_SELESAI,nifas_berakhir);
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
@@ -378,6 +386,8 @@ public class DbManager {
         contentValue.put( DbHelper.GOL_DARAH,radioStatus2);
         contentValue.put( DbHelper.TELP,notelponss);
         contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);
@@ -391,6 +401,8 @@ public class DbManager {
         contentValue.put( DbHelper.STATUS,radioStatus);
         contentValue.put( DbHelper.GOL_DARAH,radioStatus2);
         contentValue.put( DbHelper.TELP,notelponss);
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
@@ -408,6 +420,8 @@ public class DbManager {
         contentValue.put( DbHelper.DUSUN,text_dusuns);
         contentValue.put( DbHelper.PROFESI,text_profesis);
         contentValue.put( DbHelper.KET,text_kets);
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
@@ -423,6 +437,8 @@ public class DbManager {
         contentValue.put( DbHelper.HUBUNGAN_DENGAN_IBU,txt_hubunganPemilik);
         contentValue.put( DbHelper.HUBUNGAN_PENDONOR_IBU,txt_hubunganPendonor);
         contentValue.put( DbHelper.NAME_PEMILIK,namaTransportasi);
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
@@ -439,6 +455,8 @@ public class DbManager {
         contentValue.put( DbHelper.DUSUN,text_dusuns);
         contentValue.put( DbHelper.PROFESI,text_profesis);
         contentValue.put( DbHelper.KET,text_kets);
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
@@ -477,6 +495,8 @@ public class DbManager {
         contentValue.put( DbHelper.NAME,name);
         contentValue.put( DbHelper.DUSUN,dusun);
         contentValue.put( DbHelper.TELP,hp);
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
@@ -663,12 +683,32 @@ public class DbManager {
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.NIFAS_SELESAI, status_);
         contentValue.put(  DbHelper.ALASAN, alasans);
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.update(DbHelper.TABLE_NAME_IBU, contentValue,"_id = ?",new String[]{_id});
 
     }
+    public String getusername(){
+        //open();
+        Cursor cursor = fetchUserData();
+        cursor.moveToFirst();
+        String username = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.USERNAME));
+       // locName = userd.getString(userd.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
+        //close();
+        return username;
 
+    }
+    public String getlocName(){
+
+        Cursor cursor = fetchUserData();
+        cursor.moveToFirst();
+        String locName = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
+        // locName = userd.getString(userd.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
+        //close();
+        return locName;
+    }
 
 }
