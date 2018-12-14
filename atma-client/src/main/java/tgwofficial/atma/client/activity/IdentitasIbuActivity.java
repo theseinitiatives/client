@@ -268,7 +268,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             String spouse = c.getString(c.getColumnIndexOrThrow("spousename"));
             String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
            String resiko = c.getString(c.getColumnIndexOrThrow("resiko"));
-           String htp = c.getString(c.getColumnIndexOrThrow("htp"));
+           String htp = AllConstants.convertToDDMMYYYY(c.getString(c.getColumnIndexOrThrow("htp")));
             p = new IdentitasModel();
             p.setId(uid);
             p.setNama(name);
@@ -776,7 +776,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
     }
 
     private final String [][] sortItem = {
-            {"Faktor Resiko","Nama A-Z","Nama Z-A"},
-            {"resiko DESC","name ASC","name DESC"}
+            {"Faktor Resiko","Nama A-Z","Nama Z-A","HTP Jan-Des", "HTP Des-Jan"},
+            {"resiko DESC","name ASC","name DESC", "htp ASC", "htp DESC"}
     };
 }

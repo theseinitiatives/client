@@ -209,7 +209,7 @@ public class DbManager {
         contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
-        database.update(DbHelper.TABLE_NAME_IBU, contentValue,"_id = ?",new String[]{_id});
+        database.update(DbHelper.TABLE_NAME_IBU, contentValue,"unique_id = ?",new String[]{_id});
     }
 
     public Cursor fetchIbu(String searchTerm, String orderByASCDESC) {
