@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import tgwofficial.atma.client.AllConstants;
@@ -20,6 +21,8 @@ import tgwofficial.atma.client.model.syncmodel.ApiModel;
 import tgwofficial.atma.client.model.syncmodel.BankdarahData;
 import tgwofficial.atma.client.model.syncmodel.IbuData;
 import tgwofficial.atma.client.model.syncmodel.TransportasiData;
+
+import static java.lang.Math.random;
 
 public class DbManager {
     private DbHelper dbHelper;
@@ -495,6 +498,8 @@ public class DbManager {
         contentValue.put( DbHelper.NAME,name);
         contentValue.put( DbHelper.DUSUN,dusun);
         contentValue.put( DbHelper.TELP,hp);
+        contentValue.put( DbHelper.USERNAME,"kader_"+dusun.replace(" ","").toLowerCase());
+        contentValue.put( DbHelper.PASSWORD,"kaders"+""+randomNum());
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( DbHelper.UPDATE_ID,System.currentTimeMillis());
@@ -710,5 +715,12 @@ public class DbManager {
         //close();
         return locName;
     }
+
+    public int randomNum(){
+        final int random = new Random().nextInt(100) + 800;
+
+        return random;
+    }
+
 
 }

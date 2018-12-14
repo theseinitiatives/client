@@ -273,6 +273,8 @@ public class DbHelper  extends SQLiteOpenHelper {
             +NAME+ " TEXT , "
             +DUSUN+ " TEXT ,"
             +TELP+ " TEXT ,"
+            +USERNAME+ " TEXT ,"
+            +PASSWORD+ " TEXT ,"
             + USER_ID + " TEXT , "
             + LOCATION_ID + " TEXT , "
             +UPDATE_ID+ " TEXT ,"
