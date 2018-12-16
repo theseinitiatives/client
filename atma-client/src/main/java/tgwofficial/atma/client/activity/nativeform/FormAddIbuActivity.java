@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -35,7 +36,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
     EditText htps;
     EditText goldarahs;
     EditText notelpons;
-    EditText faktorResiko;
+    String faktorResiko;
 
 
 
@@ -88,6 +89,14 @@ public class FormAddIbuActivity extends AppCompatActivity {
 
     String htpss = "";
 
+    public String getFaktorResiko() {
+        return faktorResiko;
+    }
+
+    public void setFaktorResiko(String faktorResiko) {
+        this.faktorResiko = faktorResiko;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +108,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         dusun = (EditText) findViewById(R.id.dusun);
         gubugs = (EditText) findViewById(R.id.gubug);
         hphts = (EditText) findViewById(R.id.hpht);
-        faktorResiko = (EditText) findViewById(R.id.resiko) ;
+       // faktorResiko = (EditText) findViewById(R.id.resiko) ;
         notelpons = (EditText) findViewById(R.id.notelpon);
         btnLogin = (Button) findViewById(R.id.saved);
         //  userService = ApiUtils.getUserService();
@@ -195,7 +204,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 String goldarahss = getDarah() + " - "+getRhesus();
                 String notelponss = notelpons.getText().toString();
                 String radioStatus2 = getStatuss2();
-                String fResiko = faktorResiko.getText().toString();
+                String fResiko = getFaktorResiko();
                 String gubug = gubugs.getText().toString();
 
                 //hphtss = "2008-01-01";  // Start date
@@ -311,6 +320,43 @@ public class FormAddIbuActivity extends AppCompatActivity {
         }
     }
 
+
+    public void onCheckboxClicked(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+
+        // Check which checkbox was clicked
+        switch(view.getId()) {
+            case R.id.checkbox_kek:
+                if (checked)
+                    setFaktorResiko("kek");
+                else
+                    //
+                    break;
+            case R.id.checkbox_anemia:
+                if (checked)
+                    setFaktorResiko("anemia");
+                else
+                    break;
+            case R.id.checkbox_muda:
+                if (checked)
+                    setFaktorResiko("usia muda");
+                else
+                    break;
+            case R.id.checskbox_tua:
+                if (checked)
+                    setFaktorResiko("usi tua");
+                else
+                    break;
+            case R.id.checskbox_gravida:
+                if (checked)
+                    setFaktorResiko("gravida banyak");
+                else
+                    break;
+                // TODO: Veggie sandwich
+        }
+    }
+
     private void fillField(String id){
         if(dbManager == null) {
             dbManager = new DbManager(getApplicationContext());
@@ -330,7 +376,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
 //        setStatusChecked(cursor.getString(cursor.getColumnIndexOrThrow("status")));
       //  kaders.setText(cursor.getString(cursor.getColumnIndexOrThrow("kader")));
         notelpons.setText(cursor.getString(cursor.getColumnIndexOrThrow("telp")));
-        faktorResiko.setText(cursor.getString(cursor.getColumnIndexOrThrow("resiko")));
+       // faktorResiko.setText(cursor.getString(cursor.getColumnIndexOrThrow("resiko")));
         dbManager.close();
     }
 
