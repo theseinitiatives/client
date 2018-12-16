@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import tgwofficial.atma.client.AllConstants;
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
@@ -187,9 +188,9 @@ public class FormAddIbuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String mothername = mother_names.getText().toString();
                 String husbandname = husband_names.getText().toString();
-                String dobss = dobs.getText().toString();
+                String dobss = AllConstants.convertToYYYYMMDD(dobs.getText().toString());
                 String gubugss = dusun.getText().toString();
-                String hphtss = hphts.getText().toString();
+                String hphtss = AllConstants.convertToYYYYMMDD(hphts.getText().toString());
 
                 String goldarahss = getDarah() + " - "+getRhesus();
                 String notelponss = notelpons.getText().toString();
@@ -198,10 +199,10 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 String gubug = gubugs.getText().toString();
 
                 //hphtss = "2008-01-01";  // Start date
-                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Calendar c = Calendar.getInstance();
                 try {
-                    c.setTime(sdf.parse(hphtss));
+                    c.setTime(sdf.parse(AllConstants.convertToYYYYMMDD(hphtss)));
                     c.add(Calendar.MONTH, 9);
                     c.add(Calendar.DATE,7);// number of days to add
                     htpss = sdf.format(c.getTime());  // dt is now the new date
@@ -320,10 +321,10 @@ public class FormAddIbuActivity extends AppCompatActivity {
         preloadEditVariable(cursor);
         mother_names.setText(cursor.getString(cursor.getColumnIndexOrThrow("name")));
         husband_names.setText(cursor.getString(cursor.getColumnIndexOrThrow("spousename")));
-        dobs.setText(cursor.getString(cursor.getColumnIndexOrThrow("tgl_lahir")));
+        dobs.setText(AllConstants.convertToDDMMYYYY(cursor.getString(cursor.getColumnIndexOrThrow("tgl_lahir"))));
         dusun.setText(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
         gubugs.setText(cursor.getString(cursor.getColumnIndexOrThrow("gubug")));
-        hphts.setText(cursor.getString(cursor.getColumnIndexOrThrow("hpht")));
+        hphts.setText(AllConstants.convertToDDMMYYYY(cursor.getString(cursor.getColumnIndexOrThrow("hpht"))));
 //        htps.setText(cursor.getString(cursor.getColumnIndexOrThrow("htp")));
         setDarahRhChecked(cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")));
 //        setStatusChecked(cursor.getString(cursor.getColumnIndexOrThrow("status")));

@@ -16,6 +16,7 @@ import com.google.gson.JsonElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import tgwofficial.atma.client.AllConstants;
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.nativeform.FormAddIbuActivity;
@@ -67,10 +68,10 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         //set detail
         txt_name.setText("NAMA :"+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("name"))));
         txt_spousename.setText("NAMA PASANGAN :"+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("spousename"))));
-        txt_dob.setText("TGL LAHIR :"+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("tgl_lahir"))));
+        txt_dob.setText("TGL LAHIR :"+AllConstants.convertToDDMMYYYY(humanizes(cursor.getString(cursor.getColumnIndexOrThrow("tgl_lahir")))));
         txt_desa.setText("DUSUN : "+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("dusun"))));
-        txt_hpht.setText("HPHT : "+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("hpht"))));
-        txt_htp.setText("HTP : "+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("htp"))));
+        txt_hpht.setText("HPHT : "+AllConstants.convertToDDMMYYYY(humanizes(cursor.getString(cursor.getColumnIndexOrThrow("hpht")))));
+        txt_htp.setText("HTP : "+AllConstants.convertToDDMMYYYY(humanizes(cursor.getString(cursor.getColumnIndexOrThrow("htp")))));
         txt_gol_darah.setText("Gol Darah : "+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("gol_darah"))));
         txt_kader.setText("Nama Kader : "+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("kader"))));
         txt_hp.setText("No Telp : "+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("telp"))));
