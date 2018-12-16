@@ -61,6 +61,7 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         TextView txt_penolognPersalinan = (TextView) findViewById(R.id.penolong);
         TextView txt_tempatbersalin = (TextView) findViewById(R.id.tempatbersalins);
         TextView txt_pendampingPersalinan = (TextView) findViewById(R.id.pendampingPersalinan);
+        TextView txt_last = (TextView) findViewById(R.id.lastedit);
 
         final String Nama = cursor.getString(cursor.getColumnIndexOrThrow("name"));
         //set detail
@@ -74,6 +75,7 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         txt_kader.setText("Nama Kader : "+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("kader"))));
         txt_hp.setText("No Telp : "+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("telp"))));
         txt_resiko.setText("Faktor Resiko : "+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("resiko"))));
+        txt_last.setText("Edit Terakhir Oleh : "+humanizes(cursor.getString(cursor.getColumnIndexOrThrow("user_id"))));
 
         //status bersalin
         Cursor status_persalinan = dbManager.fetchstatuspersalinan(id);

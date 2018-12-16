@@ -116,6 +116,14 @@
                 android:text="Faktor Resiko :"
                 android:textSize="12sp"
                 android:id="@+id/resioko" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Last Edit By :"
+                android:textSize="12sp"
+                android:textColor="@color/colorAccent"
+                android:id="@+id/lastedit" />
 
 
             <include

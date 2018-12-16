@@ -1,10 +1,12 @@
 package tgwofficial.atma.client.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -56,6 +58,7 @@ public class IdentitasibuCursorAdapter extends BaseAdapter {
         TextView status = (TextView) convertView.findViewById(R.id.status);
         TextView dusunss = (TextView) convertView.findViewById(R.id.dusun);
 
+        LinearLayout lin = (LinearLayout) convertView.findViewById(R.id.layout_data);
         nameTxt.setText("Nama : "+ humanizes(identitasModels.get(position).getNama()));
         spousename.setText("Nama Suami : "+humanizes(identitasModels.get(position).getPasangan()));
         status.setText("HTP : "+humanizes(identitasModels.get(position).getStatus1()));
@@ -63,7 +66,8 @@ public class IdentitasibuCursorAdapter extends BaseAdapter {
 
         if(identitasModels.get(position).getResiko()!=null) {
             if (identitasModels.get(position).getResiko().length() > 2)
-                convertView.setBackgroundColor(0xFFFF0000);
+               // convertView.setBackgroundColor(0xFFFF0000);
+                lin.setBackgroundColor(Color.MAGENTA);
         }
 
         final int pos=position;

@@ -549,6 +549,7 @@ public class DbManager {
                 DbHelper.RESIKO,
                 DbHelper.NIFAS_SELESAI,
                 DbHelper.ALASAN,
+                DbHelper.USER_ID,
                /* DbHelper.TGL_PERSALINAN,
                 DbHelper.KONDISI_IBU,
                 DbHelper.KONDISI_ANAK,*/
