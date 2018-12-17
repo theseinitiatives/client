@@ -103,11 +103,12 @@ public class IdentitasIbuActivity extends AppCompatActivity
             }
         });
         initDropdownSort();
-        String extra = getIntent().getStringExtra("login status");
+        /*String extra = getIntent().getStringExtra("login status");
 
         if(extra!=null){
             Toast.makeText(getApplicationContext(),extra,Toast.LENGTH_LONG).show();
-        }
+        }*/
+
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Long ids = id+1;
@@ -320,8 +321,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
             /**
              *
              * DATA Sync (For right now disabled)*/
-             push();
-           // pulldata();
+            // push();
+           pulldata();
             //push();
             refreshView();
             return true;
@@ -505,62 +506,65 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         JSONArray resultSet = new JSONArray();
         JSONArray resultSet2 = new JSONArray();
-        JSONObject rowObject2 = new JSONObject();
-
-        //  resultSet.put();
 
         cursor.moveToFirst();
-        while (cursor.moveToNext()) {
-            try
-            {
-                int totalColumn = cursor.getColumnCount();
-                JSONObject rowObject = new JSONObject();
-                //looping data
-                Log.i("COUNT",""+totalColumn);
-                for( int i=0 ;  i< totalColumn ; i++ )
-                {
-                    /***
-                     * TODO
-                     * SET THE DATA FROM TABLE*/
-                    rowObject2.put("user_id",userId);
-                    rowObject2.put("location_id",locaId);
-                    rowObject2.put("form_name","identitas_ibu");
-                    rowObject2.put("update_id",System.currentTimeMillis());
-                    // Log.i("ASDASD",resultSet2.toString());
+        while (!cursor.isAfterLast()) {
+            int totalColumn = cursor.getColumnCount();
+            resultSet = new JSONArray();
+            JSONObject rowObject = new JSONObject();
+            JSONObject rowObject2 = new JSONObject();
+            for (int i = 0; i < totalColumn; i++) {
 
-                    if( cursor.getColumnName(i) != null )
-                    {
-
-
-                        if( cursor.getString(i) != null )
-                        {
-                            Log.d("TAG_NAME", cursor.getString(i) );
-                            rowObject.put(cursor.getColumnName(i) ,  cursor.getString(i) );
+                if (cursor.getColumnName(i) != null) {
+                    try {
+                        rowObject2.put("form_name","transportasi");
+                        if(cursor.getColumnName(i).equalsIgnoreCase("user_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
                         }
-                        else
-                        {
-                            rowObject.put( cursor.getColumnName(i) ,  "" );
+                        if(cursor.getColumnName(i).equalsIgnoreCase("location_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
                         }
-
+                        if(cursor.getColumnName(i).equalsIgnoreCase("update_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        rowObject.put(cursor.getColumnName(i), cursor.getString(i));
+                    } catch (Exception e) {
+                        Log.d(TAG, e.getMessage());
                     }
-
-                    resultSet2.put(rowObject2);
-                    rowObject2.put("data",resultSet);
-
-
                 }
 
-                resultSet.put(rowObject);
-                cursor.moveToNext();
             }
-            catch( Exception e )
-            {
-                Log.d("TAG_NAME", e.getMessage()  );
+            resultSet.put(rowObject);
+
+            try{
+                rowObject2.put("data",resultSet);
+            } catch (Exception e) {
+                Log.d(TAG, e.getMessage());
             }
+            resultSet2.put(rowObject2);
+
+            cursor.moveToNext();
         }
+
         cursor.close();
-        dbManager.close();
         return resultSet2;
+
+
+        //example expected result
+
+                    /*	update_id: update_id,
+                        form_name: nama_table1,
+                        location_id: location_id,
+                        user_id: user_id
+                        data: {
+                            table1_id: …,
+                            data_lain: …,
+                            data_lain: ...
+                     },
+
+                    },
+*/
+
     }
 
     public JSONArray transportasi_formatToJson()
@@ -707,7 +711,12 @@ public class IdentitasIbuActivity extends AppCompatActivity
          * TODO
          * SEPARATE SYNC BETWEEN FIRST PULL AND UPDATE PULL
          * =================================================*/
-        mService.getData(locaId,0,100).enqueue(new Callback<List<ApiModel>>() {
+        dbManager.open();
+        String updateID = dbManager.getlatestUpdateId();
+        int upId = Integer.parseInt(updateID);
+
+        String locas = dbManager.getlocName();
+        mService.getData(locas,upId,100).enqueue(new Callback<List<ApiModel>>() {
             @Override
             public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
 
@@ -715,7 +724,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     dbManager.open();
                     dbManager.saveTodb2(response.body(),null);
                     dbManager.close();
-                    Toast.makeText(context, "Sync Finished!",
+                    Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
                             Toast.LENGTH_LONG).show();
                   //  Log.i("PULLING", response.body());
                   //  mAdapter.updateAnswers(response.body().getItems());
@@ -729,7 +738,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             @Override
             public void onFailure(Call<List<ApiModel>> call, Throwable t) {
                // showErrorMessage();
-                Toast.makeText(context, "Sync FAILED!",
+                Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
                         Toast.LENGTH_LONG).show();
                 Log.d("MainActivity", "error loading from API"+t);
 
@@ -776,7 +785,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
     }
 
     private final String [][] sortItem = {
-            {"Faktor Resiko","Nama A-Z","Nama Z-A","HTP Jan-Des", "HTP Des-Jan"},
+            {"1 Resiko","Nama A-Z","Nama Z-A","HTP Jan-Des", "HTP Des-Jan"},
             {"resiko DESC","name ASC","name DESC", "htp ASC", "htp DESC"}
     };
 }

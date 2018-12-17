@@ -4,9 +4,23 @@ import com.google.gson.annotations.SerializedName;
 
 
 public class IbuData {
+
     @SerializedName("_id")
     @Expose
     private String id;
+
+    public String getUnique_id() {
+        return unique_id;
+    }
+
+    public void setUnique_id(String unique_id) {
+        this.unique_id = unique_id;
+    }
+
+    @SerializedName("unique_id")
+    @Expose
+    private String unique_id;
+
     @SerializedName("name")
     @Expose
     private String name;
@@ -37,12 +51,12 @@ public class IbuData {
     @SerializedName("telp")
     @Expose
     private String telp;
-    @SerializedName("tgl_persalinan")
+    @SerializedName("nifas_selesai")
     @Expose
-    private String tglPersalinan;
-    @SerializedName("kondisi_ibu")
+    private String nifas_selesai;
+    @SerializedName("alasan")
     @Expose
-    private String kondisiIbu;
+    private String alasan;
     @SerializedName("kondisi_anak")
     @Expose
     private String kondisiAnak;
@@ -144,20 +158,20 @@ public class IbuData {
         this.telp = telp;
     }
 
-    public String getTglPersalinan() {
-        return tglPersalinan;
+    public String getNifas_selesai() {
+        return nifas_selesai;
     }
 
-    public void setTglPersalinan(String tglPersalinan) {
-        this.tglPersalinan = tglPersalinan;
+    public void setNifas_selesai(String nifas_selesai) {
+        this.nifas_selesai = nifas_selesai;
     }
 
-    public String getKondisiIbu() {
-        return kondisiIbu;
+    public String getAlasan() {
+        return alasan;
     }
 
-    public void setKondisiIbu(String kondisiIbu) {
-        this.kondisiIbu = kondisiIbu;
+    public void setAlasan(String alasan) {
+        this.alasan = alasan;
     }
 
     public String getKondisiAnak() {
