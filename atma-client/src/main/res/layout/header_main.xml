@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="46dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/green"
+    android:background="@color/light_brown"
     android:focusableInTouchMode="true"
     android:weightSum="10">
 
@@ -23,7 +23,7 @@
         android:paddingRight="13dp">
 
 
-       <!-- <ImageView
+        <!-- <ImageView
             android:id="@+id/imageView5"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -36,7 +36,7 @@
             android:layout_height="45dp"
             android:layout_marginStart="1dp"
             android:layout_weight="6"
-            app:srcCompat="@android:drawable/ic_menu_sort_alphabetically"/>
+            app:srcCompat="@android:drawable/ic_menu_sort_alphabetically" />
 
         <ImageView
             android:id="@+id/header_filter_icon"
@@ -48,12 +48,11 @@
         <android.support.v7.widget.SearchView
             android:id="@+id/sv"
             android:layout_width="wrap_content"
-            android:layout_weight="3"
             android:layout_height="wrap_content"
+            android:layout_weight="3"
             android:queryHint="Search.."></android.support.v7.widget.SearchView>
 
     </LinearLayout>
-
 
 
 </RelativeLayout>

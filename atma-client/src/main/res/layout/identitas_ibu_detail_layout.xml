@@ -4,213 +4,231 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activity.IdentitasIbuDetailActivity"
+    android:background="@color/light_brown"
     android:weightSum="10"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
-    android:background="@color/almostWhite">
-
+    tools:context=".activity.IdentitasIbuDetailActivity">
 
 
     <LinearLayout
-        android:layout_marginTop="40dp"
-        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_weight="5">
+        android:layout_marginTop="40dp"
+        android:layout_weight="5"
+        android:orientation="horizontal">
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:background="@color/almostWhite">
+            android:background="@color/almostWhite"
+            android:orientation="vertical">
+
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/woman"/>
+                android:src="@drawable/logo_ibu" />
 
         </LinearLayout>
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="250dp"
             android:layout_height="600dp"
             android:layout_marginLeft="5dp"
             android:background="@color/almostWhite"
-            >
+            android:orientation="vertical"
+            android:paddingRight="12dp">
 
             <TextView
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Nama Ibu : Z Rana"
-                android:id="@+id/name" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
+                android:id="@+id/spousename"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Nama Suami : I Muhammad"
-                android:textSize="12sp"
-                android:id="@+id/spousename" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
             <TextView
+                android:id="@+id/status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Status : Patient Baru"
-                android:textSize="12sp"
-                android:id="@+id/status" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
             <TextView
+                android:id="@+id/dob"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Tanggal Lahir : DD/MM/YYYY"
-                android:textSize="12sp"
-                android:id="@+id/dob" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
             <TextView
+                android:id="@+id/desa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Desa : Batulayar"
-                android:textSize="12sp"
-                android:id="@+id/desa" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
             <TextView
+                android:id="@+id/hpht"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="HPHT : DD/MM/YYYY"
-                android:textSize="12sp"
-                android:id="@+id/hpht" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
             <TextView
+                android:id="@+id/htp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="HTP : DD/MM/YYYY"
-                android:textSize="12sp"
-                android:id="@+id/htp" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
             <TextView
+                android:id="@+id/gol_darah"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Golongan Darah : A"
-                android:textSize="12sp"
-                android:id="@+id/gol_darah" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
             <TextView
+                android:id="@+id/kader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Nama Kader : Siti Adawiyah"
-                android:textSize="12sp"
-                android:id="@+id/kader" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
             <TextView
+                android:id="@+id/hp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="No Telpon : DD/MM/YYYY"
-                android:textSize="12sp"
-                android:id="@+id/hp" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
             <TextView
+                android:id="@+id/resioko"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Faktor Resiko :"
-                android:textSize="12sp"
-                android:id="@+id/resioko" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
             <TextView
+                android:id="@+id/lastedit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Last Edit By :"
-                android:textSize="12sp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorAccent"
-                android:id="@+id/lastedit" />
+                android:textSize="12sp" />
 
 
-            <include
-                layout="@layout/divider"/>
+            <include layout="@layout/divider" />
 
             <TextView
+                android:id="@+id/tgl_persalinan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text=""
-                android:textSize="12sp"
-                android:id="@+id/tgl_persalinan" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text=""
-                android:textSize="12sp"
-                android:id="@+id/ibuhidup" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text=""
-                android:textSize="12sp"
-                android:id="@+id/anakhidup" />
+                android:textSize="12sp" />
 
-            <include
-                layout="@layout/divider"/>
             <TextView
+                android:id="@+id/ibuhidup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text=""
-                android:textSize="12sp"
-                android:id="@+id/nama_donors" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
             <TextView
+                android:id="@+id/anakhidup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text=""
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
+            <include layout="@layout/divider" />
+
+            <TextView
+                android:id="@+id/nama_donors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/hub_pendonor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text=" "
-                android:textSize="12sp"
-                android:id="@+id/hub_pendonor" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
             <TextView
+                android:id="@+id/transport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text=""
-                android:textSize="12sp"
-                android:id="@+id/transport" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
             <TextView
+                android:id="@+id/hubPemilik"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text=" "
-                android:textSize="12sp"
-                android:id="@+id/hubPemilik" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
             <TextView
+                android:id="@+id/penolong"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text=""
-                android:textSize="12sp"
-                android:id="@+id/penolong" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
             <TextView
+                android:id="@+id/tempatbersalins"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text=" "
-                android:textSize="12sp"
-                android:id="@+id/tempatbersalins" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
             <TextView
+                android:id="@+id/pendampingPersalinan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text=" "
-                android:textSize="12sp"
-                android:id="@+id/pendampingPersalinan" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
 
 
-
-            <include
-                layout="@layout/divider"/>
+            <include layout="@layout/divider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <Button
                     android:id="@+id/ibu_detail_edit_button"
                     android:layout_width="wrap_content"
@@ -220,19 +238,18 @@
 
                 <TextView
                     android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
+
                 <Button
                     android:id="@+id/stiker"
-                    android:background="@drawable/baktihusada_logo"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="left"
-                    />
+                    android:background="@drawable/baktihusada_logo"
+                    android:paddingRight="12dp" />
             </LinearLayout>
 
         </LinearLayout>
-
 
 
     </LinearLayout>
