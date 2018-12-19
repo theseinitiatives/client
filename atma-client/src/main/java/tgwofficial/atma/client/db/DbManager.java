@@ -276,6 +276,34 @@ public class DbManager {
         return cursor;
     }
 
+    public Cursor fetchSyncedIbu() {
+        String[] columns = new String[] { DbHelper.UNIQUEID,
+                DbHelper.NAME,
+                DbHelper.SPOUSENAME,
+                DbHelper.TGL_LAHIR,
+                DbHelper.DUSUN,
+                DbHelper.GUBUG,
+                DbHelper.HPHT,
+                DbHelper.HTP,
+                DbHelper.GOL_DARAH,
+                DbHelper.KADER,
+                DbHelper.TELP,
+                DbHelper.RESIKO,
+                DbHelper.NIFAS_SELESAI,
+                DbHelper.ALASAN,
+                DbHelper.USER_ID,
+                DbHelper.LOCATION_ID,
+                UPDATE_ID,
+                DbHelper.IS_SEND,
+                DbHelper.IS_SYNC,
+                DbHelper.TIMESTAMP };
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.IS_SEND +"=1", null, null, null, UPDATE_ID+" DESC");
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
     public Cursor fetchTrans(String searchTerm, String orderByASCDESC) {
         String[] columns = new String[] { DbHelper._ID,
                 DbHelper.NAME,
@@ -727,7 +755,7 @@ public class DbManager {
 
     public String getlatestUpdateId() {
         String upId ="0";
-        Cursor cursor = fetchUnSyncIbu();
+        Cursor cursor = fetchSyncedIbu();
         setOrderBy(UPDATE_ID+" DESC");
 
         if(cursor.moveToFirst()) {

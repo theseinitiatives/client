@@ -20,7 +20,7 @@ public interface ApiService {
     @GET("api/pull")
    Call<List<ApiModel>> getData(
             @Query("location-id") String location_ids,
-            @Query("update-id") int updateIds,
+            @Query("update-id") long updateIds,
             @Query("batch-size") int batch
         );
    // Call<ApiModel> getAnswers();
@@ -28,7 +28,7 @@ public interface ApiService {
 
     @Headers( "Content-Type: application/json; charset=utf-8")
     @POST("api/push")
-    Call<String> savePost(@Body RequestBody req);
+    Call<ResponseBody> savePost(@Body RequestBody req);
 
     @FormUrlEncoded
     @POST("api/auth/login")

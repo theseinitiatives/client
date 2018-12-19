@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -321,8 +322,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
             /**
              *
              * DATA Sync (For right now disabled)*/
-            // push();
-           pulldata();
+            push();
+            pulldata();
             //push();
             refreshView();
             return true;
@@ -404,21 +405,24 @@ public class IdentitasIbuActivity extends AppCompatActivity
         // api post for ibu data
         RequestBody myreqbody = null;
         myreqbody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
-                    ("{"+ibudata_formatToJson()).toString()+"}");
+                    (ibudata_formatToJson()).toString());
 
 
-        Call<String> call =mService.savePost(myreqbody);
+        Call<ResponseBody> call =mService.savePost(myreqbody);
         Log.e("myreqbody========", ""+ibudata_formatToJson().toString());
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<String>callback,Response<String>response) {
-                String res = response.body();
+            public void onResponse(Call<ResponseBody>callback,Response<ResponseBody>response) {
+                String res = response.toString();
                 Log.e("DEMO", "post submitted to API." + response);
-                updateSyncFlagIbu();
+                Log.e(TAG, "onResponse: " +response.code());
+                if (response.code()==201){
+                    updateSyncFlagIbu();
+                }
             }
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("DEMO", "Unable to submit post to API.",t);
                 Log.e("call", String.valueOf(call));
             }
@@ -517,7 +521,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
                 if (cursor.getColumnName(i) != null) {
                     try {
-                        rowObject2.put("form_name","transportasi");
+                        rowObject2.put("form_name","identitas_ibu");
                         if(cursor.getColumnName(i).equalsIgnoreCase("user_id")){
                             rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
                         }
@@ -547,6 +551,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         }
 
         cursor.close();
+        Log.e(TAG, "ibudata_formatToJson: "+resultSet2.toString());
         return resultSet2;
 
 
@@ -713,7 +718,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
          * =================================================*/
         dbManager.open();
         String updateID = dbManager.getlatestUpdateId();
-        int upId = Integer.parseInt(updateID);
+        long upId = Long.parseLong(updateID);
 
         String locas = dbManager.getlocName();
         mService.getData(locas,upId,100).enqueue(new Callback<List<ApiModel>>() {
