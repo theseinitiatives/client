@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/dark_brown"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
 
@@ -33,6 +33,7 @@
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="500dp"
+            android:background="@color/list_brown"
             android:dividerHeight="1dp"
             android:padding="10dp"></ListView>
     </FrameLayout>
