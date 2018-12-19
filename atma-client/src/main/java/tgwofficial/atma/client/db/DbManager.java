@@ -23,6 +23,11 @@ import tgwofficial.atma.client.model.syncmodel.IbuData;
 import tgwofficial.atma.client.model.syncmodel.TransportasiData;
 
 import static java.lang.Math.random;
+import static tgwofficial.atma.client.db.DbHelper.TABLE_NAME_BANK;
+import static tgwofficial.atma.client.db.DbHelper.TABLE_NAME_IBU;
+import static tgwofficial.atma.client.db.DbHelper.TABLE_NAME_RENCANA;
+import static tgwofficial.atma.client.db.DbHelper.TABLE_NAME_TRANS;
+import static tgwofficial.atma.client.db.DbHelper.TABLE_PERSALINAN;
 import static tgwofficial.atma.client.db.DbHelper.UPDATE_ID;
 
 public class DbManager {
@@ -190,7 +195,7 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         //String jumlahBayis, String jenisKelamins, String komplikasiIbus, String komplikasiAnak, String tempat
-        database.insert(DbHelper.TABLE_PERSALINAN, null, contentValue);
+        database.insert(TABLE_PERSALINAN, null, contentValue);
     }
 
     public void updateIbu(String _id, String mothername, String husbandname,String dobss, String gubugss,
@@ -276,28 +281,13 @@ public class DbManager {
         return cursor;
     }
 
-    public Cursor fetchSyncedIbu() {
-        String[] columns = new String[] { DbHelper.UNIQUEID,
-                DbHelper.NAME,
-                DbHelper.SPOUSENAME,
-                DbHelper.TGL_LAHIR,
-                DbHelper.DUSUN,
-                DbHelper.GUBUG,
-                DbHelper.HPHT,
-                DbHelper.HTP,
-                DbHelper.GOL_DARAH,
-                DbHelper.KADER,
-                DbHelper.TELP,
-                DbHelper.RESIKO,
-                DbHelper.NIFAS_SELESAI,
-                DbHelper.ALASAN,
-                DbHelper.USER_ID,
-                DbHelper.LOCATION_ID,
-                UPDATE_ID,
-                DbHelper.IS_SEND,
-                DbHelper.IS_SYNC,
-                DbHelper.TIMESTAMP };
-        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.IS_SEND +"=1", null, null, null, UPDATE_ID+" DESC");
+    public Cursor fetchSyncedData() {
+        String sql = "SELECT "+UPDATE_ID+" FROM "+TABLE_NAME_IBU+" UNION "+
+                "SELECT "+UPDATE_ID+" FROM "+TABLE_NAME_TRANS+" UNION "+
+                "SELECT "+UPDATE_ID+" FROM "+TABLE_NAME_RENCANA+" UNION "+
+                "SELECT "+UPDATE_ID+" FROM "+TABLE_PERSALINAN+" UNION "+
+                "SELECT "+UPDATE_ID+" FROM "+TABLE_NAME_BANK+" ORDER BY "+TABLE_NAME_IBU+"."+UPDATE_ID+" DESC";
+        Cursor cursor = database.rawQuery(sql,null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -330,6 +320,9 @@ public class DbManager {
     }
     public Cursor fetchunSyncTrans() {
         String[] columns = new String[] { DbHelper._ID,
+                UPDATE_ID,
+                DbHelper.USER_ID,
+                DbHelper.LOCATION_ID,
                 DbHelper.NAME,
                 DbHelper.Jenis,
                 DbHelper.Kapasitas,
@@ -375,6 +368,9 @@ public class DbManager {
     }
     public Cursor fetchUnsyncBankDarah() {
         String[] columns = new String[] { DbHelper._ID,
+                UPDATE_ID,
+                DbHelper.USER_ID,
+                DbHelper.LOCATION_ID,
                 DbHelper.NAME_PENDONOR,
                 DbHelper.STATUS,
                 DbHelper.GUBUG,
@@ -385,6 +381,63 @@ public class DbManager {
                 DbHelper.TIMESTAMP };
         Cursor c=null;
             c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+        if (c != null) {
+            c.moveToFirst();
+        }
+
+        return c;
+
+
+    }
+
+    public Cursor fetchUnsyncRencanaPersalinan() {
+        String[] columns = new String[] { DbHelper._ID,
+                UPDATE_ID,
+                DbHelper.USER_ID,
+                DbHelper.LOCATION_ID,
+                DbHelper.ID_IBU,
+                DbHelper.ID_TRANS,
+                DbHelper.PENOLONG_PERSALINAN,
+                DbHelper.TEMPAT_PERSALINAN,
+                DbHelper.PENDAMPING_PERSALINAN,
+                DbHelper.HUBUNGAN_DENGAN_IBU,
+                DbHelper.NAME_PENDONOR,
+                DbHelper.NAME_PEMILIK,
+                DbHelper.HUBUNGAN_PENDONOR_IBU,
+                DbHelper.IS_SEND,
+                DbHelper.IS_SYNC,
+                DbHelper.TIMESTAMP };
+        Cursor c=null;
+        c = database.query(TABLE_NAME_RENCANA, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+        if (c != null) {
+            c.moveToFirst();
+        }
+
+        return c;
+
+
+    }
+
+    public Cursor fetchUnsyncStatusPersalinan() {
+        String[] columns = new String[] { DbHelper._ID,
+                UPDATE_ID,
+                DbHelper.USER_ID,
+                DbHelper.LOCATION_ID,
+                DbHelper.ID_IBU,
+                DbHelper.STATUS_BERSALIN,
+                DbHelper.TGL_PERSALINAN,
+                DbHelper.KONDISI_IBU,
+                DbHelper.KONDISI_ANAK,
+                DbHelper.JUMLAHBAYI,
+                DbHelper.JENISKELAMIN,
+                DbHelper.KOMPLIKASIIBU,
+                DbHelper.KOMPLIKASIANAK,
+                DbHelper.TEMPAT_PERSALINAN,
+                DbHelper.IS_SEND,
+                DbHelper.IS_SYNC,
+                DbHelper.TIMESTAMP };
+        Cursor c=null;
+        c = database.query(TABLE_PERSALINAN, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
         if (c != null) {
             c.moveToFirst();
         }
@@ -474,7 +527,7 @@ public class DbManager {
         contentValue.put( UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
-        database.insert(DbHelper.TABLE_NAME_RENCANA, null, contentValue);
+        database.insert(TABLE_NAME_RENCANA, null, contentValue);
     }
 
     public void updatebanktransportasi(String id,String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets) {
@@ -604,7 +657,7 @@ public class DbManager {
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
-        Cursor cursor = database.query(DbHelper.TABLE_NAME_RENCANA, columns, DbHelper.ID_IBU +"='"+id+"'", null, null, null, null);
+        Cursor cursor = database.query(TABLE_NAME_RENCANA, columns, DbHelper.ID_IBU +"='"+id+"'", null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -622,7 +675,7 @@ public class DbManager {
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
-        Cursor cursor = database.query(DbHelper.TABLE_PERSALINAN, columns, DbHelper.ID_IBU +"='"+id+"'", null, null, null, null);
+        Cursor cursor = database.query(TABLE_PERSALINAN, columns, DbHelper.ID_IBU +"='"+id+"'", null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -755,7 +808,7 @@ public class DbManager {
 
     public String getlatestUpdateId() {
         String upId ="0";
-        Cursor cursor = fetchSyncedIbu();
+        Cursor cursor = fetchSyncedData();
         setOrderBy(UPDATE_ID+" DESC");
 
         if(cursor.moveToFirst()) {

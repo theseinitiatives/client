@@ -405,12 +405,13 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         // api post for ibu data
         RequestBody myreqbody = null;
+        String data = (alldata_formatToJson()).toString();
         myreqbody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
-                    (ibudata_formatToJson()).toString());
+                data);
 
 
         Call<ResponseBody> call =mService.savePost(myreqbody);
-        Log.e("myreqbody========", ""+ibudata_formatToJson().toString());
+        Log.e("myreqbody========", ""+data);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -420,6 +421,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 Log.e(TAG, "onResponse: " +response.code());
                 if (response.code()==201){
                     updateSyncFlagIbu();
+                    updateSyncFlagTrans();
+                    updateSyncFlagBank();
                 }
                 pulldata();
             }
@@ -501,6 +504,220 @@ public class IdentitasIbuActivity extends AppCompatActivity
         dbManager.close();
     }
 
+    public JSONArray alldata_formatToJson() {
+        dbManager.open();
+        //pull all identitasibu data from local db
+        Cursor cursor = dbManager.fetchUnSyncIbu();
+        // String data = dbManager.formatToJson(cursor).toString();
+        //JSONArray resultSet     = new JSONArray();
+
+        JSONArray resultSet = new JSONArray();
+        JSONArray resultSet2 = new JSONArray();
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            int totalColumn = cursor.getColumnCount();
+            resultSet = new JSONArray();
+            JSONObject rowObject = new JSONObject();
+            JSONObject rowObject2 = new JSONObject();
+            for (int i = 0; i < totalColumn; i++) {
+
+                if (cursor.getColumnName(i) != null) {
+                    try {
+                        rowObject2.put("form_name","identitas_ibu");
+                        if(cursor.getColumnName(i).equalsIgnoreCase("user_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        if(cursor.getColumnName(i).equalsIgnoreCase("location_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        if(cursor.getColumnName(i).equalsIgnoreCase("update_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        rowObject.put(cursor.getColumnName(i), cursor.getString(i));
+                    } catch (Exception e) {
+                        Log.d(TAG, e.getMessage());
+                    }
+                }
+
+            }
+            resultSet.put(rowObject);
+
+            try{
+                rowObject2.put("data",resultSet);
+            } catch (Exception e) {
+                Log.d(TAG, e.getMessage());
+            }
+            resultSet2.put(rowObject2);
+
+            cursor.moveToNext();
+        }
+
+        cursor = dbManager.fetchunSyncTrans();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            int totalColumn = cursor.getColumnCount();
+            resultSet = new JSONArray();
+            JSONObject rowObject = new JSONObject();
+            JSONObject rowObject2 = new JSONObject();
+            for (int i = 0; i < totalColumn; i++) {
+
+                if (cursor.getColumnName(i) != null) {
+                    try {
+                        rowObject2.put("form_name","transportasi");
+                        if(cursor.getColumnName(i).equalsIgnoreCase("user_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        if(cursor.getColumnName(i).equalsIgnoreCase("location_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        if(cursor.getColumnName(i).equalsIgnoreCase("update_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        rowObject.put(cursor.getColumnName(i), cursor.getString(i));
+                    } catch (Exception e) {
+                        Log.d(TAG, e.getMessage());
+                    }
+                }
+
+            }
+            resultSet.put(rowObject);
+
+            try{
+                rowObject2.put("data",resultSet);
+            } catch (Exception e) {
+                Log.d(TAG, e.getMessage());
+            }
+            resultSet2.put(rowObject2);
+
+            cursor.moveToNext();
+        }
+
+        cursor = dbManager.fetchUnsyncBankDarah();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            int totalColumn = cursor.getColumnCount();
+            resultSet = new JSONArray();
+            JSONObject rowObject = new JSONObject();
+            JSONObject rowObject2 = new JSONObject();
+            for (int i = 0; i < totalColumn; i++) {
+
+                if (cursor.getColumnName(i) != null) {
+                    try {
+                        rowObject2.put("form_name","bank_darah");
+                        if(cursor.getColumnName(i).equalsIgnoreCase("user_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        if(cursor.getColumnName(i).equalsIgnoreCase("location_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        if(cursor.getColumnName(i).equalsIgnoreCase("update_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        rowObject.put(cursor.getColumnName(i), cursor.getString(i));
+                    } catch (Exception e) {
+                        Log.d(TAG, e.getMessage());
+                    }
+                }
+
+            }
+            resultSet.put(rowObject);
+
+            try{
+                rowObject2.put("data",resultSet);
+            } catch (Exception e) {
+                Log.d(TAG, e.getMessage());
+            }
+            resultSet2.put(rowObject2);
+
+            cursor.moveToNext();
+        }
+
+        cursor = dbManager.fetchUnsyncRencanaPersalinan();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            int totalColumn = cursor.getColumnCount();
+            resultSet = new JSONArray();
+            JSONObject rowObject = new JSONObject();
+            JSONObject rowObject2 = new JSONObject();
+            for (int i = 0; i < totalColumn; i++) {
+
+                if (cursor.getColumnName(i) != null) {
+                    try {
+                        rowObject2.put("form_name","rencana_persalinan");
+                        if(cursor.getColumnName(i).equalsIgnoreCase("user_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        if(cursor.getColumnName(i).equalsIgnoreCase("location_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        if(cursor.getColumnName(i).equalsIgnoreCase("update_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        rowObject.put(cursor.getColumnName(i), cursor.getString(i));
+                    } catch (Exception e) {
+                        Log.d(TAG, e.getMessage());
+                    }
+                }
+
+            }
+            resultSet.put(rowObject);
+
+            try{
+                rowObject2.put("data",resultSet);
+            } catch (Exception e) {
+                Log.d(TAG, e.getMessage());
+            }
+            resultSet2.put(rowObject2);
+
+            cursor.moveToNext();
+        }
+
+        cursor = dbManager.fetchUnsyncStatusPersalinan();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            int totalColumn = cursor.getColumnCount();
+            resultSet = new JSONArray();
+            JSONObject rowObject = new JSONObject();
+            JSONObject rowObject2 = new JSONObject();
+            for (int i = 0; i < totalColumn; i++) {
+
+                if (cursor.getColumnName(i) != null) {
+                    try {
+                        rowObject2.put("form_name","status_persalinan");
+                        if(cursor.getColumnName(i).equalsIgnoreCase("user_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        if(cursor.getColumnName(i).equalsIgnoreCase("location_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        if(cursor.getColumnName(i).equalsIgnoreCase("update_id")){
+                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
+                        }
+                        rowObject.put(cursor.getColumnName(i), cursor.getString(i));
+                    } catch (Exception e) {
+                        Log.d(TAG, e.getMessage());
+                    }
+                }
+
+            }
+            resultSet.put(rowObject);
+
+            try{
+                rowObject2.put("data",resultSet);
+            } catch (Exception e) {
+                Log.d(TAG, e.getMessage());
+            }
+            resultSet2.put(rowObject2);
+
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        dbManager.close();
+        return resultSet2;
+    }
+
 
     public JSONArray ibudata_formatToJson()
     {
@@ -553,6 +770,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         }
 
         cursor.close();
+        dbManager.close();
         Log.e(TAG, "ibudata_formatToJson: "+resultSet2.toString());
         return resultSet2;
 
@@ -589,7 +807,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         //  resultSet.put();
 
         cursor.moveToFirst();
-         while (!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast()) {
         try
         {
             int totalColumn = cursor.getColumnCount();
