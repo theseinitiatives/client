@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/list_brown"
     android:layout_height="match_parent"
     tools:context=".activity.IdentitasIbuActivity">
 
@@ -32,7 +33,7 @@
         <ListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="wrap_content"
             android:background="@color/list_brown"
             android:dividerHeight="1dp"
             android:padding="10dp"></ListView>
@@ -45,6 +46,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/woman" />
+        android:src="@drawable/tambah" />
 
 </android.support.design.widget.CoordinatorLayout>
