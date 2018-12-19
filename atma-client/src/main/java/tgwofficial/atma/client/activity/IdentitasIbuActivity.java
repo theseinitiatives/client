@@ -363,6 +363,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
     public void resetUpdating()
     {
         // Get our refresh item from the menu
@@ -481,7 +483,6 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
 //        Toast.makeText(context, "Sync Finished!",
   //              Toast.LENGTH_LONG).show();
-        resetUpdating();
     }
 
     private void updateSyncFlagIbu() {
@@ -739,6 +740,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     int statusCode  = response.code();
                     // handle request errors depending on status code
                 }
+                resetUpdating();
+                refreshList();
             }
 
             @Override
@@ -747,14 +750,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
                         Toast.LENGTH_LONG).show();
                 Log.d("MainActivity", "error loading from API"+t);
-
+                resetUpdating();
             }
         });
-
-        resetUpdating();
-        finish();
-        refreshView();
-        startActivity(getIntent());
     }
 
     public void initDropdownSort(){
