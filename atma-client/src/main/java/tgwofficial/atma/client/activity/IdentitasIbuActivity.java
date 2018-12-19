@@ -322,10 +322,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             /**
              *
              * DATA Sync (For right now disabled)*/
-            push();
-            pulldata();
-            //push();
-            refreshView();
+            startSync();
             return true;
         }
         //noinspection SimplifiableIfStatement
@@ -384,7 +381,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
     }
 
-
+    public void startSync(){
+        push();
+    }
 
     public void push(){
         /***TODO
@@ -420,11 +419,13 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 if (response.code()==201){
                     updateSyncFlagIbu();
                 }
+                pulldata();
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("DEMO", "Unable to submit post to API.",t);
                 Log.e("call", String.valueOf(call));
+                pulldata();
             }
         });
 
@@ -752,6 +753,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         resetUpdating();
         finish();
+        refreshView();
         startActivity(getIntent());
     }
 
