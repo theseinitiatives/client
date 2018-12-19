@@ -319,7 +319,7 @@ public class DbManager {
         return c;
     }
     public Cursor fetchunSyncTrans() {
-        String[] columns = new String[] { DbHelper._ID,
+        String[] columns = new String[] { DbHelper.UNIQUEID,
                 UPDATE_ID,
                 DbHelper.USER_ID,
                 DbHelper.LOCATION_ID,
@@ -367,7 +367,7 @@ public class DbManager {
 
     }
     public Cursor fetchUnsyncBankDarah() {
-        String[] columns = new String[] { DbHelper._ID,
+        String[] columns = new String[] { DbHelper.UNIQUEID,
                 UPDATE_ID,
                 DbHelper.USER_ID,
                 DbHelper.LOCATION_ID,
@@ -391,7 +391,7 @@ public class DbManager {
     }
 
     public Cursor fetchUnsyncRencanaPersalinan() {
-        String[] columns = new String[] { DbHelper._ID,
+        String[] columns = new String[] { DbHelper.UNIQUEID,
                 UPDATE_ID,
                 DbHelper.USER_ID,
                 DbHelper.LOCATION_ID,
@@ -419,7 +419,7 @@ public class DbManager {
     }
 
     public Cursor fetchUnsyncStatusPersalinan() {
-        String[] columns = new String[] { DbHelper._ID,
+        String[] columns = new String[] { DbHelper.UNIQUEID,
                 UPDATE_ID,
                 DbHelper.USER_ID,
                 DbHelper.LOCATION_ID,
