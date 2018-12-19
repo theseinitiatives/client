@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+    android:background="@color/list_brown"
     tools:context=".activity.IdentitasIbuActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -30,8 +32,9 @@
 
         <ListView
             android:id="@+id/list_view"
+            android:background="@color/list_brown"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="wrap_content"
             android:dividerHeight="1dp"
             android:padding="10dp"></ListView>
     </FrameLayout>
