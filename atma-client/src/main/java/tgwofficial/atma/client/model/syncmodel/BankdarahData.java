@@ -52,6 +52,18 @@ public class BankdarahData {
         return id;
     }
 
+    public String getUniqueId() {
+        return unique_id;
+    }
+
+    public void setUniqueId(String unique_id) {
+        this.unique_id = unique_id;
+    }
+
+    @SerializedName("unique_id")
+    @Expose
+    private String unique_id;
+
     public void setId(String id) {
         this.id = id;
     }

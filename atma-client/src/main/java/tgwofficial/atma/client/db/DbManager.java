@@ -111,6 +111,7 @@ public class DbManager {
                 List<TransportasiData> TransportasiDataList = new ArrayList<>(Arrays.asList(transportasiData));
                 for (TransportasiData listTransportasi : TransportasiDataList){
                     contentValue.put(DbHelper._ID, listTransportasi.getId());
+                    contentValue.put(DbHelper.UNIQUEID, listTransportasi.getUniqueId());
                     contentValue.put(DbHelper.NAME, listTransportasi.getName());
                     contentValue.put(DbHelper.Jenis, listTransportasi.getJenis_kendaraan());
                     contentValue.put(DbHelper.Kapasitas, listTransportasi.getKapasitas_kendaraan());
@@ -132,6 +133,7 @@ public class DbManager {
                 List<BankdarahData> BankDarahDataListed = new ArrayList<>(Arrays.asList(bankdarahData));
                 for (BankdarahData listBankDarah : BankDarahDataListed){
                     contentValue.put(DbHelper._ID, listBankDarah.getId());
+                    contentValue.put(DbHelper.UNIQUEID, listBankDarah.getUniqueId());
                     contentValue.put(DbHelper.NAME_PENDONOR, listBankDarah.getName_pendonor());
                     contentValue.put(DbHelper.DUSUN, listBankDarah.getDusun());
                     contentValue.put(DbHelper.GUBUG, listBankDarah.getGubug());
