@@ -227,7 +227,7 @@ public class TransportasiActivity extends AppCompatActivity
         return new ArrayAdapter<>(this.getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, item[0]);
     }
     private final String [][] item = {
-            {"SHORT BY:","Nama A-Z","Nama Z-A"},
+            {"Sort","Nama A-Z","Nama Z-A"},
             {"name ASC","name ASC","name DESC"}
     };
 }
