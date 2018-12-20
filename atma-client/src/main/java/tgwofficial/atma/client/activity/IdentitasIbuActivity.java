@@ -210,7 +210,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
     }
     public void choose (final  long ids){
-        final String[] forms = {"Form Status Persalinan","Form Rencana Persalinan","Detail View Ibu","Tutup Ibu" };
+        final String[] forms = {"Form Rencana Persalinan","Form Status Persalinan","Detail View Ibu","Tutup Ibu" };
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("");
         builder.setItems(forms, new DialogInterface.OnClickListener() {
@@ -434,58 +434,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             }
         });
 
-        // api post for transportasi
-        /*RequestBody reqTrans = null;
-       // try{
-            reqTrans = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
-                    ("{"+transportasi_formatToJson().toString()+"}"));
-       // } catch (JSONException e) {
-         //   e.printStackTrace();
 
-       // }
-        Call<String> postTrans = mService.savePost(reqTrans);
-        postTrans.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                String resp = response.body();
-                Log.e("DEMO", "post trans submitted to API." + response);
-                updateSyncFlagTrans();
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.e("DEMO", "Unable to submit post to API.",t);
-                Log.e("call", String.valueOf(call));
-            }
-        });
-
-        // api post for Bank daraj
-        RequestBody reqDarah = null;
-       // try{
-            reqDarah = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
-                    (bankDarah_formatToJson().toString()));
-       // } catch (JSONException e) {
-        //    e.printStackTrace();
-
-        //}
-        Call<String> postDarah = mService.savePost(reqDarah);
-        postDarah.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                String resp = response.body();
-                Log.e("DEMO", "post bank darah submitted to API." + response);
-                updateSyncFlagBank();
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.e("DEMO", "Unable to submit post to API.",t);
-                Log.e("call", String.valueOf(call));
-            }
-        });*/
-
-//        Toast.makeText(context, "Sync Finished!",
-  //              Toast.LENGTH_LONG).show();
     }
 
     private void updateSyncFlagIbu() {

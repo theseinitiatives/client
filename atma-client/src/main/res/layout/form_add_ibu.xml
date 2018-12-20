@@ -409,7 +409,7 @@
                         android:id="@+id/notelpon"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/nohp"
+                        android:hint="@string/nohpibu"
                         android:inputType="phone"
                         android:maxLines="1"
                         android:maxLength="13"

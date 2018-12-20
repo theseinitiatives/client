@@ -58,9 +58,9 @@ public class TransportasiCursorAdapter extends BaseAdapter {
         TextView dusunss = (TextView) convertView.findViewById(R.id.dusuns);
         TextView kend = (TextView) convertView.findViewById(R.id.kendaraan);
 
-        name.setText("Nama : "+humanizes(transportasiModels.get(position).getNama()));
-        dusunss.setText("Dusun : "+humanizes(transportasiModels.get(position).getDusuns()));
-        kend.setText("Jenis Kendaraan : "+humanizes(transportasiModels.get(position).getKendaraan()));
+        name.setText("Nama: "+humanizes(transportasiModels.get(position).getNama()));
+        dusunss.setText("Dusun: "+humanizes(transportasiModels.get(position).getDusuns()));
+        kend.setText("Jenis Kendaraan: "+humanizes(transportasiModels.get(position).getKendaraan()));
 
 
         final int pos=position;
@@ -90,9 +90,9 @@ public class TransportasiCursorAdapter extends BaseAdapter {
         String jenis = cursor.getString(cursor.getColumnIndexOrThrow("jenis_kendaraan"));
         String dusun = cursor.getString(cursor.getColumnIndexOrThrow("dusun"));
 
-        name.setText("NAMA :"+nama);
-        kend.setText("Jenis Kendaraan :"+jenis);
-        dusunss.setText("Dusun :"+dusun);
+        name.setText("NAMA:"+nama);
+        kend.setText("Jenis Kendaraan:"+jenis);
+        dusunss.setText("Dusun:"+dusun);
     }
 }
 */

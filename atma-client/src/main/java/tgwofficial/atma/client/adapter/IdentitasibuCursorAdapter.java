@@ -59,10 +59,10 @@ public class IdentitasibuCursorAdapter extends BaseAdapter {
         TextView dusunss = (TextView) convertView.findViewById(R.id.dusun);
 
         LinearLayout lin = (LinearLayout) convertView.findViewById(R.id.layout_data);
-        nameTxt.setText("Nama : "+ humanizes(identitasModels.get(position).getNama()));
-        spousename.setText("Nama Suami : "+humanizes(identitasModels.get(position).getPasangan()));
-        status.setText("HTP : "+humanizes(identitasModels.get(position).getStatus1()));
-        dusunss.setText( "Dusun : "+humanizes(identitasModels.get(position).getDusuns()));
+        nameTxt.setText("Nama: "+ humanizes(identitasModels.get(position).getNama()));
+        spousename.setText("Nama Suami: "+humanizes(identitasModels.get(position).getPasangan()));
+        status.setText("HTP: "+humanizes(identitasModels.get(position).getStatus1()));
+        dusunss.setText( "Dusun: "+humanizes(identitasModels.get(position).getDusuns()));
 
         if(identitasModels.get(position).getResiko()!=null) {
             if (identitasModels.get(position).getResiko().length() > 2)

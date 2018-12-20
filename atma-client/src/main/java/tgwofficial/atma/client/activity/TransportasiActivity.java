@@ -190,6 +190,9 @@ public class TransportasiActivity extends AppCompatActivity
         if (id == R.id.nav_bank_darah) {
             navi.startBankDarah();
         }
+        if(id == R.id.nav_logout){
+            super.onBackPressed();
+        }
         if(id == R.id.kader_add){
             navi.addKader();
             //super.onBackPressed();

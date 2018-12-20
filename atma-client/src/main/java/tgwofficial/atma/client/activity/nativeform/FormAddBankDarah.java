@@ -1,15 +1,18 @@
 package tgwofficial.atma.client.activity.nativeform;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -63,6 +66,7 @@ public class FormAddBankDarah extends AppCompatActivity {
     String statuss2;
     String goldarahs;
     EditText notelpons;
+    EditText tgl_donor;
 
     private DbManager dbManager;
     Button btnLogin;
@@ -74,7 +78,7 @@ public class FormAddBankDarah extends AppCompatActivity {
 
         nama_donors = (EditText) findViewById(R.id.nama_donor);
         gubugs = (EditText) findViewById(R.id.gubug);
-       // dusun = (EditText) findViewById(R.id.dusun_s);
+        tgl_donor = (EditText) findViewById(R.id.terakhirdonor);
         notelpons = (EditText) findViewById(R.id.notelpon);
 
         //==========================
@@ -101,17 +105,34 @@ public class FormAddBankDarah extends AppCompatActivity {
         //Set the adapter
         dusun.setAdapter(adapterDusun);
 
+        tgl_donor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DatePickerDialog.OnDateSetListener dpd = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
+
+                        int s=monthOfYear+1;
+                        String a = dayOfMonth+"-"+s+"-"+year;
+                        tgl_donor.setText(""+a);
+                    }
+                };
+
+                Time date = new Time();
+                DatePickerDialog d = new DatePickerDialog(FormAddBankDarah.this, dpd, date.year ,date.month, date.monthDay);
+                d.show();
+
+            }
+        });
 
         final String id = getIntent().getStringExtra("id");
-        if(id!=null) {
-            dbManager.open();
-            dbManager.setSelection(DbHelper._ID+" = '"+id+"'");
-            Cursor cursor = dbManager.fetchBankDarah("","");
-            if(cursor!=null)
-                cursor.moveToFirst();
-            preloadFromData(cursor);
-            dbManager.close();
-        }
+        Intent intent = getIntent();
+       // id = intent.getStringExtra("id");
+        if(id != null)
+            if (!id.equalsIgnoreCase(""))
+                preloadFromData(id);
         btnLogin = (Button) findViewById(R.id.saved);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +144,7 @@ public class FormAddBankDarah extends AppCompatActivity {
                 String text_dusun = dusun.getText().toString();
                 String radioStatus = getStatuss();
                 String radiogolDarah = getDarah() +" - "+ getRhesus();
+                String tglmendonor = tgl_donor.getText().toString();
 
                 if( donor.contains("'") ) {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
@@ -144,12 +166,7 @@ public class FormAddBankDarah extends AppCompatActivity {
                     startActivity(myIntent);
 
                 }
-                //validate form
-                //  if(validateinput(mothername,donor,notelponss,radioStatus,radioStatus2)){
-                //  dbManager.open();
-                //  dbManager.insertbankdarah(mothername,donor,notelponss,radioStatus,radioStatus2);
-                //  dbManager.close();
-                //  }
+
             }
         });
     }
@@ -212,11 +229,19 @@ public class FormAddBankDarah extends AppCompatActivity {
         }
         }
 
-        private void preloadFromData(Cursor c){
-            nama_donors.setText(c.getString(c.getColumnIndexOrThrow("name_pendonor")));
-            gubugs.setText(c.getString(c.getColumnIndexOrThrow("gubug")));
-            notelpons.setText(c.getString(c.getColumnIndexOrThrow("telp")));
-            setGolonganDarahClicked(c.getString(c.getColumnIndexOrThrow("gol_darah")));
+        private void preloadFromData(String id){
+            if(dbManager == null) {
+                dbManager = new DbManager(getApplicationContext());
+            }
+            dbManager.open();
+            Cursor c = dbManager.fetchBankDarahUpdate(id);
+            if ( c.moveToFirst() ) {
+                nama_donors.setText(c.getString(c.getColumnIndexOrThrow("name_pendonor")));
+                gubugs.setText(c.getString(c.getColumnIndexOrThrow("gubug")));
+                notelpons.setText(c.getString(c.getColumnIndexOrThrow("telp")));
+                setGolonganDarahClicked(c.getString(c.getColumnIndexOrThrow("gol_darah")));
+            }
+            dbManager.close();
         }
 
         private void setGolonganDarahClicked(String value){

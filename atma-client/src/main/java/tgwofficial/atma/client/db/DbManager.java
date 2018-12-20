@@ -426,6 +426,25 @@ public class DbManager {
 
 
     }
+    public Cursor fetchBankDarahUpdate(String id) {
+        String[] columns = new String[] { DbHelper._ID,
+                DbHelper.NAME_PENDONOR,
+                DbHelper.STATUS,
+                DbHelper.GUBUG,
+                DbHelper.GOL_DARAH,
+                DbHelper.TELP,
+                DbHelper.IS_SEND,
+                DbHelper.IS_SYNC,
+                DbHelper.TIMESTAMP };
+        Cursor c=null;
+        c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper._ID +"="+id, selectionArgs, groupBy, having, orderBy);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+
+
+    }
     public Cursor fetchUnsyncBankDarah() {
         String[] columns = new String[] { DbHelper.UNIQUEID,
                 UPDATE_ID,
@@ -505,13 +524,7 @@ public class DbManager {
 
     }
 
-    /*public int update(long _id, String name, String desc) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DbHelper.DATA, name);
-       // contentValues.put(DbHelper.TIMESTAMP, desc);
-        int i = database.update(DbHelper.TABLE_NAME, contentValues, DbHelper._ID + " = " + _id, null);
-        return i;
-    }*/
+
 
     public void delete(long _id) {
         database.delete(DbHelper.TABLE_NAME_IBU, DbHelper._ID + "=" + _id, null);
@@ -728,6 +741,7 @@ public class DbManager {
         String[] columns = new String[] { DbHelper._ID,
                 DbHelper.ID_IBU,
                 DbHelper.TGL_PERSALINAN,
+                DbHelper.STATUS_BERSALIN,
                 DbHelper.KONDISI_IBU,
                 DbHelper.KONDISI_ANAK,
                 DbHelper.IS_SEND,
@@ -876,5 +890,17 @@ public class DbManager {
             Log.e("UPDAAAAA", upId);
         }
         return upId;
+    }
+
+    public Cursor fetchJenisKendaraan(String namas) {
+        String[] columns = new String[] {
+                DbHelper.Jenis};
+        Cursor c=null;
+        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.NAME +" LIKE '%"+namas+"%'", selectionArgs, groupBy, having, orderBy);
+        Log.e("JENIS",c.toString());
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
     }
 }

@@ -37,6 +37,8 @@ public class StikerActivity extends AppCompatActivity {
 
         final String id = getIntent().getStringExtra("id");
         final String namas = getIntent().getStringExtra("nama");
+        final String htp = getIntent().getStringExtra("htp");
+        final String jenisk = getIntent().getStringExtra("jenis");
 
         dbManager = new DbManager(this);
         dbManager.open();
@@ -45,16 +47,21 @@ public class StikerActivity extends AppCompatActivity {
         name.setText("  " +namas);
 
 
-        htp_.setText("08-09-2018");
+        htp_.setText(" "+ htp);
         Cursor c = dbManager.fetchRencanaPersalinan(id);
         if (c.moveToFirst()) {
             nama_donor.setText("  " +c.getString(c.getColumnIndexOrThrow("name_pendonor")));
             penolong_.setText("" + c.getString(c.getColumnIndexOrThrow("penolong_persalinan")));
             tempat_.setText("  " + c.getString(c.getColumnIndexOrThrow("tempat_persalinan")));
             pendamping_.setText("  " + c.getString(c.getColumnIndexOrThrow("pendamping_persalinan")));
-           // transportsi_.setText("  " + c.getString(c.getColumnIndexOrThrow("jenis_kendaraan")));
 
 
+
+        }
+        Cursor cursorkerndaran = dbManager.fetchJenisKendaraan(jenisk);
+        if (cursorkerndaran.moveToFirst()) {
+            transportsi_.setText("  " + cursorkerndaran.getString(cursorkerndaran.getColumnIndexOrThrow("jenis_kendaraan")));
+            Log.e("JENISK",cursorkerndaran.getString(cursorkerndaran.getColumnIndexOrThrow("jenis_kendaraan")));
         }
     }
 
