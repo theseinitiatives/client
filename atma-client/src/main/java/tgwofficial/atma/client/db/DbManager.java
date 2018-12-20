@@ -451,8 +451,7 @@ public class DbManager {
     }
 
     public Cursor fetchUnsyncRencanaPersalinan() {
-        String[] columns = new String[] { DbHelper._ID,
-                UPDATE_ID,
+        String[] columns = new String[] { UPDATE_ID,
                 DbHelper.USER_ID,
                 DbHelper.LOCATION_ID,
                 DbHelper.ID_IBU,
@@ -479,8 +478,7 @@ public class DbManager {
     }
 
     public Cursor fetchUnsyncStatusPersalinan() {
-        String[] columns = new String[] { DbHelper._ID,
-                UPDATE_ID,
+        String[] columns = new String[] { UPDATE_ID,
                 DbHelper.USER_ID,
                 DbHelper.LOCATION_ID,
                 DbHelper.ID_IBU,
