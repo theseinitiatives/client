@@ -193,6 +193,9 @@ public class TransportasiActivity extends AppCompatActivity
         if(id == R.id.nav_logout){
             super.onBackPressed();
         }
+        if(id == R.id.info){
+            navi.gotoKIA();
+        }
         if(id == R.id.kader_add){
             navi.addKader();
             //super.onBackPressed();
