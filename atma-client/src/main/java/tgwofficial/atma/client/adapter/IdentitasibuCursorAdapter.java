@@ -62,10 +62,10 @@ public class IdentitasibuCursorAdapter extends BaseAdapter {
         ImageView fotoIbu = (ImageView) convertView.findViewById(R.id.foto_ibu);
 
         LinearLayout lin = (LinearLayout) convertView.findViewById(R.id.layout_data);
-        nameTxt.setText("Nama : "+ humanizes(identitasModels.get(position).getNama()));
-        spousename.setText("Nama Suami : "+humanizes(identitasModels.get(position).getPasangan()));
-        status.setText("HTP : "+humanizes(identitasModels.get(position).getStatus1()));
-        dusunss.setText( "Dusun : "+humanizes(identitasModels.get(position).getDusuns()));
+        nameTxt.setText("Nama: "+ humanizes(identitasModels.get(position).getNama()));
+        spousename.setText("Nama Suami: "+humanizes(identitasModels.get(position).getPasangan()));
+        status.setText("HTP: "+humanizes(identitasModels.get(position).getStatus1()));
+        dusunss.setText( "Dusun: "+humanizes(identitasModels.get(position).getDusuns()));
 
         fotoIbu.setImageResource(
                 identitasModels.get(position).getHaveBirth() ?

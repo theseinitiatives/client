@@ -2,6 +2,7 @@ package tgwofficial.atma.client;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 
 import tgwofficial.atma.client.activity.BankDarahActivity;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
@@ -60,5 +61,11 @@ public class NavigationmenuController {
         activity.finish();
         activity.startActivity(new Intent(activity, IdentitasIbuDetailActivity.class));
         activity.overridePendingTransition(0,0);
+    }
+
+    public void gotoKIA() {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://kie.atma.theseforall.org/"));
+        activity.startActivity(browserIntent);
+        activity.finish();
     }
 }

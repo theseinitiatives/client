@@ -58,9 +58,9 @@ public class BankDarahCursorAdapter extends BaseAdapter {
         TextView gold = (TextView) convertView.findViewById(R.id.gol_d);
         TextView telp = (TextView) convertView.findViewById(R.id.notelp);
 
-        name.setText("Nama : "+humanizes( bankDarahmodels.get(position).getNama()));
-        gold.setText("Gol Darah : "+humanizes(bankDarahmodels.get(position).getGolds()));
-        telp.setText(humanizes("No HP : "+humanizes( bankDarahmodels.get(position).getNomor())));
+        name.setText("Nama: "+humanizes( bankDarahmodels.get(position).getNama()));
+        gold.setText("Gol Darah: "+humanizes(bankDarahmodels.get(position).getGolds()));
+        telp.setText(humanizes("No HP: "+humanizes( bankDarahmodels.get(position).getNomor())));
       //  nama_donor.setText(bankDarahmodels.get(position).getPendonor());
 
         final int pos=position;

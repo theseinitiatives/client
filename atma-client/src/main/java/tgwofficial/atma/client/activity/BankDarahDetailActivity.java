@@ -44,11 +44,11 @@ public class BankDarahDetailActivity extends AppCompatActivity {
         if(c!=null)
             c.moveToFirst();
 
-        name.setText("Nama : "+c.getString(c.getColumnIndexOrThrow("name_pendonor")));
-        golonganDarah.setText("Golongan Darah : "+c.getString(c.getColumnIndexOrThrow("gol_darah")));
+        name.setText("Nama: "+c.getString(c.getColumnIndexOrThrow("name_pendonor")));
+        golonganDarah.setText("Golongan Darah: "+c.getString(c.getColumnIndexOrThrow("gol_darah")));
 //        dusun.setText(c.getString(c.getColumnIndexOrThrow("dusun")));
-        gubug.setText("Gubug : "+c.getString(c.getColumnIndexOrThrow("gubug")));
-        telepon.setText("Telepon : "+c.getString(c.getColumnIndexOrThrow("telp")));
+        gubug.setText("Gubug: "+c.getString(c.getColumnIndexOrThrow("gubug")));
+        telepon.setText("Telepon: "+c.getString(c.getColumnIndexOrThrow("telp")));
 
         editButton = (Button) findViewById(R.id.donor_detail_edit_button);
         editButton.setOnClickListener(new View.OnClickListener() {

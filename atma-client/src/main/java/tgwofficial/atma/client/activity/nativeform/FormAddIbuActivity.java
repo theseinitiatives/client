@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -26,6 +27,8 @@ import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
 import tgwofficial.atma.client.db.DbManager;
 
+import static android.view.View.VISIBLE;
+
 public class FormAddIbuActivity extends AppCompatActivity {
     EditText mother_names;
     EditText husband_names;
@@ -37,7 +40,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
     EditText goldarahs;
     EditText notelpons;
     String faktorResiko;
-
+    LinearLayout lay_lainnya;
 
 
     private RadioButton a,b,ab,o;
@@ -108,7 +111,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         dusun = (EditText) findViewById(R.id.dusun);
         gubugs = (EditText) findViewById(R.id.gubug);
         hphts = (EditText) findViewById(R.id.hpht);
-       // faktorResiko = (EditText) findViewById(R.id.resiko) ;
+        lay_lainnya = (LinearLayout) findViewById(R.id.lainnya_layout) ;
         notelpons = (EditText) findViewById(R.id.notelpon);
         btnLogin = (Button) findViewById(R.id.saved);
         //  userService = ApiUtils.getUserService();
@@ -351,6 +354,16 @@ public class FormAddIbuActivity extends AppCompatActivity {
             case R.id.checskbox_gravida:
                 if (checked)
                     setFaktorResiko("gravida banyak");
+                else
+                    break;
+            case R.id.checskbox_lainnya:
+                if (checked) {
+                    setFaktorResiko("Lainya");
+                    lay_lainnya.setVisibility(VISIBLE);
+                }
+                else if(!checked) {
+                    lay_lainnya.setVisibility(View.GONE);
+                    }
                 else
                     break;
                 // TODO: Veggie sandwich

@@ -190,6 +190,12 @@ public class TransportasiActivity extends AppCompatActivity
         if (id == R.id.nav_bank_darah) {
             navi.startBankDarah();
         }
+        if(id == R.id.nav_logout){
+            super.onBackPressed();
+        }
+        if(id == R.id.info){
+            navi.gotoKIA();
+        }
         if(id == R.id.kader_add){
             navi.addKader();
             //super.onBackPressed();
@@ -221,7 +227,7 @@ public class TransportasiActivity extends AppCompatActivity
         return new ArrayAdapter<>(this.getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, item[0]);
     }
     private final String [][] item = {
-            {"Nama A-Z","Nama Z-A"},
-            {"name ASC","name DESC"}
+            {"Sort","Nama A-Z","Nama Z-A"},
+            {"name ASC","name ASC","name DESC"}
     };
 }

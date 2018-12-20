@@ -46,14 +46,14 @@ public class TransportasiDetailActivity extends AppCompatActivity {
         kapasitas = (TextView)findViewById(R.id.transportasi_detail_kapasitas);
         keterangan = (TextView)findViewById(R.id.transportasi_detail_keterangan);
 
-        nama.setText("NAMA : "+cursor.getString(cursor.getColumnIndexOrThrow("name")));
-        dusun.setText("DUSUN : "+cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
-        gubug.setText("GUBUG : "+cursor.getString(cursor.getColumnIndexOrThrow("gubug")));
-        profesi.setText("PROFESI : "+cursor.getString(cursor.getColumnIndexOrThrow("profesi")));
-        telepon.setText("TELEPON : "+cursor.getString(cursor.getColumnIndexOrThrow("telp")));
-        jenisKendaraan.setText("KENDARAAN : "+cursor.getString(cursor.getColumnIndexOrThrow("jenis_kendaraan")));
-        kapasitas.setText("KAPASITAS : "+cursor.getString(cursor.getColumnIndexOrThrow("kapasitas_kendaraan")));
-        keterangan.setText("KETERANGAN : "+cursor.getString(cursor.getColumnIndexOrThrow("keterangan")));
+        nama.setText("NAMA: "+cursor.getString(cursor.getColumnIndexOrThrow("name")));
+        dusun.setText("DUSUN: "+cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
+        gubug.setText("GUBUG: "+cursor.getString(cursor.getColumnIndexOrThrow("gubug")));
+        profesi.setText("PROFESI: "+cursor.getString(cursor.getColumnIndexOrThrow("profesi")));
+        telepon.setText("TELEPON: "+cursor.getString(cursor.getColumnIndexOrThrow("telp")));
+        jenisKendaraan.setText("KENDARAAN: "+cursor.getString(cursor.getColumnIndexOrThrow("jenis_kendaraan")));
+        kapasitas.setText("KAPASITAS: "+cursor.getString(cursor.getColumnIndexOrThrow("kapasitas_kendaraan")));
+        keterangan.setText("KETERANGAN: "+cursor.getString(cursor.getColumnIndexOrThrow("keterangan")));
 
         edit = (Button) findViewById(R.id.transportasi_edit_button);
         final String entityID = id;
