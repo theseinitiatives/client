@@ -63,6 +63,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="12sp" />
 
+
             <TextView
                 android:id="@+id/dusun"
                 android:layout_width="wrap_content"

@@ -35,6 +35,9 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
     LinearLayout layout_nifas;
     EditText jumlahBayi;
     EditText jenisKelamin;
+    LinearLayout lay_tempat;
+    LinearLayout lay_ibu;
+    LinearLayout lay_anak;
 
     public String getTempatBersalin() {
         return tempatBersalin;
@@ -139,6 +142,9 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
         final String idIbu = getIntent().getStringExtra("id");
         tgl_bersalin = (EditText) findViewById(R.id.tgl_persalinan);
         layout_nifas = (LinearLayout) findViewById(R.id.layout_nifas);
+        lay_tempat = (LinearLayout) findViewById(R.id.tempat_layout);
+        lay_ibu = (LinearLayout) findViewById(R.id.ibu_layout);
+        lay_anak = (LinearLayout) findViewById(R.id.anak_layout);
       //  htps = (EditText) findViewById(R.id.htp);
         jumlahBayi = (EditText) findViewById(R.id.jumlah);
         jenisKelamin = (EditText) findViewById(R.id.jenis_kel);
@@ -265,6 +271,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
             case R.id.tempat_lainnya:
                 if (checked)
                     setTempatBersalin("lainnya");
+                    lay_tempat.setVisibility(VISIBLE);
                 break;
 
                 //set komlikasi
@@ -285,8 +292,12 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                     setKomplikasiIbu("sepsis");
                 break;
             case R.id.k_lainnya:
-                if (checked)
+                if (checked) {
                     setKomplikasiIbu("lainnya");
+                    lay_ibu.setVisibility(VISIBLE);
+                }
+                else
+                    lay_ibu.setVisibility(VISIBLE);
                 break;
 
                 //set komplikasi anak
@@ -305,6 +316,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
             case R.id.k_babylainnya:
                 if (checked)
                     setKomplikasiAnak("lainnya");
+                    lay_anak.setVisibility(VISIBLE);
                 break;
         }
     }

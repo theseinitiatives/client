@@ -461,13 +461,42 @@
                         android:layout_height="wrap_content"
                         android:text="e. Gravida banyak"
                         android:onClick="onCheckboxClicked"/>
+                    <CheckBox android:id="@+id/checskbox_lainnya"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="f. Lainnya"
+                        android:onClick="onCheckboxClicked"/>
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
 
             <include
                 layout="@layout/divider"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/lainnya_layout"
+                android:visibility="gone"
+                android:orientation="vertical">
 
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <AutoCompleteTextView
+                        android:id="@+id/text_lainnya"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/lainnya"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
             <!--===============================-->
             <Button
                 android:id="@+id/saved"
