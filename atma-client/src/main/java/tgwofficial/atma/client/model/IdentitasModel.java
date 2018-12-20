@@ -12,6 +12,7 @@ public class IdentitasModel {
     String status1 ;
     String Dusuns ;
     String resiko;
+    boolean haveBirth;
 
     public String getNama() {
         return nama;
@@ -52,4 +53,6 @@ public class IdentitasModel {
     }
     public void setResiko(String resiko){this.resiko=resiko;}
     public String getResiko(){return this.resiko;}
+    public void setHaveBirth(boolean cond){haveBirth=cond;}
+    public boolean getHaveBirth(){return haveBirth;}
 }

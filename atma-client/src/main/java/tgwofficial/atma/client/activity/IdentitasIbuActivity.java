@@ -265,6 +265,15 @@ public class IdentitasIbuActivity extends AppCompatActivity
         Cursor c = dbManager.fetchIbu(searchTerm,orderBy);
         while (c.moveToNext()) {
             int id = c.getInt(0);
+            Cursor cur = dbManager.fetchStatusPersalinan(c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID)));
+            cur.moveToFirst();
+            boolean haveBirth;
+            if(cur.getCount()>0) {
+                String statusKehamilan = (cur.getString(cur.getColumnIndexOrThrow(DbHelper.STATUS_BERSALIN)));
+                haveBirth = statusKehamilan == null ? false : !statusKehamilan.equalsIgnoreCase("hamil");
+            }else{
+                haveBirth = false;
+            }
             String uid = c.getString(c.getColumnIndexOrThrow("_id"));
             String name = c.getString(c.getColumnIndexOrThrow("name"));
             String spouse = c.getString(c.getColumnIndexOrThrow("spousename"));
@@ -278,6 +287,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             p.setDusuns(dusun);
             p.setStatus1(htp);
             p.setResiko(resiko);
+            p.setHaveBirth(haveBirth);
 
             identitasModels.add(p);
         }
@@ -936,6 +946,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
          * TODO
          * SEPARATE SYNC BETWEEN FIRST PULL AND UPDATE PULL
          * =================================================*/
+        if(true)
+            return;
         dbManager.open();
         String updateID = dbManager.getlatestUpdateId();
         long upId = Long.parseLong(updateID);
