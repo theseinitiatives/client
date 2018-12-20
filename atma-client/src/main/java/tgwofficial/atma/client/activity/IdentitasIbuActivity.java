@@ -960,6 +960,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 }
                 resetUpdating();
                 refreshList();
+                getIbu("","resiko DESC");
             }
 
             @Override
