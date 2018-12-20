@@ -60,6 +60,15 @@ public class IbuData {
     @SerializedName("kondisi_anak")
     @Expose
     private String kondisiAnak;
+    @SerializedName("user_id")
+    @Expose
+    private String user_id;
+    @SerializedName("location_id")
+    @Expose
+    private String location_id;
+    @SerializedName("update_id")
+    @Expose
+    private String update_id;
     @SerializedName("is_send")
     @Expose
     private String isSend;
@@ -206,5 +215,28 @@ public class IbuData {
         this.timestamp = timestamp;
     }
 
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getLocation_id() {
+        return location_id;
+    }
+
+    public void setLocation_id(String location_id) {
+        this.location_id = location_id;
+    }
+
+    public String getUpdate_id() {
+        return update_id;
+    }
+
+    public void setUpdate_id(String update_id) {
+        this.update_id = update_id;
+    }
 }
 
