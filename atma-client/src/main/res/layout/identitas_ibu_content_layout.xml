@@ -28,7 +28,7 @@
                 android:id="@+id/ibu"
                 android:layout_width="60dp"
                 android:layout_height="fill_parent"
-                android:src="@drawable/logo_ibu" />
+                android:src="@drawable/icon_mother72" />
 
         </LinearLayout>
 

@@ -6,15 +6,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_identitas_ibu"
-            android:icon="@drawable/logo_ibu"
+            android:icon="@drawable/icon_mother48"
             android:title="Identitas Ibu" />
         <item
             android:id="@+id/nav_transportasi"
-            android:icon="@drawable/logo_transportasi"
+            android:icon="@drawable/icon_transportasi48"
             android:title="Transportasi" />
         <item
             android:id="@+id/nav_bank_darah"
-            android:icon="@drawable/logo_bank_darah"
+            android:icon="@drawable/icon_darah48"
             android:title="Bank Darah" />
         <item
             android:id="@+id/kader_add"
@@ -22,7 +22,7 @@
             android:title="Add Kader" />
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/logo_exit"
+            android:icon="@drawable/icon_exit48"
             android:title="Logout" />
     </group>
 
