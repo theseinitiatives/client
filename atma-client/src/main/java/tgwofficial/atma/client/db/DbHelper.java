@@ -111,6 +111,22 @@ public class DbHelper  extends SQLiteOpenHelper {
     static final int DB_VERSION = 1;
 
 
+    //sync tables,
+    public static final String DATA = "data";
+
+
+    public static final String TABLE_SYNC = "sync_table";
+    // Creating table Ibu
+    private static final String CREATE_TABLE_SYNC = "create table "
+            + TABLE_SYNC + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + USER_ID + " TEXT , "
+            + LOCATION_ID + " TEXT , "
+            + UPDATE_ID + " TEXT , "
+            + IS_SYNC + " INTEGER DEFAULT 0, "
+            + IS_SEND + " INTEGER DEFAULT 0, "
+            + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
+
+
     // Creating table Ibu
     private static final String CREATE_TABLE_IBU = "create table "
             + TABLE_NAME_IBU + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -297,6 +313,7 @@ public class DbHelper  extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_USER);
         db.execSQL(CREATE_TABLE_LOCATION_TREE);
        db.execSQL(CREATE_TABLE_KADER);
+       db.execSQL(CREATE_TABLE_SYNC);
       //  insertDummy(db,"Siti"," Adawiyah"," Patient Baru");
       //  insertDummy(db,"Moya", "Dyah", "Patient Baru");
 

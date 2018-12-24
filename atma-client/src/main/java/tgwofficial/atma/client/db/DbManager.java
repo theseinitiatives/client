@@ -64,7 +64,6 @@ public class DbManager {
             //  contentValue.put(DbHelper.FORM_NAME, model.getform_name());
             contentValue2.put(DbHelper.LOCATION_ID, model.getlocation_id());
             contentValue2.put(DbHelper.USER_ID, model.getuser_id());
-
             contentValue.put(UPDATE_ID, model.getupdate_id());
 
             String data_ = null;
@@ -84,6 +83,8 @@ public class DbManager {
             IbuData[] ibuData = gson.fromJson(data_, IbuData[].class);
             List<IbuData> ibuDataListed = new ArrayList<>(Arrays.asList(ibuData));
 
+
+            // insert into db
             if(model.getform_name().equals("identitas_ibu")) {
                 for (IbuData listIbuData : ibuDataListed) {
                     contentValue.put(DbHelper._ID, listIbuData.getId());
@@ -233,8 +234,7 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
-        //+ USER_ID + " TEXT , "
-        //            + LOCATION_ID + " TEXT , "
+
     }
 
     public void insertStatusPersalinan(String idIbu, String tgl_bersalin,String ibubersalin, String kondisi_ibu, String kondisi_anak,String jumlahBayis, String jenisKelamins, String komplikasiIbus, String komplikasiAnak, String tempat){
@@ -670,6 +670,18 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_KADER, null, contentValue);
     }
+
+    public void insertsyncTable(String user, String formName, String updateId, String locId) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.USER_ID,user);
+        contentValue.put( DbHelper.LOCATION_ID,locId);
+        contentValue.put( UPDATE_ID,updateId);
+        contentValue.put( UPDATE_ID,formName);
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        database.insert(DbHelper.TABLE_SYNC, null, contentValue);
+    }
+
     public Cursor fetchKader(){
         clearClause();
         return database.query(DbHelper.KADER,DbHelper.KADER_VAR,selection,selectionArgs,groupBy,having,orderBy);

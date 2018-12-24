@@ -727,7 +727,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 Log.d(TAG, e.getMessage());
             }
             resultSet2.put(rowObject2);
-
+            dbManager.open();
             cursor.moveToNext();
         }
 
@@ -754,73 +754,6 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
     }
 
-    public JSONArray transportasi_formatToJson()
-    {
-        dbManager.open();
-        //pull all identitasibu data from local db
-        Cursor cursor = dbManager.fetchunSyncTrans();
-        // String data = dbManager.formatToJson(cursor).toString();
-        //JSONArray resultSet     = new JSONArray();
-
-        JSONArray resultSet = new JSONArray();
-        JSONArray resultSet2 = new JSONArray();
-        JSONObject rowObject2 = new JSONObject();
-
-        //  resultSet.put();
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-        try
-        {
-            int totalColumn = cursor.getColumnCount();
-            JSONObject rowObject = new JSONObject();
-            //looping data
-            Log.i("COUNT",""+totalColumn);
-            for( int i=0 ;  i< totalColumn ; i++ )
-            {
-                /***
-                 * TODO
-                 * SET THE DATA FROM TABLE*/
-                rowObject2.put("user_id",userId);
-                rowObject2.put("location_id",locaId);
-                rowObject2.put("form_name","transportasi");
-                rowObject2.put("update_id",System.currentTimeMillis());
-                // Log.i("ASDASD",resultSet2.toString());
-
-                if( cursor.getColumnName(i) != null )
-                {
-
-
-                    if( cursor.getString(i) != null )
-                    {
-                        Log.d("TAG_NAME", cursor.getString(i) );
-                        rowObject.put(cursor.getColumnName(i) ,  cursor.getString(i) );
-                    }
-                    else
-                    {
-                        rowObject.put( cursor.getColumnName(i) ,  "" );
-                    }
-
-                }
-
-                resultSet2.put(rowObject2);
-                rowObject2.put("data",resultSet);
-
-
-            }
-
-            resultSet.put(rowObject);
-            cursor.moveToNext();
-        }
-        catch( Exception e )
-        {
-            Log.d("TAG_NAME", e.getMessage()  );
-        }
-         }
-        cursor.close();
-        dbManager.close();
-        return resultSet2;
-    }
 
     public JSONArray bankDarah_formatToJson()
     {
