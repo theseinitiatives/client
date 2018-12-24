@@ -284,6 +284,7 @@ public class DbManager {
     public Cursor fetchIbu(String searchTerm, String orderByASCDESC) {
         String[] columns = new String[] { DbHelper._ID,
                 DbHelper.NAME,
+                DbHelper.UNIQUEID,
                 DbHelper.SPOUSENAME,
                 DbHelper.TGL_LAHIR,
                 DbHelper.DUSUN,
@@ -351,6 +352,15 @@ public class DbManager {
         if (cursor != null) {
             cursor.moveToFirst();
         }
+        return cursor;
+    }
+
+    public Cursor fetchStatusPersalinan(String uniqueId){
+        String[] col = new String[]{
+                DbHelper.ID_IBU,
+                DbHelper.STATUS_BERSALIN
+        };
+        Cursor cursor = database.query(DbHelper.TABLE_PERSALINAN, col, DbHelper.ID_IBU +" = '" + uniqueId+"'", null, null, null, orderBy);
         return cursor;
     }
 
@@ -562,7 +572,7 @@ public class DbManager {
         contentValue.put( UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
-        database.update(DbHelper.TABLE_NAME_BANK, contentValue,"id = ?",new String[]{id});
+        database.update(DbHelper.TABLE_NAME_BANK, contentValue,"_id = ?",new String[]{id});
     }
 
     public void insertbanktransportasi(String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets) {
