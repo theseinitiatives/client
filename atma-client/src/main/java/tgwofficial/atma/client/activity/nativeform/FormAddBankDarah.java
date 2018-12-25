@@ -31,6 +31,15 @@ public class FormAddBankDarah extends AppCompatActivity {
     String rhesus;
     EditText gubugs;
     EditText dusun;
+    String setUniqueId;
+
+    public String getSetUniqueId() {
+        return setUniqueId;
+    }
+
+    public void setSetUniqueId(String setUniqueId) {
+        this.setUniqueId = setUniqueId;
+    }
     public String getRhesus() {
         return rhesus;
     }
@@ -149,21 +158,7 @@ public class FormAddBankDarah extends AppCompatActivity {
                 String tglmendonor = tgl_donor.getText().toString();
                 String UUID = java.util.UUID.randomUUID().toString();
 
-                JSONObject dataArray = new JSONObject();
-                try {
-                    dataArray.put(DbHelper.NAME_PENDONOR, donor);
-                    dataArray.put(DbHelper.TELP,notelponss);
-                    dataArray.put(DbHelper.GUBUG,text_gubug);
-                    dataArray.put(DbHelper.DUSUN,text_dusun);
-                    dataArray.put(DbHelper.GOL_DARAH,radiogolDarah);
-                    dataArray.put(DbHelper.TGL_DONOR,tglmendonor);
-                    if(valueExist(id))
-                        dataArray.put(DbHelper.UNIQUEID,id);
-                    else
-                        dataArray.put(DbHelper.UNIQUEID,UUID);
-                }catch (Exception e) {
-                    Log.d("Data array", e.getMessage());
-                }
+
 
                 if( donor.contains("'") ) {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
@@ -174,14 +169,31 @@ public class FormAddBankDarah extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }
                 else {
+                    JSONObject dataArray = new JSONObject();
+                    try {
+                        dataArray.put(DbHelper.NAME_PENDONOR, donor);
+                        dataArray.put(DbHelper.TELP,notelponss);
+                        dataArray.put(DbHelper.GUBUG,text_gubug);
+                        dataArray.put(DbHelper.DUSUN,text_dusun);
+                        dataArray.put(DbHelper.GOL_DARAH,radiogolDarah);
+                        dataArray.put(DbHelper.TGL_DONOR,tglmendonor);
+                        if(valueExist(id)) {
+                            dataArray.put(DbHelper.UNIQUEID, getSetUniqueId());
+                        }else {
+                            dataArray.put(DbHelper.UNIQUEID, UUID);
+                        }
+                    }catch (Exception e) {
+                        Log.d("Data array", e.getMessage());
+                    }
                     dbManager.open();
-                    if(id!=null) {
+                    if(id!=null){
                         dbManager.updatebankdarah(id, donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah, tglmendonor);
                         dbManager.insertsyncTable("bank_darah_edit",System.currentTimeMillis(),dataArray.toString(),0,0);
-
+                        Log.e("Data", dataArray.toString());
+                        Log.e("Data====", getSetUniqueId());
                     }
                     else {
-                        dbManager.insertbankdarah(donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah, tglmendonor);
+                        dbManager.insertbankdarah(UUID,donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah, tglmendonor);
                         dbManager.insertsyncTable("bank_darah", System.currentTimeMillis(), dataArray.toString(), 0, 0);
 
                     }
@@ -265,6 +277,7 @@ public class FormAddBankDarah extends AppCompatActivity {
                 gubugs.setText(c.getString(c.getColumnIndexOrThrow("gubug")));
                 notelpons.setText(c.getString(c.getColumnIndexOrThrow("telp")));
                 setGolonganDarahClicked(c.getString(c.getColumnIndexOrThrow("gol_darah")));
+                setSetUniqueId(c.getString(c.getColumnIndexOrThrow("unique_id")));
             }
             dbManager.close();
         }

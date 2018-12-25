@@ -240,6 +240,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     String uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
                     dbManager.close();
                     intent.putExtra("uniqueId", uniqueId);
+                    intent.putExtra("id", uid);
                     startActivity(intent);
                     finish();
                 }

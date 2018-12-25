@@ -47,7 +47,15 @@ public class FormAddIbuActivity extends AppCompatActivity {
     EditText notelpons;
     String faktorResiko;
     LinearLayout lay_lainnya;
+    String setUniqueId;
 
+    public String getSetUniqueId() {
+        return setUniqueId;
+    }
+
+    public void setSetUniqueId(String setUniqueId) {
+        this.setUniqueId = setUniqueId;
+    }
 
     private RadioButton a,b,ab,o;
     private RadioButton rhPositive,rhNegative,rhUnknown;
@@ -249,7 +257,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     dataArray.put(DbHelper.RESIKO,fResiko);
                     dataArray.put(DbHelper.GUBUG,gubug);
                     if(valueExist(id))
-                        dataArray.put(DbHelper.UNIQUEID,id);
+                        dataArray.put(DbHelper.UNIQUEID,getSetUniqueId());
                     else
                         dataArray.put(DbHelper.UNIQUEID,UUID);
                 }catch (Exception e) {
@@ -301,7 +309,6 @@ public class FormAddIbuActivity extends AppCompatActivity {
             if (!id.equalsIgnoreCase(""))
                 fillField(id);
     }
-
 
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
@@ -430,6 +437,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
       //  kaders.setText(cursor.getString(cursor.getColumnIndexOrThrow("kader")));
         notelpons.setText(cursor.getString(cursor.getColumnIndexOrThrow("telp")));
        // faktorResiko.setText(cursor.getString(cursor.getColumnIndexOrThrow("resiko")));
+        setSetUniqueId(cursor.getString(cursor.getColumnIndexOrThrow("unique_id")));
         dbManager.close();
     }
 

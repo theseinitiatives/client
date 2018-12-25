@@ -443,6 +443,7 @@ public class DbManager {
                 DbHelper.STATUS,
                 DbHelper.GUBUG,
                 DbHelper.GOL_DARAH,
+                DbHelper.UNIQUEID,
                 DbHelper.TELP,
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
@@ -542,10 +543,10 @@ public class DbManager {
     }
 
 
-    public void insertbankdarah(String donor,String text_gubug,String text_dusun,String notelponss, String radioStatus, String radioStatus2, String tgldonor) {
+    public void insertbankdarah(String uuid,String donor,String text_gubug,String text_dusun,String notelponss, String radioStatus, String radioStatus2, String tgldonor) {
 
         ContentValues contentValue = new ContentValues();
-        contentValue.put(  DbHelper.UNIQUEID, UUID.randomUUID().toString());
+        contentValue.put(  DbHelper.UNIQUEID, uuid);
         contentValue.put( DbHelper.NAME_PENDONOR,donor);
         contentValue.put( DbHelper.GUBUG,text_gubug);
         contentValue.put( DbHelper.DUSUN,text_dusun);
@@ -735,7 +736,7 @@ public class DbManager {
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
-        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.UNIQUEID +"='"+id+"'", null, null, null, null);
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper._ID +"='"+id+"'", null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }

@@ -24,7 +24,8 @@ public class BankDarahDetailActivity extends AppCompatActivity {
     private TextView name, golonganDarah, dusun, gubug, telepon;
     private Button editButton;
     private Cursor c;
-
+    String id;
+    private DbManager dbManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,20 +37,22 @@ public class BankDarahDetailActivity extends AppCompatActivity {
         gubug = (TextView)findViewById(R.id.donor_detail_gubug);
         telepon = (TextView)findViewById(R.id.donor_detail_telepon);
 
-        final String id = getIntent().getStringExtra("id");
 
-        DbManager db = new DbManager(this).open();
-        db.setSelection(DbHelper._ID+" = '"+id+"'");
-        c = db.fetchBankDarah("","");
-        if(c!=null)
-            c.moveToFirst();
+         id = getIntent().getStringExtra("id");
 
-        name.setText("Nama: "+c.getString(c.getColumnIndexOrThrow("name_pendonor")));
-        golonganDarah.setText("Golongan Darah: "+c.getString(c.getColumnIndexOrThrow("gol_darah")));
+        if(dbManager == null) {
+            dbManager = new DbManager(getApplicationContext());
+        }
+        dbManager.open();
+        Cursor c = dbManager.fetchBankDarahUpdate(id);
+        if ( c.moveToFirst() ) {
+
+            name.setText("Nama: " + c.getString(c.getColumnIndexOrThrow("name_pendonor")));
+            golonganDarah.setText("Golongan Darah: " + c.getString(c.getColumnIndexOrThrow("gol_darah")));
 //        dusun.setText(c.getString(c.getColumnIndexOrThrow("dusun")));
-        gubug.setText("Gubug: "+c.getString(c.getColumnIndexOrThrow("gubug")));
-        telepon.setText("Telepon: "+c.getString(c.getColumnIndexOrThrow("telp")));
-
+            gubug.setText("Gubug: " + c.getString(c.getColumnIndexOrThrow("gubug")));
+            telepon.setText("Telepon: " + c.getString(c.getColumnIndexOrThrow("telp")));
+        }
         editButton = (Button) findViewById(R.id.donor_detail_edit_button);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -58,9 +58,13 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);/*
                 String username = edtUsername.getText().toString();
-                String password = edtPassword.getText().toString();
+                String password = edtPassword.getText().toString();*/
+
+
+                String username = "demo";
+                String password = "Satu2345";
                 //validate form
                 if(validateLogin(username, password)){
                     Retrofit retrofit = new Retrofit.Builder()
