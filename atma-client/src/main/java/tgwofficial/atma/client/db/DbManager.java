@@ -279,7 +279,7 @@ public class DbManager {
         contentValue.put( UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
-        database.update(DbHelper.TABLE_NAME_IBU, contentValue,"unique_id = ?",new String[]{_id});
+        database.update(DbHelper.TABLE_NAME_IBU, contentValue,"_id = ?",new String[]{_id});
     }
 
     public Cursor fetchIbu(String searchTerm, String orderByASCDESC) {
@@ -542,7 +542,7 @@ public class DbManager {
     }
 
 
-    public void insertbankdarah(String donor,String text_gubug,String text_dusun,String notelponss, String radioStatus, String radioStatus2) {
+    public void insertbankdarah(String donor,String text_gubug,String text_dusun,String notelponss, String radioStatus, String radioStatus2, String tgldonor) {
 
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.UNIQUEID, UUID.randomUUID().toString());
@@ -552,6 +552,7 @@ public class DbManager {
         contentValue.put( DbHelper.STATUS,radioStatus);
         contentValue.put( DbHelper.GOL_DARAH,radioStatus2);
         contentValue.put( DbHelper.TELP,notelponss);
+        contentValue.put( DbHelper.TGL_DONOR,tgldonor);
         contentValue.put( UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
@@ -560,7 +561,7 @@ public class DbManager {
         database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);
     }
 
-    public void updatebankdarah(String id,String donor,String text_gubug,String text_dusun,String notelponss, String radioStatus, String radioStatus2) {
+    public void updatebankdarah(String id,String donor,String text_gubug,String text_dusun,String notelponss, String radioStatus, String radioStatus2, String tgldonor) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.NAME_PENDONOR,donor);
         contentValue.put( DbHelper.GUBUG,text_gubug);
@@ -568,6 +569,7 @@ public class DbManager {
         contentValue.put( DbHelper.STATUS,radioStatus);
         contentValue.put( DbHelper.GOL_DARAH,radioStatus2);
         contentValue.put( DbHelper.TELP,notelponss);
+        contentValue.put( DbHelper.TGL_DONOR,tgldonor);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( UPDATE_ID,System.currentTimeMillis());

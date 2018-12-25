@@ -172,6 +172,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + IS_SEND + " INTEGER DEFAULT 0, "
             + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
 
+    public static final String TGL_DONOR = "tgl_donor";
     // Creating table Bank Darah
     private static final String CREATE_TABLE_BANK = "create table "
             + TABLE_NAME_BANK + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -181,6 +182,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + GUBUG + " TEXT , "
             + STATUS + " TEXT , "
             + GOL_DARAH + " TEXT , "
+            + TGL_DONOR + " TEXT , "
             + TELP + " TEXT , "
             + USER_ID + " TEXT , "
             + LOCATION_ID + " TEXT , "

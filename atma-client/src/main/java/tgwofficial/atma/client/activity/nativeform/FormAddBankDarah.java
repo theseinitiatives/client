@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.BankDarahActivity;
@@ -145,6 +147,23 @@ public class FormAddBankDarah extends AppCompatActivity {
                 String radioStatus = getStatuss();
                 String radiogolDarah = getDarah() +" - "+ getRhesus();
                 String tglmendonor = tgl_donor.getText().toString();
+                String UUID = java.util.UUID.randomUUID().toString();
+
+                JSONObject dataArray = new JSONObject();
+                try {
+                    dataArray.put(DbHelper.NAME_PENDONOR, donor);
+                    dataArray.put(DbHelper.TELP,notelponss);
+                    dataArray.put(DbHelper.GUBUG,text_gubug);
+                    dataArray.put(DbHelper.DUSUN,text_dusun);
+                    dataArray.put(DbHelper.GOL_DARAH,radiogolDarah);
+                    dataArray.put(DbHelper.TGL_DONOR,tglmendonor);
+                    if(valueExist(id))
+                        dataArray.put(DbHelper.UNIQUEID,id);
+                    else
+                        dataArray.put(DbHelper.UNIQUEID,UUID);
+                }catch (Exception e) {
+                    Log.d("Data array", e.getMessage());
+                }
 
                 if( donor.contains("'") ) {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
@@ -156,11 +175,17 @@ public class FormAddBankDarah extends AppCompatActivity {
                 }
                 else {
                     dbManager.open();
-                    if(id!=null)
-                        dbManager.updatebankdarah(id,donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah);
-                    else
-                        dbManager.insertbankdarah(donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah);
-                    dbManager.close();
+                    if(id!=null) {
+                        dbManager.updatebankdarah(id, donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah, tglmendonor);
+                        dbManager.insertsyncTable("bank_darah_edit",System.currentTimeMillis(),dataArray.toString(),0,0);
+
+                    }
+                    else {
+                        dbManager.insertbankdarah(donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah, tglmendonor);
+                        dbManager.insertsyncTable("bank_darah", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+
+                    }
+                        dbManager.close();
                     finish();
                     Intent myIntent = new Intent(FormAddBankDarah.this, BankDarahActivity.class);
                     startActivity(myIntent);
@@ -270,6 +295,11 @@ public class FormAddBankDarah extends AppCompatActivity {
             }
         }
 
+    private boolean valueExist(String value){
+        if(value!=null)
+            return !value.equalsIgnoreCase("");
+        return false;
+    }
     @Override
     public void onBackPressed() {
         Log.d("CDA", "onBackPressed Called");
