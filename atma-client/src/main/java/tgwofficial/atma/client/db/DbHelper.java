@@ -122,9 +122,10 @@ public class DbHelper  extends SQLiteOpenHelper {
             + USER_ID + " TEXT , "
             + LOCATION_ID + " TEXT , "
             + UPDATE_ID + " TEXT , "
+            + DATA + " TEXT , "
+            + FORM_NAME + " TEXT , "
             + IS_SYNC + " INTEGER DEFAULT 0, "
-            + IS_SEND + " INTEGER DEFAULT 0, "
-            + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
+            + IS_SEND + " INTEGER DEFAULT 0);";
 
 
     // Creating table Ibu

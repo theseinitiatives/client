@@ -25,6 +25,7 @@ import tgwofficial.atma.client.model.syncmodel.StatusModel;
 import tgwofficial.atma.client.model.syncmodel.TransportasiData;
 
 import static java.lang.Math.random;
+import static tgwofficial.atma.client.db.DbHelper.FORM_NAME;
 import static tgwofficial.atma.client.db.DbHelper.TABLE_NAME_BANK;
 import static tgwofficial.atma.client.db.DbHelper.TABLE_NAME_IBU;
 import static tgwofficial.atma.client.db.DbHelper.TABLE_NAME_RENCANA;
@@ -212,10 +213,10 @@ public class DbManager {
         }
     }
 
-    public void insertibu(String mothername, String husbandname,String dobss, String gubugss,
+    public void insertibu(String uid,String mothername, String husbandname,String dobss, String gubugss,
     String hphtss, String htpss,String goldarahss, String kaderss,String notelponss,  String radioStatus2, String resiko,String gubug, String nifas_berakhir) {
         ContentValues contentValue = new ContentValues();
-        contentValue.put(  DbHelper.UNIQUEID, UUID.randomUUID().toString());
+        contentValue.put(  DbHelper.UNIQUEID, uid);
         contentValue.put(  DbHelper.NAME, mothername);
         contentValue.put(  DbHelper.SPOUSENAME, husbandname);
         contentValue.put( DbHelper.TGL_LAHIR,dobss);
@@ -671,14 +672,15 @@ public class DbManager {
         database.insert(DbHelper.TABLE_KADER, null, contentValue);
     }
 
-    public void insertsyncTable(String user, String formName, String updateId, String locId) {
+    public void insertsyncTable(String formName, Long updateId, String data, int issend, int issync) {
         ContentValues contentValue = new ContentValues();
-        contentValue.put( DbHelper.USER_ID,user);
-        contentValue.put( DbHelper.LOCATION_ID,locId);
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName());
+        contentValue.put( DbHelper.DATA,data);
         contentValue.put( UPDATE_ID,updateId);
-        contentValue.put( UPDATE_ID,formName);
-        contentValue.put( DbHelper.IS_SEND,"0");
-        contentValue.put( DbHelper.IS_SYNC,"0");
+        contentValue.put( FORM_NAME,formName);
+        contentValue.put( DbHelper.IS_SEND,issend);
+        contentValue.put( DbHelper.IS_SYNC,issync);
         database.insert(DbHelper.TABLE_SYNC, null, contentValue);
     }
 
