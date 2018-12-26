@@ -368,6 +368,7 @@ public class DbManager {
     public Cursor fetchTrans(String searchTerm, String orderByASCDESC) {
         String[] columns = new String[] { DbHelper._ID,
                 DbHelper.NAME,
+                DbHelper.UNIQUEID,
                 DbHelper.Jenis,
                 DbHelper.Kapasitas,
                 DbHelper.TELP,
@@ -441,6 +442,7 @@ public class DbManager {
         String[] columns = new String[] { DbHelper._ID,
                 DbHelper.NAME_PENDONOR,
                 DbHelper.STATUS,
+                DbHelper.DUSUN,
                 DbHelper.GUBUG,
                 DbHelper.GOL_DARAH,
                 DbHelper.UNIQUEID,
@@ -579,9 +581,9 @@ public class DbManager {
         database.update(DbHelper.TABLE_NAME_BANK, contentValue,"_id = ?",new String[]{id});
     }
 
-    public void insertbanktransportasi(String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets) {
+    public void insertbanktransportasi(String uuid,String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets) {
         ContentValues contentValue = new ContentValues();
-        contentValue.put(  DbHelper.UNIQUEID, UUID.randomUUID().toString());
+        contentValue.put(  DbHelper.UNIQUEID, uuid);
         contentValue.put( DbHelper.NAME,text_pemiliks);
         contentValue.put( DbHelper.TELP,text_nohp);
         contentValue.put( DbHelper.Jenis,jenis);

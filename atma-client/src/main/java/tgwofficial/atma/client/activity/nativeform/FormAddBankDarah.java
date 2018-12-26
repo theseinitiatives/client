@@ -91,6 +91,7 @@ public class FormAddBankDarah extends AppCompatActivity {
         gubugs = (EditText) findViewById(R.id.gubug);
         tgl_donor = (EditText) findViewById(R.id.terakhirdonor);
         notelpons = (EditText) findViewById(R.id.notelpon);
+        dusun = (EditText) findViewById(R.id.dusun_s);
 
         //==========================
         String[] dusunsList = {
@@ -275,6 +276,7 @@ public class FormAddBankDarah extends AppCompatActivity {
             if ( c.moveToFirst() ) {
                 nama_donors.setText(c.getString(c.getColumnIndexOrThrow("name_pendonor")));
                 gubugs.setText(c.getString(c.getColumnIndexOrThrow("gubug")));
+                dusun.setText(c.getString(c.getColumnIndexOrThrow("dusun")));
                 notelpons.setText(c.getString(c.getColumnIndexOrThrow("telp")));
                 setGolonganDarahClicked(c.getString(c.getColumnIndexOrThrow("gol_darah")));
                 setSetUniqueId(c.getString(c.getColumnIndexOrThrow("unique_id")));
