@@ -343,6 +343,26 @@ public class DbManager {
         return cursor;
     }
 
+    public Cursor fetchUnSyncForm() {
+        String[] columns = new String[] {
+                // + USER_ID + " TEXT , "
+                //            + LOCATION_ID + " TEXT , "
+                //            + UPDATE_ID + " TEXT , "
+                //            + DATA + " TEXT , "
+                //            + FORM_NAME + " TEXT , "
+                DbHelper.USER_ID,
+                DbHelper.LOCATION_ID,
+                DbHelper.UPDATE_ID,
+                DbHelper.FORM_NAME,
+                DbHelper.DATA
+                 };
+        Cursor cursor = database.query(DbHelper.TABLE_SYNC, columns, DbHelper.IS_SEND +"!=1", null, null, null, orderBy);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
     public Cursor fetchSyncedData() {
         String sql = "SELECT "+UPDATE_ID+" FROM "+TABLE_NAME_IBU+" UNION "+
                 "SELECT "+UPDATE_ID+" FROM "+TABLE_NAME_TRANS+" UNION "+
