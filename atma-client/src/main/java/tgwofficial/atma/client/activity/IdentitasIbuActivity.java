@@ -947,7 +947,13 @@ public class IdentitasIbuActivity extends AppCompatActivity
 //                in.putExtra("database", (Parcelable) dbManager);
                 Cursor c = dbManager.open().fetchUserData();
                 c.moveToFirst();
-                in.putExtra("iddesa",c.getString(c.getColumnIndexOrThrow(DbHelper.PARENT_LOCATION)));
+                String pos = c.getString(c.getColumnIndexOrThrow(DbHelper.GROUPS));
+                in.putExtra("iddesa",c.getString(c.getColumnIndexOrThrow(
+                        pos.equals(getString(R.string.bidan))
+                                ? DbHelper.LOCATION_ID
+                                : DbHelper.PARENT_LOCATION
+                        )
+                ));
                 dbManager.close();
                 startActivity(in);
             }

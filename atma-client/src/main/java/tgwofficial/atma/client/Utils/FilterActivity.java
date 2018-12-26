@@ -126,7 +126,8 @@ public class FilterActivity extends Activity {
     private String [][]dusunString(){
         dbManager.open();
         dbManager.clearClause();
-        dbManager.setSelection(DbHelper.PARENT_LOCATION+" = "+iddesa);
+        dbManager.setSelection(DbHelper.PARENT_LOCATION+" = ?");
+        dbManager.setSelectionArgs(new String[]{iddesa});
         Cursor c = dbManager.fetchLocationTree();
         dbManager.clearClause();
         c.moveToFirst();
