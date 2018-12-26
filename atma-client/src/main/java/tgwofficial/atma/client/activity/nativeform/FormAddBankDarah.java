@@ -188,13 +188,13 @@ public class FormAddBankDarah extends AppCompatActivity {
                     }
                     dbManager.open();
                     if(id!=null){
-                        dbManager.updatebankdarah(id, donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah, tglmendonor);
+                        dbManager.updatebankdarah(id, donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah, tglmendonor,System.currentTimeMillis());
                         dbManager.insertsyncTable("bank_darah_edit",System.currentTimeMillis(),dataArray.toString(),0,0);
                         Log.e("Data", dataArray.toString());
                         Log.e("Data====", getSetUniqueId());
                     }
                     else {
-                        dbManager.insertbankdarah(UUID,donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah, tglmendonor);
+                        dbManager.insertbankdarah(UUID,donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah, tglmendonor,System.currentTimeMillis());
                         dbManager.insertsyncTable("bank_darah", System.currentTimeMillis(), dataArray.toString(), 0, 0);
 
                     }

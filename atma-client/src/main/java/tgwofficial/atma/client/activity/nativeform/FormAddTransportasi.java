@@ -158,11 +158,11 @@ public class FormAddTransportasi extends AppCompatActivity {
                 else {
                     dbManager.open();
                     if(id!=null) {
-                        dbManager.updatebanktransportasi(id, text_pemiliks, jeniss, text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets);
+                        dbManager.updatebanktransportasi(id, text_pemiliks, jeniss, text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets,System.currentTimeMillis());
                         dbManager.insertsyncTable("transportasi_edit", System.currentTimeMillis(), dataArray.toString(), 0, 0);
 
                     } else {
-                        dbManager.insertbanktransportasi(UUID, text_pemiliks, jeniss, text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets);
+                        dbManager.insertbanktransportasi(UUID, text_pemiliks, jeniss, text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets,System.currentTimeMillis());
                         dbManager.insertsyncTable("transportasi", System.currentTimeMillis(), dataArray.toString(), 0, 0);
 
                     }

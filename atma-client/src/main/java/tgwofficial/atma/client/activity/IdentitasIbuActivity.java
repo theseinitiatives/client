@@ -221,12 +221,24 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 if ("Form Rencana Persalinan".equals(forms[which])) {
                     String uid = identitasModels.get((int) ids).getId();
                     Intent intent = new Intent(IdentitasIbuActivity.this, FormRencanaPersalinan.class);
+                    dbManager.open();
+                    Cursor c = dbManager.fetchuniqueId(uid);
+                    c.moveToFirst();
+                    String uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+                    dbManager.close();
+                    intent.putExtra("uniqueId", uniqueId);
                     intent.putExtra("id", uid);
                     startActivity(intent);
                     finish();
                 }if ("Form Status Persalinan".equals(forms[which])) {
                     String uid = identitasModels.get((int) ids).getId();
                     Intent intent = new Intent(IdentitasIbuActivity.this, FormStatusPersalinanActivity.class);
+                    dbManager.open();
+                    Cursor c = dbManager.fetchuniqueId(uid);
+                    c.moveToFirst();
+                    String uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+                    dbManager.close();
+                    intent.putExtra("uniqueId", uniqueId);
                     intent.putExtra("id", uid);
                     startActivity(intent);
                     finish();
@@ -247,6 +259,12 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 if ("Tutup Ibu".equals(forms[which])) {
                     String uid = identitasModels.get((int) ids).getId();
                     Intent intent = new Intent(IdentitasIbuActivity.this, FormCloseIbu.class);
+                    dbManager.open();
+                    Cursor c = dbManager.fetchuniqueId(uid);
+                    c.moveToFirst();
+                    String uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+                    dbManager.close();
+                    intent.putExtra("uniqueId", uniqueId);
                     intent.putExtra("id", uid);
                     startActivity(intent);
                     finish();

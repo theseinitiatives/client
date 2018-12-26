@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import org.json.JSONObject;
+
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
@@ -37,7 +39,7 @@ public class FormCloseIbu extends AppCompatActivity {
 
     String Statuss;
     Button btnLogin;
-
+    String UNIQUEID;
     String uniqueId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class FormCloseIbu extends AppCompatActivity {
         // dbHelper = new DbHelper(this);
         dbManager = new DbManager(this);
         final String idIbu = getIntent().getStringExtra("id");
+        UNIQUEID = getIntent().getStringExtra("uniqueId");
 
         alasan = (EditText) findViewById(R.id.alasans);
 
@@ -61,9 +64,21 @@ public class FormCloseIbu extends AppCompatActivity {
 
                 String alasans = alasan.getText().toString();
                 String status_ = getStatuss();
+                String UUID = java.util.UUID.randomUUID().toString();
 
+
+                JSONObject dataArray = new JSONObject();
+                try {
+                    dataArray.put(DbHelper.ALASAN, alasans);
+                    dataArray.put(DbHelper.NIFAS_SELESAI,status_);
+                    dataArray.put(DbHelper.UNIQUEID,UNIQUEID);
+                }catch (Exception e) {
+                    Log.d("Data array", e.getMessage());
+                }
                 dbManager.open();
                 dbManager.closeIbu(idIbu,status_,alasans);
+                dbManager.insertsyncTable("close_ibu", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+
                 dbManager.close();
                 finish();
                 Intent myIntent = new Intent(FormCloseIbu.this, IdentitasIbuActivity.class);

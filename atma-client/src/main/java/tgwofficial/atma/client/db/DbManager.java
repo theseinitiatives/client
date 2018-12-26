@@ -214,7 +214,7 @@ public class DbManager {
     }
 
     public void insertibu(String uid,String mothername, String husbandname,String dobss, String gubugss,
-    String hphtss, String htpss,String goldarahss, String kaderss,String notelponss,  String radioStatus2, String resiko,String gubug, String nifas_berakhir) {
+    String hphtss, String htpss,String goldarahss, String kaderss,String notelponss,  String radioStatus2, String resiko,String gubug, String nifas_berakhir, long updateid) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.UNIQUEID, uid);
         contentValue.put(  DbHelper.NAME, mothername);
@@ -231,7 +231,7 @@ public class DbManager {
         contentValue.put( DbHelper.NIFAS_SELESAI,nifas_berakhir);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
-        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( UPDATE_ID,updateid);
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
@@ -260,7 +260,7 @@ public class DbManager {
     }
 
     public void updateIbu(String _id, String mothername, String husbandname,String dobss, String gubugss,
-                          String hphtss, String htpss,String goldarahss, String kaderss,String notelponss, String radioStatus2,  String resiko,String gubug,String nifas_berakhir) {
+                          String hphtss, String htpss,String goldarahss, String kaderss,String notelponss, String radioStatus2,  String resiko,String gubug,String nifas_berakhir, long updateid) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.NAME, mothername);
         contentValue.put(  DbHelper.SPOUSENAME, husbandname);
@@ -276,7 +276,7 @@ public class DbManager {
         contentValue.put( DbHelper.NIFAS_SELESAI,nifas_berakhir);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
-        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( UPDATE_ID,updateid);
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.update(DbHelper.TABLE_NAME_IBU, contentValue,"_id = ?",new String[]{_id});
@@ -545,7 +545,7 @@ public class DbManager {
     }
 
 
-    public void insertbankdarah(String uuid,String donor,String text_gubug,String text_dusun,String notelponss, String radioStatus, String radioStatus2, String tgldonor) {
+    public void insertbankdarah(String uuid,String donor,String text_gubug,String text_dusun,String notelponss, String radioStatus, String radioStatus2, String tgldonor,long uodateid) {
 
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.UNIQUEID, uuid);
@@ -556,7 +556,7 @@ public class DbManager {
         contentValue.put( DbHelper.GOL_DARAH,radioStatus2);
         contentValue.put( DbHelper.TELP,notelponss);
         contentValue.put( DbHelper.TGL_DONOR,tgldonor);
-        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( UPDATE_ID,uodateid);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( DbHelper.IS_SEND,"0");
@@ -564,7 +564,7 @@ public class DbManager {
         database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);
     }
 
-    public void updatebankdarah(String id,String donor,String text_gubug,String text_dusun,String notelponss, String radioStatus, String radioStatus2, String tgldonor) {
+    public void updatebankdarah(String id,String donor,String text_gubug,String text_dusun,String notelponss, String radioStatus, String radioStatus2, String tgldonor, long uodateid) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.NAME_PENDONOR,donor);
         contentValue.put( DbHelper.GUBUG,text_gubug);
@@ -575,13 +575,13 @@ public class DbManager {
         contentValue.put( DbHelper.TGL_DONOR,tgldonor);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
-        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( UPDATE_ID,uodateid);
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.update(DbHelper.TABLE_NAME_BANK, contentValue,"_id = ?",new String[]{id});
     }
 
-    public void insertbanktransportasi(String uuid,String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets) {
+    public void insertbanktransportasi(String uuid,String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets,long updateId) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.UNIQUEID, uuid);
         contentValue.put( DbHelper.NAME,text_pemiliks);
@@ -594,12 +594,12 @@ public class DbManager {
         contentValue.put( DbHelper.KET,text_kets);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
-        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( UPDATE_ID,updateId);
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
     }
-    public void insertRencanaPersalinan(String idIbu, String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi) {
+    public void insertRencanaPersalinan(String idIbu, String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi,long updateId) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.ID_IBU,idIbu);
         contentValue.put( DbHelper.NAME_PENDONOR,namaDonor);
@@ -611,13 +611,13 @@ public class DbManager {
         contentValue.put( DbHelper.NAME_PEMILIK,namaTransportasi);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
-        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( UPDATE_ID,updateId);
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(TABLE_NAME_RENCANA, null, contentValue);
     }
 
-    public void updatebanktransportasi(String id,String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets) {
+    public void updatebanktransportasi(String id,String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets, long updateid) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.NAME,text_pemiliks);
         contentValue.put( DbHelper.TELP,text_nohp);
@@ -629,7 +629,7 @@ public class DbManager {
         contentValue.put( DbHelper.KET,text_kets);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
-        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( UPDATE_ID,updateid);
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.update(DbHelper.TABLE_NAME_TRANS, contentValue,DbHelper._ID+" = ?",new String[]{id});

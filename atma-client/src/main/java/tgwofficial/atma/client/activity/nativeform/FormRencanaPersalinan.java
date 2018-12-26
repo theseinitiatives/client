@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import tgwofficial.atma.client.NavigationmenuController;
@@ -133,6 +135,24 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                 String txt_pendampingPersalinan = getPendampingPersalinan();
                 String txt_hubunganPemilik = getHubunganPemilik();
                 String txt_hubunganPendonor = getHubunganPendonor();
+
+                JSONObject dataArray = new JSONObject();
+                try {
+                    dataArray.put(DbHelper.ID_IBU,uniqueId);
+                    dataArray.put(DbHelper.NAME_PENDONOR, namaDonor);
+                    dataArray.put(DbHelper.TEMPAT_PERSALINAN,txt_tempatBersalin);
+                    dataArray.put(DbHelper.PENOLONG_PERSALINAN,txt_penolognPersalinan);
+                    dataArray.put(DbHelper.PENDAMPING_PERSALINAN,txt_pendampingPersalinan);
+                    dataArray.put(DbHelper.HUBUNGAN_DENGAN_IBU,txt_hubunganPemilik);
+                    dataArray.put(DbHelper.HUBUNGAN_PENDONOR_IBU,txt_hubunganPendonor);
+                    dataArray.put(DbHelper.NAME_PEMILIK,namaTransportasi);
+
+
+                }catch (Exception e) {
+                    Log.d("Data array", e.getMessage());
+                }
+
+
                 if( namaDonor.contains("'") ) {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
                             Toast.LENGTH_LONG).show();
@@ -140,7 +160,8 @@ public class FormRencanaPersalinan extends AppCompatActivity {
 
                 else {
                     dbManager.open();
-                    dbManager.insertRencanaPersalinan(uniqueId, namaDonor, txt_tempatBersalin, txt_penolognPersalinan,txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi);
+                    dbManager.insertRencanaPersalinan(uniqueId, namaDonor, txt_tempatBersalin, txt_penolognPersalinan,txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi,System.currentTimeMillis());
+                    dbManager.insertsyncTable("rencana_persalinan", System.currentTimeMillis(), dataArray.toString(), 0, 0);
                     dbManager.close();
                     finish();
                     Intent myIntent = new Intent(FormRencanaPersalinan.this, IdentitasIbuActivity.class);
