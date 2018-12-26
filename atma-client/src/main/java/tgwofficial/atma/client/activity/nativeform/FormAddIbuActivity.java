@@ -25,6 +25,7 @@ import tgwofficial.atma.client.AllConstants;
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
+import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
 
 import static android.view.View.VISIBLE;
@@ -42,7 +43,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
     String faktorResiko;
     LinearLayout lay_lainnya;
 
-
+    CheckBox kek, anemia, terlaluMuda, terlaluTua, gravidaBanyak, lainnya;
     private RadioButton a,b,ab,o;
     private RadioButton rhPositive,rhNegative,rhUnknown;
     private RadioButton hamil,nifas,risti;
@@ -93,7 +94,17 @@ public class FormAddIbuActivity extends AppCompatActivity {
     String htpss = "";
 
     public String getFaktorResiko() {
-        return faktorResiko;
+        String riskFactor = "" +
+                (kek.isChecked() ? getString(R.string.kek)+"," : "")+
+                (anemia.isChecked() ? getString(R.string.anemia)+"," : "")+
+                (terlaluMuda.isChecked() ? getString(R.string.terlalu_muda)+"," : "")+
+                (terlaluTua.isChecked() ? getString(R.string.terlalu_tua)+"," : "")+
+                (gravidaBanyak.isChecked() ? getString(R.string.gravida_banyak)+"," : "")+
+                (lainnya.isChecked() ? getString(R.string.lainnya)+"," : "")
+                ;
+        if(riskFactor.length()>2)
+            riskFactor = riskFactor.substring(0,riskFactor.length()-1);
+        return riskFactor;
     }
 
     public void setFaktorResiko(String faktorResiko) {
@@ -124,6 +135,13 @@ public class FormAddIbuActivity extends AppCompatActivity {
         rhPositive = (RadioButton)findViewById(R.id.rh_positive);
         rhNegative = (RadioButton)findViewById(R.id.rh_negative);
         rhUnknown = (RadioButton)findViewById(R.id.rh_tidak_tahu);
+
+        kek = (CheckBox) findViewById(R.id.checkbox_kek);
+        anemia = (CheckBox) findViewById(R.id.checkbox_anemia);
+        terlaluMuda = (CheckBox) findViewById(R.id.checkbox_muda);
+        terlaluTua = (CheckBox) findViewById(R.id.checskbox_tua);
+        gravidaBanyak = (CheckBox) findViewById(R.id.checskbox_gravida);
+        lainnya = (CheckBox) findViewById(R.id.checskbox_lainnya);
 
         //==========================
         //==========================
@@ -326,48 +344,48 @@ public class FormAddIbuActivity extends AppCompatActivity {
 
     public void onCheckboxClicked(View view) {
         // Is the view now checked?
-        boolean checked = ((CheckBox) view).isChecked();
-
-        // Check which checkbox was clicked
-        switch(view.getId()) {
-            case R.id.checkbox_kek:
-                if (checked)
-                    setFaktorResiko("kek");
-                else
-                    //
-                    break;
-            case R.id.checkbox_anemia:
-                if (checked)
-                    setFaktorResiko("anemia");
-                else
-                    break;
-            case R.id.checkbox_muda:
-                if (checked)
-                    setFaktorResiko("usia muda");
-                else
-                    break;
-            case R.id.checskbox_tua:
-                if (checked)
-                    setFaktorResiko("usi tua");
-                else
-                    break;
-            case R.id.checskbox_gravida:
-                if (checked)
-                    setFaktorResiko("gravida banyak");
-                else
-                    break;
-            case R.id.checskbox_lainnya:
-                if (checked) {
-                    setFaktorResiko("Lainya");
-                    lay_lainnya.setVisibility(VISIBLE);
-                }
-                else if(!checked) {
-                    lay_lainnya.setVisibility(View.GONE);
-                    }
-                else
-                    break;
-                // TODO: Veggie sandwich
-        }
+//        boolean checked = ((CheckBox) view).isChecked();
+//
+//        // Check which checkbox was clicked
+//        switch(view.getId()) {
+//            case R.id.checkbox_kek:
+//                if (checked)
+//                    setFaktorResiko("kek");
+//                else
+//                    //
+//                    break;
+//            case R.id.checkbox_anemia:
+//                if (checked)
+//                    setFaktorResiko("anemia");
+//                else
+//                    break;
+//            case R.id.checkbox_muda:
+//                if (checked)
+//                    setFaktorResiko("usia muda");
+//                else
+//                    break;
+//            case R.id.checskbox_tua:
+//                if (checked)
+//                    setFaktorResiko("usi tua");
+//                else
+//                    break;
+//            case R.id.checskbox_gravida:
+//                if (checked)
+//                    setFaktorResiko("gravida banyak");
+//                else
+//                    break;
+//            case R.id.checskbox_lainnya:
+//                if (checked) {
+//                    setFaktorResiko("Lainya");
+//                    lay_lainnya.setVisibility(VISIBLE);
+//                }
+//                else if(!checked) {
+//                    lay_lainnya.setVisibility(View.GONE);
+//                    }
+//                else
+//                    break;
+//                // TODO: Veggie sandwich
+//        }
     }
 
     private void fillField(String id){
@@ -405,9 +423,21 @@ public class FormAddIbuActivity extends AppCompatActivity {
         String[]data = cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")).split(" - ");
         setDarah(data[0]);
         setRhesus(data[1]);
+        setCheckBoxSelected(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.RESIKO)));
 //        setStatuss2(cursor.getString(cursor.getColumnIndexOrThrow("status")));
  //       setStatuss(cursor.getString(cursor.getColumnIndexOrThrow("status")));
 
+    }
+
+    private void setCheckBoxSelected(String value){
+        if(value==null)
+            return;
+        kek.setChecked(value.contains(getString(R.string.kek)));
+        anemia.setChecked(value.contains(getString(R.string.anemia)));
+        terlaluMuda.setChecked(value.contains(getString(R.string.terlalu_muda)));
+        terlaluTua.setChecked(value.contains(getString(R.string.terlalu_tua)));
+        gravidaBanyak.setChecked(value.contains(getString(R.string.gravida_banyak)));
+        lainnya.setChecked(value.contains(getString(R.string.lainnya)));
     }
 
     private void setDarahRhChecked(String value){

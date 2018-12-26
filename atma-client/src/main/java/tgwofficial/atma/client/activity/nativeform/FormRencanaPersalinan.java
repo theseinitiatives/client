@@ -9,12 +9,14 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import tgwofficial.atma.client.AllConstants;
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
@@ -25,8 +27,11 @@ public class FormRencanaPersalinan extends AppCompatActivity {
     EditText transportasiNama;
     EditText nama_donors;
 
-  //  public static String id;
-
+    private CheckBox checkBoxSuami;
+    private CheckBox checkBoxOrangTua;
+    private CheckBox checkBoxSaudara;
+    private CheckBox checkBoxMertua;
+    private CheckBox checkBoxLainnya;
 
     String penolongPersalinan;
     String tempatPersalinan;
@@ -51,7 +56,16 @@ public class FormRencanaPersalinan extends AppCompatActivity {
     }
 
     public String getPendampingPersalinan() {
-        return pendampingPersalinan;
+        String temp = ""
+                + (checkBoxSuami.isSelected() ? getString(R.string.suami)+"," : "")
+                + (checkBoxOrangTua.isSelected() ? getString(R.string.ortu)+"," : "")
+                + (checkBoxSaudara.isSelected() ? getString(R.string.saudara)+"," : "")
+                + (checkBoxMertua.isSelected() ? getString(R.string.mertua)+ "," : "")
+                + (checkBoxLainnya.isSelected() ? getString(R.string.lainnya)+ "," : "")
+                ;
+        if(temp.length()>1)
+            temp = temp.substring(0,temp.length()-1);
+        return temp;
     }
 
     public void setPendampingPersalinan(String pendampingPersalinan) {
@@ -83,7 +97,11 @@ public class FormRencanaPersalinan extends AppCompatActivity {
         dbManager = new DbManager(this);
         final String idIbu = getIntent().getStringExtra("id");
 
-
+        checkBoxSuami = (CheckBox) findViewById(R.id.suami);
+        checkBoxOrangTua = (CheckBox) findViewById(R.id.ortu);
+        checkBoxMertua = (CheckBox) findViewById(R.id.mertua);
+        checkBoxSaudara = (CheckBox) findViewById(R.id.saudara);
+        checkBoxLainnya = (CheckBox) findViewById(R.id.pendamping_lainnya);
        // dbManager.open();
        // nama_donors = (EditText) findViewById(R.id.calon_pendonor);
       //  transportasiNama = (EditText) findViewById(R.id.transportsis);
@@ -199,24 +217,6 @@ public class FormRencanaPersalinan extends AppCompatActivity {
             case R.id.tempat_lainnya:
                 if (checked)
                     setPenolongPersalinan("lainnya");
-                break;
-            case R.id.suami:
-                if (checked)
-                    setPendampingPersalinan("suami");
-                break;
-            case R.id.ortu:
-                if (checked)
-                    setPendampingPersalinan("orangTua");
-                break;
-
-            case R.id.saudara:
-                if (checked)
-                    setPendampingPersalinan("saudara");
-                break;
-
-            case R.id.hub_lainnya:
-                if (checked)
-                    setPendampingPersalinan("lainnya");
                 break;
 
             case R.id.hub_suami:

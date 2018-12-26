@@ -206,38 +206,43 @@
                         android:hint="@string/pendamping"
                         android:maxLines="1"
                         android:singleLine="true" />
-                    <RadioGroup
+
+                    <CheckBox
+                        android:id="@+id/suami"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
-                        android:orientation="vertical">
-                        <RadioButton
-                            android:id="@+id/suami"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/suami"
-                            android:onClick="onRadioButtonClicked" />
-                        <RadioButton
-                            android:id="@+id/ortu"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ortu"
-                            android:onClick="onRadioButtonClicked" />
-                        <RadioButton
-                            android:id="@+id/saudara"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/saudara"
-                            android:onClick="onRadioButtonClicked" />
+                        android:layout_marginLeft="32dp"
+                        android:text="@string/suami" />
 
-                        <RadioButton
-                            android:id="@+id/pendamping_lainnya"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Lainnya"
-                            android:onClick="onRadioButtonClicked" />
+                    <CheckBox
+                        android:id="@+id/ortu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="32dp"
+                        android:text="@string/ortu" />
 
-                    </RadioGroup>
+                    <CheckBox
+                        android:id="@+id/mertua"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="32dp"
+                        android:text="@string/mertua" />
+
+                    <CheckBox
+                        android:id="@+id/saudara"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="32dp"
+                        android:text="@string/saudara" />
+
+                    <CheckBox
+                        android:id="@+id/pendamping_lainnya"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="32dp"
+                        android:text="Lainnya" />
+
+
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -307,7 +312,7 @@
                             android:id="@+id/tetangga"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/tetannga"
+                            android:text="@string/tetangga"
                             android:onClick="onRadioButtonClicked" />
 
                         <RadioButton
