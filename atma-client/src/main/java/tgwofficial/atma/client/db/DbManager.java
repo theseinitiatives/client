@@ -660,13 +660,14 @@ public class DbManager {
         database.insert(DbHelper.TABLE_LOCATION_TREE, null, contentValue);
     }
 
-    public void insertKader(String name, String dusun, String hp) {
+    public void insertKader(String uuid,String name, String dusun, String hp, String username, String password) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.NAME,name);
+        contentValue.put( DbHelper.UNIQUEID,uuid);
         contentValue.put( DbHelper.DUSUN,dusun);
         contentValue.put( DbHelper.TELP,hp);
-        contentValue.put( DbHelper.USERNAME,"kader_"+dusun.replace(" ","").toLowerCase());
-        contentValue.put( DbHelper.PASSWORD,"kaders"+""+randomNum());
+        contentValue.put( DbHelper.USERNAME,username);
+        contentValue.put( DbHelper.PASSWORD,password);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( UPDATE_ID,System.currentTimeMillis());

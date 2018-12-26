@@ -289,6 +289,7 @@ public class DbHelper  extends SQLiteOpenHelper {
     // Creating table location tree
     private static final String CREATE_TABLE_KADER = "create table "
             + TABLE_KADER + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + UNIQUEID + " TEXT NOT NULL, "
             +NAME+ " TEXT , "
             +DUSUN+ " TEXT ,"
             +TELP+ " TEXT ,"
