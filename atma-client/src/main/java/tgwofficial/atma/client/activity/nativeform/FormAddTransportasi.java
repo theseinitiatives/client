@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.BankDarahActivity;
@@ -41,6 +43,15 @@ public class FormAddTransportasi extends AppCompatActivity {
     EditText kets;
     private DbManager dbManager;
     Button btnLogin;
+    String setUniqueId;
+
+    public String getSetUniqueId() {
+        return setUniqueId;
+    }
+
+    public void setSetUniqueId(String setUniqueId) {
+        this.setUniqueId = setUniqueId;
+    }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +63,7 @@ public class FormAddTransportasi extends AppCompatActivity {
         no_hp = (EditText) findViewById(R.id.nohp);
         gubugs = (EditText) findViewById(R.id.gubug);
         kapasitass = (EditText) findViewById(R.id.kapasitas);
-     //   dusuns = (EditText) findViewById(R.id.dusun);
+        dusuns = (EditText) findViewById(R.id.dusun);
         profesis = (EditText) findViewById(R.id.profesi);
         kets = (EditText) findViewById(R.id.ket);
       //  LinearLayout kapasitas_layoutss=(LinearLayout)this.findViewById(R.id.kapasitas_layout);
@@ -106,6 +117,36 @@ public class FormAddTransportasi extends AppCompatActivity {
                 String text_kets = kets.getText().toString();
                 String text_nohp = no_hp.getText().toString();
                 String jeniss = getJenis();
+                String UUID = java.util.UUID.randomUUID().toString();
+
+                //add into sync tablescontentValue.put(  DbHelper.UNIQUEID, uuid);
+                //        contentValue.put( DbHelper.NAME,text_pemiliks);
+                //        contentValue.put( DbHelper.TELP,text_nohp);
+                //        contentValue.put( DbHelper.Jenis,jenis);
+                //        contentValue.put( DbHelper.GUBUG,text_gubug);
+                //        contentValue.put( DbHelper.Kapasitas,text_kapasitass);
+                //        contentValue.put( DbHelper.DUSUN,text_dusuns);
+                //        contentValue.put( DbHelper.PROFESI,text_profesis);
+                //        contentValue.put( DbHelper.KET,text_kets);
+                JSONObject dataArray = new JSONObject();
+                try {
+                    dataArray.put(DbHelper.NAME, text_pemiliks);
+                    dataArray.put(DbHelper.TELP,text_nohp);
+                    dataArray.put(DbHelper.Jenis,jeniss);
+                    dataArray.put(DbHelper.GUBUG,text_gubug);
+                    dataArray.put(DbHelper.Kapasitas,text_kapasitass);
+                    dataArray.put(DbHelper.DUSUN,text_dusuns);
+                    dataArray.put(DbHelper.PROFESI,text_profesis);
+                    dataArray.put(DbHelper.KET,text_kets);
+                    if(id!=null)
+                        dataArray.put(DbHelper.UNIQUEID,getSetUniqueId());
+                    else
+                        dataArray.put(DbHelper.UNIQUEID,UUID);
+                }catch (Exception e) {
+                    Log.d("Data array", e.getMessage());
+                }
+
+
                 if(text_pemiliks.contains("'") ) {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
                             Toast.LENGTH_LONG).show();
@@ -116,10 +157,15 @@ public class FormAddTransportasi extends AppCompatActivity {
                 }
                 else {
                     dbManager.open();
-                    if(id!=null)
-                        dbManager.updatebanktransportasi(id,text_pemiliks, jeniss,text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets);
-                    else
-                        dbManager.insertbanktransportasi(text_pemiliks, jeniss,text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets);
+                    if(id!=null) {
+                        dbManager.updatebanktransportasi(id, text_pemiliks, jeniss, text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets,System.currentTimeMillis());
+                        dbManager.insertsyncTable("transportasi_edit", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+
+                    } else {
+                        dbManager.insertbanktransportasi(UUID, text_pemiliks, jeniss, text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets,System.currentTimeMillis());
+                        dbManager.insertsyncTable("transportasi", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+
+                    }
                     dbManager.close();
                     finish();
                     Intent myIntent = new Intent(FormAddTransportasi.this, TransportasiActivity.class);
@@ -170,6 +216,7 @@ public class FormAddTransportasi extends AppCompatActivity {
     private void preloadForm(Cursor c){
         nama_pemiliks.setText(c.getString(c.getColumnIndexOrThrow("name")));
         gubugs.setText(c.getString(c.getColumnIndexOrThrow("gubug")));
+        dusuns.setText(c.getString(c.getColumnIndexOrThrow("dusun")));
         no_hp.setText(c.getString(c.getColumnIndexOrThrow("telp")));
 //        dusuns.setText(c.getString(c.getColumnIndexOrThrow("dusun")));
         setJenisKendaraanChecked(c.getString(c.getColumnIndexOrThrow("jenis_kendaraan")));
@@ -178,6 +225,7 @@ public class FormAddTransportasi extends AppCompatActivity {
         kapasitass.setText(c.getString(c.getColumnIndexOrThrow("kapasitas_kendaraan")));
         kets.setText(c.getString(c.getColumnIndexOrThrow("keterangan")));
         profesis.setText(c.getString(c.getColumnIndexOrThrow("profesi")));
+        setSetUniqueId(c.getString(c.getColumnIndexOrThrow("unique_id")));
     }
 
     private void setJenisKendaraanChecked(String value){

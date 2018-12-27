@@ -14,9 +14,14 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import org.json.JSONObject;
+
+import java.util.Random;
+
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
+import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
 
 public class FormAddKader extends AppCompatActivity {
@@ -79,9 +84,25 @@ public class FormAddKader extends AppCompatActivity {
                 String nama_kader = kaders.getText().toString();
                 String namaDusun = dusuns.getText().toString();
                 String noHp = nohps.getText().toString();
+                String username = "kader_"+namaDusun.replace(" ","").toLowerCase();
+                String password = "kaders"+""+randomNum();
+                String UUID = java.util.UUID.randomUUID().toString();
+                JSONObject dataArray = new JSONObject();
+                try {
+                    dataArray.put(DbHelper.NAME, nama_kader);
+                    dataArray.put(DbHelper.DUSUN,namaDusun);
+                    dataArray.put(DbHelper.TELP,noHp);
+                    dataArray.put(DbHelper.USERNAME,username);
+                    dataArray.put(DbHelper.PASSWORD,password);
+                    dataArray.put(DbHelper.UNIQUEID,UUID);
 
+                }catch (Exception e) {
+                    Log.d("Data array", e.getMessage());
+                }
                 dbManager.open();
-                dbManager.insertKader(nama_kader,namaDusun,noHp);
+                dbManager.insertKader(UUID,nama_kader,namaDusun,noHp,username, password);
+                dbManager.insertsyncTable("kader", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+
                 dbManager.close();
                 finish();
                 Intent myIntent = new Intent(FormAddKader.this, IdentitasIbuActivity.class);
@@ -99,7 +120,11 @@ public class FormAddKader extends AppCompatActivity {
         });
     }
 
+    public int randomNum(){
+        final int random = new Random().nextInt(100) + 800;
 
+        return random;
+    }
     @Override
     public void onBackPressed() {
         Log.d("CDA", "onBackPressed Called");

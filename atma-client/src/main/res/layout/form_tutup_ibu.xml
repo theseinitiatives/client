@@ -107,14 +107,50 @@
                     android:layout_height="wrap_content">
 
 
-                    <AutoCompleteTextView
-                        android:id="@+id/alasans"
+                    <TextView
+                        android:id="@+id/alasan_penutupan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/alasan"
-                        android:inputType="text"
+                        android:hint="Alasan Penutupan"
                         android:maxLines="1"
                         android:singleLine="true" />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:orientation="vertical">
+                        <RadioButton
+                            android:id="@+id/masa_nifas_berakhir"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Masa Nifas Berakhir"
+                            android:onClick="onRadioButtonClicked"/>
+                        <RadioButton
+                            android:id="@+id/keguguran"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Keguguran"
+                            android:onClick="onRadioButtonClicked" />
+                        <RadioButton
+                            android:id="@+id/meninggal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Ibu Meninggal"
+                            android:onClick="onRadioButtonClicked" />
+                        <RadioButton
+                            android:id="@+id/pindah"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Pindah (Bukan Sasaran)"
+                            android:onClick="onRadioButtonClicked" />
+                        <RadioButton
+                            android:id="@+id/salah_entry"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Salah entry"
+                            android:onClick="onRadioButtonClicked" />
+                    </RadioGroup>
 
                 </android.support.design.widget.TextInputLayout>
 

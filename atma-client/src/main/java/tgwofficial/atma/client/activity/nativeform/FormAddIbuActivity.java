@@ -18,8 +18,13 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.UUID;
 
 import tgwofficial.atma.client.AllConstants;
 import tgwofficial.atma.client.NavigationmenuController;
@@ -42,6 +47,15 @@ public class FormAddIbuActivity extends AppCompatActivity {
     EditText notelpons;
     String faktorResiko;
     LinearLayout lay_lainnya;
+    String setUniqueId;
+
+    public String getSetUniqueId() {
+        return setUniqueId;
+    }
+
+    public void setSetUniqueId(String setUniqueId) {
+        this.setUniqueId = setUniqueId;
+    }
 
     CheckBox kek, anemia, terlaluMuda, terlaluTua, gravidaBanyak, lainnya;
     private RadioButton a,b,ab,o;
@@ -227,6 +241,10 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 String radioStatus2 = getStatuss2();
                 String fResiko = getFaktorResiko();
                 String gubug = gubugs.getText().toString();
+                String UUID = java.util.UUID.randomUUID().toString();
+
+
+
 
                 //hphtss = "2008-01-01";  // Start date
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -243,6 +261,27 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 }
 
 
+                //add into sync tables
+                JSONObject dataArray = new JSONObject();
+                try {
+                    dataArray.put(DbHelper.NAME, mothername);
+                    dataArray.put(DbHelper.SPOUSENAME,husbandname);
+                    dataArray.put(DbHelper.TGL_LAHIR,dobss);
+                    dataArray.put(DbHelper.GUBUG,gubugss);
+                    dataArray.put(DbHelper.HPHT,hphtss);
+                    dataArray.put(DbHelper.HTP,htpss);
+                    dataArray.put(DbHelper.GOL_DARAH,goldarahss);
+                    dataArray.put(DbHelper.TELP,notelponss);
+                    dataArray.put(DbHelper.RESIKO,fResiko);
+                    dataArray.put(DbHelper.GUBUG,gubug);
+                    if(valueExist(id))
+                        dataArray.put(DbHelper.UNIQUEID,getSetUniqueId());
+                    else
+                        dataArray.put(DbHelper.UNIQUEID,UUID);
+                }catch (Exception e) {
+                    Log.d("Data array", e.getMessage());
+                }
+
                 if(mothername.contains("'") || husbandname.contains("'")) {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
                             Toast.LENGTH_LONG).show();
@@ -253,10 +292,19 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 }
                 else {
                     dbManager.open();
-                    if(valueExist(id))
-                        dbManager.updateIbu(id,mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, "", notelponss,  radioStatus2, fResiko,gubug,"");
-                    else
-                        dbManager.insertibu(mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, "", notelponss,  radioStatus2,fResiko,gubug,"");
+                    if(valueExist(id)) {
+                        //update ibu main tables
+                        dbManager.updateIbu(id, mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, "", notelponss, radioStatus2, fResiko, gubug, "", System.currentTimeMillis());
+                        //add into sync tables
+
+                        dbManager.insertsyncTable("identitas_ibu_edit",System.currentTimeMillis(),dataArray.toString(),0,0);
+
+                    }
+                    else {
+                        //insert new data
+                        dbManager.insertibu(UUID, mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, "", notelponss, radioStatus2, fResiko, gubug, "",System.currentTimeMillis());
+                        dbManager.insertsyncTable("identitas_ibu", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+                    }
                     dbManager.close();
                     finish();
                     Intent myIntent = new Intent(FormAddIbuActivity.this, IdentitasIbuActivity.class);
@@ -279,7 +327,6 @@ public class FormAddIbuActivity extends AppCompatActivity {
             if (!id.equalsIgnoreCase(""))
                 fillField(id);
     }
-
 
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
@@ -408,6 +455,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
       //  kaders.setText(cursor.getString(cursor.getColumnIndexOrThrow("kader")));
         notelpons.setText(cursor.getString(cursor.getColumnIndexOrThrow("telp")));
        // faktorResiko.setText(cursor.getString(cursor.getColumnIndexOrThrow("resiko")));
+        setSetUniqueId(cursor.getString(cursor.getColumnIndexOrThrow("unique_id")));
         dbManager.close();
     }
 

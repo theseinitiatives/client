@@ -332,43 +332,43 @@
                             android:hint="@string/komplikasi"
                             android:maxLines="1"
                             android:singleLine="true" />
-                        <RadioGroup
+
+                        <CheckBox
+                            android:id="@+id/perdarahan"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
-                            android:orientation="vertical">
-                            <RadioButton
-                                android:id="@+id/perdarahan"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Perdarahan Berat"
-                                android:onClick="onRadioButtonClicked" />
-                            <RadioButton
-                                android:id="@+id/peb"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="PEB"
-                                android:onClick="onRadioButtonClicked" />
-                            <RadioButton
-                                android:id="@+id/eklamsi"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Eklamsia"
-                                android:onClick="onRadioButtonClicked" />
-                            <RadioButton
-                                android:id="@+id/sepsis"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Sepsis"
-                                android:onClick="onRadioButtonClicked" />
-                            <RadioButton
-                                android:id="@+id/k_lainnya"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Lainnya"
-                                android:onClick="onRadioButtonClicked" />
+                            android:layout_marginLeft="32dp"
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Perdarahan Berat" />
+                        <CheckBox
+                            android:id="@+id/peb"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="32dp"
+                            android:text="PEB"
+                            android:onClick="onRadioButtonClicked" />
+                        <CheckBox
+                            android:id="@+id/eklamsi"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="32dp"
+                            android:text="Eklamsia"
+                            android:onClick="onRadioButtonClicked" />
+                        <CheckBox
+                            android:id="@+id/sepsis"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="32dp"
+                            android:text="Sepsis"
+                            android:onClick="onRadioButtonClicked" />
+                        <CheckBox
+                            android:id="@+id/k_lainnya"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="32dp"
+                            android:text="Lainnya"
+                            android:onClick="onRadioButtonClicked" />
 
-                        </RadioGroup>
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -412,14 +412,31 @@
                         android:layout_height="wrap_content">
 
 
-                        <AutoCompleteTextView
-                            android:id="@+id/jenis_kel"
+                        <TextView
+                            android:id="@+id/gender_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/jenis_kel"
-                            android:inputType="text"
                             android:maxLines="1"
                             android:singleLine="true" />
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:orientation="vertical">
+                            <RadioButton
+                                android:id="@+id/lakilaki"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="laki-laki"
+                                android:onClick="onRadioButtonClicked" />
+                            <RadioButton
+                                android:id="@+id/perempuan"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="perempuan"
+                                android:onClick="onRadioButtonClicked" />
+                        </RadioGroup>
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -469,38 +486,39 @@
                             android:hint="@string/komplikasi_bayi"
                             android:maxLines="1"
                             android:singleLine="true" />
-                        <RadioGroup
+
+                        <CheckBox
+                            android:id="@+id/prem"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
-                            android:orientation="vertical">
-                            <RadioButton
-                                android:id="@+id/prem"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Prematur"
-                                android:onClick="onRadioButtonClicked" />
-                            <RadioButton
-                                android:id="@+id/bblr"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="BBLR"
-                                android:onClick="onRadioButtonClicked" />
-                            <RadioButton
-                                android:id="@+id/asfiksia"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Asfiksia"
-                                android:onClick="onRadioButtonClicked" />
+                            android:layout_marginLeft="32dp"
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Prematur" />
 
-                            <RadioButton
-                                android:id="@+id/k_babylainnya"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Lainnya"
-                                android:onClick="onRadioButtonClicked" />
+                        <CheckBox
+                            android:id="@+id/bblr"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="32dp"
+                            android:onClick="onRadioButtonClicked"
+                            android:text="BBLR" />
 
-                        </RadioGroup>
+                        <CheckBox
+                            android:id="@+id/asfiksia"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="32dp"
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Asfiksia" />
+
+                        <CheckBox
+                            android:id="@+id/k_babylainnya"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="32dp"
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Lainnya" />
+
 
                     </android.support.design.widget.TextInputLayout>
 

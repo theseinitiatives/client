@@ -25,6 +25,7 @@ import tgwofficial.atma.client.model.syncmodel.StatusModel;
 import tgwofficial.atma.client.model.syncmodel.TransportasiData;
 
 import static java.lang.Math.random;
+import static tgwofficial.atma.client.db.DbHelper.FORM_NAME;
 import static tgwofficial.atma.client.db.DbHelper.TABLE_NAME_BANK;
 import static tgwofficial.atma.client.db.DbHelper.TABLE_NAME_IBU;
 import static tgwofficial.atma.client.db.DbHelper.TABLE_NAME_RENCANA;
@@ -64,7 +65,6 @@ public class DbManager {
             //  contentValue.put(DbHelper.FORM_NAME, model.getform_name());
             contentValue2.put(DbHelper.LOCATION_ID, model.getlocation_id());
             contentValue2.put(DbHelper.USER_ID, model.getuser_id());
-
             contentValue.put(UPDATE_ID, model.getupdate_id());
 
             String data_ = null;
@@ -84,6 +84,8 @@ public class DbManager {
             IbuData[] ibuData = gson.fromJson(data_, IbuData[].class);
             List<IbuData> ibuDataListed = new ArrayList<>(Arrays.asList(ibuData));
 
+
+            // insert into db
             if(model.getform_name().equals("identitas_ibu")) {
                 for (IbuData listIbuData : ibuDataListed) {
                     contentValue.put(DbHelper._ID, listIbuData.getId());
@@ -211,10 +213,10 @@ public class DbManager {
         }
     }
 
-    public void insertibu(String mothername, String husbandname,String dobss, String gubugss,
-    String hphtss, String htpss,String goldarahss, String kaderss,String notelponss,  String radioStatus2, String resiko,String gubug, String nifas_berakhir) {
+    public void insertibu(String uid,String mothername, String husbandname,String dobss, String gubugss,
+    String hphtss, String htpss,String goldarahss, String kaderss,String notelponss,  String radioStatus2, String resiko,String gubug, String nifas_berakhir, long updateid) {
         ContentValues contentValue = new ContentValues();
-        contentValue.put(  DbHelper.UNIQUEID, UUID.randomUUID().toString());
+        contentValue.put(  DbHelper.UNIQUEID, uid);
         contentValue.put(  DbHelper.NAME, mothername);
         contentValue.put(  DbHelper.SPOUSENAME, husbandname);
         contentValue.put( DbHelper.TGL_LAHIR,dobss);
@@ -229,12 +231,11 @@ public class DbManager {
         contentValue.put( DbHelper.NIFAS_SELESAI,nifas_berakhir);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
-        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( UPDATE_ID,updateid);
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
-        //+ USER_ID + " TEXT , "
-        //            + LOCATION_ID + " TEXT , "
+
     }
 
     public void insertStatusPersalinan(String idIbu, String tgl_bersalin,String ibubersalin, String kondisi_ibu, String kondisi_anak,String jumlahBayis, String jenisKelamins, String komplikasiIbus, String komplikasiAnak, String tempat){
@@ -259,7 +260,7 @@ public class DbManager {
     }
 
     public void updateIbu(String _id, String mothername, String husbandname,String dobss, String gubugss,
-                          String hphtss, String htpss,String goldarahss, String kaderss,String notelponss, String radioStatus2,  String resiko,String gubug,String nifas_berakhir) {
+                          String hphtss, String htpss,String goldarahss, String kaderss,String notelponss, String radioStatus2,  String resiko,String gubug,String nifas_berakhir, long updateid) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.NAME, mothername);
         contentValue.put(  DbHelper.SPOUSENAME, husbandname);
@@ -275,10 +276,10 @@ public class DbManager {
         contentValue.put( DbHelper.NIFAS_SELESAI,nifas_berakhir);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
-        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( UPDATE_ID,updateid);
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
-        database.update(DbHelper.TABLE_NAME_IBU, contentValue,"unique_id = ?",new String[]{_id});
+        database.update(DbHelper.TABLE_NAME_IBU, contentValue,"_id = ?",new String[]{_id});
     }
 
     public Cursor fetchIbu(String searchTerm, String orderByASCDESC) {
@@ -306,11 +307,11 @@ public class DbManager {
         Cursor c=null;
 
         if(searchTerm != null && searchTerm.length()>0) {
-            c = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.NAME+" LIKE '%"+searchTerm+"%' AND "+DbHelper.NIFAS_SELESAI+"!='ya'", selectionArgs, groupBy, having, orderByASCDESC);
+            c = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.NAME+" LIKE '%"+searchTerm+"%' AND "+DbHelper.NIFAS_SELESAI+"!='ya'", selectionArgs, groupBy, having, orderByASCDESC, limit);
             return c;
         }
 
-        c = database.query(DbHelper.TABLE_NAME_IBU, columns, (selection == null ? "" : selection+" AND ") + DbHelper.NIFAS_SELESAI+"!='ya'", selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_IBU, columns, (selection == null ? "" : selection+" AND ") + DbHelper.NIFAS_SELESAI+"!='ya'", selectionArgs, groupBy, having, orderBy, limit);
         clearClause();
         return c;
     }
@@ -335,7 +336,27 @@ public class DbManager {
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
-        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.IS_SEND +"!=1", null, null, null, orderBy);
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.IS_SEND +"!=1", null, null, null, orderBy, limit);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
+    public Cursor fetchUnSyncForm() {
+        String[] columns = new String[] {
+                // + USER_ID + " TEXT , "
+                //            + LOCATION_ID + " TEXT , "
+                //            + UPDATE_ID + " TEXT , "
+                //            + DATA + " TEXT , "
+                //            + FORM_NAME + " TEXT , "
+                DbHelper.USER_ID,
+                DbHelper.LOCATION_ID,
+                DbHelper.UPDATE_ID,
+                DbHelper.FORM_NAME,
+                DbHelper.DATA
+                 };
+        Cursor cursor = database.query(DbHelper.TABLE_SYNC, columns, DbHelper.IS_SEND +"!=1", null, null, null, orderBy);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -360,13 +381,14 @@ public class DbManager {
                 DbHelper.ID_IBU,
                 DbHelper.STATUS_BERSALIN
         };
-        Cursor cursor = database.query(DbHelper.TABLE_PERSALINAN, col, DbHelper.ID_IBU +" = '" + uniqueId+"'", null, null, null, orderBy);
+        Cursor cursor = database.query(DbHelper.TABLE_PERSALINAN, col, DbHelper.ID_IBU +" = ?" , new String[]{uniqueId}, groupBy, having, orderBy, limit);
         return cursor;
     }
 
     public Cursor fetchTrans(String searchTerm, String orderByASCDESC) {
         String[] columns = new String[] { DbHelper._ID,
                 DbHelper.NAME,
+                DbHelper.UNIQUEID,
                 DbHelper.Jenis,
                 DbHelper.Kapasitas,
                 DbHelper.TELP,
@@ -380,11 +402,11 @@ public class DbManager {
         Cursor c=null;
 
         if(searchTerm != null && searchTerm.length()>0) {
-            c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.NAME+" LIKE '%"+searchTerm+"%'", selectionArgs, groupBy, having, orderByASCDESC);
+            c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.NAME+" LIKE '%"+searchTerm+"%'", selectionArgs, groupBy, having, orderByASCDESC, limit);
             return c;
         }
 
-        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, selection, selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
         clearClause();
         return c;
     }
@@ -407,7 +429,7 @@ public class DbManager {
         Cursor c=null;
 
 
-            c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+            c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -426,11 +448,11 @@ public class DbManager {
         Cursor c=null;
 
         if(searchTerm != null && searchTerm.length()>0) {
-            c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.NAME_PENDONOR+" LIKE '%"+searchTerm+"%'", selectionArgs, groupBy, having, orderByASCDESC);
+            c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.NAME_PENDONOR+" LIKE '%"+searchTerm+"%'", selectionArgs, groupBy, having, orderByASCDESC, limit);
             return c;
         }
 
-        c = database.query(DbHelper.TABLE_NAME_BANK, columns, selection, selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_BANK, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
         clearClause();
         return c;
 
@@ -440,14 +462,16 @@ public class DbManager {
         String[] columns = new String[] { DbHelper._ID,
                 DbHelper.NAME_PENDONOR,
                 DbHelper.STATUS,
+                DbHelper.DUSUN,
                 DbHelper.GUBUG,
                 DbHelper.GOL_DARAH,
+                DbHelper.UNIQUEID,
                 DbHelper.TELP,
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
         Cursor c=null;
-        c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper._ID +"="+id, selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper._ID +"="+id, selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -469,7 +493,7 @@ public class DbManager {
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
         Cursor c=null;
-            c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+            c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -496,7 +520,7 @@ public class DbManager {
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
         Cursor c=null;
-        c = database.query(TABLE_NAME_RENCANA, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+        c = database.query(TABLE_NAME_RENCANA, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -524,7 +548,7 @@ public class DbManager {
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
         Cursor c=null;
-        c = database.query(TABLE_PERSALINAN, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+        c = database.query(TABLE_PERSALINAN, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -541,17 +565,18 @@ public class DbManager {
     }
 
 
-    public void insertbankdarah(String donor,String text_gubug,String text_dusun,String notelponss, String radioStatus, String radioStatus2) {
+    public void insertbankdarah(String uuid,String donor,String text_gubug,String text_dusun,String notelponss, String radioStatus, String radioStatus2, String tgldonor,long uodateid) {
 
         ContentValues contentValue = new ContentValues();
-        contentValue.put(  DbHelper.UNIQUEID, UUID.randomUUID().toString());
+        contentValue.put(  DbHelper.UNIQUEID, uuid);
         contentValue.put( DbHelper.NAME_PENDONOR,donor);
         contentValue.put( DbHelper.GUBUG,text_gubug);
         contentValue.put( DbHelper.DUSUN,text_dusun);
         contentValue.put( DbHelper.STATUS,radioStatus);
         contentValue.put( DbHelper.GOL_DARAH,radioStatus2);
         contentValue.put( DbHelper.TELP,notelponss);
-        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( DbHelper.TGL_DONOR,tgldonor);
+        contentValue.put( UPDATE_ID,uodateid);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( DbHelper.IS_SEND,"0");
@@ -559,7 +584,7 @@ public class DbManager {
         database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);
     }
 
-    public void updatebankdarah(String id,String donor,String text_gubug,String text_dusun,String notelponss, String radioStatus, String radioStatus2) {
+    public void updatebankdarah(String id,String donor,String text_gubug,String text_dusun,String notelponss, String radioStatus, String radioStatus2, String tgldonor, long uodateid) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.NAME_PENDONOR,donor);
         contentValue.put( DbHelper.GUBUG,text_gubug);
@@ -567,17 +592,18 @@ public class DbManager {
         contentValue.put( DbHelper.STATUS,radioStatus);
         contentValue.put( DbHelper.GOL_DARAH,radioStatus2);
         contentValue.put( DbHelper.TELP,notelponss);
+        contentValue.put( DbHelper.TGL_DONOR,tgldonor);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
-        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( UPDATE_ID,uodateid);
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.update(DbHelper.TABLE_NAME_BANK, contentValue,"_id = ?",new String[]{id});
     }
 
-    public void insertbanktransportasi(String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets) {
+    public void insertbanktransportasi(String uuid,String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets,long updateId) {
         ContentValues contentValue = new ContentValues();
-        contentValue.put(  DbHelper.UNIQUEID, UUID.randomUUID().toString());
+        contentValue.put(  DbHelper.UNIQUEID, uuid);
         contentValue.put( DbHelper.NAME,text_pemiliks);
         contentValue.put( DbHelper.TELP,text_nohp);
         contentValue.put( DbHelper.Jenis,jenis);
@@ -588,12 +614,29 @@ public class DbManager {
         contentValue.put( DbHelper.KET,text_kets);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
-        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( UPDATE_ID,updateId);
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
     }
-    public void insertRencanaPersalinan(String idIbu, String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi) {
+    public void insertRencanaPersalinan(String idIbu, String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi,long updateId) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.ID_IBU,idIbu);
+        contentValue.put( DbHelper.NAME_PENDONOR,namaDonor);
+        contentValue.put( DbHelper.TEMPAT_PERSALINAN,txt_tempatBersalin);
+        contentValue.put( DbHelper.PENOLONG_PERSALINAN,txt_penolognPersalinan);
+        contentValue.put( DbHelper.PENDAMPING_PERSALINAN,txt_pendampingPersalinan);
+        contentValue.put( DbHelper.HUBUNGAN_DENGAN_IBU,txt_hubunganPemilik);
+        contentValue.put( DbHelper.HUBUNGAN_PENDONOR_IBU,txt_hubunganPendonor);
+        contentValue.put( DbHelper.NAME_PEMILIK,namaTransportasi);
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName());
+        contentValue.put( UPDATE_ID,updateId);
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        database.insert(TABLE_NAME_RENCANA, null, contentValue);
+    }
+    public void updateRencanaPersalinan(String idIbu, String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.ID_IBU,idIbu);
         contentValue.put( DbHelper.NAME_PENDONOR,namaDonor);
@@ -608,10 +651,9 @@ public class DbManager {
         contentValue.put( UPDATE_ID,System.currentTimeMillis());
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
-        database.insert(TABLE_NAME_RENCANA, null, contentValue);
+        database.update(TABLE_NAME_RENCANA, contentValue,DbHelper.ID_IBU,new String[]{idIbu});
     }
-
-    public void updatebanktransportasi(String id,String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets) {
+    public void updatebanktransportasi(String id,String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets, long updateid) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.NAME,text_pemiliks);
         contentValue.put( DbHelper.TELP,text_nohp);
@@ -623,7 +665,7 @@ public class DbManager {
         contentValue.put( DbHelper.KET,text_kets);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
-        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( UPDATE_ID,updateid);
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.update(DbHelper.TABLE_NAME_TRANS, contentValue,DbHelper._ID+" = ?",new String[]{id});
@@ -656,13 +698,14 @@ public class DbManager {
         database.insert(DbHelper.TABLE_LOCATION_TREE, null, contentValue);
     }
 
-    public void insertKader(String name, String dusun, String hp) {
+    public void insertKader(String uuid,String name, String dusun, String hp, String username, String password) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.NAME,name);
+        contentValue.put( DbHelper.UNIQUEID,uuid);
         contentValue.put( DbHelper.DUSUN,dusun);
         contentValue.put( DbHelper.TELP,hp);
-        contentValue.put( DbHelper.USERNAME,"kader_"+dusun.replace(" ","").toLowerCase());
-        contentValue.put( DbHelper.PASSWORD,"kaders"+""+randomNum());
+        contentValue.put( DbHelper.USERNAME,username);
+        contentValue.put( DbHelper.PASSWORD,password);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( UPDATE_ID,System.currentTimeMillis());
@@ -670,20 +713,33 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_KADER, null, contentValue);
     }
+
+    public void insertsyncTable(String formName, Long updateId, String data, int issend, int issync) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName());
+        contentValue.put( DbHelper.DATA,data);
+        contentValue.put( UPDATE_ID,updateId);
+        contentValue.put( FORM_NAME,formName);
+        contentValue.put( DbHelper.IS_SEND,issend);
+        contentValue.put( DbHelper.IS_SYNC,issync);
+        database.insert(DbHelper.TABLE_SYNC, null, contentValue);
+    }
+
     public Cursor fetchKader(){
         clearClause();
-        return database.query(DbHelper.KADER,DbHelper.KADER_VAR,selection,selectionArgs,groupBy,having,orderBy);
+        return database.query(DbHelper.KADER,DbHelper.KADER_VAR,selection,selectionArgs,groupBy,having,orderBy, limit);
     }
 
     public Cursor fetchUserData(){
         clearClause();
-        return database.query(DbHelper.TABLE_NAME_USER,DbHelper.USER_VARIABLE,selection,selectionArgs,groupBy,having,orderBy);
+        return database.query(DbHelper.TABLE_NAME_USER,DbHelper.USER_VARIABLE,selection,selectionArgs,groupBy,having,orderBy, limit);
     }
 
     public Cursor fetchUserCredential(){
         clearClause();
         String[]var = {"username","password"};
-        return database.query(DbHelper.TABLE_NAME_USER,var,selection,selectionArgs,groupBy,having,orderBy);
+        return database.query(DbHelper.TABLE_NAME_USER,var,selection,selectionArgs,groupBy,having,orderBy, limit);
     }
     public Cursor fetchLocationTree(){
         String[]variable = new String[]{
@@ -692,7 +748,7 @@ public class DbManager {
                 DbHelper.LOCATION_TAG_ID,
                 DbHelper.PARENT_LOCATION
         };
-        return database.query(DbHelper.TABLE_LOCATION_TREE,variable,selection,selectionArgs,groupBy,having,orderBy);
+        return database.query(DbHelper.TABLE_LOCATION_TREE,variable,selection,selectionArgs,groupBy,having,orderBy, limit);
     }
 
     public Cursor fetchdetaildata(String id) {
@@ -719,7 +775,7 @@ public class DbManager {
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
-        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.UNIQUEID +"='"+id+"'", null, null, null, null);
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper._ID +"='"+id+"'", null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -769,7 +825,7 @@ public class DbManager {
         String[] columns = new String[] {
                 DbHelper.NAME};
         Cursor c=null;
-        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -779,7 +835,7 @@ public class DbManager {
         String[] columns = new String[] {
                 DbHelper.NAME_PENDONOR};
         Cursor c=null;
-        c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -789,12 +845,13 @@ public class DbManager {
         String[] columns = new String[] {
                 DbHelper.UNIQUEID};
         Cursor c=null;
-        c = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper._ID +"="+id, selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper._ID +"="+id, selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
         return c;
     }
+
     public void clearClause(){
         selection = null;
         selectionArgs = null;
@@ -818,12 +875,16 @@ public class DbManager {
     public void setOrderBy(String args){
         this.orderBy = args;
     }
+    public void setLimit(String args){
+        this.limit = args;
+    }
 
     private String selection = null;
     private String selectionArgs[] = null;
     private String groupBy = null;
     private String having = null;
     private String orderBy = null;
+    private String limit = null;
 
 
     public void updateFlagIbu() {
@@ -906,7 +967,7 @@ public class DbManager {
         String[] columns = new String[] {
                 DbHelper.Jenis};
         Cursor c=null;
-        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.NAME +" LIKE '%"+namas+"%'", selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.NAME +" LIKE '%"+namas+"%'", selectionArgs, groupBy, having, orderBy, limit);
         Log.e("JENIS",c.toString());
         if (c != null) {
             c.moveToFirst();

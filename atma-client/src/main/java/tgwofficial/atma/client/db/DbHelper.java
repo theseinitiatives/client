@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class DbHelper  extends SQLiteOpenHelper {
 
@@ -111,6 +112,23 @@ public class DbHelper  extends SQLiteOpenHelper {
     static final int DB_VERSION = 1;
 
 
+    //sync tables,
+    public static final String DATA = "data";
+
+
+    public static final String TABLE_SYNC = "sync_table";
+    // Creating table Ibu
+    private static final String CREATE_TABLE_SYNC = "create table "
+            + TABLE_SYNC + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + USER_ID + " TEXT , "
+            + LOCATION_ID + " TEXT , "
+            + UPDATE_ID + " TEXT , "
+            + DATA + " TEXT , "
+            + FORM_NAME + " TEXT , "
+            + IS_SYNC + " INTEGER DEFAULT 0, "
+            + IS_SEND + " INTEGER DEFAULT 0);";
+
+
     // Creating table Ibu
     private static final String CREATE_TABLE_IBU = "create table "
             + TABLE_NAME_IBU + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -155,6 +173,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + IS_SEND + " INTEGER DEFAULT 0, "
             + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
 
+    public static final String TGL_DONOR = "tgl_donor";
     // Creating table Bank Darah
     private static final String CREATE_TABLE_BANK = "create table "
             + TABLE_NAME_BANK + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -164,6 +183,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + GUBUG + " TEXT , "
             + STATUS + " TEXT , "
             + GOL_DARAH + " TEXT , "
+            + TGL_DONOR + " TEXT , "
             + TELP + " TEXT , "
             + USER_ID + " TEXT , "
             + LOCATION_ID + " TEXT , "
@@ -270,6 +290,7 @@ public class DbHelper  extends SQLiteOpenHelper {
     // Creating table location tree
     private static final String CREATE_TABLE_KADER = "create table "
             + TABLE_KADER + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + UNIQUEID + " TEXT NOT NULL, "
             +NAME+ " TEXT , "
             +DUSUN+ " TEXT ,"
             +TELP+ " TEXT ,"
@@ -297,16 +318,22 @@ public class DbHelper  extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_USER);
         db.execSQL(CREATE_TABLE_LOCATION_TREE);
        db.execSQL(CREATE_TABLE_KADER);
+       db.execSQL(CREATE_TABLE_SYNC);
       //  insertDummy(db,"Siti"," Adawiyah"," Patient Baru");
       //  insertDummy(db,"Moya", "Dyah", "Patient Baru");
 
+
+//        for(int i=0;i<5000;i++) {
+//            insertDummy(db, UUID.randomUUID().toString(),"Siti "+i, " Adawiyah "+i, "Menges","2018-01-01","2018-10-11","1970-01-01","12", "A-positif","");
+//            insertDummy(db, UUID.randomUUID().toString(),"Moya "+i, "Dyah "+i, "Selebung Daye","2018-01-01","2018-10-11","1970-01-01","12", "O-negatif","");
+//        }
     }
 
-    private static void insertDummy(SQLiteDatabase db, String data,String data2, String data3) {
-        db.execSQL("INSERT INTO " + TABLE_NAME_IBU + " (" + NAME+","+SPOUSENAME+","+STATUS
-                + ") VALUES ('" + data + "','"+data2+"','"+data3+"');");
-        db.execSQL("INSERT INTO " + TABLE_NAME_TRANS + " (" + NAME+","+Jenis+") VALUES ('" + data + "','"+"mobil"+"');");
-        db.execSQL("INSERT INTO " + TABLE_NAME_BANK + " (" + NAME_PENDONOR+","+GOL_DARAH+") VALUES ('" + data + "','"+"a - positif"+"');");
+    private static void insertDummy(SQLiteDatabase db, String uid, String data,String data2, String data3, String data4, String data5, String data6, String data7, String data8, String data9) {
+        db.execSQL("INSERT INTO " + TABLE_NAME_IBU + " (" + UNIQUEID+", "+ NAME+","+SPOUSENAME+","+DUSUN+","+HPHT+","+HTP+","+TGL_LAHIR+","+GUBUG+","+GOL_DARAH+","+NIFAS_SELESAI
+                + ") VALUES ('" +uid+"','"+ data + "','"+data2+"','"+data3+"','"+data4+"','"+data5+"','"+data6+"','"+data7+"','"+data8+"','"+data9+"');");
+        db.execSQL("INSERT INTO " + TABLE_NAME_TRANS + " (" + UNIQUEID+", "+ NAME+","+Jenis+") VALUES ('" +uid+"','"+ data + "','"+"mobil"+"');");
+        db.execSQL("INSERT INTO " + TABLE_NAME_BANK + " (" + UNIQUEID+", "+ NAME_PENDONOR+","+GOL_DARAH+") VALUES ('" +uid+"','"+ data + "','"+"a - positif"+"');");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

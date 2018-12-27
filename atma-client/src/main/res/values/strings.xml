@@ -101,5 +101,12 @@
     <string name="terlalu_muda">Terlalu Muda</string>
     <string name="terlalu_tua">Terlalu Tua</string>
     <string name="gravida_banyak">Gravida Banyak</string>
+    <string name="dokter">dokter</string>
+    <string name="bidan">bidan</string>
+    <string name="dukun">dukun</string>
+    <string name="rumah_sakit">rumahsakit</string>
+    <string name="puskesmas">puskesmas</string>
+    <string name="polindes">polindes</string>
+    <string name="rumah">rumah</string>
 
 </resources>

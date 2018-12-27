@@ -9,6 +9,8 @@ public class AllConstants {
     public static Boolean MAY_PROCEED = false;
     public static String params = null;
 
+    public static final String MAX_ROW_PER_PAGE = "20";
+
     public static String convertToDDMMYYYY(String data){
         if(!data.contains("-"))
             return data;

@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
@@ -34,7 +36,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
     String   nifasberakhir;
     LinearLayout layout_nifas;
     EditText jumlahBayi;
-    EditText jenisKelamin;
+    String jenisKelamin;
     LinearLayout lay_tempat;
     LinearLayout lay_ibu;
     LinearLayout lay_anak;
@@ -45,6 +47,14 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
 
     public void setTempatBersalin(String tempatBersalin) {
         this.tempatBersalin = tempatBersalin;
+    }
+
+    public String getJenisKelamin() {
+        return jenisKelamin;
+    }
+
+    public void setJenisKelamin(String value) {
+        jenisKelamin = value;
     }
 
     public String getKomplikasiIbu() {
@@ -147,8 +157,8 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
         lay_anak = (LinearLayout) findViewById(R.id.anak_layout);
       //  htps = (EditText) findViewById(R.id.htp);
         jumlahBayi = (EditText) findViewById(R.id.jumlah);
-        jenisKelamin = (EditText) findViewById(R.id.jenis_kel);
-
+       //        jenisKelamin = (EditText) findViewById(R.id.jenis_kel);
+        jumlahBayi = (EditText) findViewById(R.id.jumlah);
 
         dbManager = new DbManager(this);
         dbManager.open();
@@ -189,9 +199,9 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jumlahBayi = (EditText) findViewById(R.id.jumlah);
+
                 String jumlahBayis = jumlahBayi.getText().toString();
-                String jenisKelamins = jenisKelamin.getText().toString();
+                String jenisKelamins = getJenisKelamin();
                 String tgl_persalinn = tgl_bersalin.getText().toString();
                 String radioStatus2 = getStatuss2();
                 String ibubersalin = getStatusibu();
@@ -201,8 +211,28 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                 String komplikasiAnak = getKomplikasiAnak();
                 String tempat = getTempatBersalin();
 
+                JSONObject dataArray = new JSONObject();
+                try {
+                    dataArray.put(DbHelper.ID_IBU,uniqueId);
+                    dataArray.put(DbHelper.STATUS_BERSALIN, ibubersalin);
+                    dataArray.put(DbHelper.TGL_PERSALINAN,tgl_persalinn);
+                    dataArray.put(DbHelper.KONDISI_ANAK,kondisi_anak);
+                    dataArray.put(DbHelper.KONDISI_IBU,kondisi_ibu);
+                    dataArray.put(DbHelper.JUMLAHBAYI,jumlahBayis);
+                    dataArray.put(DbHelper.JENISKELAMIN,jenisKelamins);
+                    dataArray.put(DbHelper.KOMPLIKASIIBU,komplikasiIbus);
+                    dataArray.put(DbHelper.KOMPLIKASIANAK,komplikasiAnak);
+                    dataArray.put(DbHelper.TEMPAT_PERSALINAN,tempat);
+
+
+                }catch (Exception e) {
+                    Log.d("Data array", e.getMessage());
+                }
+
                     dbManager.open();
                     dbManager.insertStatusPersalinan(uniqueId,tgl_persalinn,ibubersalin,kondisi_ibu,kondisi_anak,jumlahBayis,jenisKelamins, komplikasiIbus, komplikasiAnak,tempat);
+                    dbManager.insertsyncTable("status_persalinan", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+
                     dbManager.close();
                     finish();
                     Intent myIntent = new Intent(FormStatusPersalinanActivity.this, IdentitasIbuActivity.class);
@@ -250,6 +280,15 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                     setKondisianak("meninggal");
                 break;
 
+                // set gender
+            case R.id.lakilaki:
+                if (checked)
+                    setJenisKelamin("laki-laki");
+                break;
+            case R.id.perempuan:
+                if (checked)
+                    setJenisKelamin("perempuan");
+                break;
 
                 //set tempat
             case R.id.rs:

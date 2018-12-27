@@ -221,12 +221,24 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 if ("Form Rencana Persalinan".equals(forms[which])) {
                     String uid = identitasModels.get((int) ids).getId();
                     Intent intent = new Intent(IdentitasIbuActivity.this, FormRencanaPersalinan.class);
+                    dbManager.open();
+                    Cursor c = dbManager.fetchuniqueId(uid);
+                    c.moveToFirst();
+                    String uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+                    dbManager.close();
+                    intent.putExtra("uniqueId", uniqueId);
                     intent.putExtra("id", uid);
                     startActivity(intent);
                     finish();
                 }if ("Form Status Persalinan".equals(forms[which])) {
                     String uid = identitasModels.get((int) ids).getId();
                     Intent intent = new Intent(IdentitasIbuActivity.this, FormStatusPersalinanActivity.class);
+                    dbManager.open();
+                    Cursor c = dbManager.fetchuniqueId(uid);
+                    c.moveToFirst();
+                    String uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+                    dbManager.close();
+                    intent.putExtra("uniqueId", uniqueId);
                     intent.putExtra("id", uid);
                     startActivity(intent);
                     finish();
@@ -240,12 +252,19 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     String uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
                     dbManager.close();
                     intent.putExtra("uniqueId", uniqueId);
+                    intent.putExtra("id", uid);
                     startActivity(intent);
                     finish();
                 }
                 if ("Tutup Ibu".equals(forms[which])) {
                     String uid = identitasModels.get((int) ids).getId();
                     Intent intent = new Intent(IdentitasIbuActivity.this, FormCloseIbu.class);
+                    dbManager.open();
+                    Cursor c = dbManager.fetchuniqueId(uid);
+                    c.moveToFirst();
+                    String uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+                    dbManager.close();
+                    intent.putExtra("uniqueId", uniqueId);
                     intent.putExtra("id", uid);
                     startActivity(intent);
                     finish();
@@ -432,18 +451,18 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 String res = response.toString();
                 Log.e("DEMO", "post submitted to API." + response);
                 Log.e(TAG, "onResponse: " +response.code());
-                if (response.code()==201){
+                /*if (response.code()==201){
                     updateSyncFlagIbu();
                     updateSyncFlagTrans();
                     updateSyncFlagBank();
-                }
-                pulldata();
+                }*/
+               // pulldata();
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("DEMO", "Unable to submit post to API.",t);
                 Log.e("call", String.valueOf(call));
-                pulldata();
+               // pulldata();
             }
         });
 
@@ -469,215 +488,32 @@ public class IdentitasIbuActivity extends AppCompatActivity
     public JSONArray alldata_formatToJson() {
         dbManager.open();
         //pull all identitasibu data from local db
-        Cursor cursor = dbManager.fetchUnSyncIbu();
+        Cursor cursor = dbManager.fetchUnSyncForm();
         // String data = dbManager.formatToJson(cursor).toString();
         //JSONArray resultSet     = new JSONArray();
 
         JSONArray resultSet = new JSONArray();
-        JSONArray resultSet2 = new JSONArray();
-
         cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
+        while (cursor.isAfterLast() == false) {
             int totalColumn = cursor.getColumnCount();
-            resultSet = new JSONArray();
             JSONObject rowObject = new JSONObject();
-            JSONObject rowObject2 = new JSONObject();
             for (int i = 0; i < totalColumn; i++) {
-
                 if (cursor.getColumnName(i) != null) {
                     try {
-                        rowObject2.put("form_name","identitas_ibu");
-                        if(cursor.getColumnName(i).equalsIgnoreCase("user_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        if(cursor.getColumnName(i).equalsIgnoreCase("location_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        if(cursor.getColumnName(i).equalsIgnoreCase("update_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        rowObject.put(cursor.getColumnName(i), cursor.getString(i));
+                        rowObject.put(cursor.getColumnName(i),
+                                cursor.getString(i));
                     } catch (Exception e) {
                         Log.d(TAG, e.getMessage());
                     }
                 }
-
             }
             resultSet.put(rowObject);
-
-            try{
-                rowObject2.put("data",resultSet);
-            } catch (Exception e) {
-                Log.d(TAG, e.getMessage());
-            }
-            resultSet2.put(rowObject2);
-
-            cursor.moveToNext();
-        }
-
-        cursor = dbManager.fetchunSyncTrans();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            int totalColumn = cursor.getColumnCount();
-            resultSet = new JSONArray();
-            JSONObject rowObject = new JSONObject();
-            JSONObject rowObject2 = new JSONObject();
-            for (int i = 0; i < totalColumn; i++) {
-
-                if (cursor.getColumnName(i) != null) {
-                    try {
-                        rowObject2.put("form_name","transportasi");
-                        if(cursor.getColumnName(i).equalsIgnoreCase("user_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        if(cursor.getColumnName(i).equalsIgnoreCase("location_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        if(cursor.getColumnName(i).equalsIgnoreCase("update_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        rowObject.put(cursor.getColumnName(i), cursor.getString(i));
-                    } catch (Exception e) {
-                        Log.d(TAG, e.getMessage());
-                    }
-                }
-
-            }
-            resultSet.put(rowObject);
-
-            try{
-                rowObject2.put("data",resultSet);
-            } catch (Exception e) {
-                Log.d(TAG, e.getMessage());
-            }
-            resultSet2.put(rowObject2);
-
-            cursor.moveToNext();
-        }
-
-        cursor = dbManager.fetchUnsyncBankDarah();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            int totalColumn = cursor.getColumnCount();
-            resultSet = new JSONArray();
-            JSONObject rowObject = new JSONObject();
-            JSONObject rowObject2 = new JSONObject();
-            for (int i = 0; i < totalColumn; i++) {
-
-                if (cursor.getColumnName(i) != null) {
-                    try {
-                        rowObject2.put("form_name","bank_darah");
-                        if(cursor.getColumnName(i).equalsIgnoreCase("user_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        if(cursor.getColumnName(i).equalsIgnoreCase("location_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        if(cursor.getColumnName(i).equalsIgnoreCase("update_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        rowObject.put(cursor.getColumnName(i), cursor.getString(i));
-                    } catch (Exception e) {
-                        Log.d(TAG, e.getMessage());
-                    }
-                }
-
-            }
-            resultSet.put(rowObject);
-
-            try{
-                rowObject2.put("data",resultSet);
-            } catch (Exception e) {
-                Log.d(TAG, e.getMessage());
-            }
-            resultSet2.put(rowObject2);
-
-            cursor.moveToNext();
-        }
-
-        cursor = dbManager.fetchUnsyncRencanaPersalinan();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            int totalColumn = cursor.getColumnCount();
-            resultSet = new JSONArray();
-            JSONObject rowObject = new JSONObject();
-            JSONObject rowObject2 = new JSONObject();
-            for (int i = 0; i < totalColumn; i++) {
-
-                if (cursor.getColumnName(i) != null) {
-                    try {
-                        rowObject2.put("form_name","rencana_persalinan");
-                        if(cursor.getColumnName(i).equalsIgnoreCase("user_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        if(cursor.getColumnName(i).equalsIgnoreCase("location_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        if(cursor.getColumnName(i).equalsIgnoreCase("update_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        rowObject.put(cursor.getColumnName(i), cursor.getString(i));
-                    } catch (Exception e) {
-                        Log.d(TAG, e.getMessage());
-                    }
-                }
-
-            }
-            resultSet.put(rowObject);
-
-            try{
-                rowObject2.put("data",resultSet);
-            } catch (Exception e) {
-                Log.d(TAG, e.getMessage());
-            }
-            resultSet2.put(rowObject2);
-
-            cursor.moveToNext();
-        }
-
-        cursor = dbManager.fetchUnsyncStatusPersalinan();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            int totalColumn = cursor.getColumnCount();
-            resultSet = new JSONArray();
-            JSONObject rowObject = new JSONObject();
-            JSONObject rowObject2 = new JSONObject();
-            for (int i = 0; i < totalColumn; i++) {
-
-                if (cursor.getColumnName(i) != null) {
-                    try {
-                        rowObject2.put("form_name","status_persalinan");
-                        if(cursor.getColumnName(i).equalsIgnoreCase("user_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        if(cursor.getColumnName(i).equalsIgnoreCase("location_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        if(cursor.getColumnName(i).equalsIgnoreCase("update_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        rowObject.put(cursor.getColumnName(i), cursor.getString(i));
-                    } catch (Exception e) {
-                        Log.d(TAG, e.getMessage());
-                    }
-                }
-
-            }
-            resultSet.put(rowObject);
-
-            try{
-                rowObject2.put("data",resultSet);
-            } catch (Exception e) {
-                Log.d(TAG, e.getMessage());
-            }
-            resultSet2.put(rowObject2);
-
             cursor.moveToNext();
         }
 
         cursor.close();
-        dbManager.close();
-        return resultSet2;
+        return resultSet;
+
     }
 
 
@@ -727,7 +563,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 Log.d(TAG, e.getMessage());
             }
             resultSet2.put(rowObject2);
-
+            dbManager.open();
             cursor.moveToNext();
         }
 
@@ -754,73 +590,6 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
     }
 
-    public JSONArray transportasi_formatToJson()
-    {
-        dbManager.open();
-        //pull all identitasibu data from local db
-        Cursor cursor = dbManager.fetchunSyncTrans();
-        // String data = dbManager.formatToJson(cursor).toString();
-        //JSONArray resultSet     = new JSONArray();
-
-        JSONArray resultSet = new JSONArray();
-        JSONArray resultSet2 = new JSONArray();
-        JSONObject rowObject2 = new JSONObject();
-
-        //  resultSet.put();
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-        try
-        {
-            int totalColumn = cursor.getColumnCount();
-            JSONObject rowObject = new JSONObject();
-            //looping data
-            Log.i("COUNT",""+totalColumn);
-            for( int i=0 ;  i< totalColumn ; i++ )
-            {
-                /***
-                 * TODO
-                 * SET THE DATA FROM TABLE*/
-                rowObject2.put("user_id",userId);
-                rowObject2.put("location_id",locaId);
-                rowObject2.put("form_name","transportasi");
-                rowObject2.put("update_id",System.currentTimeMillis());
-                // Log.i("ASDASD",resultSet2.toString());
-
-                if( cursor.getColumnName(i) != null )
-                {
-
-
-                    if( cursor.getString(i) != null )
-                    {
-                        Log.d("TAG_NAME", cursor.getString(i) );
-                        rowObject.put(cursor.getColumnName(i) ,  cursor.getString(i) );
-                    }
-                    else
-                    {
-                        rowObject.put( cursor.getColumnName(i) ,  "" );
-                    }
-
-                }
-
-                resultSet2.put(rowObject2);
-                rowObject2.put("data",resultSet);
-
-
-            }
-
-            resultSet.put(rowObject);
-            cursor.moveToNext();
-        }
-        catch( Exception e )
-        {
-            Log.d("TAG_NAME", e.getMessage()  );
-        }
-         }
-        cursor.close();
-        dbManager.close();
-        return resultSet2;
-    }
 
     public JSONArray bankDarah_formatToJson()
     {
