@@ -76,7 +76,7 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         txt_last.setText("Edit Terakhir Oleh: "+humanizes(getStringData("user_id", cursor)));
 
         //status bersalin
-        Cursor status_persalinan = dbManager.fetchstatuspersalinan(id);
+        Cursor status_persalinan = dbManager.fetchstatuspersalinan(uniqueId);
         if ( status_persalinan.moveToFirst() ) {
 
             txt_status.setText("Status: "+humanizes(getStringData("status_bersalin", status_persalinan)));
@@ -94,7 +94,7 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
 
         }
         ///rencana persalinan
-        final Cursor cursorRencanaPersalinan = dbManager.fetchRencanaPersalinan(id);
+        final Cursor cursorRencanaPersalinan = dbManager.fetchRencanaPersalinan(uniqueId);
         if ( cursorRencanaPersalinan.moveToFirst() ) {
             final String checkrencana = "yes";
           //  TextView txt_tempatbersalins = (TextView) findViewById(R.id.tempatbersalins);
@@ -179,6 +179,8 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         String data = cursor.getString(cursor.getColumnIndexOrThrow(tablename));
         String text = data!=null?data:"";
 
+        if(text.equalsIgnoreCase("rumahsakit"))
+            text = "rumah sakit";
         return text;
     }
 }

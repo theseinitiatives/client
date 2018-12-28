@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import theseinitiatives.atma.client.AllConstants;
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
 import theseinitiatives.atma.client.Utils.FilterActivity;
@@ -39,6 +40,7 @@ public class BankDarahActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Activity activity;
     private DbManager dbManager;
+    private boolean firstRun = true;
     ListView lv;
     SearchView sv;
     long upId;
@@ -121,9 +123,19 @@ public class BankDarahActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if(firstRun) {
+            firstRun = false;
+            return;
+        }
+//        Log.d("On Resume params",AllConstants.params);
+//        Toast.makeText(getApplicationContext(),AllConstants.params,Toast.LENGTH_LONG).show();
+        refreshList();
 
-    private void getBankDarah(String searchTerm, String orderBy)
-    {
+    }
+    private void getBankDarah(String searchTerm, String orderBy){
         dbManager = new DbManager(this);
         dbManager.open();
         bankDarahmodels.clear();
@@ -132,34 +144,71 @@ public class BankDarahActivity extends AppCompatActivity
             dbManager.setOrderBy(orderBy);
         Cursor c = dbManager.fetchBankDarah(searchTerm, orderBy);
         while (c.moveToNext()) {
-                int id = c.getInt(0);
-                String uid = c.getString(c.getColumnIndexOrThrow("_id"));
-                String name = c.getString(c.getColumnIndexOrThrow("name_pendonor"));
-                String gol_darah = c.getString(c.getColumnIndexOrThrow("gol_darah"));
-                String hp = c.getString(c.getColumnIndexOrThrow("telp"));
-                String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
-                String gubug = c.getString(c.getColumnIndexOrThrow("gubug"));
-               // String pendonors = c.getString(c.getColumnIndexOrThrow("name_pendonor"));
+            int id = c.getInt(0);
+            String uid = c.getString(c.getColumnIndexOrThrow("_id"));
+            String name = c.getString(c.getColumnIndexOrThrow("name_pendonor"));
+            String gol_darah = c.getString(c.getColumnIndexOrThrow("gol_darah"));
+            String hp = c.getString(c.getColumnIndexOrThrow("telp"));
+            String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
+            String gubug = c.getString(c.getColumnIndexOrThrow("gubug"));
 
+            p = new BankDarahmodel();
+            p.setId(uid);
+            p.setNama(name);
+            p.setGolds(gol_darah);
+            p.setNomor(hp);
+            p.setDusun(dusun+" / "+gubug);
 
-                p = new BankDarahmodel();
-                p.setId(uid);
-                p.setNama(name);
-                p.setGolds(gol_darah);
-                p.setNomor(hp);
-                p.setDusun(dusun+" / "+gubug);
+            bankDarahmodels.add(p);
+        }
 
-              //  p.setPendonor(pendonors);
+        dbManager.close();
+        lv.setAdapter(adapter);
+    }
 
+    private void refreshList(){
+        if(AllConstants.params == null)
+            return;
+        bankDarahmodels.clear();
+        dbManager.open();
+        String[]cond = AllConstants.params.split(AllConstants.FLAG_SEPARATOR);
+        if(cond.length<2){
+            cond = new String[]{"","","no"};
+        }
+        cond[0] = cond[0].contains("~") ? "" : cond[0];
+        cond[1] = cond[1].contains("~") ? "" : cond[1];
+        String selectionClause =
+                DbHelper.GOL_DARAH + " LIKE '%"+cond[0]+"%' AND "+
+                        DbHelper.DUSUN + " LIKE '%"+cond[1]+"%'";
 
-                bankDarahmodels.add(p);
-            }
+        Log.d("Query refresh",selectionClause);
+        dbManager.clearClause();
+        dbManager.setSelection(selectionClause);
+        BankDarahmodel p = null;
+        dbManager.setOrderBy("name_pendonor ASC");
+        Cursor c = dbManager.fetchBankDarah("","");
+        while (c.moveToNext()) {
+            int id = c.getInt(0);
+            String uid = c.getString(c.getColumnIndexOrThrow("_id"));
+            String name = c.getString(c.getColumnIndexOrThrow("name_pendonor"));
+            String gol_darah = c.getString(c.getColumnIndexOrThrow("gol_darah"));
+            String hp = c.getString(c.getColumnIndexOrThrow("telp"));
+            String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
+            String gubug = c.getString(c.getColumnIndexOrThrow("gubug"));
 
-            dbManager.close();
+            p = new BankDarahmodel();
+            p.setId(uid);
+            p.setNama(name);
+            p.setGolds(gol_darah);
+            p.setNomor(hp);
+            p.setDusun(dusun+" / "+gubug);
 
-            lv.setAdapter(adapter);
+            bankDarahmodels.add(p);
+        }
 
-
+        dbManager.close();
+        lv.setAdapter(adapter);
+//        AllConstants.params = null;
 
     }
 

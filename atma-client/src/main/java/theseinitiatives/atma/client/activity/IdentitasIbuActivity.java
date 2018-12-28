@@ -173,7 +173,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             return;
         }
 //        Log.d("On Resume params",AllConstants.params);
-        Toast.makeText(getApplicationContext(),AllConstants.params,Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(),AllConstants.params,Toast.LENGTH_LONG).show();
         refreshList();
 
     }
