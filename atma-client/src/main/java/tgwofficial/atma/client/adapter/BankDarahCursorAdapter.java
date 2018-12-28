@@ -73,4 +73,3 @@ public class BankDarahCursorAdapter extends BaseAdapter {
         return convertView;
     }
 }
-fi
