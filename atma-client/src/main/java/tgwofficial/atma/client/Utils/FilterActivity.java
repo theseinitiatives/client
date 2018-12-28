@@ -24,6 +24,7 @@ public class FilterActivity extends Activity {
     private Spinner dusunSpinner;
     private DbManager dbManager;
     private String iddesa;
+    private int mode=0;
 
     private String filterByDusun =  null;
     private String filterByHPHT = null;
@@ -36,6 +37,7 @@ public class FilterActivity extends Activity {
 
         this.dbManager = new DbManager(getApplicationContext());
         this.iddesa = getIntent().getStringExtra("iddesa");
+        this.mode = getIntent().getIntExtra("source",0);
 
         initComponenets();
         DisplayMetrics dm = new DisplayMetrics();
@@ -48,11 +50,11 @@ public class FilterActivity extends Activity {
     private void initComponenets(){
         htpSpinner = (Spinner) findViewById(R.id.filter_by_HTP);
 
-        htpSpinner.setAdapter(spinnerAdapter(htpString()[0]));
+        htpSpinner.setAdapter(spinnerAdapter(stringPool[mode][0]));
         htpSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                filterByHPHT = htpString()[1][i];
+                filterByHPHT = stringPool[mode][1][i];
             }
 
             @Override
@@ -125,9 +127,19 @@ public class FilterActivity extends Activity {
 
     private String[][] vehicleString(){
         return new String[][]{
-
+                {"---","Mobil","Motor","Cidomo","Pick Up","Lainnya"},
+                {"~","mobil","motor","cidomo","pickup","lainnya"}
         };
     }
+
+    private String [][] bloodString(){
+        return new String[][]{
+                {"---","A","B","AB","O"},
+                {"~","a","b","ab","o"}
+        };
+    }
+
+    private String [][][] stringPool = {htpString(),vehicleString(),bloodString()};
 
     private String [][]dusunString(){
         dbManager.open();
@@ -141,7 +153,6 @@ public class FilterActivity extends Activity {
         temp[0][0] = "---";temp[1][0]="~";
         for(int i=0;i<c.getCount();i++){
             temp[0][i+1] = temp[1][i+1] = c.getString(c.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
-            System.out.println("isi temp : "+temp[1][i+1]);
             c.moveToNext();
         }
         dbManager.close();
