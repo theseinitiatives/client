@@ -224,9 +224,10 @@ public class DbManager {
 
             //close ibu and kader
             else if(model.getform_name().equals("kader")){
-               /* KaderModel[] KaderModels = gson.fromJson(data_, KaderModel[].class);
+                Log.e("GETKADER","");
+                KaderModel[] KaderModels = gson.fromJson(data_, KaderModel[].class);
                 List<KaderModel> kadermodelslist = new ArrayList<>(Arrays.asList(KaderModels));
-                for (KaderModel kadermodels : kadermodelslist){
+                for (KaderModel kadermodels : kadermodelslist) {
                     contentValue.put(DbHelper.NAME, kadermodels.getName());
                     contentValue.put(DbHelper.DUSUN, kadermodels.getDusun());
                     contentValue.put(DbHelper.TELP, kadermodels.getTelp());
@@ -237,10 +238,9 @@ public class DbManager {
                     contentValue.put(DbHelper.UPDATE_ID, model.getupdate_id());
                     contentValue.put(DbHelper.IS_SEND, 1);
                     contentValue.put(DbHelper.IS_SYNC, 1);
-                    database.insert(DbHelper.TABLE_KADER, null, contentValue);*/
+                    database.insert(DbHelper.TABLE_KADER, null, contentValue);
 
-               //do nothing rgiht now
-
+                }
 
             }
             //close ibu and kader
