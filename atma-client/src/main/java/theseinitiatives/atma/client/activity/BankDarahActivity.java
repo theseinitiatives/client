@@ -59,6 +59,7 @@ public class BankDarahActivity extends AppCompatActivity
         //lv.setAdapter(adapter);
         adapter=new BankDarahCursorAdapter(this,bankDarahmodels);
 
+        dbManager = new DbManager(this);
         dbManager.open();
         if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
             forbidden = true;

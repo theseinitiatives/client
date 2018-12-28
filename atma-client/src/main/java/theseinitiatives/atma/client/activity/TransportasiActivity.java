@@ -61,7 +61,7 @@ public class TransportasiActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-
+        dbManager = new DbManager(this);
         dbManager.open();
         if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
             forbidden = true;

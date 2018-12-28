@@ -52,11 +52,11 @@ public class TransportasiDetailActivity extends AppCompatActivity {
         edit = (Button) findViewById(R.id.transportasi_edit_button);
         final String entityID = id;
 
-        dbManager.open();
+      //  dbManager.open();
        /* if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
             edit.setVisibility(View.GONE);
         }*/
-        dbManager.close();
+       // dbManager.close();
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,6 +69,7 @@ public class TransportasiDetailActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        finish();
         Log.d("CDA", "onBackPressed Called");
         NavigationmenuController navi= new NavigationmenuController(this);
         navi.backtoIbu();
