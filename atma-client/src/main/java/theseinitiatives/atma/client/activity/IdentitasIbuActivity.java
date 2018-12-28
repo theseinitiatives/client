@@ -55,6 +55,8 @@ import theseinitiatives.atma.client.model.IdentitasModel;
 import theseinitiatives.atma.client.model.syncmodel.ApiModel;
 import theseinitiatives.atma.client.sync.ApiService;
 
+import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
+
 public class IdentitasIbuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private DbManager dbManager;
@@ -109,6 +111,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
          locas = dbManager.getlocName();
 
         dbManager.close();
+                Log.e("DATETIME","  "+dateNow());
         /*String extra = getIntent().getStringExtra("login status");
 
         if(extra!=null){

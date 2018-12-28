@@ -16,6 +16,8 @@ import theseinitiatives.atma.client.activity.IdentitasIbuActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 
+import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
+
 public class FormCloseIbu extends AppCompatActivity {
 
 
@@ -69,6 +71,7 @@ public class FormCloseIbu extends AppCompatActivity {
                     dataArray.put(DbHelper.ALASAN, alasan);
                     dataArray.put(DbHelper.NIFAS_SELESAI,status_);
                     dataArray.put(DbHelper.UNIQUEID,UNIQUEID);
+                    dataArray.put(DbHelper.TIMESTAMP,dateNow());
                 }catch (Exception e) {
                     Log.d("Data array", e.getMessage());
                 }

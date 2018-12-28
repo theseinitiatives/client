@@ -21,6 +21,8 @@ import theseinitiatives.atma.client.activity.TransportasiActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 
+import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
+
 public class FormAddTransportasi extends AppCompatActivity {
     EditText nama_pemiliks;
     String jenis;
@@ -127,7 +129,7 @@ public class FormAddTransportasi extends AppCompatActivity {
                     dataArray.put(DbHelper.DUSUN,text_dusuns);
                     dataArray.put(DbHelper.PROFESI,text_profesis);
                     dataArray.put(DbHelper.KET,text_kets);
-                    dataArray.put(DbHelper.TIMESTAMP,System.currentTimeMillis()/1000);
+                    dataArray.put(DbHelper.TIMESTAMP,dateNow());
                     if(id!=null)
                         dataArray.put(DbHelper.UNIQUEID,getSetUniqueId());
                     else

@@ -20,6 +20,8 @@ import theseinitiatives.atma.client.activity.IdentitasIbuActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 
+import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
+
 public class FormAddKader extends AppCompatActivity {
 
     EditText kaders;
@@ -91,6 +93,7 @@ public class FormAddKader extends AppCompatActivity {
                     dataArray.put(DbHelper.USERNAME,username);
                     dataArray.put(DbHelper.PASSWORD,password);
                     dataArray.put(DbHelper.UNIQUEID,UUID);
+                    dataArray.put(DbHelper.TIMESTAMP,dateNow());
 
                 }catch (Exception e) {
                     Log.d("Data array", e.getMessage());

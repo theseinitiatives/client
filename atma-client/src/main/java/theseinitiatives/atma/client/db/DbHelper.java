@@ -123,7 +123,8 @@ public class DbHelper  extends SQLiteOpenHelper {
             + DATA + " TEXT , "
             + FORM_NAME + " TEXT , "
             + IS_SYNC + " INTEGER DEFAULT 0, "
-            + IS_SEND + " INTEGER DEFAULT 0);";
+            + IS_SEND + " INTEGER DEFAULT 0, "
+            + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
 
     private static final String CREATE_CLOSE = "create table "
             + TABLE_CLOSE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -134,7 +135,8 @@ public class DbHelper  extends SQLiteOpenHelper {
             + NIFAS_SELESAI + " TEXT , "
             + ALASAN + " TEXT , "
             + IS_SYNC + " INTEGER DEFAULT 0, "
-            + IS_SEND + " INTEGER DEFAULT 0);";
+            + IS_SEND + " INTEGER DEFAULT 0, "
+            + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
 
 
     // Creating table Ibu

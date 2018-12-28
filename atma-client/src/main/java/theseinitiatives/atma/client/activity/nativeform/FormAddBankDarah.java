@@ -27,6 +27,8 @@ import theseinitiatives.atma.client.activity.BankDarahActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 
+import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
+
 public class FormAddBankDarah extends AppCompatActivity {
     EditText mother_names;
     EditText nama_donors;
@@ -160,8 +162,6 @@ public class FormAddBankDarah extends AppCompatActivity {
                 String radiogolDarah = getDarah() +" - "+ getRhesus();
                 String tglmendonor = tgl_donor.getText().toString();
                 String UUID = java.util.UUID.randomUUID().toString();
-                Date currentTime = Calendar.getInstance().getTime();
-
 
                 if( donor.contains("'") ) {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
@@ -180,7 +180,7 @@ public class FormAddBankDarah extends AppCompatActivity {
                         dataArray.put(DbHelper.DUSUN,text_dusun);
                         dataArray.put(DbHelper.GOL_DARAH,radiogolDarah);
                         dataArray.put(DbHelper.TGL_DONOR,tglmendonor);
-                        dataArray.put(DbHelper.TIMESTAMP,System.currentTimeMillis()/1000);
+                        dataArray.put(DbHelper.TIMESTAMP,dateNow());
                         if(valueExist(id)) {
                             dataArray.put(DbHelper.UNIQUEID, getSetUniqueId());
                         }else {

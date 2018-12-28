@@ -26,6 +26,8 @@ import theseinitiatives.atma.client.activity.IdentitasIbuActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 
+import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
+
 public class FormRencanaPersalinan extends AppCompatActivity {
     EditText transportasiNama;
     EditText nama_donors;
@@ -203,7 +205,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                     dataArray.put(DbHelper.HUBUNGAN_DENGAN_IBU,txt_hubunganPemilik);
                     dataArray.put(DbHelper.HUBUNGAN_PENDONOR_IBU,txt_hubunganPendonor);
                     dataArray.put(DbHelper.NAME_PEMILIK,namaTransportasi);
-                    dataArray.put(DbHelper.TIMESTAMP,System.currentTimeMillis()/1000);
+                    dataArray.put(DbHelper.TIMESTAMP,dateNow());
 
 
                 }catch (Exception e) {

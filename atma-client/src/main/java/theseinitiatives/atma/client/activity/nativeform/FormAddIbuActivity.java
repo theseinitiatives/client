@@ -30,6 +30,8 @@ import theseinitiatives.atma.client.activity.IdentitasIbuActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 
+import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
+
 public class FormAddIbuActivity extends AppCompatActivity {
     EditText mother_names;
     EditText husband_names;
@@ -270,7 +272,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     dataArray.put(DbHelper.RESIKO,fResiko!=null?fResiko:"");
                     dataArray.put(DbHelper.GUBUG,gubug);
                     dataArray.put(DbHelper.NIFAS_SELESAI,"");
-                    dataArray.put(DbHelper.TIMESTAMP,System.currentTimeMillis()/1000);
+                    dataArray.put(DbHelper.TIMESTAMP,dateNow());
                     if(valueExist(id))
                         dataArray.put(DbHelper.UNIQUEID,getSetUniqueId());
                     else

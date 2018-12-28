@@ -30,6 +30,7 @@ import theseinitiatives.atma.client.db.DbManager;
 import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
+import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 
 public class FormStatusPersalinanActivity extends AppCompatActivity {
 
@@ -250,8 +251,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                     dataArray.put(DbHelper.KOMPLIKASIIBU,komplikasiIbus);
                     dataArray.put(DbHelper.KOMPLIKASIANAK,komplikasiAnak);
                     dataArray.put(DbHelper.TEMPAT_PERSALINAN,tempat);
-                    dataArray.put(DbHelper.TIMESTAMP,System.currentTimeMillis()/1000);
-
+                    dataArray.put(DbHelper.TIMESTAMP,dateNow());
                 }catch (Exception e) {
                     Log.d("Data array", e.getMessage());
                 }
