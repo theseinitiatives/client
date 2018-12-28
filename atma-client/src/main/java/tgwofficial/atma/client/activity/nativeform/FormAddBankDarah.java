@@ -19,6 +19,9 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.BankDarahActivity;
@@ -158,7 +161,7 @@ public class FormAddBankDarah extends AppCompatActivity {
                 String radiogolDarah = getDarah() +" - "+ getRhesus();
                 String tglmendonor = tgl_donor.getText().toString();
                 String UUID = java.util.UUID.randomUUID().toString();
-
+                Date currentTime = Calendar.getInstance().getTime();
 
 
                 if( donor.contains("'") ) {
@@ -178,6 +181,7 @@ public class FormAddBankDarah extends AppCompatActivity {
                         dataArray.put(DbHelper.DUSUN,text_dusun);
                         dataArray.put(DbHelper.GOL_DARAH,radiogolDarah);
                         dataArray.put(DbHelper.TGL_DONOR,tglmendonor);
+                        dataArray.put(DbHelper.TIMESTAMP,System.currentTimeMillis()/1000);
                         if(valueExist(id)) {
                             dataArray.put(DbHelper.UNIQUEID, getSetUniqueId());
                         }else {

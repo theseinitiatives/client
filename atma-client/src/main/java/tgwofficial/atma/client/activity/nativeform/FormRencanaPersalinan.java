@@ -17,6 +17,8 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import tgwofficial.atma.client.AllConstants;
 import tgwofficial.atma.client.NavigationmenuController;
@@ -191,7 +193,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                 String txt_pendampingPersalinan = getPendampingPersalinan();
                 String txt_hubunganPemilik = getHubunganPemilik();
                 String txt_hubunganPendonor = getHubunganPendonor();
-
+                Date currentTime = Calendar.getInstance().getTime();
                 JSONObject dataArray = new JSONObject();
                 try {
                     dataArray.put(DbHelper.ID_IBU,uniqueId);
@@ -202,6 +204,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                     dataArray.put(DbHelper.HUBUNGAN_DENGAN_IBU,txt_hubunganPemilik);
                     dataArray.put(DbHelper.HUBUNGAN_PENDONOR_IBU,txt_hubunganPendonor);
                     dataArray.put(DbHelper.NAME_PEMILIK,namaTransportasi);
+                    dataArray.put(DbHelper.TIMESTAMP,System.currentTimeMillis()/1000);
 
 
                 }catch (Exception e) {

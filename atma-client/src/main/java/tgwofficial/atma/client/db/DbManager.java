@@ -20,6 +20,7 @@ import tgwofficial.atma.client.AllConstants;
 import tgwofficial.atma.client.model.syncmodel.ApiModel;
 import tgwofficial.atma.client.model.syncmodel.BankdarahData;
 import tgwofficial.atma.client.model.syncmodel.IbuData;
+import tgwofficial.atma.client.model.syncmodel.KaderModel;
 import tgwofficial.atma.client.model.syncmodel.RencanaModel;
 import tgwofficial.atma.client.model.syncmodel.StatusModel;
 import tgwofficial.atma.client.model.syncmodel.TransportasiData;
@@ -63,36 +64,39 @@ public class DbManager {
             ContentValues contentValue = new ContentValues();
 
             //  contentValue.put(DbHelper.FORM_NAME, model.getform_name());
-            contentValue2.put(DbHelper.LOCATION_ID, model.getlocation_id());
-            contentValue2.put(DbHelper.USER_ID, model.getuser_id());
+            contentValue.put(DbHelper.LOCATION_ID, model.getlocation_id());
+            contentValue.put(DbHelper.USER_ID, model.getuser_id());
             contentValue.put(UPDATE_ID, model.getupdate_id());
 
             String data_ = null;
 
             //check data in server of is mixed between array and list
                     if(model.getData().contains("[")){
-                        data_ = model.getData();
+                        data_ = model.getData().replace("\\","");
                     }
                     else if (model.getData().contains("\"[")){
-                        data_ = model.getData().replace("\"[","[").replace("]\"","]");
+                        data_ = model.getData().replace("\"[","[").replace("]\"","]").replace("\\","");
+
+                    }
+                    else if (model.getData().contains("\"{")){
+                        data_ = model.getData().replace("\"{","[{").replace("}\"","}]").replace("\\","");
 
                     }
                     else{
-                        data_ = "["+model.getData()+"]";
+                        data_ = "["+model.getData().replace("\\","")+"]";
                     }
             Log.i("aaaaaaaaaaaaaaaaa" ,data_);
-            IbuData[] ibuData = gson.fromJson(data_, IbuData[].class);
-            List<IbuData> ibuDataListed = new ArrayList<>(Arrays.asList(ibuData));
-
 
             // insert into db
             if(model.getform_name().equals("identitas_ibu")) {
+                IbuData[] ibuData = gson.fromJson(data_, IbuData[].class);
+                List<IbuData> ibuDataListed = new ArrayList<>(Arrays.asList(ibuData));
                 for (IbuData listIbuData : ibuDataListed) {
-                    contentValue.put(DbHelper._ID, listIbuData.getId());
+                  //  contentValue.put(DbHelper._ID, listIbuData.getId());
                     contentValue.put(DbHelper.UNIQUEID, listIbuData.getUnique_id());
                     contentValue.put(DbHelper.NAME, listIbuData.getName());
                     contentValue.put(DbHelper.SPOUSENAME, listIbuData.getSpousename());
-                   // contentValue.put(DbHelper.STATUS, listIbuData.getStatus());
+                    contentValue.put(DbHelper.GOL_DARAH, listIbuData.getGolDarah());
                     contentValue.put(DbHelper.DUSUN, listIbuData.getDusun());
                     contentValue.put(DbHelper.HPHT, listIbuData.getHpht());
                     contentValue.put(DbHelper.HTP, listIbuData.getHtp());
@@ -100,24 +104,28 @@ public class DbManager {
                     contentValue.put(DbHelper.TELP, listIbuData.getTelp());
                     contentValue.put(DbHelper.NIFAS_SELESAI, listIbuData.getNifas_selesai());
                     contentValue.put(DbHelper.ALASAN, listIbuData.getAlasan());
-                   // contentValue.put(DbHelper.KONDISI_ANAK, listIbuData.getKondisiAnak());
+                    contentValue.put(DbHelper.GUBUG, listIbuData.getGubug());
                     contentValue.put(DbHelper.KADER, listIbuData.getKader());
-                    contentValue.put(DbHelper.USER_ID, listIbuData.getUser_id());
+                   /* contentValue.put(DbHelper.USER_ID, listIbuData.getUser_id());
                     contentValue.put(DbHelper.LOCATION_ID, listIbuData.getLocation_id());
                     contentValue.put(DbHelper.UPDATE_ID, listIbuData.getUpdate_id());
-                    contentValue.put(DbHelper.IS_SEND, 1);
+                   */ contentValue.put(DbHelper.IS_SEND, 1);
                     contentValue.put(DbHelper.IS_SYNC, 1);
                     contentValue.put(DbHelper.TIMESTAMP, listIbuData.getTimestamp());
-
-                    database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
-
+                    if(getUniqueID(listIbuData.getUnique_id(),"identitas_ibu")!=null){
+                        Log.e("UPDATING====DATA","");
+                        database.update(DbHelper.TABLE_NAME_IBU, contentValue,"unique_id = ?",new String[]{listIbuData.getUnique_id()});
+                    }
+                    else {
+                        database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
+                    }
                 }
             }
             else if(model.getform_name().equals("transportasi")){
                 TransportasiData[] transportasiData = gson.fromJson(data_, TransportasiData[].class);
                 List<TransportasiData> TransportasiDataList = new ArrayList<>(Arrays.asList(transportasiData));
                 for (TransportasiData listTransportasi : TransportasiDataList){
-                    contentValue.put(DbHelper._ID, listTransportasi.getId());
+                   // contentValue.put(DbHelper._ID, listTransportasi.getId());
                     contentValue.put(DbHelper.UNIQUEID, listTransportasi.getUniqueId());
                     contentValue.put(DbHelper.NAME, listTransportasi.getName());
                     contentValue.put(DbHelper.Jenis, listTransportasi.getJenis_kendaraan());
@@ -127,39 +135,44 @@ public class DbManager {
                     contentValue.put(DbHelper.GUBUG, listTransportasi.getGubug());
                     contentValue.put(DbHelper.PROFESI, listTransportasi.getProfesi());
                     contentValue.put(DbHelper.KET, listTransportasi.getKeterangan());
-                    contentValue.put(DbHelper.USER_ID, listTransportasi.getUser_id());
+                   /* contentValue.put(DbHelper.USER_ID, listTransportasi.getUser_id());
                     contentValue.put(DbHelper.LOCATION_ID, listTransportasi.getLocation_id());
                     contentValue.put(DbHelper.UPDATE_ID, listTransportasi.getUpdate_id());
-                    contentValue.put(DbHelper.IS_SEND, 1);
+                   */ contentValue.put(DbHelper.IS_SEND, 1);
                     contentValue.put(DbHelper.IS_SYNC, 1);
                     contentValue.put(DbHelper.TIMESTAMP, listTransportasi.getTimestamp());
+                    if(getUniqueID(listTransportasi.getUniqueId(),"transportasi")!=null){
+                        Log.e("UPDATING====DATA",listTransportasi.getUniqueId());
+                        database.update(DbHelper.TABLE_NAME_TRANS, contentValue,"unique_id = ?",new String[]{listTransportasi.getUniqueId()});
+                    }
                     database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
                 }
-                /**TODO
-                 * Get data from form transportasi and transform the data using TransportasiData model and put into database**/
+
             }
             else if(model.getform_name().equals("bank_darah")){
                 BankdarahData[] bankdarahData = gson.fromJson(data_, BankdarahData[].class);
                 List<BankdarahData> BankDarahDataListed = new ArrayList<>(Arrays.asList(bankdarahData));
                 for (BankdarahData listBankDarah : BankDarahDataListed){
-                    contentValue.put(DbHelper._ID, listBankDarah.getId());
+                   // contentValue.put(DbHelper._ID, listBankDarah.getId());
                     contentValue.put(DbHelper.UNIQUEID, listBankDarah.getUniqueId());
                     contentValue.put(DbHelper.NAME_PENDONOR, listBankDarah.getName_pendonor());
                     contentValue.put(DbHelper.DUSUN, listBankDarah.getDusun());
                     contentValue.put(DbHelper.GUBUG, listBankDarah.getGubug());
                     contentValue.put(DbHelper.GOL_DARAH, listBankDarah.getGolDarah());
                     contentValue.put(DbHelper.TELP, listBankDarah.getTelp());
-                    contentValue.put(DbHelper.USER_ID, listBankDarah.getUser_id());
+                   /* contentValue.put(DbHelper.USER_ID, listBankDarah.getUser_id());
                     contentValue.put(DbHelper.LOCATION_ID, listBankDarah.getLocation_id());
                     contentValue.put(DbHelper.UPDATE_ID, listBankDarah.getUpdate_id());
-                    contentValue.put(DbHelper.IS_SEND, 1);
+                   */ contentValue.put(DbHelper.IS_SEND, 1);
                     contentValue.put(DbHelper.IS_SYNC, 1);
                     contentValue.put(DbHelper.TIMESTAMP, listBankDarah.getTimestamp());
+                    if(getUniqueID(listBankDarah.getUniqueId(),"transportasi")!=null){
+                        Log.e("UPDATING====DATA","");
+                        database.update(DbHelper.TABLE_NAME_TRANS, contentValue,"unique_id = ?",new String[]{listBankDarah.getUniqueId()});
+                    }
                     database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);
                 }
 
-                /**TODO
-                 * Get data from form transportasi and transform the data using BankDarahData model and put into database**/
             }
             else if(model.getform_name().equals("rencana_persalinan")){
                 RencanaModel[] rencanaModels = gson.fromJson(data_, RencanaModel[].class);
@@ -175,10 +188,10 @@ public class DbManager {
                     contentValue.put(DbHelper.NAME_PENDONOR, rencanaModel.getName_pendonor());
                     contentValue.put(DbHelper.NAME_PEMILIK, rencanaModel.getPemilik_kendaraan());
                     contentValue.put(DbHelper.HUBUNGAN_PENDONOR_IBU, rencanaModel.getHubungan_pendonor());
-                    contentValue.put(DbHelper.USER_ID, rencanaModel.getUser_id());
+                   /* contentValue.put(DbHelper.USER_ID, rencanaModel.getUser_id());
                     contentValue.put(DbHelper.LOCATION_ID, rencanaModel.getLocation_id());
                     contentValue.put(DbHelper.UPDATE_ID, rencanaModel.getUpdate_id());
-                    contentValue.put(DbHelper.IS_SEND, 1);
+                   */ contentValue.put(DbHelper.IS_SEND, 1);
                     contentValue.put(DbHelper.IS_SYNC, 1);
                     contentValue.put(DbHelper.TIMESTAMP, rencanaModel.getTimestamp());
                     database.insert(DbHelper.TABLE_NAME_RENCANA, null, contentValue);
@@ -199,13 +212,47 @@ public class DbManager {
                     contentValue.put(DbHelper.KOMPLIKASIIBU, statusModel.getKomplikasi_ibu());
                     contentValue.put(DbHelper.KOMPLIKASIANAK, statusModel.getKomplikasi_anak());
                     contentValue.put(DbHelper.TEMPAT_PERSALINAN, statusModel.getTempat_persalinan());
-                    contentValue.put(DbHelper.USER_ID, statusModel.getUser_id());
+                   /* contentValue.put(DbHelper.USER_ID, statusModel.getUser_id());
                     contentValue.put(DbHelper.LOCATION_ID, statusModel.getLocation_id());
                     contentValue.put(DbHelper.UPDATE_ID, statusModel.getUpdate_id());
-                    contentValue.put(DbHelper.IS_SEND, 1);
+                   */ contentValue.put(DbHelper.IS_SEND, 1);
                     contentValue.put(DbHelper.IS_SYNC, 1);
                     contentValue.put(DbHelper.TIMESTAMP, statusModel.getTimestamp());
                     database.insert(DbHelper.TABLE_PERSALINAN, null, contentValue);
+                }
+            }
+
+            //close ibu and kader
+            else if(model.getform_name().equals("kader")){
+                Log.e("GETKADER","");
+                KaderModel[] KaderModels = gson.fromJson(data_, KaderModel[].class);
+                List<KaderModel> kadermodelslist = new ArrayList<>(Arrays.asList(KaderModels));
+                for (KaderModel kadermodels : kadermodelslist) {
+                    contentValue.put(DbHelper.NAME, kadermodels.getName());
+                    contentValue.put(DbHelper.DUSUN, kadermodels.getDusun());
+                    contentValue.put(DbHelper.TELP, kadermodels.getTelp());
+                    contentValue.put(DbHelper.USERNAME, kadermodels.getUsername());
+                    contentValue.put(DbHelper.PASSWORD, kadermodels.getPassword());
+                    contentValue.put(DbHelper.USER_ID, model.getuser_id());
+                    contentValue.put(DbHelper.LOCATION_ID, model.getlocation_id());
+                    contentValue.put(DbHelper.UPDATE_ID, model.getupdate_id());
+                    contentValue.put(DbHelper.IS_SEND, 1);
+                    contentValue.put(DbHelper.IS_SYNC, 1);
+                    database.insert(DbHelper.TABLE_KADER, null, contentValue);
+
+                }
+
+            }
+            //close ibu and kader
+            else if(model.getform_name().equals("close_ibu")) {
+                IbuData[] ibuData = gson.fromJson(data_, IbuData[].class);
+                List<IbuData> ibuDataListed = new ArrayList<>(Arrays.asList(ibuData));
+                for (IbuData listIbuData : ibuDataListed) {
+                    contentValue.put(DbHelper.UNIQUEID, listIbuData.getUnique_id());
+                    contentValue.put(DbHelper.ALASAN, listIbuData.getName());
+                    contentValue.put(DbHelper.NIFAS_SELESAI, listIbuData.getSpousename());
+                    database.insert(DbHelper.TABLE_CLOSE, null, contentValue);
+
                 }
             }
             /// database.setTransactionSuccessful();
@@ -853,6 +900,18 @@ public class DbManager {
         return c;
     }
 
+
+    public Cursor fetchuniqueId(String id, String tablename) {
+        String[] columns = new String[] {
+                DbHelper.UNIQUEID};
+        Cursor c=null;
+        c = database.query(tablename, columns, DbHelper.UNIQUEID +"='"+id+"'", selectionArgs, groupBy, having, orderBy);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+    }
+
     public void clearClause(){
         selection = null;
         selectionArgs = null;
@@ -888,12 +947,12 @@ public class DbManager {
     private String limit = null;
 
 
-    public void updateFlagIbu() {
+    public void updateFlagSycn() {
         ContentValues contentValue = new ContentValues();
 
         contentValue.put( DbHelper.IS_SEND,"1");
         contentValue.put( DbHelper.IS_SYNC,"1");
-        database.update(DbHelper.TABLE_NAME_IBU, contentValue,DbHelper.IS_SEND+" = 0",null);
+        database.update(DbHelper.TABLE_SYNC, contentValue,DbHelper.IS_SEND+" = 0",null);
     }
     public void updateFlagTrans() {
         ContentValues contentValue = new ContentValues();
@@ -942,6 +1001,17 @@ public class DbManager {
         //close();
         return locName;
     }
+    public String getUniqueID(String id, String tablename){
+        String uniq=null;
+        Cursor cursor = fetchuniqueId(id, tablename);
+        if(cursor.moveToFirst()) {
+            uniq = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+            // locName = userd.getString(userd.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
+            //close();
+        }
+        return uniq;
+    }
+
 
     public int randomNum(){
         final int random = new Random().nextInt(100) + 800;

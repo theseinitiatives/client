@@ -19,6 +19,9 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
@@ -235,7 +238,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                 String komplikasiIbus = getKomplikasiIbu();
                 String komplikasiAnak = getKomplikasiAnak();
                 String tempat = getTempatBersalin();
-
+                Date currentTime = Calendar.getInstance().getTime();
                 JSONObject dataArray = new JSONObject();
                 try {
                     dataArray.put(DbHelper.ID_IBU,uniqueId);
@@ -248,7 +251,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                     dataArray.put(DbHelper.KOMPLIKASIIBU,komplikasiIbus);
                     dataArray.put(DbHelper.KOMPLIKASIANAK,komplikasiAnak);
                     dataArray.put(DbHelper.TEMPAT_PERSALINAN,tempat);
-
+                    dataArray.put(DbHelper.TIMESTAMP,System.currentTimeMillis()/1000);
 
                 }catch (Exception e) {
                     Log.d("Data array", e.getMessage());
