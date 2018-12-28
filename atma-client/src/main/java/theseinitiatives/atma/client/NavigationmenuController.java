@@ -7,6 +7,7 @@ import android.net.Uri;
 import theseinitiatives.atma.client.activity.BankDarahActivity;
 import theseinitiatives.atma.client.activity.IdentitasIbuActivity;
 import theseinitiatives.atma.client.activity.IdentitasIbuDetailActivity;
+import theseinitiatives.atma.client.activity.KaderActivity;
 import theseinitiatives.atma.client.activity.TransportasiActivity;
 import theseinitiatives.atma.client.activity.nativeform.FormAddKader;
 
@@ -36,7 +37,7 @@ public class NavigationmenuController {
 
     public void addKader() {
         activity.finish();
-        activity.startActivity(new Intent(activity, FormAddKader.class));
+        activity.startActivity(new Intent(activity, KaderActivity.class));
         activity.overridePendingTransition(0,0);
     }
 

@@ -71,6 +71,12 @@
         <activity
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
+            android:name="theseinitiatives.atma.client.activity.KaderActivity"
+
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
             android:name="theseinitiatives.atma.client.activity.nativeform.FormRencanaPersalinan"
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar" />

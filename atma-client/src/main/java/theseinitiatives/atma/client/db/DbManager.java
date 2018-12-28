@@ -24,6 +24,7 @@ import theseinitiatives.atma.client.model.syncmodel.StatusModel;
 import theseinitiatives.atma.client.model.syncmodel.TransportasiData;
 
 import static theseinitiatives.atma.client.db.DbHelper.FORM_NAME;
+import static theseinitiatives.atma.client.db.DbHelper.KADER_VAR;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_NAME_BANK;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_NAME_IBU;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_NAME_RENCANA;
@@ -455,6 +456,20 @@ public class DbManager {
         }
 
         c = database.query(DbHelper.TABLE_NAME_TRANS, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
+        clearClause();
+        return c;
+    }
+
+    public Cursor fetchKaders(String searchTerm, String orderByASCDESC) {
+
+        Cursor c=null;
+
+        if(searchTerm != null && searchTerm.length()>0) {
+            c = database.query(DbHelper.TABLE_KADER, KADER_VAR, DbHelper.NAME+" LIKE '%"+searchTerm+"%'", selectionArgs, groupBy, having, orderByASCDESC, limit);
+            return c;
+        }
+
+        c = database.query(DbHelper.TABLE_KADER, KADER_VAR, selection, selectionArgs, groupBy, having, orderBy, limit);
         clearClause();
         return c;
     }

@@ -294,7 +294,8 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String [] KADER_VAR = new String[]{
             NAME,
             DUSUN,
-            TELP,
+            USERNAME,
+            PASSWORD,
     };
 
     // Creating table location tree
