@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tgwofficial.atma.client">
+    package="theseinitiatives.atma.client">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->
@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeCustomized">
         <activity
-            android:name=".LoginActivity"
+            android:name="theseinitiatives.atma.client.LoginActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_login">
@@ -29,89 +29,89 @@
         <activity
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activity.IdentitasIbuActivity"
+            android:name="theseinitiatives.atma.client.activity.IdentitasIbuActivity"
             android:label="@string/identitas_ibu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activity.TransportasiActivity"
+            android:name="theseinitiatives.atma.client.activity.TransportasiActivity"
             android:label="@string/transportasi"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activity.BankDarahActivity"
+            android:name="theseinitiatives.atma.client.activity.BankDarahActivity"
             android:label="@string/bankdarah"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activity.IdentitasIbuDetailActivity"
+            android:name="theseinitiatives.atma.client.activity.IdentitasIbuDetailActivity"
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activity.nativeform.FormAddIbuActivity"
+            android:name="theseinitiatives.atma.client.activity.nativeform.FormAddIbuActivity"
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activity.nativeform.FormAddBankDarah"
+            android:name="theseinitiatives.atma.client.activity.nativeform.FormAddBankDarah"
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activity.nativeform.FormAddTransportasi"
+            android:name="theseinitiatives.atma.client.activity.nativeform.FormAddTransportasi"
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activity.nativeform.FormRencanaPersalinan"
+            android:name="theseinitiatives.atma.client.activity.nativeform.FormRencanaPersalinan"
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activity.TransportasiDetailActivity"
+            android:name="theseinitiatives.atma.client.activity.TransportasiDetailActivity"
             android:label="@string/title_activity_transportasi_detail"
             android:theme="@style/AppThemeCustomized" />
         <activity
-            android:name=".activity.nativeform.FormStatusPersalinanActivity"
+            android:name="theseinitiatives.atma.client.activity.nativeform.FormStatusPersalinanActivity"
             android:label="@string/title_activity_transportasi_detail"
             android:theme="@style/AppThemeCustomized" />
         <activity
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activity.BankDarahDetailActivity"
+            android:name="theseinitiatives.atma.client.activity.BankDarahDetailActivity"
             android:label="@string/title_activity_bank_darah_detail"
             android:theme="@style/AppThemeCustomized" />
         <activity
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activity.nativeform.FormAddKader"
+            android:name="theseinitiatives.atma.client.activity.nativeform.FormAddKader"
             android:label="@string/title_add_kader"
             android:theme="@style/AppThemeCustomized" />
         <activity
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activity.nativeform.StikerActivity"
+            android:name="theseinitiatives.atma.client.activity.nativeform.StikerActivity"
             android:label="@string/title_add_kader"
             android:theme="@style/AppThemeCustomized"></activity>
         <activity
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".activity.nativeform.FormCloseIbu"
+            android:name="theseinitiatives.atma.client.activity.nativeform.FormCloseIbu"
             android:theme="@style/AppThemeCustomized"></activity>
             android:theme="@style/AppThemeCustomized" />
         <activity
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".Utils.FilterActivity"
+            android:name="theseinitiatives.atma.client.Utils.FilterActivity"
             android:label="@string/title_activity_filter"
             android:theme="@style/popupWindow"></activity>
     </application>
