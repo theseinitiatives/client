@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -27,9 +28,11 @@ import java.util.ArrayList;
 
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
+import tgwofficial.atma.client.Utils.FilterActivity;
 import tgwofficial.atma.client.activity.nativeform.FormAddBankDarah;
 import tgwofficial.atma.client.adapter.BankDarahCursorAdapter;
 import tgwofficial.atma.client.adapter.IdentitasibuCursorAdapter;
+import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
 import tgwofficial.atma.client.model.BankDarahmodel;
 import tgwofficial.atma.client.model.IdentitasModel;
@@ -216,6 +219,27 @@ public class BankDarahActivity extends AppCompatActivity
     }
 
     private void initDropdownSort(){
+        ImageView filterButton = (ImageView) findViewById(R.id.header_filter_icon);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in = new Intent(getApplicationContext(),FilterActivity.class);
+//                in.putExtra("database", (Parcelable) dbManager);
+                Cursor c = dbManager.open().fetchUserData();
+                c.moveToFirst();
+                String pos = c.getString(c.getColumnIndexOrThrow(DbHelper.GROUPS));
+                in.putExtra("iddesa",c.getString(c.getColumnIndexOrThrow(
+                        pos.equals(getString(R.string.bidan))
+                                ? DbHelper.LOCATION_ID
+                                : DbHelper.PARENT_LOCATION
+                        )
+                ));
+                in.putExtra("source",2);
+                dbManager.close();
+                startActivity(in);
+            }
+        });
+
         Spinner dropdownSort = (Spinner) findViewById(R.id.dropdownSort);
         dropdownSort.setAdapter(spinnerAdapter());
         final Context context= this.getApplicationContext();

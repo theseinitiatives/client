@@ -579,6 +579,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                                 : DbHelper.PARENT_LOCATION
                         )
                 ));
+                in.putExtra("source",0);
                 dbManager.close();
                 startActivity(in);
             }
