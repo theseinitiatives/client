@@ -273,8 +273,9 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     dataArray.put(DbHelper.HTP,htpss);
                     dataArray.put(DbHelper.GOL_DARAH,goldarahss);
                     dataArray.put(DbHelper.TELP,notelponss);
-                    dataArray.put(DbHelper.RESIKO,fResiko);
+                    dataArray.put(DbHelper.RESIKO,fResiko!=null?fResiko:"");
                     dataArray.put(DbHelper.GUBUG,gubug);
+                    dataArray.put(DbHelper.NIFAS_SELESAI,"");
                     dataArray.put(DbHelper.TIMESTAMP,System.currentTimeMillis()/1000);
                     if(valueExist(id))
                         dataArray.put(DbHelper.UNIQUEID,getSetUniqueId());
