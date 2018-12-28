@@ -54,11 +54,12 @@
 
 
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="B. Nifas"
-                android:textStyle="bold"/>
+                android:text="KEADAAN IBU"
+                android:textStyle="bold" />
             <LinearLayout android:id="@+id/div_nifas"
                 android:layout_width="fill_parent"
                 android:layout_height="5dp"
@@ -338,36 +339,35 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="32dp"
-                            android:onClick="onRadioButtonClicked"
                             android:text="Perdarahan Berat" />
+
                         <CheckBox
                             android:id="@+id/peb"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="32dp"
-                            android:text="PEB"
-                            android:onClick="onRadioButtonClicked" />
+                            android:text="PEB" />
+
                         <CheckBox
                             android:id="@+id/eklamsi"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="32dp"
-                            android:text="Eklamsia"
-                            android:onClick="onRadioButtonClicked" />
+                            android:text="Eklamsia" />
+
                         <CheckBox
                             android:id="@+id/sepsis"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="32dp"
-                            android:text="Sepsis"
-                            android:onClick="onRadioButtonClicked" />
+                            android:text="Sepsis" />
+
                         <CheckBox
                             android:id="@+id/k_lainnya"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="32dp"
-                            android:text="Lainnya"
-                            android:onClick="onRadioButtonClicked" />
+                            android:text="Lainnya" />
 
 
                     </android.support.design.widget.TextInputLayout>
@@ -492,7 +492,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="32dp"
-                            android:onClick="onRadioButtonClicked"
                             android:text="Prematur" />
 
                         <CheckBox
@@ -500,7 +499,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="32dp"
-                            android:onClick="onRadioButtonClicked"
                             android:text="BBLR" />
 
                         <CheckBox
@@ -508,7 +506,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="32dp"
-                            android:onClick="onRadioButtonClicked"
                             android:text="Asfiksia" />
 
                         <CheckBox
@@ -516,7 +513,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="32dp"
-                            android:onClick="onRadioButtonClicked"
                             android:text="Lainnya" />
 
 

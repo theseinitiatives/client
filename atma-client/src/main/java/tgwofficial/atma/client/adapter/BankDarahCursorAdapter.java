@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import tgwofficial.atma.client.R;
@@ -57,10 +59,12 @@ public class BankDarahCursorAdapter extends BaseAdapter {
         TextView name = (TextView) convertView.findViewById(R.id.name);
         TextView gold = (TextView) convertView.findViewById(R.id.gol_d);
         TextView telp = (TextView) convertView.findViewById(R.id.notelp);
+        TextView dusun = (TextView) convertView.findViewById(R.id.bank_darah_dusun);
 
         name.setText("Nama: "+humanizes( bankDarahmodels.get(position).getNama()));
         gold.setText("Gol Darah: "+humanizes(bankDarahmodels.get(position).getGolds()));
         telp.setText(humanizes("No HP: "+humanizes( bankDarahmodels.get(position).getNomor())));
+        dusun.setText(humanizes("Alamat: "+bankDarahmodels.get(position).getDusun()));
       //  nama_donor.setText(bankDarahmodels.get(position).getPendonor());
 
         final int pos=position;
@@ -69,3 +73,4 @@ public class BankDarahCursorAdapter extends BaseAdapter {
         return convertView;
     }
 }
+fi

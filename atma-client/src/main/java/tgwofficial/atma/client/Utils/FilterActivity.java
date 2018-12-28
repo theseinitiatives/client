@@ -123,6 +123,12 @@ public class FilterActivity extends Activity {
         };
     }
 
+    private String[][] vehicleString(){
+        return new String[][]{
+
+        };
+    }
+
     private String [][]dusunString(){
         dbManager.open();
         dbManager.clearClause();

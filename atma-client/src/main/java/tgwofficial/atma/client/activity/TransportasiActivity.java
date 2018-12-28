@@ -123,11 +123,12 @@ public class TransportasiActivity extends AppCompatActivity
                 String name = c.getString(c.getColumnIndexOrThrow("name"));
                 String jenis = c.getString(c.getColumnIndexOrThrow("jenis_kendaraan"));
                 String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
+                String gubug = c.getString(c.getColumnIndexOrThrow("gubug"));
                 p = new TransportasiModel();
                 p.setId(uid);
                 p.setNama(name);
                 p.setKendaraan(jenis);
-                p.setDusuns(dusun);
+                p.setDusuns(dusun+" / "+gubug);
 
                 transportasiModels.add(p);
             }

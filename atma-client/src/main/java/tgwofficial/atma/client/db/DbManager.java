@@ -439,6 +439,7 @@ public class DbManager {
         String[] columns = new String[] { DbHelper._ID,
                 DbHelper.NAME_PENDONOR,
                 DbHelper.STATUS,
+                DbHelper.DUSUN,
                 DbHelper.GUBUG,
                 DbHelper.GOL_DARAH,
                 DbHelper.TELP,

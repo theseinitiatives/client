@@ -122,6 +122,8 @@ public class BankDarahActivity extends AppCompatActivity
                 String name = c.getString(c.getColumnIndexOrThrow("name_pendonor"));
                 String gol_darah = c.getString(c.getColumnIndexOrThrow("gol_darah"));
                 String hp = c.getString(c.getColumnIndexOrThrow("telp"));
+                String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
+                String gubug = c.getString(c.getColumnIndexOrThrow("gubug"));
                // String pendonors = c.getString(c.getColumnIndexOrThrow("name_pendonor"));
 
 
@@ -130,6 +132,7 @@ public class BankDarahActivity extends AppCompatActivity
                 p.setNama(name);
                 p.setGolds(gol_darah);
                 p.setNomor(hp);
+                p.setDusun(dusun+" / "+gubug);
 
               //  p.setPendonor(pendonors);
 
