@@ -6,6 +6,7 @@ public class BankDarahmodel {
     String golds;
     String nomor ;
     String pendonor ;
+    String dusun;
 
     public BankDarahmodel()
     {
@@ -24,6 +25,14 @@ public class BankDarahmodel {
 
     public void setNama(String nama) {
         this.nama = nama;
+    }
+
+    public String getDusun() {
+        return dusun;
+    }
+
+    public void setDusun(String dusun) {
+        this.dusun = dusun;
     }
 
     public String getGolds() {

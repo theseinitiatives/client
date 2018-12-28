@@ -354,11 +354,11 @@ public class DbManager {
         Cursor c=null;
 
         if(searchTerm != null && searchTerm.length()>0) {
-            c = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.NAME+" LIKE '%"+searchTerm+"%' AND "+DbHelper.NIFAS_SELESAI+"!='ya'", selectionArgs, groupBy, having, orderByASCDESC);
+            c = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.NAME+" LIKE '%"+searchTerm+"%' AND "+DbHelper.NIFAS_SELESAI+"!='ya'", selectionArgs, groupBy, having, orderByASCDESC, limit);
             return c;
         }
 
-        c = database.query(DbHelper.TABLE_NAME_IBU, columns, (selection == null ? "" : selection+" AND ") + DbHelper.NIFAS_SELESAI+"!='ya'", selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_IBU, columns, (selection == null ? "" : selection+" AND ") + DbHelper.NIFAS_SELESAI+"!='ya'", selectionArgs, groupBy, having, orderBy, limit);
         clearClause();
         return c;
     }
@@ -383,7 +383,7 @@ public class DbManager {
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
-        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.IS_SEND +"!=1", null, null, null, orderBy);
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper.IS_SEND +"!=1", null, null, null, orderBy, limit);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -428,7 +428,7 @@ public class DbManager {
                 DbHelper.ID_IBU,
                 DbHelper.STATUS_BERSALIN
         };
-        Cursor cursor = database.query(DbHelper.TABLE_PERSALINAN, col, DbHelper.ID_IBU +" = '" + uniqueId+"'", null, null, null, orderBy);
+        Cursor cursor = database.query(DbHelper.TABLE_PERSALINAN, col, DbHelper.ID_IBU +" = ?" , new String[]{uniqueId}, groupBy, having, orderBy, limit);
         return cursor;
     }
 
@@ -449,11 +449,11 @@ public class DbManager {
         Cursor c=null;
 
         if(searchTerm != null && searchTerm.length()>0) {
-            c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.NAME+" LIKE '%"+searchTerm+"%'", selectionArgs, groupBy, having, orderByASCDESC);
+            c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.NAME+" LIKE '%"+searchTerm+"%'", selectionArgs, groupBy, having, orderByASCDESC, limit);
             return c;
         }
 
-        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, selection, selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
         clearClause();
         return c;
     }
@@ -476,7 +476,7 @@ public class DbManager {
         Cursor c=null;
 
 
-            c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+            c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -486,6 +486,7 @@ public class DbManager {
         String[] columns = new String[] { DbHelper._ID,
                 DbHelper.NAME_PENDONOR,
                 DbHelper.STATUS,
+                DbHelper.DUSUN,
                 DbHelper.GUBUG,
                 DbHelper.GOL_DARAH,
                 DbHelper.TELP,
@@ -495,11 +496,11 @@ public class DbManager {
         Cursor c=null;
 
         if(searchTerm != null && searchTerm.length()>0) {
-            c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.NAME_PENDONOR+" LIKE '%"+searchTerm+"%'", selectionArgs, groupBy, having, orderByASCDESC);
+            c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.NAME_PENDONOR+" LIKE '%"+searchTerm+"%'", selectionArgs, groupBy, having, orderByASCDESC, limit);
             return c;
         }
 
-        c = database.query(DbHelper.TABLE_NAME_BANK, columns, selection, selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_BANK, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
         clearClause();
         return c;
 
@@ -518,7 +519,7 @@ public class DbManager {
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
         Cursor c=null;
-        c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper._ID +"="+id, selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper._ID +"="+id, selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -540,7 +541,7 @@ public class DbManager {
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
         Cursor c=null;
-            c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+            c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -567,7 +568,7 @@ public class DbManager {
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
         Cursor c=null;
-        c = database.query(TABLE_NAME_RENCANA, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+        c = database.query(TABLE_NAME_RENCANA, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -595,7 +596,7 @@ public class DbManager {
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
         Cursor c=null;
-        c = database.query(TABLE_PERSALINAN, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+        c = database.query(TABLE_PERSALINAN, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -683,7 +684,23 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(TABLE_NAME_RENCANA, null, contentValue);
     }
-
+    public void updateRencanaPersalinan(String idIbu, String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.ID_IBU,idIbu);
+        contentValue.put( DbHelper.NAME_PENDONOR,namaDonor);
+        contentValue.put( DbHelper.TEMPAT_PERSALINAN,txt_tempatBersalin);
+        contentValue.put( DbHelper.PENOLONG_PERSALINAN,txt_penolognPersalinan);
+        contentValue.put( DbHelper.PENDAMPING_PERSALINAN,txt_pendampingPersalinan);
+        contentValue.put( DbHelper.HUBUNGAN_DENGAN_IBU,txt_hubunganPemilik);
+        contentValue.put( DbHelper.HUBUNGAN_PENDONOR_IBU,txt_hubunganPendonor);
+        contentValue.put( DbHelper.NAME_PEMILIK,namaTransportasi);
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName());
+        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        database.update(TABLE_NAME_RENCANA, contentValue,DbHelper.ID_IBU,new String[]{idIbu});
+    }
     public void updatebanktransportasi(String id,String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets, long updateid) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.NAME,text_pemiliks);
@@ -759,18 +776,18 @@ public class DbManager {
 
     public Cursor fetchKader(){
         clearClause();
-        return database.query(DbHelper.KADER,DbHelper.KADER_VAR,selection,selectionArgs,groupBy,having,orderBy);
+        return database.query(DbHelper.KADER,DbHelper.KADER_VAR,selection,selectionArgs,groupBy,having,orderBy, limit);
     }
 
     public Cursor fetchUserData(){
         clearClause();
-        return database.query(DbHelper.TABLE_NAME_USER,DbHelper.USER_VARIABLE,selection,selectionArgs,groupBy,having,orderBy);
+        return database.query(DbHelper.TABLE_NAME_USER,DbHelper.USER_VARIABLE,selection,selectionArgs,groupBy,having,orderBy, limit);
     }
 
     public Cursor fetchUserCredential(){
         clearClause();
         String[]var = {"username","password"};
-        return database.query(DbHelper.TABLE_NAME_USER,var,selection,selectionArgs,groupBy,having,orderBy);
+        return database.query(DbHelper.TABLE_NAME_USER,var,selection,selectionArgs,groupBy,having,orderBy, limit);
     }
     public Cursor fetchLocationTree(){
         String[]variable = new String[]{
@@ -779,7 +796,7 @@ public class DbManager {
                 DbHelper.LOCATION_TAG_ID,
                 DbHelper.PARENT_LOCATION
         };
-        return database.query(DbHelper.TABLE_LOCATION_TREE,variable,selection,selectionArgs,groupBy,having,orderBy);
+        return database.query(DbHelper.TABLE_LOCATION_TREE,variable,selection,selectionArgs,groupBy,having,orderBy, limit);
     }
 
     public Cursor fetchdetaildata(String id) {
@@ -856,7 +873,7 @@ public class DbManager {
         String[] columns = new String[] {
                 DbHelper.NAME};
         Cursor c=null;
-        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -866,7 +883,7 @@ public class DbManager {
         String[] columns = new String[] {
                 DbHelper.NAME_PENDONOR};
         Cursor c=null;
-        c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -876,7 +893,7 @@ public class DbManager {
         String[] columns = new String[] {
                 DbHelper.UNIQUEID};
         Cursor c=null;
-        c = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper._ID +"="+id, selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_IBU, columns, DbHelper._ID +"="+id, selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -918,12 +935,16 @@ public class DbManager {
     public void setOrderBy(String args){
         this.orderBy = args;
     }
+    public void setLimit(String args){
+        this.limit = args;
+    }
 
     private String selection = null;
     private String selectionArgs[] = null;
     private String groupBy = null;
     private String having = null;
     private String orderBy = null;
+    private String limit = null;
 
 
     public void updateFlagSycn() {
@@ -1017,7 +1038,7 @@ public class DbManager {
         String[] columns = new String[] {
                 DbHelper.Jenis};
         Cursor c=null;
-        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.NAME +" LIKE '%"+namas+"%'", selectionArgs, groupBy, having, orderBy);
+        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.NAME +" LIKE '%"+namas+"%'", selectionArgs, groupBy, having, orderBy, limit);
         Log.e("JENIS",c.toString());
         if (c != null) {
             c.moveToFirst();

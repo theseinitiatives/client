@@ -62,6 +62,14 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="12sp" />
 
+            <TextView
+                android:id="@+id/bank_darah_dusun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dusun : Mataram"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
         </LinearLayout>
 
 

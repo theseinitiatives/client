@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import tgwofficial.atma.client.AllConstants;
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.IdentitasIbuActivity;
@@ -29,8 +31,19 @@ public class FormRencanaPersalinan extends AppCompatActivity {
     EditText transportasiNama;
     EditText nama_donors;
 
-  //  public static String id;
+    private CheckBox checkBoxSuami;
+    private CheckBox checkBoxOrangTua;
+    private CheckBox checkBoxSaudara;
+    private CheckBox checkBoxMertua;
+    private CheckBox checkBoxLainnya;
 
+    private RadioButton dokter,bidan,dukun,penolongLainnya;
+    private RadioButton rumahSakit,puskesmas,polindes,rumah,tempatLainnya;
+    private RadioButton suami,keluarga,tetangga,pemilikLain;
+    private RadioButton donorSuami,donorSaudara,donorIbu,donorAyah,donorLainnya;
+
+    private AutoCompleteTextView pemilikTransportasi;
+    private AutoCompleteTextView calonPendonor;
 
     String penolongPersalinan;
     String tempatPersalinan;
@@ -55,7 +68,16 @@ public class FormRencanaPersalinan extends AppCompatActivity {
     }
 
     public String getPendampingPersalinan() {
-        return pendampingPersalinan;
+        String temp = ""
+                + (checkBoxSuami.isChecked() ?getString(R.string.suami)+"," : "")
+                + (checkBoxOrangTua.isChecked() ?getString(R.string.ortu)+"," : "")
+                + (checkBoxSaudara.isChecked() ?getString(R.string.saudara)+"," : "")
+                + (checkBoxMertua.isChecked() ?getString(R.string.mertua)+ "," : "")
+                + (checkBoxLainnya.isChecked() ?getString(R.string.lainnya)+ "," : "")
+                ;
+        if(temp.length()>1)
+            temp = temp.substring(0,temp.length()-1);
+        return temp;
     }
 
     public void setPendampingPersalinan(String pendampingPersalinan) {
@@ -87,7 +109,36 @@ public class FormRencanaPersalinan extends AppCompatActivity {
         dbManager = new DbManager(this);
         final String idIbu = getIntent().getStringExtra("id");
 
+        dokter = (RadioButton) findViewById(R.id.dokter);
+        bidan = (RadioButton) findViewById(R.id.bidan);
+        dukun = (RadioButton) findViewById(R.id.dukun);
+        penolongLainnya = (RadioButton) findViewById(R.id.lainnya);
 
+        rumahSakit = (RadioButton) findViewById(R.id.rs);
+        puskesmas = (RadioButton) findViewById(R.id.puskesmas);
+        polindes = (RadioButton) findViewById(R.id.polindes);
+        rumah = (RadioButton) findViewById(R.id.rumah);
+        tempatLainnya = (RadioButton) findViewById(R.id.tempat_lainnya);
+
+        suami = (RadioButton) findViewById(R.id.hub_suami);
+        keluarga = (RadioButton) findViewById(R.id.anggota);
+        tetangga = (RadioButton) findViewById(R.id.tetangga);
+        pemilikLain = (RadioButton) findViewById(R.id.hub_lainnya);
+
+        donorSuami = (RadioButton) findViewById(R.id.pend_suami);
+        donorSaudara = (RadioButton) findViewById(R.id.pend_saudara);
+        donorIbu = (RadioButton) findViewById(R.id.pend_ibu);
+        donorAyah = (RadioButton) findViewById(R.id.pend_ayah);
+        donorLainnya = (RadioButton) findViewById(R.id.pend_lainnya);
+
+        pemilikTransportasi = (AutoCompleteTextView) findViewById(R.id.transportsis);
+        calonPendonor = (AutoCompleteTextView) findViewById(R.id.calon_pendonor);
+
+        checkBoxSuami = (CheckBox) findViewById(R.id.suami);
+        checkBoxOrangTua = (CheckBox) findViewById(R.id.ortu);
+        checkBoxMertua = (CheckBox) findViewById(R.id.mertua);
+        checkBoxSaudara = (CheckBox) findViewById(R.id.saudara);
+        checkBoxLainnya = (CheckBox) findViewById(R.id.pendamping_lainnya);
        // dbManager.open();
        // nama_donors = (EditText) findViewById(R.id.calon_pendonor);
       //  transportasiNama = (EditText) findViewById(R.id.transportsis);
@@ -101,6 +152,11 @@ public class FormRencanaPersalinan extends AppCompatActivity {
         uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
         Log.e("UNIQUE======",uniqueId);
 
+        Cursor cur = dbManager.fetchRencanaPersalinan(uniqueId);
+        cur.moveToFirst();
+        Log.e("Length of cursor",""+cur.getCount());
+        if(cur.getCount()>0)
+            preloadForm(cur);
 
         //==========================
         // Search Nama Pemilik
@@ -218,29 +274,11 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                 break;
             case R.id.rumah:
                 if (checked)
-                    setPenolongPersalinan("rumah");
+                    setTempatPersalinan("rumah");
                 break;
             case R.id.tempat_lainnya:
                 if (checked)
-                    setPenolongPersalinan("lainnya");
-                break;
-            case R.id.suami:
-                if (checked)
-                    setPendampingPersalinan("suami");
-                break;
-            case R.id.ortu:
-                if (checked)
-                    setPendampingPersalinan("orangTua");
-                break;
-
-            case R.id.saudara:
-                if (checked)
-                    setPendampingPersalinan("saudara");
-                break;
-
-            case R.id.hub_lainnya:
-                if (checked)
-                    setPendampingPersalinan("lainnya");
+                    setTempatPersalinan("lainnya");
                 break;
 
             case R.id.hub_suami:
@@ -251,6 +289,16 @@ public class FormRencanaPersalinan extends AppCompatActivity {
             case R.id.anggota:
                 if (checked)
                     setHubunganPemilik("anggotaKeluarga");
+                break;
+
+            case R.id.tetangga:
+                if (checked)
+                    setHubunganPemilik("tetangga");
+                break;
+
+            case R.id.hub_lainnya:
+                if (checked)
+                    setHubunganPemilik("lainnya");
                 break;
 
             case R.id.pend_suami:
@@ -276,7 +324,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
 
 
 
-        }
+            }
         }
 
     public String[] getNamaPemilik() {
@@ -317,6 +365,78 @@ public class FormRencanaPersalinan extends AppCompatActivity {
         // return languagess;
     }
 
+    private void preloadForm(Cursor c){
+        if(c==null)
+            return;
+        String penolongPersalinan = c.getString(c.getColumnIndexOrThrow(DbHelper.PENOLONG_PERSALINAN));
+        String tempatPersalinan = c.getString(c.getColumnIndexOrThrow(DbHelper.TEMPAT_PERSALINAN));
+        String pendampingPersalinan = c.getString(c.getColumnIndexOrThrow(DbHelper.PENDAMPING_PERSALINAN));
+        String hubunganIbu = c.getString(c.getColumnIndexOrThrow(DbHelper.HUBUNGAN_DENGAN_IBU));
+        String namePendonor = c.getString(c.getColumnIndexOrThrow(DbHelper.NAME_PENDONOR));
+        String pemilikKendaraan = c.getString(c.getColumnIndexOrThrow(DbHelper.NAME_PEMILIK));
+        String hubunganPendonor = c.getString(c.getColumnIndexOrThrow(DbHelper.HUBUNGAN_PENDONOR_IBU));
+
+        checkPenolongPersalinan(penolongPersalinan);
+        checkTempatBersalin(tempatPersalinan);
+        checkPendampingPersalinan(pendampingPersalinan);
+        pemilikTransportasi.setText(pemilikKendaraan);
+        checkPemilikTransportasi(hubunganIbu);
+        calonPendonor.setText(namePendonor);
+        checkDonor(hubunganPendonor);
+
+    }
+
+    private void checkPenolongPersalinan(String value){
+        switch (value){
+            case "dokter" : dokter.setChecked(true);break;
+            case "bidan" : bidan.setChecked(true);break;
+            case "dukun" : dukun.setChecked(true);break;
+            case "lainnya" : penolongLainnya.setChecked(true);break;
+        }
+    }
+
+    private void checkTempatBersalin(String value){
+        switch (value){
+            case "rumahsakit" : rumahSakit.setChecked(true);break;
+            case "polindes" : polindes.setChecked(true);break;
+            case "puskesmas" : puskesmas.setChecked(true);break;
+            case "rumah" : rumah.setChecked(true);break;
+            case "lainnya" : tempatLainnya.setChecked(true);break;
+        }
+    }
+
+    private void checkPendampingPersalinan(String value){
+        if(value.contains(getString(R.string.suami)))
+            checkBoxSuami.setChecked(true);
+        if(value.contains(getString(R.string.ortu)))
+            checkBoxOrangTua.setChecked(true);
+        if(value.contains(getString(R.string.mertua)))
+            checkBoxMertua.setChecked(true);
+        if(value.contains(getString(R.string.saudara)))
+            checkBoxSaudara.setChecked(true);
+        if(value.contains(getString(R.string.lainnya)))
+            checkBoxLainnya.setChecked(true);
+    }
+
+    private void checkPemilikTransportasi(String value){
+        switch (value){
+            case "suami" : suami.setChecked(true);break;
+            case "anggotaKeluarga" : keluarga.setChecked(true);break;
+            case "tetangga" : tetangga.setChecked(true);break;
+            case "lainnya" : pemilikLain.setChecked(true);break;
+        }
+    }
+
+    private void checkDonor(String value){
+        switch (value){
+            case "suami" : donorSuami.setChecked(true);break;
+            case "saudara" : donorSaudara.setChecked(true);break;
+            case "ibu" : donorIbu.setChecked(true);break;
+            case "ayah" : donorAyah.setChecked(true);break;
+            case "lainnya" : donorLainnya.setChecked(true);break;
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -325,4 +445,6 @@ public class FormRencanaPersalinan extends AppCompatActivity {
         navi.backtoIbu();
 
     }
+
+
 }

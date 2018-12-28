@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -27,6 +29,7 @@ import tgwofficial.atma.client.db.DbHelper;
 import tgwofficial.atma.client.db.DbManager;
 
 import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
 public class FormStatusPersalinanActivity extends AppCompatActivity {
@@ -39,10 +42,18 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
     String   nifasberakhir;
     LinearLayout layout_nifas;
     EditText jumlahBayi;
-    EditText jenisKelamin;
+    String jenisKelamin;
     LinearLayout lay_tempat;
     LinearLayout lay_ibu;
     LinearLayout lay_anak;
+    String   tempatBersalin;
+    String   komplikasiIbu;
+    String   komplikasiAnak;
+    AutoCompleteTextView resikoIbuLainnya, resikoAnakLainnya;
+
+    CheckBox ibuPendarahanBerat, ibuPEB, ibuEklampsia, ibuSepsis, ibuResikoLainnya;
+    CheckBox bayiPrematur, bayiBBLR, bayiAsfiksia, bayiResikoLainnya;
+
 
     public String getTempatBersalin() {
         return tempatBersalin;
@@ -52,7 +63,24 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
         this.tempatBersalin = tempatBersalin;
     }
 
+    public String getJenisKelamin() {
+        return jenisKelamin;
+    }
+
+    public void setJenisKelamin(String value) {
+        jenisKelamin = value;
+    }
+
     public String getKomplikasiIbu() {
+        komplikasiIbu = ""+
+                (ibuPendarahanBerat.isChecked() ? "pendarahan," : "")+
+                (ibuPEB.isChecked() ? "peb," : "")+
+                (ibuEklampsia.isChecked() ? "eklampsia," : "")+
+                (ibuSepsis.isChecked() ? "sepsis," : "")+
+                (ibuResikoLainnya.isChecked() ?  resikoIbuLainnya.getText()+",": "")
+        ;
+        if(komplikasiIbu.length()>3)
+            komplikasiIbu = komplikasiIbu.substring(0,komplikasiIbu.length()-1);
         return komplikasiIbu;
     }
 
@@ -61,6 +89,14 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
     }
 
     public String getKomplikasiAnak() {
+        komplikasiAnak = ""+
+                (bayiPrematur.isChecked() ? "prematur," : "")+
+                (bayiBBLR.isChecked() ? "bblr," : "")+
+                (bayiAsfiksia.isChecked() ? "asfiksia," : "")+
+                (bayiResikoLainnya.isChecked() ?  resikoAnakLainnya.getText()+",": "")
+        ;
+        if(komplikasiAnak.length()>3)
+            komplikasiAnak = komplikasiAnak.substring(0,komplikasiAnak.length()-1);
         return komplikasiAnak;
     }
 
@@ -68,9 +104,6 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
         this.komplikasiAnak = komplikasiAnak;
     }
 
-    String   tempatBersalin;
-    String   komplikasiIbu;
-    String   komplikasiAnak;
 
 
     public String getNifasberakhir() {
@@ -152,7 +185,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
         lay_anak = (LinearLayout) findViewById(R.id.anak_layout);
       //  htps = (EditText) findViewById(R.id.htp);
         jumlahBayi = (EditText) findViewById(R.id.jumlah);
-        jenisKelamin = (EditText) findViewById(R.id.jenis_kel);
+       //        jenisKelamin = (EditText) findViewById(R.id.jenis_kel);
         jumlahBayi = (EditText) findViewById(R.id.jumlah);
 
         dbManager = new DbManager(this);
@@ -196,7 +229,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String jumlahBayis = jumlahBayi.getText().toString();
-                String jenisKelamins = jenisKelamin.getText().toString();
+                String jenisKelamins = getJenisKelamin();
                 String tgl_persalinn = tgl_bersalin.getText().toString();
                 String radioStatus2 = getStatuss2();
                 String ibubersalin = getStatusibu();
@@ -275,6 +308,15 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                     setKondisianak("meninggal");
                 break;
 
+                // set gender
+            case R.id.lakilaki:
+                if (checked)
+                    setJenisKelamin("laki-laki");
+                break;
+            case R.id.perempuan:
+                if (checked)
+                    setJenisKelamin("perempuan");
+                break;
 
                 //set tempat
             case R.id.rs:
@@ -300,49 +342,49 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                 break;
 
                 //set komlikasi
-            case R.id.perdarahan:
-                if (checked)
-                    setKomplikasiIbu("perdarahan berat");
-                break;
-            case R.id.peb:
-                if (checked)
-                    setKomplikasiIbu("peb");
-                break;
-            case R.id.eklamsi:
-                if (checked)
-                    setKomplikasiIbu("eklamsi");
-                break;
-            case R.id.sepsis:
-                if (checked)
-                    setKomplikasiIbu("sepsis");
-                break;
-            case R.id.k_lainnya:
-                if (checked) {
-                    setKomplikasiIbu("lainnya");
-                    lay_ibu.setVisibility(VISIBLE);
-                }
-                else
-                    lay_ibu.setVisibility(VISIBLE);
-                break;
+//            case R.id.perdarahan:
+//                if (checked)
+//                    setKomplikasiIbu("perdarahan berat");
+//                break;
+//            case R.id.peb:
+//                if (checked)
+//                    setKomplikasiIbu("peb");
+//                break;
+//            case R.id.eklamsi:
+//                if (checked)
+//                    setKomplikasiIbu("eklamsi");
+//                break;
+//            case R.id.sepsis:
+//                if (checked)
+//                    setKomplikasiIbu("sepsis");
+//                break;
+//            case R.id.k_lainnya:
+//                if (checked) {
+//                    setKomplikasiIbu("lainnya");
+//                    lay_ibu.setVisibility(VISIBLE);
+//                }
+//                else
+//                    lay_ibu.setVisibility(VISIBLE);
+//                break;
 
                 //set komplikasi anak
-            case R.id.prem:
-                if (checked)
-                    setKomplikasiAnak("prematur");
-                break;
-            case R.id.bblr:
-                if (checked)
-                    setKomplikasiAnak("bblr");
-                break;
-            case R.id.asfiksia:
-                if (checked)
-                    setKomplikasiAnak("asfiksia");
-                break;
-            case R.id.k_babylainnya:
-                if (checked)
-                    setKomplikasiAnak("lainnya");
-                    lay_anak.setVisibility(VISIBLE);
-                break;
+//            case R.id.prem:
+//                if (checked)
+//                    setKomplikasiAnak("prematur");
+//                break;
+//            case R.id.bblr:
+//                if (checked)
+//                    setKomplikasiAnak("bblr");
+//                break;
+//            case R.id.asfiksia:
+//                if (checked)
+//                    setKomplikasiAnak("asfiksia");
+//                break;
+//            case R.id.k_babylainnya:
+//                if (checked)
+//                    setKomplikasiAnak("lainnya");
+//                    lay_anak.setVisibility(VISIBLE);
+//                break;
         }
     }
 
@@ -354,4 +396,22 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
 
     }
 
+    public void onCheckBoxClicked(View view) {
+        boolean checked = ((CheckBox)view).isChecked();
+
+        switch (view.getId()){
+            case R.id.k_lainnya:
+                if(checked)
+                    lay_ibu.setVisibility(VISIBLE);
+                else
+                    lay_ibu.setVisibility(INVISIBLE);
+            break;
+            case R.id.k_babylainnya:
+                if(checked)
+                    lay_anak.setVisibility(VISIBLE);
+                else
+                    lay_anak.setVisibility(INVISIBLE);
+                break;
+        }
+    }
 }

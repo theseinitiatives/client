@@ -75,7 +75,7 @@
     <string name="ortu">Orang Tua</string>
     <string name="saudara">Saudara</string>
     <string name="anggota_keluarga">Anggota Keluarga</string>
-    <string name="tetannga">Tetangga</string>
+    <string name="tetangga">Tetangga</string>
     <string name="ibu">Ibu</string>
     <string name="ayah">Ayah</string>
     <string name="calon_pendonor">Calon Pendonor</string>
@@ -94,5 +94,19 @@
     <string name="jumlah_bayi">Jumlah Bayi</string>
     <string name="jenis_kel">Jenis Kelamin</string>
     <string name="komplikasi_bayi">komplikasi bayi baru lahir</string>
+    <string name="mertua">Mertua</string>
     <string name="nohpibu">No Hp Ibu:</string>
+    <string name="kek">KEK</string>
+    <string name="anemia">Anemia</string>
+    <string name="terlalu_muda">Terlalu Muda</string>
+    <string name="terlalu_tua">Terlalu Tua</string>
+    <string name="gravida_banyak">Gravida Banyak</string>
+    <string name="dokter">dokter</string>
+    <string name="bidan">bidan</string>
+    <string name="dukun">dukun</string>
+    <string name="rumah_sakit">rumahsakit</string>
+    <string name="puskesmas">puskesmas</string>
+    <string name="polindes">polindes</string>
+    <string name="rumah">rumah</string>
+
 </resources>

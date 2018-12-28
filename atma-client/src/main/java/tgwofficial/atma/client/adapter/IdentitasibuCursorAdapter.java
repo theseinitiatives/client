@@ -2,6 +2,7 @@ package tgwofficial.atma.client.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,13 +70,18 @@ public class IdentitasibuCursorAdapter extends BaseAdapter {
 
         fotoIbu.setImageResource(
                 identitasModels.get(position).getHaveBirth() ?
-                R.drawable.icon_mother48 : R.drawable.icon_pregnant48
+                        R.drawable.icon_mother48 :
+                        R.drawable.icon_pregnant48
         );
 
         if(identitasModels.get(position).getResiko()!=null) {
-            if (identitasModels.get(position).getResiko().length() > 2)
-               // convertView.setBackgroundColor(0xFFFF0000);
+            System.out.println(identitasModels.get(position).getNama()+" : "+identitasModels.get(position).getResiko().length()+" -> "+identitasModels.get(position).getResiko());
+            if (identitasModels.get(position).getResiko().length() > 2) {
+                // convertView.setBackgroundColor(0xFFFF0000);
                 lin.setBackgroundColor(Color.MAGENTA);
+            }else{
+                lin.setBackgroundColor(0xf7efd5);
+            }
         }
 
         final int pos=position;

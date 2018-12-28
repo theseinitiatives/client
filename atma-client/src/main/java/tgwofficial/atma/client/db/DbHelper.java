@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class DbHelper  extends SQLiteOpenHelper {
 
@@ -333,13 +334,18 @@ public class DbHelper  extends SQLiteOpenHelper {
       //  insertDummy(db,"Siti"," Adawiyah"," Patient Baru");
       //  insertDummy(db,"Moya", "Dyah", "Patient Baru");
 
+
+//        for(int i=0;i<5000;i++) {
+//            insertDummy(db, UUID.randomUUID().toString(),"Siti "+i, " Adawiyah "+i, "Menges","2018-01-01","2018-10-11","1970-01-01","12", "A-positif","");
+//            insertDummy(db, UUID.randomUUID().toString(),"Moya "+i, "Dyah "+i, "Selebung Daye","2018-01-01","2018-10-11","1970-01-01","12", "O-negatif","");
+//        }
     }
 
-    private static void insertDummy(SQLiteDatabase db, String data,String data2, String data3) {
-        db.execSQL("INSERT INTO " + TABLE_NAME_IBU + " (" + NAME+","+SPOUSENAME+","+STATUS
-                + ") VALUES ('" + data + "','"+data2+"','"+data3+"');");
-        db.execSQL("INSERT INTO " + TABLE_NAME_TRANS + " (" + NAME+","+Jenis+") VALUES ('" + data + "','"+"mobil"+"');");
-        db.execSQL("INSERT INTO " + TABLE_NAME_BANK + " (" + NAME_PENDONOR+","+GOL_DARAH+") VALUES ('" + data + "','"+"a - positif"+"');");
+    private static void insertDummy(SQLiteDatabase db, String uid, String data,String data2, String data3, String data4, String data5, String data6, String data7, String data8, String data9) {
+        db.execSQL("INSERT INTO " + TABLE_NAME_IBU + " (" + UNIQUEID+", "+ NAME+","+SPOUSENAME+","+DUSUN+","+HPHT+","+HTP+","+TGL_LAHIR+","+GUBUG+","+GOL_DARAH+","+NIFAS_SELESAI
+                + ") VALUES ('" +uid+"','"+ data + "','"+data2+"','"+data3+"','"+data4+"','"+data5+"','"+data6+"','"+data7+"','"+data8+"','"+data9+"');");
+        db.execSQL("INSERT INTO " + TABLE_NAME_TRANS + " (" + UNIQUEID+", "+ NAME+","+Jenis+") VALUES ('" +uid+"','"+ data + "','"+"mobil"+"');");
+        db.execSQL("INSERT INTO " + TABLE_NAME_BANK + " (" + UNIQUEID+", "+ NAME_PENDONOR+","+GOL_DARAH+") VALUES ('" +uid+"','"+ data + "','"+"a - positif"+"');");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

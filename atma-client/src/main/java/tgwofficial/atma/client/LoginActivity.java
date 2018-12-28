@@ -61,9 +61,6 @@ public class LoginActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 String username = edtUsername.getText().toString();
                 String password = edtPassword.getText().toString();
-
-
-
                 //validate form
                 if(validateLogin(username, password)){
                     Retrofit retrofit = new Retrofit.Builder()
