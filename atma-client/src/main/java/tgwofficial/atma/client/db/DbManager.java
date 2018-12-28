@@ -249,8 +249,12 @@ public class DbManager {
                 List<IbuData> ibuDataListed = new ArrayList<>(Arrays.asList(ibuData));
                 for (IbuData listIbuData : ibuDataListed) {
                     contentValue.put(DbHelper.UNIQUEID, listIbuData.getUnique_id());
-                    contentValue.put(DbHelper.ALASAN, listIbuData.getName());
-                    contentValue.put(DbHelper.NIFAS_SELESAI, listIbuData.getSpousename());
+                    contentValue.put(DbHelper.ALASAN, listIbuData.getAlasan());
+                    contentValue.put(DbHelper.NIFAS_SELESAI, listIbuData.getNifas_selesai());
+                    if(getUniqueID(listIbuData.getUnique_id(),"transportasi")!=null){
+                        database.update(DbHelper.TABLE_NAME_IBU, contentValue,"unique_id = ?",new String[]{listIbuData.getUnique_id()});
+
+                    }
                     database.insert(DbHelper.TABLE_CLOSE, null, contentValue);
 
                 }
