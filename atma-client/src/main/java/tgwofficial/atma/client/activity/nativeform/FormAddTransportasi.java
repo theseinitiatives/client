@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.activity.BankDarahActivity;
@@ -119,15 +122,6 @@ public class FormAddTransportasi extends AppCompatActivity {
                 String jeniss = getJenis();
                 String UUID = java.util.UUID.randomUUID().toString();
 
-                //add into sync tablescontentValue.put(  DbHelper.UNIQUEID, uuid);
-                //        contentValue.put( DbHelper.NAME,text_pemiliks);
-                //        contentValue.put( DbHelper.TELP,text_nohp);
-                //        contentValue.put( DbHelper.Jenis,jenis);
-                //        contentValue.put( DbHelper.GUBUG,text_gubug);
-                //        contentValue.put( DbHelper.Kapasitas,text_kapasitass);
-                //        contentValue.put( DbHelper.DUSUN,text_dusuns);
-                //        contentValue.put( DbHelper.PROFESI,text_profesis);
-                //        contentValue.put( DbHelper.KET,text_kets);
                 JSONObject dataArray = new JSONObject();
                 try {
                     dataArray.put(DbHelper.NAME, text_pemiliks);
@@ -138,6 +132,7 @@ public class FormAddTransportasi extends AppCompatActivity {
                     dataArray.put(DbHelper.DUSUN,text_dusuns);
                     dataArray.put(DbHelper.PROFESI,text_profesis);
                     dataArray.put(DbHelper.KET,text_kets);
+                    dataArray.put(DbHelper.TIMESTAMP,System.currentTimeMillis()/1000);
                     if(id!=null)
                         dataArray.put(DbHelper.UNIQUEID,getSetUniqueId());
                     else

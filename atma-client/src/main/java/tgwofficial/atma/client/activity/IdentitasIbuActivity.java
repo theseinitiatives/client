@@ -74,6 +74,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
     ArrayList<IdentitasModel> identitasModels=new ArrayList<>();
     String userId= "";
     String locaId = "";
+    long upId;
+    String locas;
     private boolean firstRun = true;
 
 
@@ -104,6 +106,13 @@ public class IdentitasIbuActivity extends AppCompatActivity
             }
         });
         initDropdownSort();
+
+        dbManager.open();
+        String updateID = dbManager.getlatestUpdateId();
+         upId = Long.parseLong(updateID);
+         locas = dbManager.getlocName();
+
+        dbManager.close();
         /*String extra = getIntent().getStringExtra("login status");
 
         if(extra!=null){
@@ -451,18 +460,16 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 String res = response.toString();
                 Log.e("DEMO", "post submitted to API." + response);
                 Log.e(TAG, "onResponse: " +response.code());
-                /*if (response.code()==201){
+                if (response.code()==201){
                     updateSyncFlagIbu();
-                    updateSyncFlagTrans();
-                    updateSyncFlagBank();
-                }*/
-               // pulldata();
+                }
+                pulldata();
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.e("DEMO", "Unable to submit post to API.",t);
                 Log.e("call", String.valueOf(call));
-               // pulldata();
+               pulldata();
             }
         });
 
@@ -471,19 +478,10 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
     private void updateSyncFlagIbu() {
         dbManager.open();
-        dbManager.updateFlagIbu();
+        dbManager.updateFlagSycn();
         dbManager.close();
     }
-    private void updateSyncFlagTrans() {
-        dbManager.open();
-        dbManager.updateFlagTrans();
-        dbManager.close();
-    }
-    private void updateSyncFlagBank() {
-        dbManager.open();
-        dbManager.updateFlagBank();
-        dbManager.close();
-    }
+
 
     public JSONArray alldata_formatToJson() {
         dbManager.open();
@@ -517,149 +515,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
     }
 
 
-    public JSONArray ibudata_formatToJson()
-    {
-        dbManager.open();
-        //pull all identitasibu data from local db
-        Cursor cursor = dbManager.fetchUnSyncIbu();
-        // String data = dbManager.formatToJson(cursor).toString();
-        //JSONArray resultSet     = new JSONArray();
-
-        JSONArray resultSet = new JSONArray();
-        JSONArray resultSet2 = new JSONArray();
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            int totalColumn = cursor.getColumnCount();
-            resultSet = new JSONArray();
-            JSONObject rowObject = new JSONObject();
-            JSONObject rowObject2 = new JSONObject();
-            for (int i = 0; i < totalColumn; i++) {
-
-                if (cursor.getColumnName(i) != null) {
-                    try {
-                        rowObject2.put("form_name","identitas_ibu");
-                        if(cursor.getColumnName(i).equalsIgnoreCase("user_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        if(cursor.getColumnName(i).equalsIgnoreCase("location_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        if(cursor.getColumnName(i).equalsIgnoreCase("update_id")){
-                            rowObject2.put(cursor.getColumnName(i), cursor.getString(i));
-                        }
-                        rowObject.put(cursor.getColumnName(i), cursor.getString(i));
-                    } catch (Exception e) {
-                        Log.d(TAG, e.getMessage());
-                    }
-                }
-
-            }
-            resultSet.put(rowObject);
-
-            try{
-                rowObject2.put("data",resultSet);
-            } catch (Exception e) {
-                Log.d(TAG, e.getMessage());
-            }
-            resultSet2.put(rowObject2);
-            dbManager.open();
-            cursor.moveToNext();
-        }
-
-        cursor.close();
-        dbManager.close();
-        Log.e(TAG, "ibudata_formatToJson: "+resultSet2.toString());
-        return resultSet2;
-
-
-        //example expected result
-
-                    /*	update_id: update_id,
-                        form_name: nama_table1,
-                        location_id: location_id,
-                        user_id: user_id
-                        data: {
-                            table1_id: …,
-                            data_lain: …,
-                            data_lain: ...
-                     },
-
-                    },
-*/
-
-    }
-
-
-    public JSONArray bankDarah_formatToJson()
-    {
-        dbManager.open();
-        //pull all identitasibu data from local db
-        Cursor cursor = dbManager.fetchUnsyncBankDarah();
-        // String data = dbManager.formatToJson(cursor).toString();
-        //JSONArray resultSet     = new JSONArray();
-
-        JSONArray resultSet = new JSONArray();
-        JSONArray resultSet2 = new JSONArray();
-        JSONObject rowObject2 = new JSONObject();
-
-        //  resultSet.put();
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-        try
-        {
-            int totalColumn = cursor.getColumnCount();
-            JSONObject rowObject = new JSONObject();
-            //looping data
-            Log.i("COUNT",""+totalColumn);
-            for( int i=0 ;  i< totalColumn ; i++ )
-            {
-                /***
-                 * TODO
-                 * SET THE DATA FROM TABLE*/
-                rowObject2.put("user_id",userId);
-                rowObject2.put("location_id",locaId);
-                rowObject2.put("form_name","bank_darah");
-                rowObject2.put("update_id",System.currentTimeMillis());
-                // Log.i("ASDASD",resultSet2.toString());
-
-                if( cursor.getColumnName(i) != null )
-                {
-
-
-                    if( cursor.getString(i) != null )
-                    {
-                        Log.d("TAG_NAME", cursor.getString(i) );
-                        rowObject.put(cursor.getColumnName(i) ,  cursor.getString(i) );
-                    }
-                    else
-                    {
-                        rowObject.put( cursor.getColumnName(i) ,  "" );
-                    }
-
-                }
-
-                resultSet2.put(rowObject2);
-                rowObject2.put("data",resultSet);
-
-
-            }
-
-            resultSet.put(rowObject);
-            cursor.moveToNext();
-        }
-        catch( Exception e )
-        {
-            Log.d("TAG_NAME", e.getMessage()  );
-        }
-         }
-        cursor.close();
-        dbManager.close();
-        return resultSet2;
-    }
 
     public void pulldata() {
+        Log.e("pull data====",locas + upId);
         /***
          * *doing first pull data
          *
@@ -667,24 +525,21 @@ public class IdentitasIbuActivity extends AppCompatActivity
          * TODO
          * SEPARATE SYNC BETWEEN FIRST PULL AND UPDATE PULL
          * =================================================*/
-        if(true)
-            return;
-        dbManager.open();
-        String updateID = dbManager.getlatestUpdateId();
-        long upId = Long.parseLong(updateID);
+        /*if(true)
+            return;*/
 
-        String locas = dbManager.getlocName();
         mService.getData(locas,upId,100).enqueue(new Callback<List<ApiModel>>() {
             @Override
             public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
 
                 if(response.isSuccessful()) {
                     dbManager.open();
+                    Log.e("RESPONSE-----", response.body().toString());
                     dbManager.saveTodb2(response.body(),null);
                     dbManager.close();
                     Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
                             Toast.LENGTH_LONG).show();
-                  //  Log.i("PULLING", response.body());
+                    Log.e("PULLING", response.body().toString());
                   //  mAdapter.updateAnswers(response.body().getItems());
                     Log.d("MainActivity", "posts loaded from API");
                 }else {
@@ -699,6 +554,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             @Override
             public void onFailure(Call<List<ApiModel>> call, Throwable t) {
                // showErrorMessage();
+                Log.e("PULLING", "FAIL===");
                 Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
                         Toast.LENGTH_LONG).show();
                 Log.d("MainActivity", "error loading from API"+t);

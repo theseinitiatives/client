@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                 String password = edtPassword.getText().toString();
 
 
-               
+
                 //validate form
                 if(validateLogin(username, password)){
                     Retrofit retrofit = new Retrofit.Builder()

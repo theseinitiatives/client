@@ -33,6 +33,12 @@ public class IbuData {
     @SerializedName("dusun")
     @Expose
     private String dusun;
+    @SerializedName("gubug")
+    @Expose
+    private String gubug;
+
+
+
     @SerializedName("hpht")
     @Expose
     private String hpht;
@@ -79,6 +85,14 @@ public class IbuData {
     @Expose
     private String timestamp;
 
+
+    public String getGubug() {
+        return gubug;
+    }
+
+    public void setGubug(String gubug) {
+        this.gubug = gubug;
+    }
     public String getId() {
         return id;
     }

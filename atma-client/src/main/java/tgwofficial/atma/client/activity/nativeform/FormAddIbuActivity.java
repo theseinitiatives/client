@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -215,7 +216,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 String mothername = mother_names.getText().toString();
                 String husbandname = husband_names.getText().toString();
                 String dobss = AllConstants.convertToYYYYMMDD(dobs.getText().toString());
-                String gubugss = dusun.getText().toString();
+                String dusunss = dusun.getText().toString();
                 String hphtss = AllConstants.convertToYYYYMMDD(hphts.getText().toString());
 
                 String goldarahss = getDarah() + " - "+getRhesus();
@@ -242,20 +243,21 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     Log.d("TAG_NAME", e.getMessage()  );
                 }
 
-
+             //   Date currentTime = Calendar.getInstance().getTime();
                 //add into sync tables
                 JSONObject dataArray = new JSONObject();
                 try {
                     dataArray.put(DbHelper.NAME, mothername);
                     dataArray.put(DbHelper.SPOUSENAME,husbandname);
                     dataArray.put(DbHelper.TGL_LAHIR,dobss);
-                    dataArray.put(DbHelper.GUBUG,gubugss);
+                    dataArray.put(DbHelper.DUSUN,dusunss);
                     dataArray.put(DbHelper.HPHT,hphtss);
                     dataArray.put(DbHelper.HTP,htpss);
                     dataArray.put(DbHelper.GOL_DARAH,goldarahss);
                     dataArray.put(DbHelper.TELP,notelponss);
                     dataArray.put(DbHelper.RESIKO,fResiko);
                     dataArray.put(DbHelper.GUBUG,gubug);
+                    dataArray.put(DbHelper.TIMESTAMP,System.currentTimeMillis()/1000);
                     if(valueExist(id))
                         dataArray.put(DbHelper.UNIQUEID,getSetUniqueId());
                     else
@@ -276,7 +278,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     dbManager.open();
                     if(valueExist(id)) {
                         //update ibu main tables
-                        dbManager.updateIbu(id, mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, "", notelponss, radioStatus2, fResiko, gubug, "", System.currentTimeMillis());
+                        dbManager.updateIbu(id, mothername, husbandname, dobss, dusunss, hphtss, htpss, goldarahss, "", notelponss, radioStatus2, fResiko, gubug, "", System.currentTimeMillis());
                         //add into sync tables
 
                         dbManager.insertsyncTable("identitas_ibu_edit",System.currentTimeMillis(),dataArray.toString(),0,0);
@@ -284,7 +286,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     }
                     else {
                         //insert new data
-                        dbManager.insertibu(UUID, mothername, husbandname, dobss, gubugss, hphtss, htpss, goldarahss, "", notelponss, radioStatus2, fResiko, gubug, "",System.currentTimeMillis());
+                        dbManager.insertibu(UUID, mothername, husbandname, dobss, dusunss, hphtss, htpss, goldarahss, "", notelponss, radioStatus2, fResiko, gubug, "",System.currentTimeMillis());
                         dbManager.insertsyncTable("identitas_ibu", System.currentTimeMillis(), dataArray.toString(), 0, 0);
                     }
                     dbManager.close();
@@ -295,9 +297,9 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 }
 
                 //validate form
-              //  if(validateinput(mothername,husbandname,dobss,gubugss,hphtss,htpss,goldarahss,kaderss,notelponss,radioStatus,radioStatus2)){
+              //  if(validateinput(mothername,husbandname,dobss,dusunss,hphtss,htpss,goldarahss,kaderss,notelponss,radioStatus,radioStatus2)){
                   //  dbManager.open();
-                  //  dbManager.insertibu(mothername,husbandname,dobss,gubugss,hphtss,htpss,goldarahss,kaderss,notelponss,radioStatus,radioStatus2);
+                  //  dbManager.insertibu(mothername,husbandname,dobss,dusunss,hphtss,htpss,goldarahss,kaderss,notelponss,radioStatus,radioStatus2);
                   //  dbManager.close();
               //  }
             }

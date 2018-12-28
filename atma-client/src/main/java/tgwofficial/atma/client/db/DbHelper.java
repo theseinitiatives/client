@@ -18,6 +18,7 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String TABLE_NAME_USER = "app_user";
     public static final String TABLE_LOCATION_TREE = "location_tree";
     public static final String TABLE_KADER = "kader";
+    public static final String TABLE_CLOSE = "close_ibu";
 
 
 
@@ -124,6 +125,17 @@ public class DbHelper  extends SQLiteOpenHelper {
             + UPDATE_ID + " TEXT , "
             + DATA + " TEXT , "
             + FORM_NAME + " TEXT , "
+            + IS_SYNC + " INTEGER DEFAULT 0, "
+            + IS_SEND + " INTEGER DEFAULT 0);";
+
+    private static final String CREATE_CLOSE = "create table "
+            + TABLE_CLOSE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + USER_ID + " TEXT , "
+            + LOCATION_ID + " TEXT , "
+            + UPDATE_ID + " TEXT , "
+            + UNIQUEID + " TEXT NOT NULL, "
+            + NIFAS_SELESAI + " TEXT , "
+            + ALASAN + " TEXT , "
             + IS_SYNC + " INTEGER DEFAULT 0, "
             + IS_SEND + " INTEGER DEFAULT 0);";
 
@@ -318,6 +330,7 @@ public class DbHelper  extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_LOCATION_TREE);
        db.execSQL(CREATE_TABLE_KADER);
        db.execSQL(CREATE_TABLE_SYNC);
+       db.execSQL(CREATE_CLOSE);
       //  insertDummy(db,"Siti"," Adawiyah"," Patient Baru");
       //  insertDummy(db,"Moya", "Dyah", "Patient Baru");
 
