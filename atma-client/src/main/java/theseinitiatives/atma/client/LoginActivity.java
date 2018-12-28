@@ -14,6 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
+import com.flurry.android.FlurryAgent;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
-                String username = edtUsername.getText().toString();
+                final String username = edtUsername.getText().toString();
                 String password = edtPassword.getText().toString();
                 //validate form
                 if(validateLogin(username, password)){
@@ -72,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                                 if(response.body()!=null) {
                                     String temp = response.body().string();
                                     Log.d("onResponse",temp);
+                                    FlurryAgent.setUserId(username);
                                     saveUserData(temp);
                                     saveLocationTree(temp);
                                     AllConstants.MAY_PROCEED = temp.length() > 50;
@@ -174,6 +177,7 @@ public class LoginActivity extends AppCompatActivity {
         try{
             JSONObject obj = new JSONObject(jsonString);
             JSONObject user = new JSONObject(obj.get("user").toString());
+
             JSONObject user_location = new JSONObject((obj.get("user_location").toString()));
             DbManager db = new DbManager(getApplicationContext()).open();
             db.insertUserData(
