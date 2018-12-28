@@ -135,6 +135,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
             }
         });
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        if(forbidden){
+            fab.setVisibility(View.GONE);
+        }
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -244,6 +247,11 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     startActivity(intent);
                     finish();
                 }if ("Form Status Persalinan".equals(forms[which])) {
+                    if(forbidden){
+                        Toast.makeText(IdentitasIbuActivity.this, "Maaf fitur ini hanya untuk bidan!",
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     String uid = identitasModels.get((int) ids).getId();
                     Intent intent = new Intent(IdentitasIbuActivity.this, FormStatusPersalinanActivity.class);
                     dbManager.open();
@@ -270,6 +278,11 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     finish();
                 }
                 if ("Tutup Ibu".equals(forms[which])) {
+                    if(forbidden){
+                        Toast.makeText(IdentitasIbuActivity.this, "Maaf fitur ini hanya untuk bidan!",
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     String uid = identitasModels.get((int) ids).getId();
                     Intent intent = new Intent(IdentitasIbuActivity.this, FormCloseIbu.class);
                     dbManager.open();

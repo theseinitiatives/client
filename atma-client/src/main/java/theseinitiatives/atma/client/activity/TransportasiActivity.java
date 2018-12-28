@@ -66,9 +66,9 @@ public class TransportasiActivity extends AppCompatActivity
         if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
             forbidden = true;
         }
-      //  String updateID = dbManager.getlatestUpdateId();
-      //  upId = Long.parseLong(updateID);
-       // locas = dbManager.getlocName();
+        String updateID = dbManager.getlatestUpdateId();
+        upId = Long.parseLong(updateID);
+        locas = dbManager.getlocName();
 
         dbManager.close();
 
@@ -210,9 +210,11 @@ public class TransportasiActivity extends AppCompatActivity
             if(!forbidden) {
                 navi.addKader();
             }
-            else
+
+            else{
                 Toast.makeText(TransportasiActivity.this, "Maaf fitur ini hanya untuk bidan!",
                         Toast.LENGTH_LONG).show();
+            }
             //super.onBackPressed();
         }
 

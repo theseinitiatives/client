@@ -50,9 +50,9 @@ public class BankDarahDetailActivity extends AppCompatActivity {
         }
         editButton = (Button) findViewById(R.id.donor_detail_edit_button);
         dbManager.open();
-        if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
+        /*if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
             editButton.setVisibility(View.GONE);
-        }
+        }*/
         dbManager.close();
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -53,9 +53,9 @@ public class TransportasiDetailActivity extends AppCompatActivity {
         final String entityID = id;
 
         dbManager.open();
-        if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
+       /* if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
             edit.setVisibility(View.GONE);
-        }
+        }*/
         dbManager.close();
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
