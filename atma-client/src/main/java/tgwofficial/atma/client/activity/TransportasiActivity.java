@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import tgwofficial.atma.client.AllConstants;
 import tgwofficial.atma.client.NavigationmenuController;
 import tgwofficial.atma.client.R;
 import tgwofficial.atma.client.Utils.FilterActivity;
@@ -48,6 +50,7 @@ public class TransportasiActivity extends AppCompatActivity
     SearchView sv;
     TransportasiCursorAdapter adapter;
     ArrayList<TransportasiModel> transportasiModels=new ArrayList<>();
+    private boolean firstRun = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +113,19 @@ public class TransportasiActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if(firstRun) {
+            firstRun = false;
+            return;
+        }
+//        Log.d("On Resume params",AllConstants.params);
+//        Toast.makeText(getApplicationContext(),AllConstants.params,Toast.LENGTH_LONG).show();
+        refreshList();
+
+    }
+
     private void getkendaraan(String searchTerm, String orderBy)
     {
         transportasiModels.clear();
@@ -138,6 +154,49 @@ public class TransportasiActivity extends AppCompatActivity
             dbManager.close();
 
             lv.setAdapter(adapter);
+    }
+
+    private void refreshList(){
+        if(AllConstants.params == null)
+            return;
+        transportasiModels.clear();
+        dbManager.open();
+        String[]cond = AllConstants.params.split(AllConstants.FLAG_SEPARATOR);
+        if(cond.length<2){
+            cond = new String[]{"","","no"};
+        }
+        cond[0] = cond[0].contains("~") ? "" : cond[0];
+        cond[1] = cond[1].contains("~") ? "" : cond[1];
+        String selectionClause =
+                DbHelper.Jenis + " LIKE '%"+cond[0]+"%' AND "+
+                        DbHelper.DUSUN + " LIKE '%"+cond[1]+"%'";
+
+        Log.d("Query refresh",selectionClause);
+        dbManager.clearClause();
+        dbManager.setSelection(selectionClause);
+        TransportasiModel p = null;
+        dbManager.setOrderBy("name ASC");
+        Cursor c = dbManager.fetchTrans("","");
+        while (c.moveToNext()) {
+            int id = c.getInt(0);
+            String uid = c.getString(c.getColumnIndexOrThrow("_id"));
+            String name = c.getString(c.getColumnIndexOrThrow("name"));
+            String jenis = c.getString(c.getColumnIndexOrThrow("jenis_kendaraan"));
+            String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
+            String gubug = c.getString(c.getColumnIndexOrThrow("gubug"));
+            p = new TransportasiModel();
+            p.setId(uid);
+            p.setNama(name);
+            p.setKendaraan(jenis);
+            p.setDusuns(dusun+" / "+gubug);
+
+            transportasiModels.add(p);
+        }
+
+        dbManager.close();
+        lv.setAdapter(adapter);
+//        AllConstants.params = null;
+
     }
 
 

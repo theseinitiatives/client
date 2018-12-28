@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import tgwofficial.atma.client.AllConstants;
 import tgwofficial.atma.client.R;
@@ -25,6 +26,8 @@ public class FilterActivity extends Activity {
     private DbManager dbManager;
     private String iddesa;
     private int mode=0;
+
+    private TextView filterTextView;
 
     private String filterByDusun =  null;
     private String filterByHPHT = null;
@@ -49,7 +52,8 @@ public class FilterActivity extends Activity {
 
     private void initComponenets(){
         htpSpinner = (Spinner) findViewById(R.id.filter_by_HTP);
-
+        filterTextView = (TextView) findViewById(R.id.filter2textview);
+        filterTextView.setText("Tampilkan hanya "+textView()[mode]);
         htpSpinner.setAdapter(spinnerAdapter(stringPool[mode][0]));
         htpSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -78,6 +82,7 @@ public class FilterActivity extends Activity {
         });
 
         checkbox = (CheckBox) findViewById(R.id.filter_check);
+        checkbox.setVisibility(mode==0 ? View.VISIBLE : View.INVISIBLE);
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -93,7 +98,7 @@ public class FilterActivity extends Activity {
                 if(filterByDusun == null)
                     filterByDusun =  "~";
                 AllConstants.params = String.format("%s%s%s%s%s",
-                        "-"+filterByHPHT+"-",
+                        filterByHPHT,
                         AllConstants.FLAG_SEPARATOR,
                         filterByDusun,
                         AllConstants.FLAG_SEPARATOR,
@@ -121,7 +126,7 @@ public class FilterActivity extends Activity {
     private String [][] htpString(){
         return new String[][]{
                 {"---", "januari", "februari", "maret",    "april",    "mei",  "juni", "juli", "agustus",  "september",    "oktober",  "november", "desember"},
-                {"~", "01",       "02",        "03",        "04",        "05",    "06",    "07",    "08",        "09",            "10",       "11",       "12"}
+                {"~", "-01-",      "-02-",     "-03-",     "-04-",     "-05-", "-06-", "-07-", "-08-",     "-09-",         "-10-",     "-11-",     "-12-"}
         };
     }
 
@@ -135,8 +140,12 @@ public class FilterActivity extends Activity {
     private String [][] bloodString(){
         return new String[][]{
                 {"---","A","B","AB","O"},
-                {"~","a","b","ab","o"}
+                {"~","a -","b -","ab -","o -"}
         };
+    }
+
+    private String [] textView(){
+        return new String[]{"HTP Bulan:","Kendaraan Berjenis:","Darah Bergolongan:"};
     }
 
     private String [][][] stringPool = {htpString(),vehicleString(),bloodString()};
