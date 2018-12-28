@@ -1002,6 +1002,17 @@ public class DbManager {
         //close();
         return locName;
     }
+
+    public String getUserGroup(){
+
+        Cursor cursor = fetchUserData();
+        cursor.moveToFirst();
+        String userGroup = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.GROUPS));
+        // locName = userd.getString(userd.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
+        //close();
+        return userGroup;
+    }
+
     public String getUniqueID(String id, String tablename){
         String uniq=null;
         Cursor cursor = fetchuniqueId(id, tablename);

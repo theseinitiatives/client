@@ -19,7 +19,7 @@ public class TransportasiDetailActivity extends AppCompatActivity {
 
     private TextView nama,dusun,gubug,profesi,telepon,jenisKendaraan,kapasitas,keterangan;
     private Button edit;
-
+    private DbManager dbManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +51,12 @@ public class TransportasiDetailActivity extends AppCompatActivity {
 
         edit = (Button) findViewById(R.id.transportasi_edit_button);
         final String entityID = id;
+
+        dbManager.open();
+        if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
+            edit.setVisibility(View.GONE);
+        }
+        dbManager.close();
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

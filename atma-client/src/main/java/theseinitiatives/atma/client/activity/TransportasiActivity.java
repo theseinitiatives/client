@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -39,6 +40,9 @@ public class TransportasiActivity extends AppCompatActivity
     private DbManager dbManager;
     ListView lv;
     SearchView sv;
+    long upId;
+    String locas;
+    boolean forbidden = false;
     TransportasiCursorAdapter adapter;
     ArrayList<TransportasiModel> transportasiModels=new ArrayList<>();
     @Override
@@ -57,6 +61,16 @@ public class TransportasiActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
+        dbManager.open();
+        if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
+            forbidden = true;
+        }
+      //  String updateID = dbManager.getlatestUpdateId();
+      //  upId = Long.parseLong(updateID);
+       // locas = dbManager.getlocName();
+
+        dbManager.close();
 
         sv= (SearchView) findViewById(R.id.sv);
         //lv.setAdapter(adapter);
@@ -193,7 +207,12 @@ public class TransportasiActivity extends AppCompatActivity
             navi.gotoKIA();
         }
         if(id == R.id.kader_add){
-            navi.addKader();
+            if(!forbidden) {
+                navi.addKader();
+            }
+            else
+                Toast.makeText(TransportasiActivity.this, "Maaf fitur ini hanya untuk bidan!",
+                        Toast.LENGTH_LONG).show();
             //super.onBackPressed();
         }
 

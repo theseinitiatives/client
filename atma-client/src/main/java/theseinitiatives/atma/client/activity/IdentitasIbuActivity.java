@@ -74,6 +74,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
     String locaId = "";
     long upId;
     String locas;
+    boolean forbidden = false;
     private boolean firstRun = true;
 
 
@@ -83,6 +84,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         setContentView(R.layout.identitas_ibu_main_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         lv = (ListView) findViewById(R.id.list_view);
         sv= (SearchView) findViewById(R.id.sv);
@@ -106,9 +108,12 @@ public class IdentitasIbuActivity extends AppCompatActivity
         initDropdownSort();
 
         dbManager.open();
+        if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
+            forbidden = true;
+        }
         String updateID = dbManager.getlatestUpdateId();
-         upId = Long.parseLong(updateID);
-         locas = dbManager.getlocName();
+        upId = Long.parseLong(updateID);
+        locas = dbManager.getlocName();
 
         dbManager.close();
                 Log.e("DATETIME","  "+dateNow());
@@ -394,7 +399,12 @@ public class IdentitasIbuActivity extends AppCompatActivity
             navi.gotoKIA();
         }
         if(id == R.id.kader_add){
-            navi.addKader();
+            if(!forbidden) {
+                navi.addKader();
+            }
+            else
+                Toast.makeText(IdentitasIbuActivity.this, "Maaf fitur ini hanya untuk bidan!",
+                        Toast.LENGTH_LONG).show();
             //super.onBackPressed();
         }
 

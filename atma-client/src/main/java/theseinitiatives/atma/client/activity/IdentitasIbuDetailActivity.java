@@ -126,6 +126,11 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
 
 
         Button editButton = (Button) findViewById(R.id.ibu_detail_edit_button);
+        dbManager.open();
+        if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
+            editButton.setVisibility(View.GONE);
+        }
+        dbManager.close();
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override

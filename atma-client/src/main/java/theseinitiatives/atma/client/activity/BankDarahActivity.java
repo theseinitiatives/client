@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,9 @@ public class BankDarahActivity extends AppCompatActivity
     private DbManager dbManager;
     ListView lv;
     SearchView sv;
+    long upId;
+    String locas;
+    boolean forbidden = false;
     BankDarahCursorAdapter adapter;
     ArrayList<BankDarahmodel> bankDarahmodels=new ArrayList<>();
     @Override
@@ -54,6 +58,16 @@ public class BankDarahActivity extends AppCompatActivity
         sv= (SearchView) findViewById(R.id.sv);
         //lv.setAdapter(adapter);
         adapter=new BankDarahCursorAdapter(this,bankDarahmodels);
+
+        dbManager.open();
+        if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
+            forbidden = true;
+        }
+       // String updateID = dbManager.getlatestUpdateId();
+       // upId = Long.parseLong(updateID);
+       // locas = dbManager.getlocName();
+
+        dbManager.close();
 
         getBankDarah("","name_pendonor ASC");
 
@@ -207,8 +221,12 @@ public class BankDarahActivity extends AppCompatActivity
             navi.gotoKIA();
         }
         if(id == R.id.kader_add){
-            navi.addKader();
-            //super.onBackPressed();
+            if(!forbidden) {
+                navi.addKader();
+            }
+            else
+                Toast.makeText(BankDarahActivity.this, "Maaf fitur ini hanya untuk bidan!",
+                        Toast.LENGTH_LONG).show();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
