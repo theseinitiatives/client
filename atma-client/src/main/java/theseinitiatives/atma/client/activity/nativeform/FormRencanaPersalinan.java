@@ -32,6 +32,8 @@ public class FormRencanaPersalinan extends AppCompatActivity {
     EditText transportasiNama;
     EditText nama_donors;
 
+    private boolean isPreloaded = false;
+
     private CheckBox checkBoxSuami;
     private CheckBox checkBoxOrangTua;
     private CheckBox checkBoxSaudara;
@@ -220,9 +222,13 @@ public class FormRencanaPersalinan extends AppCompatActivity {
 
                 else {
                     dbManager.open();
-                    dbManager.insertRencanaPersalinan(uniqueId, namaDonor, txt_tempatBersalin, txt_penolognPersalinan,txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi,System.currentTimeMillis());
-                    dbManager.insertsyncTable("rencana_persalinan", System.currentTimeMillis(), dataArray.toString(), 0, 0);
-                    dbManager.close();
+                    if(isPreloaded) {
+                        dbManager.updateRencanaPersalinan(uniqueId, namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis());
+                        dbManager.insertsyncTable("rencana_persalinan_edit", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+                    }else {
+                        dbManager.insertRencanaPersalinan(uniqueId, namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis());
+                        dbManager.insertsyncTable("rencana_persalinan", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+                    }dbManager.close();
                     finish();
                     Intent myIntent = new Intent(FormRencanaPersalinan.this, IdentitasIbuActivity.class);
                     startActivity(myIntent);
@@ -369,6 +375,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
     private void preloadForm(Cursor c){
         if(c==null)
             return;
+        isPreloaded = true;
         String penolongPersalinan = c.getString(c.getColumnIndexOrThrow(DbHelper.PENOLONG_PERSALINAN));
         String tempatPersalinan = c.getString(c.getColumnIndexOrThrow(DbHelper.TEMPAT_PERSALINAN));
         String pendampingPersalinan = c.getString(c.getColumnIndexOrThrow(DbHelper.PENDAMPING_PERSALINAN));

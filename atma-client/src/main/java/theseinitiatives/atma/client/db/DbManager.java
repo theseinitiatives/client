@@ -700,7 +700,7 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(TABLE_NAME_RENCANA, null, contentValue);
     }
-    public void updateRencanaPersalinan(String idIbu, String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi) {
+    public void updateRencanaPersalinan(String idIbu, String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi,long updateId) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.ID_IBU,idIbu);
         contentValue.put( DbHelper.NAME_PENDONOR,namaDonor);
@@ -712,10 +712,11 @@ public class DbManager {
         contentValue.put( DbHelper.NAME_PEMILIK,namaTransportasi);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
-        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( UPDATE_ID,updateId);
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
-        database.update(TABLE_NAME_RENCANA, contentValue,DbHelper.ID_IBU,new String[]{idIbu});
+
+        database.update(TABLE_NAME_RENCANA, contentValue,DbHelper.ID_IBU+" = ?",new String[]{idIbu});
     }
     public void updatebanktransportasi(String id,String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets, long updateid) {
         ContentValues contentValue = new ContentValues();
