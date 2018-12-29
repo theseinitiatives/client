@@ -196,7 +196,16 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
         dbManager.close();
         Log.e("UNIQUE======",uniqueId);
 
+        ibuPendarahanBerat = (CheckBox) findViewById(R.id.perdarahan);
+        ibuPEB = (CheckBox) findViewById(R.id.peb);
+        ibuEklampsia = (CheckBox) findViewById(R.id.eklamsi);
+        ibuSepsis = (CheckBox) findViewById(R.id.sepsis);
+        ibuResikoLainnya = (CheckBox)findViewById(R.id.k_lainnya);
 
+        bayiPrematur = (CheckBox) findViewById(R.id.prem);
+        bayiBBLR = (CheckBox) findViewById(R.id.bblr);
+        bayiAsfiksia = (CheckBox) findViewById(R.id.asfiksia);
+        bayiResikoLainnya = (CheckBox) findViewById(R.id.k_babylainnya);
 
         btnLogin = (Button) findViewById(R.id.saved);
         //  userService = ApiUtils.getUserService();
