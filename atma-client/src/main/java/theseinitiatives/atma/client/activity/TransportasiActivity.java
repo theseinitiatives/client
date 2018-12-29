@@ -152,7 +152,7 @@ public class TransportasiActivity extends AppCompatActivity
                 p = new TransportasiModel();
                 p.setId(uid);
                 p.setNama(name);
-                p.setKendaraan(jenis);
+                p.setKendaraan(jenis.contains("pickup") ? "Mobil Pick-Up" : jenis);
                 p.setDusuns(dusun+" / "+gubug);
 
                 transportasiModels.add(p);
@@ -194,7 +194,7 @@ public class TransportasiActivity extends AppCompatActivity
             p = new TransportasiModel();
             p.setId(uid);
             p.setNama(name);
-            p.setKendaraan(jenis);
+            p.setKendaraan(jenis.contains("pickup") ? "Mobil Pick-Up" : jenis);
             p.setDusuns(dusun+" / "+gubug);
 
             transportasiModels.add(p);

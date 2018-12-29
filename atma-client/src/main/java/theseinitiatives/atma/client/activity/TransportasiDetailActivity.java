@@ -45,7 +45,13 @@ public class TransportasiDetailActivity extends AppCompatActivity {
         gubug.setText("GUBUG: "+cursor.getString(cursor.getColumnIndexOrThrow("gubug")));
         profesi.setText("PROFESI: "+cursor.getString(cursor.getColumnIndexOrThrow("profesi")));
         telepon.setText("TELEPON: "+cursor.getString(cursor.getColumnIndexOrThrow("telp")));
-        jenisKendaraan.setText("KENDARAAN: "+cursor.getString(cursor.getColumnIndexOrThrow("jenis_kendaraan")));
+        jenisKendaraan.setText(String.format(
+                "%s: %s",
+                "KENDARAAN",
+                (cursor.getString(cursor.getColumnIndexOrThrow("jenis_kendaraan")).contains("pickup")
+                    ? getString(R.string.pickup)
+                    : cursor.getString(cursor.getColumnIndexOrThrow("jenis_kendaraan"))
+        )));
         kapasitas.setText("KAPASITAS: "+cursor.getString(cursor.getColumnIndexOrThrow("kapasitas_kendaraan")));
         keterangan.setText("KETERANGAN: "+cursor.getString(cursor.getColumnIndexOrThrow("keterangan")));
 
