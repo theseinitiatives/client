@@ -395,15 +395,21 @@ public class FormRencanaPersalinan extends AppCompatActivity {
     }
 
     private void checkPenolongPersalinan(String value){
+        if(value==null)
+            return;
+        setPenolongPersalinan(value);
         switch (value){
-            case "dokter" : dokter.setChecked(true);break;
-            case "bidan" : bidan.setChecked(true);break;
-            case "dukun" : dukun.setChecked(true);break;
-            case "lainnya" : penolongLainnya.setChecked(true);break;
+            case "dokter" : dokter.setChecked(true);
+            case "bidan" : bidan.setChecked(true);
+            case "dukun" : dukun.setChecked(true);
+            case "lainnya" : penolongLainnya.setChecked(true);
         }
     }
 
     private void checkTempatBersalin(String value){
+        if(value==null)
+            return;
+        setTempatPersalinan(value);
         switch (value){
             case "rumahsakit" : rumahSakit.setChecked(true);break;
             case "polindes" : polindes.setChecked(true);break;
@@ -427,6 +433,9 @@ public class FormRencanaPersalinan extends AppCompatActivity {
     }
 
     private void checkPemilikTransportasi(String value){
+        if(value==null)
+            return;
+        setHubunganPemilik(value);
         switch (value){
             case "suami" : suami.setChecked(true);break;
             case "anggotaKeluarga" : keluarga.setChecked(true);break;
@@ -436,6 +445,9 @@ public class FormRencanaPersalinan extends AppCompatActivity {
     }
 
     private void checkDonor(String value){
+        if(value==null)
+            return;
+        setHubunganPendonor(value);
         switch (value){
             case "suami" : donorSuami.setChecked(true);break;
             case "saudara" : donorSaudara.setChecked(true);break;

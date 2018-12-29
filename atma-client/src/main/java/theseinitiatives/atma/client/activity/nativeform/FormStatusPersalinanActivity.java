@@ -49,10 +49,16 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
     String   tempatBersalin;
     String   komplikasiIbu;
     String   komplikasiAnak;
+
+    private boolean isPreloaded = false;
+
     AutoCompleteTextView resikoIbuLainnya, resikoAnakLainnya;
 
     CheckBox ibuPendarahanBerat, ibuPEB, ibuEklampsia, ibuSepsis, ibuResikoLainnya;
     CheckBox bayiPrematur, bayiBBLR, bayiAsfiksia, bayiResikoLainnya;
+
+    RadioButton radioHamil,radioNifas,ibuHidup,ibuMeninggal,anakHidup,anakMeninggal;
+    RadioButton rumahSakit,puskesmas,polindes,rumah,tempatLainnya,laki,perempuan;
 
 
     public String getTempatBersalin() {
@@ -177,6 +183,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
         setContentView(R.layout.form_status_persalinan);
        // dbHelper = new DbHelper(this);
         dbManager = new DbManager(this);
+        initVariable();
         final String idIbu = getIntent().getStringExtra("id");
         tgl_bersalin = (EditText) findViewById(R.id.tgl_persalinan);
         layout_nifas = (LinearLayout) findViewById(R.id.layout_nifas);
@@ -193,22 +200,16 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
         Cursor c = dbManager.fetchuniqueId(idIbu);
         c.moveToFirst();
         uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+
+        Cursor cur = dbManager.fetchstatuspersalinan(uniqueId);
+        if(cur.getCount()>0){
+            isPreloaded = true;
+            preloadForm(cur);
+        }
+
         dbManager.close();
         Log.e("UNIQUE======",uniqueId);
 
-        ibuPendarahanBerat = (CheckBox) findViewById(R.id.perdarahan);
-        ibuPEB = (CheckBox) findViewById(R.id.peb);
-        ibuEklampsia = (CheckBox) findViewById(R.id.eklamsi);
-        ibuSepsis = (CheckBox) findViewById(R.id.sepsis);
-        ibuResikoLainnya = (CheckBox)findViewById(R.id.k_lainnya);
-
-        bayiPrematur = (CheckBox) findViewById(R.id.prem);
-        bayiBBLR = (CheckBox) findViewById(R.id.bblr);
-        bayiAsfiksia = (CheckBox) findViewById(R.id.asfiksia);
-        bayiResikoLainnya = (CheckBox) findViewById(R.id.k_babylainnya);
-
-        btnLogin = (Button) findViewById(R.id.saved);
-        //  userService = ApiUtils.getUserService();
 
         tgl_bersalin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -266,9 +267,14 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                 }
 
                     dbManager.open();
-                    dbManager.insertStatusPersalinan(uniqueId,tgl_persalinn,ibubersalin,kondisi_ibu,kondisi_anak,jumlahBayis,jenisKelamins, komplikasiIbus, komplikasiAnak,tempat);
-                    dbManager.insertsyncTable("status_persalinan", System.currentTimeMillis(), dataArray.toString(), 0, 0);
-
+                    if(isPreloaded) {
+                        dbManager.updateStatusPersalinan(uniqueId, tgl_persalinn, ibubersalin, kondisi_ibu, kondisi_anak, jumlahBayis, jenisKelamins, komplikasiIbus, komplikasiAnak, tempat);
+                        dbManager.insertsyncTable("status_persalinan_edit", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+                    }
+                    else{
+                        dbManager.insertStatusPersalinan(uniqueId, tgl_persalinn, ibubersalin, kondisi_ibu, kondisi_anak, jumlahBayis, jenisKelamins, komplikasiIbus, komplikasiAnak, tempat);
+                        dbManager.insertsyncTable("status_persalinan", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+                    }
                     dbManager.close();
                     finish();
                     Intent myIntent = new Intent(FormStatusPersalinanActivity.this, IdentitasIbuActivity.class);
@@ -279,6 +285,79 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void preloadForm(Cursor c){
+        if(c==null)
+            return;
+        //Data Radio Button
+        String statusIbu = c.getString(c.getColumnIndexOrThrow(DbHelper.STATUS_BERSALIN));
+        String kondisiIbu = c.getString(c.getColumnIndexOrThrow(DbHelper.KONDISI_IBU));
+        String kondisiAnak= c.getString(c.getColumnIndexOrThrow(DbHelper.KONDISI_ANAK));
+        String tempatPersalinan = c.getString(c.getColumnIndexOrThrow(DbHelper.TEMPAT_PERSALINAN));
+        String gender = c.getString(c.getColumnIndexOrThrow(DbHelper.JENISKELAMIN));
+
+//        Log.e("statusIbu",statusIbu);
+//        Log.e("kondisiIbu",kondisiIbu);
+//        Log.e("kondisi Anak",kondisiAnak);
+//        Log.e("tempat Persalinan",tempatPersalinan);
+//        Log.e("gender",gender);
+
+        resikoIbuLainnya = (AutoCompleteTextView) findViewById(R.id.lainnya_komplikasiibu);
+        resikoAnakLainnya = (AutoCompleteTextView) findViewById(R.id.lainnya_komplikasianak);
+
+        //Data Text Field
+        String tanggalPersalinan = c.getString(c.getColumnIndexOrThrow(DbHelper.TGL_PERSALINAN));
+        String jumlahBayi = c.getString(c.getColumnIndexOrThrow(DbHelper.JUMLAHBAYI));
+
+        tgl_bersalin.setText(tanggalPersalinan);
+        this.jumlahBayi.setText(jumlahBayi);
+
+        //Data CheckBox
+        String komplikasiIbu = c.getString(c.getColumnIndexOrThrow(DbHelper.KOMPLIKASIIBU));
+        String komplikasiAnak = c.getString(c.getColumnIndexOrThrow(DbHelper.KOMPLIKASIANAK));
+
+
+        checkStatus(statusIbu);
+        checkKondisiIbu(kondisiIbu);
+        checkKondisiAnak(kondisiAnak);
+        checkTempatBersalin(tempatPersalinan);
+        checkGender(gender);
+
+        checkKomplikasiIbu(komplikasiIbu);
+        checkKomplikasiAnak(komplikasiAnak);
+    }
+
+    private void initVariable(){
+        ibuPendarahanBerat = (CheckBox) findViewById(R.id.perdarahan);
+        ibuPEB = (CheckBox) findViewById(R.id.peb);
+        ibuEklampsia = (CheckBox) findViewById(R.id.eklamsi);
+        ibuSepsis = (CheckBox) findViewById(R.id.sepsis);
+        ibuResikoLainnya = (CheckBox)findViewById(R.id.k_lainnya);
+
+        bayiPrematur = (CheckBox) findViewById(R.id.prem);
+        bayiBBLR = (CheckBox) findViewById(R.id.bblr);
+        bayiAsfiksia = (CheckBox) findViewById(R.id.asfiksia);
+        bayiResikoLainnya = (CheckBox) findViewById(R.id.k_babylainnya);
+
+        btnLogin = (Button) findViewById(R.id.saved);
+        //  userService = ApiUtils.getUserService();
+
+        radioHamil = (RadioButton) findViewById(R.id.hamil);
+        radioNifas = (RadioButton) findViewById(R.id.nifas);
+        ibuHidup = (RadioButton) findViewById(R.id.ibu_hidup);
+        ibuMeninggal = (RadioButton) findViewById(R.id.ibu_mati);
+        anakHidup = (RadioButton) findViewById(R.id.anak_hidup);
+        anakMeninggal = (RadioButton) findViewById(R.id.anak_mati);
+
+        rumahSakit = (RadioButton) findViewById(R.id.rs);
+        puskesmas = (RadioButton) findViewById(R.id.puskesmas);
+        polindes = (RadioButton) findViewById(R.id.polindes);
+        rumah = (RadioButton) findViewById(R.id.rumah);
+        tempatLainnya = (RadioButton) findViewById(R.id.tempat_lainnya);
+
+        laki = (RadioButton) findViewById(R.id.lakilaki);
+        perempuan = (RadioButton) findViewById(R.id.perempuan);
     }
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
@@ -420,6 +499,112 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                 else
                     lay_anak.setVisibility(INVISIBLE);
                 break;
+        }
+    }
+
+    private void checkKomplikasiIbu(String data){
+        if(data==null)
+            return;
+        data = data+",";
+        if(data.contains("pendarahan")){
+            ibuPendarahanBerat.setChecked(true);
+            data = data.replace("perdarahan,","");
+        }
+        if(data.contains("peb")){
+            ibuPEB.setChecked(true);
+            data = data.replace("peb,","");
+        }
+        if(data.contains("eklamsi")){
+            ibuEklampsia.setChecked(true);
+            data = data.replace("eklamsi,","");
+        }
+        if(data.contains("sepsis")){
+            ibuSepsis.setChecked(true);
+            data = data.replace("sepsis,","");
+        }
+        if(data.length()>3){
+            ibuResikoLainnya.setChecked(true);
+            resikoIbuLainnya.setText(data.substring(0,data.length()-1));
+        }
+
+    }
+
+    private void checkKomplikasiAnak(String data){
+        if(data==null)
+            return;
+        data = data+",";
+        if(data.contains("prematur")){
+            bayiPrematur.setChecked(true);
+            data = data.replace("prematur,","");
+        }
+        if(data.contains("bblr")){
+            bayiBBLR.setChecked(true);
+            data = data.replace("bblr,","");
+        }
+        if(data.contains("asfiksia")){
+            bayiAsfiksia.setChecked(true);
+            data = data.replace("asfiksia,","");
+        }
+        if(data.length()>3){
+            bayiResikoLainnya.setChecked(true);
+            resikoAnakLainnya.setText(data.substring(0,data.length()-1));
+        }
+
+    }
+
+    private void checkStatus(String view){
+        if(view==null)
+            return;
+        setStatusibu(view);
+        switch(view){
+            case "hamil" : radioHamil.setChecked(true);break;
+            case "nifas" : radioNifas.setChecked(true);layout_nifas.setVisibility(VISIBLE);break;
+        }
+    }
+
+    private void checkKondisiIbu(String view){
+        if(view==null)
+            return;
+        setKondisiibu(view);
+        switch(view){
+            case "hidup" : ibuHidup.setChecked(true);break;
+            case "meninggal" : ibuMeninggal.setChecked(true);break;
+        }
+    }
+
+    private void checkKondisiAnak(String view){
+        if(view==null)
+            return;
+        Log.e("checkKondisiAnak",view);
+        setKondisianak(view);
+        switch(view){
+            case "hidup" : anakHidup.setChecked(true);break;
+            case "meninggal" : anakMeninggal.setChecked(true);break;
+        }
+    }
+
+    private void checkTempatBersalin(String view){
+        if(view==null)
+            return;
+        setTempatBersalin(view);
+        Log.e("cekTempatBersalin",view);
+        switch(view){
+            case "rumahsakit" : rumahSakit.setChecked(true);break;
+            case "puskesmas" : puskesmas.setChecked(true);break;
+            case "polindes" : polindes.setChecked(true);break;
+            case "rumah" : rumah.setChecked(true);break;
+            case "lainnya" : tempatLainnya.setChecked(true);break;
+        }
+    }
+
+    private void checkGender(String view){
+        if(view==null)
+            return;
+        Log.e("checkGender",view);
+        setJenisKelamin(view);
+        switch(view){
+            case "laki-laki" : laki.setChecked(true);break;
+            case "perempuan" : perempuan.setChecked(true);break;
         }
     }
 }

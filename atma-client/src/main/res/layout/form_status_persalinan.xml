@@ -99,7 +99,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/hamil"
-                            android:onClick="onRadioButtonClicked"/>=
+                            android:onClick="onRadioButtonClicked"/>
                         <RadioButton
                             android:id="@+id/nifas"
                             android:layout_width="match_parent"
@@ -174,7 +174,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="@string/Hidup"
-                                    android:onClick="onRadioButtonClicked"/>=
+                                    android:onClick="onRadioButtonClicked"/>
                                 <RadioButton
                                     android:id="@+id/ibu_mati"
                                     android:layout_width="match_parent"
@@ -216,7 +216,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="@string/Hidup"
-                                    android:onClick="onRadioButtonClicked"/>=
+                                    android:onClick="onRadioButtonClicked"/>
                                 <RadioButton
                                     android:id="@+id/anak_mati"
                                     android:layout_width="match_parent"

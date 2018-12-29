@@ -78,12 +78,13 @@
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:background="@color/text_field_bg"
                     android:hint="@string/prompt_email"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:padding="10dp"
+                    android:padding="12dp"
                     android:singleLine="true"
                     android:textColor="@color/white" />
 
@@ -97,7 +98,7 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:background="@color/text_field_bg"
                     android:hint="@string/prompt_password"
                     android:imeActionId="6"
@@ -105,7 +106,7 @@
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:padding="10dp"
+                    android:padding="12dp"
                     android:singleLine="true"
                     android:textColor="@color/white" />
 

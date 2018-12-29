@@ -308,6 +308,27 @@ public class DbManager {
         database.insert(TABLE_PERSALINAN, null, contentValue);
     }
 
+    public void updateStatusPersalinan(String idIbu, String tgl_bersalin,String ibubersalin, String kondisi_ibu, String kondisi_anak,String jumlahBayis, String jenisKelamins, String komplikasiIbus, String komplikasiAnak, String tempat){
+        ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.ID_IBU,idIbu);
+        contentValue.put( DbHelper.STATUS_BERSALIN,ibubersalin);
+        contentValue.put( DbHelper.TGL_PERSALINAN,tgl_bersalin);
+        contentValue.put( DbHelper.KONDISI_ANAK,kondisi_anak);
+        contentValue.put( DbHelper.KONDISI_IBU,kondisi_ibu);
+        contentValue.put( DbHelper.JUMLAHBAYI,jumlahBayis);
+        contentValue.put( DbHelper.JENISKELAMIN,jenisKelamins);
+        contentValue.put( DbHelper.KOMPLIKASIIBU,komplikasiIbus);
+        contentValue.put( DbHelper.KOMPLIKASIANAK,komplikasiAnak);
+        contentValue.put( DbHelper.TEMPAT_PERSALINAN,tempat);
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName());
+        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        //String jumlahBayis, String jenisKelamins, String komplikasiIbus, String komplikasiAnak, String tempat
+        database.update(TABLE_PERSALINAN, contentValue,DbHelper.ID_IBU+" = ?",new String[]{idIbu});
+    }
+
     public void updateIbu(String _id, String mothername, String husbandname,String dobss, String gubugss,
                           String hphtss, String htpss,String goldarahss, String kaderss,String notelponss, String radioStatus2,  String resiko,String gubug,String nifas_berakhir, long updateid) {
         ContentValues contentValue = new ContentValues();
@@ -873,8 +894,13 @@ public class DbManager {
                 DbHelper.ID_IBU,
                 DbHelper.TGL_PERSALINAN,
                 DbHelper.STATUS_BERSALIN,
+                DbHelper.TEMPAT_PERSALINAN,
                 DbHelper.KONDISI_IBU,
                 DbHelper.KONDISI_ANAK,
+                DbHelper.JENISKELAMIN,
+                DbHelper.JUMLAHBAYI,
+                DbHelper.KOMPLIKASIIBU,
+                DbHelper.KOMPLIKASIANAK,
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
