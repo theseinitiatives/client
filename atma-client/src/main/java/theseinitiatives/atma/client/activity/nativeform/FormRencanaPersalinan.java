@@ -134,8 +134,8 @@ public class FormRencanaPersalinan extends AppCompatActivity {
         donorAyah = (RadioButton) findViewById(R.id.pend_ayah);
         donorLainnya = (RadioButton) findViewById(R.id.pend_lainnya);
 
-        pemilikTransportasi = (AutoCompleteTextView) findViewById(R.id.transportsis);
-        calonPendonor = (AutoCompleteTextView) findViewById(R.id.calon_pendonor);
+      //  pemilikTransportasi = (AutoCompleteTextView) findViewById(R.id.transportsis);
+      //  calonPendonor = (AutoCompleteTextView) findViewById(R.id.calon_pendonor);
 
         checkBoxSuami = (CheckBox) findViewById(R.id.suami);
         checkBoxOrangTua = (CheckBox) findViewById(R.id.ortu);

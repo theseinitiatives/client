@@ -22,7 +22,6 @@ public interface ApiService {
             @Query("update-id") long updateIds,
             @Query("batch-size") int batch
         );
-   // Call<ApiModel> getAnswers();
 
 
     @Headers( "Content-Type: application/json; charset=utf-8")

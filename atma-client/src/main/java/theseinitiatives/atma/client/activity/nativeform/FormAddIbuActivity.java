@@ -21,6 +21,7 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import theseinitiatives.atma.client.AllConstants;
@@ -179,6 +180,18 @@ public class FormAddIbuActivity extends AppCompatActivity {
         //Set the adapter
         dusun.setAdapter(adapterDusun);
 
+
+        //==========================
+        // Search Nama Donor
+        final ArrayAdapter<String> adapterDonor = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, getNamaKader());
+        //Find TextView control
+        final AutoCompleteTextView namaKader = (AutoCompleteTextView) findViewById(R.id.kader_nama);
+        //Set the number of characters the user must type before the drop down list is shown
+        namaKader.setThreshold(1);
+        //Set the adapter
+        namaKader.setAdapter(adapterDonor);
+
+
         dobs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -232,7 +245,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 String dobss = AllConstants.convertToYYYYMMDD(dobs.getText().toString());
                 String dusunss = dusun.getText().toString();
                 String hphtss = AllConstants.convertToYYYYMMDD(hphts.getText().toString());
-
+                String nama_kader = namaKader.getText().toString();
                 String goldarahss = getDarah() + " - "+getRhesus();
                 String notelponss = notelpons.getText().toString();
                 String radioStatus2 = getStatuss2();
@@ -270,6 +283,8 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     dataArray.put(DbHelper.GOL_DARAH,goldarahss);
                     dataArray.put(DbHelper.TELP,notelponss);
                     dataArray.put(DbHelper.RESIKO,fResiko!=null?fResiko:"");
+                    dataArray.put(DbHelper.GUBUG,gubug);
+                    dataArray.put(DbHelper.KADER,nama_kader);
                     dataArray.put(DbHelper.GUBUG,gubug);
                     dataArray.put(DbHelper.NIFAS_SELESAI,"");
                     dataArray.put(DbHelper.TIMESTAMP,dateNow());
@@ -542,6 +557,24 @@ public class FormAddIbuActivity extends AppCompatActivity {
         }
     }
 
+    public String[] getNamaKader() {
+        dbManager.open();
+        Cursor cursor = dbManager.fetchKader();
+        ArrayList<String> names = new ArrayList<String>();
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                names.add(cursor.getString(cursor.getColumnIndexOrThrow("name")));
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        dbManager.close();
+
+        //  String[] languagess = { "Budi","Joni","Bravo" };
+        return names.toArray(new String[0]);
+        // return languagess;
+    }
 
     @Override
     public void onBackPressed() {

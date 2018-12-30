@@ -487,13 +487,11 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 "    }\n" +
                 "]";
 
-
         // api post for ibu data
         RequestBody myreqbody = null;
         String data = (alldata_formatToJson()).toString();
         myreqbody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 data);
-
 
         Call<ResponseBody> call =mService.savePost(myreqbody);
         Log.e("myreqbody========", ""+data);
@@ -517,7 +515,6 @@ public class IdentitasIbuActivity extends AppCompatActivity
             }
         });
 
-
     }
 
     private void updateSyncFlagIbu() {
@@ -525,7 +522,6 @@ public class IdentitasIbuActivity extends AppCompatActivity
         dbManager.updateFlagSycn();
         dbManager.close();
     }
-
 
     public JSONArray alldata_formatToJson() {
         dbManager.open();
@@ -536,7 +532,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         JSONArray resultSet = new JSONArray();
         cursor.moveToFirst();
-        while (cursor.isAfterLast() == false) {
+        while (!cursor.isAfterLast()) {
             int totalColumn = cursor.getColumnCount();
             JSONObject rowObject = new JSONObject();
             for (int i = 0; i < totalColumn; i++) {
@@ -558,17 +554,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
     }
 
-
-
     public void pulldata() {
         Log.e("pull data====",locas + upId);
-        /***
-         * *doing first pull data
-         *
-         * =================================================
-         * TODO
-         * SEPARATE SYNC BETWEEN FIRST PULL AND UPDATE PULL
-         * =================================================*/
         /*if(true)
             return;*/
 
