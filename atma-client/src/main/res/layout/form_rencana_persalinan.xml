@@ -8,6 +8,8 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
+
+    android:background="@color/light_brown"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activity.nativeform.FormAddBankDarah">
 
@@ -39,7 +41,7 @@
                 android:text="Form Rencana Persalinan"
                 android:textAlignment="center"
                 android:layout_marginBottom="50dp"
-                android:textColor="@android:color/holo_blue_bright"
+                android:textColor="@color/dark_brown"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

@@ -9,6 +9,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+
+    android:background="@color/light_brown"
     tools:context=".activity.nativeform.FormAddIbuActivity">
 
     <!-- Login progress -->
@@ -39,7 +41,7 @@
                 android:text="Form Transportasi"
                 android:textAlignment="center"
                 android:layout_marginBottom="50dp"
-                android:textColor="@android:color/holo_blue_bright"
+                android:textColor="@color/dark_brown"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
