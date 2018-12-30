@@ -79,7 +79,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
     boolean forbidden = false;
     private boolean firstRun = true;
 
-
+    boolean isDusun = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +112,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         dbManager.open();
         if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
             forbidden = true;
+            isDusun = true;
         }
         String updateID = dbManager.getlatestUpdateId();
         upId = Long.parseLong(updateID);
@@ -558,40 +559,77 @@ public class IdentitasIbuActivity extends AppCompatActivity
         Log.e("pull data====",locas + upId);
         /*if(true)
             return;*/
+        if(!isDusun) {
+            mService.getDataDesa(locas,upId,100).enqueue(new Callback<List<ApiModel>>() {
+                @Override
+                public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
 
-        mService.getData(locas,upId,100).enqueue(new Callback<List<ApiModel>>() {
-            @Override
-            public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
-
-                if(response.isSuccessful()) {
-                    dbManager.open();
-                    Log.e("RESPONSE-----", response.body().toString());
-                    dbManager.saveTodb2(response.body(),null);
-                    dbManager.close();
-                    Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
-                            Toast.LENGTH_LONG).show();
-                    Log.e("PULLING", response.body().toString());
-                  //  mAdapter.updateAnswers(response.body().getItems());
-                    Log.d("MainActivity", "posts loaded from API");
-                }else {
-                    int statusCode  = response.code();
-                    // handle request errors depending on status code
+                    if(response.isSuccessful()) {
+                        dbManager.open();
+                        Log.e("RESPONSE-----", response.body().toString());
+                        dbManager.saveTodb2(response.body(),null);
+                        dbManager.close();
+                        Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
+                                Toast.LENGTH_LONG).show();
+                        Log.e("PULLING", response.body().toString());
+                        //  mAdapter.updateAnswers(response.body().getItems());
+                        Log.d("MainActivity", "posts loaded from API");
+                    }else {
+                        int statusCode  = response.code();
+                        // handle request errors depending on status code
+                    }
+                    resetUpdating();
+                    refreshList();
+                    getIbu("","resiko DESC");
                 }
-                resetUpdating();
-                refreshList();
-                getIbu("","resiko DESC");
-            }
 
-            @Override
-            public void onFailure(Call<List<ApiModel>> call, Throwable t) {
-               // showErrorMessage();
-                Log.e("PULLING", "FAIL===");
-                Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
-                        Toast.LENGTH_LONG).show();
-                Log.d("MainActivity", "error loading from API"+t);
-                resetUpdating();
-            }
-        });
+                @Override
+                public void onFailure(Call<List<ApiModel>> call, Throwable t) {
+                    // showErrorMessage();
+                    Log.e("PULLING", "FAIL===");
+                    Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
+                            Toast.LENGTH_LONG).show();
+                    Log.d("MainActivity", "error loading from API"+t);
+                    resetUpdating();
+                }
+            });
+        }
+        else{
+            mService.getDataDusun(locas,upId,100).enqueue(new Callback<List<ApiModel>>() {
+                @Override
+                public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
+
+                    if(response.isSuccessful()) {
+                        dbManager.open();
+                        Log.e("RESPONSE-----", response.body().toString());
+                        dbManager.saveTodb2(response.body(),null);
+                        dbManager.close();
+                        Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
+                                Toast.LENGTH_LONG).show();
+                        Log.e("PULLING", response.body().toString());
+                        //  mAdapter.updateAnswers(response.body().getItems());
+                        Log.d("MainActivity", "posts loaded from API");
+                    }else {
+                        int statusCode  = response.code();
+                        // handle request errors depending on status code
+                    }
+                    resetUpdating();
+                    refreshList();
+                    getIbu("","resiko DESC");
+                }
+
+                @Override
+                public void onFailure(Call<List<ApiModel>> call, Throwable t) {
+                    // showErrorMessage();
+                    Log.e("PULLING", "FAIL===");
+                    Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
+                            Toast.LENGTH_LONG).show();
+                    Log.d("MainActivity", "error loading from API"+t);
+                    resetUpdating();
+                }
+            });
+        }
+
     }
 
     public void initDropdownSort(){

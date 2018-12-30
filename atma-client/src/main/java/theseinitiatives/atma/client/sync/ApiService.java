@@ -17,11 +17,19 @@ import theseinitiatives.atma.client.model.syncmodel.ApiModel;
 public interface ApiService {
 
     @GET("api/pull")
-   Call<List<ApiModel>> getData(
-            @Query("location-id") String location_ids,
+   Call<List<ApiModel>> getDataDesa(
+            @Query("desa") String location_ids,
             @Query("update-id") long updateIds,
             @Query("batch-size") int batch
         );
+
+
+    @GET("api/pull")
+    Call<List<ApiModel>> getDataDusun(
+            @Query("dusun") String location_ids,
+            @Query("update-id") long updateIds,
+            @Query("batch-size") int batch
+    );
 
 
     @Headers( "Content-Type: application/json; charset=utf-8")
