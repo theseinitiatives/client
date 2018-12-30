@@ -78,7 +78,7 @@ public class TransportasiDetailActivity extends AppCompatActivity {
         finish();
         Log.d("CDA", "onBackPressed Called");
         NavigationmenuController navi= new NavigationmenuController(this);
-        navi.backtoIbu();
+        navi.backtoTrans();
 
     }
 
