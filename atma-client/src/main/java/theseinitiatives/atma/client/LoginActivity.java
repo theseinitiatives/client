@@ -1,6 +1,8 @@
 package theseinitiatives.atma.client;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +33,8 @@ import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 import theseinitiatives.atma.client.sync.ApiService;
 
+import static android.preference.PreferenceManager.getDefaultSharedPreferences;
+
 /**
  * A login screen that offers login via email/password.
  */
@@ -39,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText edtPassword;
     Button btnLogin;
     ProgressBar progressBar;
-
+    private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +53,6 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = (EditText) findViewById(R.id.password);
         btnLogin = (Button) findViewById(R.id.email_sign_in_button);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
-
         //  userService = ApiUtils.getUserService();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Password is required", Toast.LENGTH_SHORT).show();
             return false;
         }
-
+        fillUserIfExists();
         DbManager db = new DbManager(getApplicationContext()).open();
         Cursor c = db.fetchUserCredential();
         c.moveToFirst();
@@ -219,6 +222,29 @@ public class LoginActivity extends AppCompatActivity {
         }catch (JSONException e){
             Log.e(getLocalClassName(),e.getMessage());
         }
+    }
+
+
+    private void fillUserIfExists() {
+        DbManager db = new DbManager(getApplicationContext()).open();
+        Cursor c = db.fetchUserCredential();
+        if(c.moveToFirst()) {
+            try {
+                String user = c.getString(c.getColumnIndexOrThrow("username"));
+                edtUsername.setText(user);
+                edtUsername.setEnabled(false);
+            } catch (Exception e) {
+
+            }
+        }
+       /* if (context.userService().hasARegisteredUser()) {
+
+        }*/
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fillUserIfExists();
     }
 
     /*private void doLogin(final String username,final String password){
