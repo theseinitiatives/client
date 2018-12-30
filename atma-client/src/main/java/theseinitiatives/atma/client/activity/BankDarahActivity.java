@@ -1,7 +1,9 @@
 package theseinitiatives.atma.client.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import theseinitiatives.atma.client.AllConstants;
+import theseinitiatives.atma.client.LoginActivity;
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
 import theseinitiatives.atma.client.Utils.FilterActivity;
@@ -265,7 +268,27 @@ public class BankDarahActivity extends AppCompatActivity
             navi.startBankDarah();
         }
         if(id == R.id.nav_logout){
-            super.onBackPressed();
+//            super.onBackPressed();
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            Intent intent = new Intent(BankDarahActivity.this,LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            finish();
+                            startActivity(intent);
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(BankDarahActivity.this);
+            builder.setMessage("Anda yakin untuk \"Keluar\" dari aplikasi?").setPositiveButton("Ya", dialogClickListener)
+                    .setNegativeButton("Tidak", dialogClickListener).show();
         }
         if(id == R.id.info){
             navi.gotoKIA();

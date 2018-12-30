@@ -1,6 +1,7 @@
 package theseinitiatives.atma.client.activity;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -40,6 +41,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import theseinitiatives.atma.client.AllConstants;
+import theseinitiatives.atma.client.LoginActivity;
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
 import theseinitiatives.atma.client.Utils.ApiUtils;
@@ -406,7 +408,27 @@ public class IdentitasIbuActivity extends AppCompatActivity
             navi.startBankDarah();
         }
         if(id == R.id.nav_logout){
-            super.onBackPressed();
+//            super.onBackPressed();
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            Intent intent = new Intent(IdentitasIbuActivity.this,LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            finish();
+                            startActivity(intent);
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(IdentitasIbuActivity.this);
+            builder.setMessage("Anda yakin untuk \"Keluar\" dari aplikasi?").setPositiveButton("Ya", dialogClickListener)
+                    .setNegativeButton("Tidak", dialogClickListener).show();
         }
         if(id == R.id.info){
             navi.gotoKIA();
