@@ -627,7 +627,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
     }
 
     private final String [][] sortItem = {
-            {"Sort","Faktor Resiko","Nama A-Z","Nama Z-A","HTP Jan-Des", "HTP Des-Jan"},
+            {"Urutkan","Faktor Resiko","Nama A-Z","Nama Z-A","HTP Jan-Des", "HTP Des-Jan"},
             {"resiko DESC","resiko DESC","name ASC","name DESC", "htp ASC", "htp DESC"}
     };
 }
