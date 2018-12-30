@@ -288,28 +288,23 @@ public class FormAddBankDarah extends AppCompatActivity {
         }
 
         private void setGolonganDarahClicked(String value){
+            if(value==null)
+                return;
+            if(!value.contains("-"))
+                return;
             String[]values = value.split(" - ");
+            setDarah(values[0]);
             switch(values[0].toLowerCase()){
                 case "a" : ((RadioButton)findViewById(R.id.gol_a)).setChecked(true); break;
                 case "b" : ((RadioButton)findViewById(R.id.gol_b)).setChecked(true); break;
                 case "ab" : ((RadioButton)findViewById(R.id.gol_ab)).setChecked(true); break;
                 case "o" : ((RadioButton)findViewById(R.id.gol_o)).setChecked(true); break;
-                default :
-                     ((RadioButton)findViewById(R.id.gol_a)).setChecked(false);
-                     ((RadioButton)findViewById(R.id.gol_b)).setChecked(false);
-                     ((RadioButton)findViewById(R.id.gol_ab)).setChecked(false);
-                     ((RadioButton)findViewById(R.id.gol_o)).setChecked(false);
-                     break;
             }
+            setRhesus(values[1]);
             switch(values[1].toLowerCase()){
                 case "positif" :   ((RadioButton)findViewById(R.id.positive)).setChecked(true); break;
                 case "negatif" :   ((RadioButton)findViewById(R.id.negative)).setChecked(true); break;
                 case "tidak_tahu" :   ((RadioButton)findViewById(R.id.tidak_tahu)).setChecked(true); break;
-                default:
-                     ((RadioButton)findViewById(R.id.positive)).setChecked(false);
-                     ((RadioButton)findViewById(R.id.negative)).setChecked(false);
-                     ((RadioButton)findViewById(R.id.tidak_tahu)).setChecked(false);
-                     break;
             }
         }
 
