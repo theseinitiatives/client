@@ -111,6 +111,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
         setContentView(R.layout.form_rencana_persalinan);
         dbManager = new DbManager(this);
         final String idIbu = getIntent().getStringExtra("id");
+        final String uniqueid = getIntent().getStringExtra("uniqueId");
 
         dokter = (RadioButton) findViewById(R.id.dokter);
         bidan = (RadioButton) findViewById(R.id.bidan);
@@ -134,8 +135,8 @@ public class FormRencanaPersalinan extends AppCompatActivity {
         donorAyah = (RadioButton) findViewById(R.id.pend_ayah);
         donorLainnya = (RadioButton) findViewById(R.id.pend_lainnya);
 
-      //  pemilikTransportasi = (AutoCompleteTextView) findViewById(R.id.transportsis);
-      //  calonPendonor = (AutoCompleteTextView) findViewById(R.id.calon_pendonor);
+        pemilikTransportasi = (AutoCompleteTextView) findViewById(R.id.transportsis);
+        calonPendonor = (AutoCompleteTextView) findViewById(R.id.calon_pendonor);
 
         checkBoxSuami = (CheckBox) findViewById(R.id.suami);
         checkBoxOrangTua = (CheckBox) findViewById(R.id.ortu);
@@ -148,38 +149,40 @@ public class FormRencanaPersalinan extends AppCompatActivity {
 
         btnLogin = (Button) findViewById(R.id.saved);
 
-        dbManager = new DbManager(this);
+        /*dbManager = new DbManager(this);
         dbManager.open();
         Cursor c = dbManager.fetchuniqueId(idIbu);
         c.moveToFirst();
         uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
         Log.e("UNIQUE======",uniqueId);
-
-        Cursor cur = dbManager.fetchRencanaPersalinan(uniqueId);
-        cur.moveToFirst();
+*/     dbManager = new DbManager(this);
+        dbManager.open();
+        Cursor cur = dbManager.fetchRencanaPersalinan(uniqueid);
+        ;
         Log.e("Length of cursor",""+cur.getCount());
-        if(cur.getCount()>0)
+        if(cur.moveToFirst())
             preloadForm(cur);
+        dbManager.close();
 
         //==========================
         // Search Nama Pemilik
          final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, getNamaPemilik());
         //Find TextView control
-        final AutoCompleteTextView transportasiNama = (AutoCompleteTextView) findViewById(R.id.transportsis);
+        final AutoCompleteTextView pemilikTransportasi = (AutoCompleteTextView) findViewById(R.id.transportsis);
         //Set the number of characters the user must type before the drop down list is shown
-        transportasiNama.setThreshold(1);
+        pemilikTransportasi.setThreshold(1);
         //Set the adapter
-        transportasiNama.setAdapter(adapter);
+        pemilikTransportasi.setAdapter(adapter);
 
         //==========================
         // Search Nama Donor
         final ArrayAdapter<String> adapterDonor = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, getNamaDonor());
         //Find TextView control
-        final AutoCompleteTextView nama_donors = (AutoCompleteTextView) findViewById(R.id.calon_pendonor);
+        final AutoCompleteTextView calonPendonor = (AutoCompleteTextView) findViewById(R.id.calon_pendonor);
         //Set the number of characters the user must type before the drop down list is shown
-        nama_donors.setThreshold(1);
+        calonPendonor.setThreshold(1);
         //Set the adapter
-        nama_donors.setAdapter(adapterDonor);
+        calonPendonor.setAdapter(adapterDonor);
 
 
         //Log.e("NAMADUSUN",getDusun(idIbu));
