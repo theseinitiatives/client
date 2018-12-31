@@ -26,6 +26,7 @@ import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 
 import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
+import static theseinitiatives.atma.client.Utils.StringUtil.humanizes;
 
 public class FormAddTransportasi extends AppCompatActivity {
     EditText nama_pemiliks;
@@ -119,7 +120,7 @@ public class FormAddTransportasi extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text_pemiliks  = nama_pemiliks.getText().toString();
+                String text_pemiliks  = humanizes(nama_pemiliks.getText().toString());
                 String text_gubug = gubugs.getText().toString();
                 String text_kapasitass = kapasitass.getText().toString();
                 String text_dusuns = getDusun();

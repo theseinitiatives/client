@@ -35,6 +35,7 @@ import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 
 import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
+import static theseinitiatives.atma.client.Utils.StringUtil.humanizes;
 
 public class FormAddIbuActivity extends AppCompatActivity {
     EditText mother_names;
@@ -308,8 +309,8 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 //add into sync tables
                 JSONObject dataArray = new JSONObject();
                 try {
-                    dataArray.put(DbHelper.NAME, mothername);
-                    dataArray.put(DbHelper.SPOUSENAME,husbandname);
+                    dataArray.put(DbHelper.NAME,humanizes( mothername));
+                    dataArray.put(DbHelper.SPOUSENAME,humanizes(husbandname));
                     dataArray.put(DbHelper.TGL_LAHIR,dobss);
                     dataArray.put(DbHelper.DUSUN,dusunss);
                     dataArray.put(DbHelper.HPHT,hphtss);

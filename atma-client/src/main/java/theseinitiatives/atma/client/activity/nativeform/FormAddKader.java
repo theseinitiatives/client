@@ -27,6 +27,7 @@ import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 
 import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
+import static theseinitiatives.atma.client.Utils.StringUtil.humanizes;
 
 public class FormAddKader extends AppCompatActivity {
 
@@ -92,7 +93,7 @@ public class FormAddKader extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String nama_kader = kaders.getText().toString();
+                String nama_kader = humanizes(kaders.getText().toString());
                 String namaDusun = getDusun();
                 String noHp = nohps.getText().toString();
                 String username = "kader_"+namaDusun.replace(" ","").toLowerCase();

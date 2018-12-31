@@ -31,6 +31,7 @@ import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 
 import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
+import static theseinitiatives.atma.client.Utils.StringUtil.humanizes;
 
 public class FormAddBankDarah extends AppCompatActivity {
     EditText mother_names;
@@ -188,7 +189,7 @@ public class FormAddBankDarah extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                // String mothername = mother_names.getText().toString();
-                String donor = nama_donors.getText().toString();
+                String donor = humanizes(nama_donors.getText().toString());
                 String notelponss = notelpons.getText().toString();
                 String text_gubug = gubugs.getText().toString();
                 String text_dusun = getDusun();
