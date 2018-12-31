@@ -79,7 +79,7 @@ public class FormAddTransportasi extends AppCompatActivity {
         profesis = (EditText) findViewById(R.id.profesi);
         kets = (EditText) findViewById(R.id.ket);
       //  LinearLayout kapasitas_layoutss=(LinearLayout)this.findViewById(R.id.kapasitas_layout);
-        kapasitass.setVisibility(View.INVISIBLE);
+        kapasitass.setVisibility(View.GONE);
 
 
         //==========================
@@ -198,18 +198,22 @@ public class FormAddTransportasi extends AppCompatActivity {
             case R.id.motor:
                 if (checked)
                     setJenis("motor");
+                    kapasitass.setVisibility(View.GONE);
                 break;
             case R.id.cidomo:
                 if (checked)
                     setJenis("cidomo");
+                    kapasitass.setVisibility(View.VISIBLE);
                 break;
             case R.id.pickup:
                 if (checked)
                     setJenis("mobil_pickup");
+                    kapasitass.setVisibility(View.VISIBLE);
                 break;
             case R.id.id_lainnya:
                 if (checked)
                     setJenis("id_lainnya");
+                    kapasitass.setVisibility(View.GONE);
                 break;
 
         }
