@@ -22,6 +22,7 @@ import java.util.Random;
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
 import theseinitiatives.atma.client.activity.IdentitasIbuActivity;
+import theseinitiatives.atma.client.activity.KaderActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 
@@ -84,28 +85,7 @@ public class FormAddKader extends AppCompatActivity {
                 // Toast.makeText(getApplicationContext(),getDusun(),Toast.LENGTH_LONG).show();
             }
         });
-        /*String[] dusunsList = {
-                "Menges"	,
-                "Penandak"	,
-                "Menyiuh"	,
-                "Selebung Lauk"	,
-                "Selebung Daye"	,
-                "Melar"	,
-                "Jali"	,
-                "Nyangget Lauk"	,
-                "Nyangget Daye"	,
-                "Pucung"	,
-                "Selebung Tengak"	,
-                "Mekar Sari"
-        };
-                // Search Nama Donor
-                final ArrayAdapter<String> adapterDusun = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, dusunsList);
-                //Find TextView control
-                final AutoCompleteTextView dusuns = (AutoCompleteTextView) findViewById(R.id.dusun);
-                //Set the number of characters the user must type before the drop down list is shown
-                     dusuns.setThreshold(1);
-                //Set the adapter
-                    dusuns.setAdapter(adapterDusun);*/
+        
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +117,7 @@ public class FormAddKader extends AppCompatActivity {
 
                 dbManager.close();
                 finish();
-                Intent myIntent = new Intent(FormAddKader.this, IdentitasIbuActivity.class);
+                Intent myIntent = new Intent(FormAddKader.this, KaderActivity.class);
                 startActivity(myIntent);
 
 

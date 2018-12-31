@@ -31,6 +31,7 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String STATUS_BERSALIN = "status_bersalin";
     public static final String TGL_LAHIR = "tgl_lahir";
     public static final String DUSUN = "dusun";
+    public static final String DESA = "desa";
     public static final String HPHT = "hpht";
     public static final String HTP = "htp";
     public static final String GOL_DARAH = "gol_darah";
@@ -120,6 +121,8 @@ public class DbHelper  extends SQLiteOpenHelper {
             + USER_ID + " TEXT , "
             + LOCATION_ID + " TEXT , "
             + UPDATE_ID + " TEXT , "
+            + DESA + " TEXT , "
+            + DUSUN + " TEXT , "
             + DATA + " TEXT , "
             + FORM_NAME + " TEXT , "
             + IS_SYNC + " INTEGER DEFAULT 0, "

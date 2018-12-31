@@ -800,13 +800,25 @@ public class DbManager {
     public void insertsyncTable(String formName, Long updateId, String dusun, String data, int issend, int issync) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.USER_ID,getusername());
-        contentValue.put( DbHelper.LOCATION_ID,dusun);
+        contentValue.put( DbHelper.LOCATION_ID,getlocName()); //get from user location
+        contentValue.put( DbHelper.DESA,getDesa()); // get from location tree with tag id = 5
+        contentValue.put( DbHelper.DUSUN,dusun); // get from location tree with tag id = 5
         contentValue.put( DbHelper.DATA,data);
         contentValue.put( UPDATE_ID,updateId);
         contentValue.put( FORM_NAME,formName);
         contentValue.put( DbHelper.IS_SEND,issend);
         contentValue.put( DbHelper.IS_SYNC,issync);
         database.insert(DbHelper.TABLE_SYNC, null, contentValue);
+    }
+
+    private String getDesa() {
+        setSelection("LOCATION_TAG_ID =5");
+        Cursor cursor = fetchLocationTree();
+        cursor.moveToFirst();
+        String locName = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
+        // locName = userd.getString(userd.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
+        //close();
+        return locName;
     }
 
     public Cursor fetchKader(){

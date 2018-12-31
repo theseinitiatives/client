@@ -219,6 +219,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                     dataArray.put(DbHelper.HUBUNGAN_DENGAN_IBU,txt_hubunganPemilik);
                     dataArray.put(DbHelper.HUBUNGAN_PENDONOR_IBU,txt_hubunganPendonor);
                     dataArray.put(DbHelper.NAME_PEMILIK,namaTransportasi);
+                    dataArray.put(DbHelper.DUSUN,textDusun);
                     dataArray.put(DbHelper.TIMESTAMP,dateNow());
 
 
