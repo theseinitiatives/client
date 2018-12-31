@@ -24,7 +24,7 @@ public class BankDarahDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bank_darah_detail);
+        setContentView(R.layout.content_bank_darah_detail);
 
         name = (TextView)findViewById(R.id.donor_detail_nama);
         golonganDarah = (TextView)findViewById(R.id.donor_detail_golongan);

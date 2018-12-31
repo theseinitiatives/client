@@ -23,7 +23,7 @@ public class TransportasiDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transportasi_detail);
+        setContentView(R.layout.content_transportasi_detail);
         String id = getIntent().getStringExtra("id");
 
         DbManager db = new DbManager(getApplicationContext()).open();
