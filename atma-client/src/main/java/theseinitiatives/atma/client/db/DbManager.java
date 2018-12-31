@@ -927,7 +927,7 @@ public class DbManager {
         String[] columns = new String[] {
                 DbHelper.NAME};
         Cursor c=null;
-        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy, limit);
+        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, null, selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -937,7 +937,7 @@ public class DbManager {
         String[] columns = new String[] {
                 DbHelper.NAME_PENDONOR};
         Cursor c=null;
-        c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.IS_SEND +"!=1", selectionArgs, groupBy, having, orderBy, limit);
+        c = database.query(DbHelper.TABLE_NAME_BANK, columns, null, selectionArgs, groupBy, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
