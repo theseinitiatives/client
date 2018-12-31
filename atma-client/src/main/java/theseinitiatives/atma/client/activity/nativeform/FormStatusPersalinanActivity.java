@@ -194,6 +194,8 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
         jumlahBayi = (EditText) findViewById(R.id.jumlah);
        //        jenisKelamin = (EditText) findViewById(R.id.jenis_kel);
         jumlahBayi = (EditText) findViewById(R.id.jumlah);
+        resikoIbuLainnya = (AutoCompleteTextView) findViewById(R.id.lainnya_komplikasiibu);
+        resikoAnakLainnya = (AutoCompleteTextView) findViewById(R.id.lainnya_komplikasianak);
 
         dbManager = new DbManager(this);
         dbManager.open();
@@ -306,8 +308,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
 //        Log.e("tempat Persalinan",tempatPersalinan);
 //        Log.e("gender",gender);
 
-        resikoIbuLainnya = (AutoCompleteTextView) findViewById(R.id.lainnya_komplikasiibu);
-        resikoAnakLainnya = (AutoCompleteTextView) findViewById(R.id.lainnya_komplikasianak);
+
 
         //Data Text Field
         String tanggalPersalinan = c.getString(c.getColumnIndexOrThrow(DbHelper.TGL_PERSALINAN));
@@ -486,7 +487,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
 
     }
 
-    public void onCheckBoxClicked(View view) {
+    public void onCheckboxClicked(View view) {
         boolean checked = ((CheckBox)view).isChecked();
 
         switch (view.getId()){
