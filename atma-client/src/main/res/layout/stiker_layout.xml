@@ -3,78 +3,122 @@
     android:id="@+id/relativelayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@color/light_brown"
     android:layout_gravity="center">
 
     <ImageView
         android:id="@+id/myImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/light_brown"
         android:src="@drawable/pempatk" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/layout_above"
+        android:orientation="vertical"
+        android:layout_height="140dp"
+        >
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="160dp"
+        android:layout_below="@+id/layout_above"
+        android:id="@+id/linier_layouts"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        >
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/nama_ibu"
-        android:layout_width="120dp"
-        android:layout_marginStart="15dp"
+        android:layout_below="@+id/layout_above"
+        android:layout_toEndOf="@+id/linier_layouts"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="2dp"
+        android:textSize="12sp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="140dp"
-        android:layout_marginEnd="83dp"
         android:text="" />
 
     <TextView
-        android:id="@+id/htp"
-
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
+    android:id="@+id/htp"
         android:layout_below="@+id/nama_ibu"
-        android:layout_alignStart="@+id/nama_ibu"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="0dp"
-        android:text="" />
+        android:layout_toEndOf="@+id/linier_layouts"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="2dp"
+        android:textSize="12sp"
+        android:layout_height="wrap_content"
+        android:text="18-06-2018" />
 
     <TextView
         android:id="@+id/penolong"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/htp"
-        android:layout_alignStart="@+id/nama_ibu"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="-1dp"
-        android:text=" " />
+        android:layout_toEndOf="@+id/linier_layouts"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="2dp"
+        android:textSize="12sp"
+        android:layout_height="wrap_content"
+        android:text="" />
 
     <TextView
         android:id="@+id/tempat"
-        android:layout_width="160dp"
-        android:layout_marginStart="15dp"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/penolong"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="-1dp"
-        android:layout_marginEnd="42dp"
-        android:text="" />
+        android:layout_toEndOf="@+id/linier_layouts"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="2dp"
+        android:textSize="12sp"
+        android:layout_height="wrap_content"
+        android:text=""  />
 
     <TextView
         android:id="@+id/pendamping"
-        android:layout_width="160dp"
-        android:layout_marginStart="15dp"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/tempat"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="43dp"
-        android:text="" />
+        android:layout_toEndOf="@+id/linier_layouts"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="2dp"
+        android:textSize="12sp"
+        android:layout_height="wrap_content"
+        android:text=""  />
+
 
     <TextView
         android:id="@+id/transportasi"
-        android:layout_width="160dp"
-        android:layout_marginStart="15dp"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/pendamping"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="-1dp"
-        android:layout_marginEnd="41dp"
-        android:text=" " />
+        android:layout_toEndOf="@+id/linier_layouts"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="2dp"
+        android:textSize="12sp"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+
+    <TextView
+        android:id="@+id/donor"
+        android:layout_below="@+id/transportasi"
+        android:layout_toEndOf="@+id/linier_layouts"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="2dp"
+        android:textSize="12sp"
+        android:layout_height="wrap_content"
+        android:text=""/>
+
+    <!--
+
+
+
+
+
+
+
 
     <TextView
         android:id="@+id/donor"
@@ -85,7 +129,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="-1dp"
         android:layout_marginEnd="39dp"
-        android:text="" />
+        android:text="" />-->
 
 
 </RelativeLayout>

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
 import theseinitiatives.atma.client.db.DbManager;
+import static theseinitiatives.atma.client.Utils.StringUtil.humanizes;
 
 public class StikerActivity extends AppCompatActivity {
 
@@ -34,29 +35,32 @@ public class StikerActivity extends AppCompatActivity {
         final String id = getIntent().getStringExtra("id");
         final String namas = getIntent().getStringExtra("nama");
         final String htp = getIntent().getStringExtra("htp");
-        final String jenisk = getIntent().getStringExtra("jenis");
+        final String jenisk_pemilik = getIntent().getStringExtra("jenis");
+        final String uniqueID = getIntent().getStringExtra("uniqueId");
 
         dbManager = new DbManager(this);
         dbManager.open();
 
         // Cursor cursorRencanaPersalinan = dbManager.fet(id);
-        name.setText("  " +namas);
+        name.setText("" +humanizes(namas));
+        //set null
 
-
-        htp_.setText(" "+ htp);
-        Cursor c = dbManager.fetchRencanaPersalinan(id);
+        htp_.setText(""+ htp);
+        Cursor c = dbManager.fetchRencanaPersalinan(uniqueID);
         if (c.moveToFirst()) {
-            nama_donor.setText("  " +c.getString(c.getColumnIndexOrThrow("name_pendonor")));
-            penolong_.setText("" + c.getString(c.getColumnIndexOrThrow("penolong_persalinan")));
-            tempat_.setText("  " + c.getString(c.getColumnIndexOrThrow("tempat_persalinan")));
-            pendamping_.setText("  " + c.getString(c.getColumnIndexOrThrow("pendamping_persalinan")));
+            String tempats = c.getString(c.getColumnIndexOrThrow("tempat_persalinan"));
+            String humanizatempat = tempats.equalsIgnoreCase("rumahsakit")?"Rumah Sakit":humanizes(tempats);
+            nama_donor.setText("" +humanizes(c.getString(c.getColumnIndexOrThrow("name_pendonor"))));
+            penolong_.setText("" + humanizes(c.getString(c.getColumnIndexOrThrow("penolong_persalinan"))));
+            tempat_.setText(humanizatempat);
+            pendamping_.setText("" + humanizes(c.getString(c.getColumnIndexOrThrow("pendamping_persalinan"))));
 
 
 
         }
-        Cursor cursorkerndaran = dbManager.fetchJenisKendaraan(jenisk);
+        Cursor cursorkerndaran = dbManager.fetchJenisKendaraan(jenisk_pemilik);
         if (cursorkerndaran.moveToFirst()) {
-            transportsi_.setText("  " + cursorkerndaran.getString(cursorkerndaran.getColumnIndexOrThrow("jenis_kendaraan")));
+            transportsi_.setText("" + humanizes(cursorkerndaran.getString(cursorkerndaran.getColumnIndexOrThrow("jenis_kendaraan"))));
             Log.e("JENISK",cursorkerndaran.getString(cursorkerndaran.getColumnIndexOrThrow("jenis_kendaraan")));
         }
     }
