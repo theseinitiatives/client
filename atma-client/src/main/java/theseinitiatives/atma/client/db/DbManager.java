@@ -30,6 +30,7 @@ import static theseinitiatives.atma.client.db.DbHelper.TABLE_NAME_IBU;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_NAME_RENCANA;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_NAME_TRANS;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_PERSALINAN;
+import static theseinitiatives.atma.client.db.DbHelper.TABLE_SYNC;
 import static theseinitiatives.atma.client.db.DbHelper.UPDATE_ID;
 
 public class DbManager {
@@ -434,11 +435,7 @@ public class DbManager {
     }
 
     public Cursor fetchSyncedData() {
-        String sql = "SELECT "+UPDATE_ID+" FROM "+TABLE_NAME_IBU+" UNION "+
-                "SELECT "+UPDATE_ID+" FROM "+TABLE_NAME_TRANS+" UNION "+
-                "SELECT "+UPDATE_ID+" FROM "+TABLE_NAME_RENCANA+" UNION "+
-                "SELECT "+UPDATE_ID+" FROM "+TABLE_PERSALINAN+" UNION "+
-                "SELECT "+UPDATE_ID+" FROM "+TABLE_NAME_BANK+" ORDER BY "+TABLE_NAME_IBU+"."+UPDATE_ID+" DESC";
+        String sql = "SELECT "+UPDATE_ID+" FROM "+TABLE_SYNC+"  ORDER BY "+TABLE_SYNC+"."+UPDATE_ID+" DESC";
         Cursor cursor = database.rawQuery(sql,null);
         if (cursor != null) {
             cursor.moveToFirst();
@@ -800,10 +797,10 @@ public class DbManager {
         database.insert(DbHelper.TABLE_KADER, null, contentValue);
     }
 
-    public void insertsyncTable(String formName, Long updateId, String data, int issend, int issync) {
+    public void insertsyncTable(String formName, Long updateId, String dusun, String data, int issend, int issync) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.USER_ID,getusername());
-        contentValue.put( DbHelper.LOCATION_ID,getlocName());
+        contentValue.put( DbHelper.LOCATION_ID,dusun);
         contentValue.put( DbHelper.DATA,data);
         contentValue.put( UPDATE_ID,updateId);
         contentValue.put( FORM_NAME,formName);
@@ -1099,4 +1096,5 @@ public class DbManager {
         }
         return c;
     }
+
 }

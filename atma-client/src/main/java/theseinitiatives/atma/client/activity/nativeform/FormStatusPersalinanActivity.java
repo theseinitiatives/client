@@ -250,6 +250,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                 String tempat = getTempatBersalin();
                 Date currentTime = Calendar.getInstance().getTime();
                 JSONObject dataArray = new JSONObject();
+                String textDusun = getDusun(idIbu);
                 try {
                     dataArray.put(DbHelper.ID_IBU,uniqueId);
                     dataArray.put(DbHelper.STATUS_BERSALIN, ibubersalin);
@@ -260,6 +261,8 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                     dataArray.put(DbHelper.JENISKELAMIN,jenisKelamins);
                     dataArray.put(DbHelper.KOMPLIKASIIBU,komplikasiIbus);
                     dataArray.put(DbHelper.KOMPLIKASIANAK,komplikasiAnak);
+
+                    dataArray.put(DbHelper.DUSUN,textDusun);
                     dataArray.put(DbHelper.TEMPAT_PERSALINAN,tempat);
                     dataArray.put(DbHelper.TIMESTAMP,dateNow());
                 }catch (Exception e) {
@@ -269,11 +272,11 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                     dbManager.open();
                     if(isPreloaded) {
                         dbManager.updateStatusPersalinan(uniqueId, tgl_persalinn, ibubersalin, kondisi_ibu, kondisi_anak, jumlahBayis, jenisKelamins, komplikasiIbus, komplikasiAnak, tempat);
-                        dbManager.insertsyncTable("status_persalinan_edit", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+                        dbManager.insertsyncTable("status_persalinan_edit", System.currentTimeMillis(),textDusun, dataArray.toString(), 0, 0);
                     }
                     else{
                         dbManager.insertStatusPersalinan(uniqueId, tgl_persalinn, ibubersalin, kondisi_ibu, kondisi_anak, jumlahBayis, jenisKelamins, komplikasiIbus, komplikasiAnak, tempat);
-                        dbManager.insertsyncTable("status_persalinan", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+                        dbManager.insertsyncTable("status_persalinan", System.currentTimeMillis(),textDusun, dataArray.toString(), 0, 0);
                     }
                     dbManager.close();
                     finish();
@@ -606,5 +609,16 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
             case "laki-laki" : laki.setChecked(true);break;
             case "perempuan" : perempuan.setChecked(true);break;
         }
+    }
+    public String getDusun(String id){
+        if(dbManager == null) {
+            dbManager = new DbManager(getApplicationContext());
+        }
+        dbManager.open();
+        Cursor cursor = dbManager.fetchdetaildata(id);
+        String namaDUsun = cursor.getString(cursor.getColumnIndexOrThrow("dusun"));
+        dbManager.close();
+        return namaDUsun;
+
     }
 }

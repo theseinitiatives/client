@@ -1,6 +1,7 @@
 package theseinitiatives.atma.client.activity.nativeform;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,9 +10,13 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import theseinitiatives.atma.client.NavigationmenuController;
@@ -25,10 +30,18 @@ import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 public class FormAddKader extends AppCompatActivity {
 
     EditText kaders;
-    EditText dusuns;
+  //  EditText dusuns;
     EditText nohps;
 
+    public String getDusun() {
+        return dusun;
+    }
 
+    public void setDusun(String dusun) {
+        this.dusun = dusun;
+    }
+
+    String dusun;
 
     private DbManager dbManager;
 
@@ -51,7 +64,27 @@ public class FormAddKader extends AppCompatActivity {
         //  userService = ApiUtils.getUserService();
 
         //==========================
-        String[] dusunsList = {
+        RadioGroup rgp = (RadioGroup) findViewById(R.id.dusun_radio);
+        for (int i = 0; i < getlocationName().size(); i++) {
+            RadioButton rbn = new RadioButton(this);
+            rbn.setId(View.generateViewId());
+            Log.e("Location", getlocationName().get(0));
+            rbn.setText(getlocationName().get(i));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+            rbn.setLayoutParams(params);
+            rgp.addView(rbn);
+        }
+
+
+        rgp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioButton = (RadioButton) findViewById(checkedId);
+                setDusun(radioButton.getText().toString());
+                // Toast.makeText(getApplicationContext(),getDusun(),Toast.LENGTH_LONG).show();
+            }
+        });
+        /*String[] dusunsList = {
                 "Menges"	,
                 "Penandak"	,
                 "Menyiuh"	,
@@ -72,7 +105,7 @@ public class FormAddKader extends AppCompatActivity {
                 //Set the number of characters the user must type before the drop down list is shown
                      dusuns.setThreshold(1);
                 //Set the adapter
-                    dusuns.setAdapter(adapterDusun);
+                    dusuns.setAdapter(adapterDusun);*/
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +113,7 @@ public class FormAddKader extends AppCompatActivity {
             public void onClick(View v) {
 
                 String nama_kader = kaders.getText().toString();
-                String namaDusun = dusuns.getText().toString();
+                String namaDusun = getDusun();
                 String noHp = nohps.getText().toString();
                 String username = "kader_"+namaDusun.replace(" ","").toLowerCase();
                 String password = "kaders"+""+randomNum();
@@ -100,7 +133,7 @@ public class FormAddKader extends AppCompatActivity {
                 }
                 dbManager.open();
                 dbManager.insertKader(UUID,nama_kader,namaDusun,noHp,username, password);
-                dbManager.insertsyncTable("kader", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+                dbManager.insertsyncTable("kader", System.currentTimeMillis(),getDusun(), dataArray.toString(), 0, 0);
 
                 dbManager.close();
                 finish();
@@ -123,6 +156,26 @@ public class FormAddKader extends AppCompatActivity {
         final int random = new Random().nextInt(100) + 800;
 
         return random;
+    }
+
+    public ArrayList<String> getlocationName() {
+        dbManager.open();
+        dbManager.setSelection(DbHelper.LOCATION_TAG_ID+"=6");
+        Cursor cursor = dbManager.fetchLocationTree();
+        ArrayList<String> names = new ArrayList<String>();
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                names.add(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.LOCATION_NAME)));
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        dbManager.close();
+
+        //  String[] languagess = { "Budi","Joni","Bravo" };
+        return names;
+        // return languagess;
     }
     @Override
     public void onBackPressed() {

@@ -182,7 +182,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
         nama_donors.setAdapter(adapterDonor);
 
 
-
+        //Log.e("NAMADUSUN",getDusun(idIbu));
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,6 +197,8 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                 String txt_hubunganPemilik = getHubunganPemilik();
                 String txt_hubunganPendonor = getHubunganPendonor();
                 Date currentTime = Calendar.getInstance().getTime();
+                String textDusun = getDusun(idIbu);
+
                 JSONObject dataArray = new JSONObject();
                 try {
                     dataArray.put(DbHelper.ID_IBU,uniqueId);
@@ -224,10 +226,10 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                     dbManager.open();
                     if(isPreloaded) {
                         dbManager.updateRencanaPersalinan(uniqueId, namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis());
-                        dbManager.insertsyncTable("rencana_persalinan_edit", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+                        dbManager.insertsyncTable("rencana_persalinan_edit", System.currentTimeMillis(), textDusun,dataArray.toString(), 0, 0);
                     }else {
                         dbManager.insertRencanaPersalinan(uniqueId, namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis());
-                        dbManager.insertsyncTable("rencana_persalinan", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+                        dbManager.insertsyncTable("rencana_persalinan", System.currentTimeMillis(),textDusun, dataArray.toString(), 0, 0);
                     }dbManager.close();
                     finish();
                     Intent myIntent = new Intent(FormRencanaPersalinan.this, IdentitasIbuActivity.class);
@@ -457,6 +459,17 @@ public class FormRencanaPersalinan extends AppCompatActivity {
         }
     }
 
+    public String getDusun(String id){
+        if(dbManager == null) {
+            dbManager = new DbManager(getApplicationContext());
+        }
+        dbManager.open();
+        Cursor cursor = dbManager.fetchdetaildata(id);
+        String namaDUsun = cursor.getString(cursor.getColumnIndexOrThrow("dusun"));
+        dbManager.close();
+        return namaDUsun;
+
+    }
 
     @Override
     public void onBackPressed() {

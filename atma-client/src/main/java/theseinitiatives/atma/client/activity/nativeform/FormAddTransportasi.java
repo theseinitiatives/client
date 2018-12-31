@@ -10,10 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
@@ -34,11 +38,19 @@ public class FormAddTransportasi extends AppCompatActivity {
     public void setJenis(String jenis) {
         this.jenis = jenis;
     }
+    public String getDusun() {
+        return dusun;
+    }
 
+    public void setDusun(String dusun) {
+        this.dusun = dusun;
+    }
+
+    String dusun;
     EditText kapasitass;
     EditText no_hp;
     EditText gubugs;
-    EditText dusuns;
+   // EditText dusuns;
     EditText profesis;
     EditText kets;
     private DbManager dbManager;
@@ -63,7 +75,7 @@ public class FormAddTransportasi extends AppCompatActivity {
         no_hp = (EditText) findViewById(R.id.nohp);
         gubugs = (EditText) findViewById(R.id.gubug);
         kapasitass = (EditText) findViewById(R.id.kapasitas);
-        dusuns = (EditText) findViewById(R.id.dusun);
+      //  dusuns = (EditText) findViewById(R.id.dusun);
         profesis = (EditText) findViewById(R.id.profesi);
         kets = (EditText) findViewById(R.id.ket);
       //  LinearLayout kapasitas_layoutss=(LinearLayout)this.findViewById(R.id.kapasitas_layout);
@@ -71,28 +83,26 @@ public class FormAddTransportasi extends AppCompatActivity {
 
 
         //==========================
-        String[] dusunsList = {
-                "Menges"	,
-                "Penandak"	,
-                "Menyiuh"	,
-                "Selebung Lauk"	,
-                "Selebung Daye"	,
-                "Melar"	,
-                "Jali"	,
-                "Nyangget Lauk"	,
-                "Nyangget Daye"	,
-                "Pucung"	,
-                "Selebung Tengak"	,
-                "Mekar Sari"
-        };
-        // Search Nama Donor
-        final ArrayAdapter<String> adapterDusun = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, dusunsList);
-        //Find TextView control
-        final AutoCompleteTextView dusuns = (AutoCompleteTextView) findViewById(R.id.dusun);
-        //Set the number of characters the user must type before the drop down list is shown
-        dusuns.setThreshold(1);
-        //Set the adapter
-        dusuns.setAdapter(adapterDusun);
+        RadioGroup rgp = (RadioGroup) findViewById(R.id.dusun_radio);
+        for (int i = 0; i < getlocationName().size(); i++) {
+            RadioButton rbn = new RadioButton(this);
+            rbn.setId(View.generateViewId());
+            Log.e("Location", getlocationName().get(0));
+            rbn.setText(getlocationName().get(i));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+            rbn.setLayoutParams(params);
+            rgp.addView(rbn);
+        }
+
+
+        rgp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioButton = (RadioButton) findViewById(checkedId);
+                setDusun(radioButton.getText().toString());
+                // Toast.makeText(getApplicationContext(),getDusun(),Toast.LENGTH_LONG).show();
+            }
+        });
 
 
         if(id!=null){
@@ -112,7 +122,7 @@ public class FormAddTransportasi extends AppCompatActivity {
                 String text_pemiliks  = nama_pemiliks.getText().toString();
                 String text_gubug = gubugs.getText().toString();
                 String text_kapasitass = kapasitass.getText().toString();
-                String text_dusuns = dusuns.getText().toString();
+                String text_dusuns = getDusun();
                 String text_profesis = profesis.getText().toString();
                 String text_kets = kets.getText().toString();
                 String text_nohp = no_hp.getText().toString();
@@ -151,11 +161,11 @@ public class FormAddTransportasi extends AppCompatActivity {
                     dbManager.open();
                     if(id!=null) {
                         dbManager.updatebanktransportasi(id, text_pemiliks, jeniss, text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets,System.currentTimeMillis());
-                        dbManager.insertsyncTable("transportasi_edit", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+                        dbManager.insertsyncTable("transportasi_edit", System.currentTimeMillis(),getDusun(), dataArray.toString(), 0, 0);
 
                     } else {
                         dbManager.insertbanktransportasi(UUID, text_pemiliks, jeniss, text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets,System.currentTimeMillis());
-                        dbManager.insertsyncTable("transportasi", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+                        dbManager.insertsyncTable("transportasi", System.currentTimeMillis(),getDusun(), dataArray.toString(), 0, 0);
 
                     }
                     dbManager.close();
@@ -208,7 +218,7 @@ public class FormAddTransportasi extends AppCompatActivity {
     private void preloadForm(Cursor c){
         nama_pemiliks.setText(c.getString(c.getColumnIndexOrThrow("name")));
         gubugs.setText(c.getString(c.getColumnIndexOrThrow("gubug")));
-        dusuns.setText(c.getString(c.getColumnIndexOrThrow("dusun")));
+        setDusun(c.getString(c.getColumnIndexOrThrow("dusun")));
         no_hp.setText(c.getString(c.getColumnIndexOrThrow("telp")));
 //        dusuns.setText(c.getString(c.getColumnIndexOrThrow("dusun")));
         setJenisKendaraanChecked(c.getString(c.getColumnIndexOrThrow("jenis_kendaraan")));
@@ -239,6 +249,27 @@ public class FormAddTransportasi extends AppCompatActivity {
                 break;
         }
     }
+
+    public ArrayList<String> getlocationName() {
+        dbManager.open();
+        dbManager.setSelection(DbHelper.LOCATION_TAG_ID+"=6");
+        Cursor cursor = dbManager.fetchLocationTree();
+        ArrayList<String> names = new ArrayList<String>();
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                names.add(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.LOCATION_NAME)));
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        dbManager.close();
+
+        //  String[] languagess = { "Budi","Joni","Bravo" };
+        return names;
+        // return languagess;
+    }
+
     @Override
     public void onBackPressed() {
         Log.d("CDA", "onBackPressed Called");

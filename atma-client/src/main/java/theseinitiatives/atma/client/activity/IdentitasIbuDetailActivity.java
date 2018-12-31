@@ -155,6 +155,7 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
                     myIntent.putExtra("nama", Nama);
                     myIntent.putExtra("htp", htp);
                     myIntent.putExtra("jenis", jenis);
+                    myIntent.putExtra("uniqueId", uniqueId);
                     startActivity(myIntent);
                     overridePendingTransition(0, 0);
                     finish();

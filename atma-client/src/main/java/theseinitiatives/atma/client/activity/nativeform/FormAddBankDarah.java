@@ -13,11 +13,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -34,9 +37,17 @@ public class FormAddBankDarah extends AppCompatActivity {
     EditText nama_donors;
     String rhesus;
     EditText gubugs;
-    EditText dusun;
+   // EditText dusun;
     String setUniqueId;
+    public String getDusun() {
+        return dusun;
+    }
 
+    public void setDusun(String dusun) {
+        this.dusun = dusun;
+    }
+
+    String dusun;
     public String getSetUniqueId() {
         return setUniqueId;
     }
@@ -95,9 +106,32 @@ public class FormAddBankDarah extends AppCompatActivity {
         gubugs = (EditText) findViewById(R.id.gubug);
         tgl_donor = (EditText) findViewById(R.id.terakhirdonor);
         notelpons = (EditText) findViewById(R.id.notelpon);
-        dusun = (EditText) findViewById(R.id.dusun_s);
+       // dusun = (EditText) findViewById(R.id.dusun_s);
 
         //==========================
+
+
+        RadioGroup rgp = (RadioGroup) findViewById(R.id.dusun_radio);
+        for (int i = 0; i < getlocationName().size(); i++) {
+            RadioButton rbn = new RadioButton(this);
+            rbn.setId(View.generateViewId());
+            Log.e("Location", getlocationName().get(0));
+            rbn.setText(getlocationName().get(i));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+            rbn.setLayoutParams(params);
+            rgp.addView(rbn);
+        }
+
+
+        rgp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioButton = (RadioButton) findViewById(checkedId);
+                setDusun(radioButton.getText().toString());
+                // Toast.makeText(getApplicationContext(),getDusun(),Toast.LENGTH_LONG).show();
+            }
+        });
+        /*
         String[] dusunsList = {
                 "Menges"	,
                 "Penandak"	,
@@ -119,7 +153,7 @@ public class FormAddBankDarah extends AppCompatActivity {
         //Set the number of characters the user must type before the drop down list is shown
         dusun.setThreshold(1);
         //Set the adapter
-        dusun.setAdapter(adapterDusun);
+        dusun.setAdapter(adapterDusun);*/
 
         tgl_donor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +191,7 @@ public class FormAddBankDarah extends AppCompatActivity {
                 String donor = nama_donors.getText().toString();
                 String notelponss = notelpons.getText().toString();
                 String text_gubug = gubugs.getText().toString();
-                String text_dusun = dusun.getText().toString();
+                String text_dusun = getDusun();
                 String radioStatus = getStatuss();
                 String radiogolDarah = getDarah() +" - "+ getRhesus();
                 String tglmendonor = tgl_donor.getText().toString();
@@ -192,13 +226,13 @@ public class FormAddBankDarah extends AppCompatActivity {
                     dbManager.open();
                     if(id!=null){
                         dbManager.updatebankdarah(id, donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah, tglmendonor,System.currentTimeMillis());
-                        dbManager.insertsyncTable("bank_darah_edit",System.currentTimeMillis(),dataArray.toString(),0,0);
+                        dbManager.insertsyncTable("bank_darah_edit",System.currentTimeMillis(),getDusun() ,dataArray.toString(),0,0);
                         Log.e("Data", dataArray.toString());
                         Log.e("Data====", getSetUniqueId());
                     }
                     else {
                         dbManager.insertbankdarah(UUID,donor, text_gubug, text_dusun, notelponss, radioStatus, radiogolDarah, tglmendonor,System.currentTimeMillis());
-                        dbManager.insertsyncTable("bank_darah", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+                        dbManager.insertsyncTable("bank_darah", System.currentTimeMillis(),getDusun(), dataArray.toString(), 0, 0);
 
                     }
                         dbManager.close();
@@ -279,7 +313,7 @@ public class FormAddBankDarah extends AppCompatActivity {
             if ( c.moveToFirst() ) {
                 nama_donors.setText(c.getString(c.getColumnIndexOrThrow("name_pendonor")));
                 gubugs.setText(c.getString(c.getColumnIndexOrThrow("gubug")));
-                dusun.setText(c.getString(c.getColumnIndexOrThrow("dusun")));
+                setDusun(c.getString(c.getColumnIndexOrThrow("dusun")));
                 notelpons.setText(c.getString(c.getColumnIndexOrThrow("telp")));
                 setGolonganDarahClicked(c.getString(c.getColumnIndexOrThrow("gol_darah")));
                 setSetUniqueId(c.getString(c.getColumnIndexOrThrow("unique_id")));
@@ -313,6 +347,27 @@ public class FormAddBankDarah extends AppCompatActivity {
             return !value.equalsIgnoreCase("");
         return false;
     }
+
+    public ArrayList<String> getlocationName() {
+        dbManager.open();
+        dbManager.setSelection(DbHelper.LOCATION_TAG_ID+"=6");
+        Cursor cursor = dbManager.fetchLocationTree();
+        ArrayList<String> names = new ArrayList<String>();
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                names.add(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.LOCATION_NAME)));
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        dbManager.close();
+
+        //  String[] languagess = { "Budi","Joni","Bravo" };
+        return names;
+        // return languagess;
+    }
+
     @Override
     public void onBackPressed() {
         Log.d("CDA", "onBackPressed Called");

@@ -193,14 +193,21 @@
                     android:layout_height="wrap_content">
 
 
-                    <AutoCompleteTextView
-                        android:id="@+id/dusun"
+                    <TextView
+                        android:id="@+id/radio_dusun"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/Dusun"
-                        android:inputType="text"
+                        android:hint="@string/dusun"
                         android:maxLines="1"
-                        android:singleLine="true" android:imeOptions="actionNext"/>
+                        android:singleLine="true" />
+                    <RadioGroup
+                        android:id="@+id/dusun_radio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:orientation="vertical">
+
+                    </RadioGroup>
 
                 </android.support.design.widget.TextInputLayout>
 

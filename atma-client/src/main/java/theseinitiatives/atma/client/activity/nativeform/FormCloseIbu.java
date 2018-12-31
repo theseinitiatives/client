@@ -1,6 +1,7 @@
 package theseinitiatives.atma.client.activity.nativeform;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -65,7 +66,7 @@ public class FormCloseIbu extends AppCompatActivity {
                 String status_ = getStatuss();
                 String UUID = java.util.UUID.randomUUID().toString();
 
-
+                String textDusun = getDusun(idIbu);
                 JSONObject dataArray = new JSONObject();
                 try {
                     dataArray.put(DbHelper.ALASAN, alasan);
@@ -77,7 +78,7 @@ public class FormCloseIbu extends AppCompatActivity {
                 }
                 dbManager.open();
                 dbManager.closeIbu(idIbu,status_,alasan);
-                dbManager.insertsyncTable("close_ibu", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+                dbManager.insertsyncTable("close_ibu", System.currentTimeMillis(),textDusun, dataArray.toString(), 0, 0);
 
                 dbManager.close();
                 finish();
@@ -125,6 +126,19 @@ public class FormCloseIbu extends AppCompatActivity {
                 break;
         }
     }
+
+    public String getDusun(String id){
+        if(dbManager == null) {
+            dbManager = new DbManager(getApplicationContext());
+        }
+        dbManager.open();
+        Cursor cursor = dbManager.fetchdetaildata(id);
+        String namaDUsun = cursor.getString(cursor.getColumnIndexOrThrow("dusun"));
+        dbManager.close();
+        return namaDUsun;
+
+    }
+
     @Override
     public void onBackPressed() {
         Log.d("CDA", "onBackPressed Called");

@@ -166,8 +166,6 @@ public class FormAddIbuActivity extends AppCompatActivity {
         terlaluTua = (CheckBox) findViewById(R.id.checskbox_tua);
         gravidaBanyak = (CheckBox) findViewById(R.id.checskbox_gravida);
         lainnya = (CheckBox) findViewById(R.id.checskbox_lainnya);
-        int buttons = 5;
-        AppCompatRadioButton[] rb = new AppCompatRadioButton[buttons];
 
         RadioGroup rgp = (RadioGroup) findViewById(R.id.dusun_radio);
         for (int i = 0; i < getlocationName().size(); i++) {
@@ -347,13 +345,13 @@ public class FormAddIbuActivity extends AppCompatActivity {
                         dbManager.updateIbu(id, mothername, husbandname, dobss, dusunss, hphtss, htpss, goldarahss, "", notelponss, radioStatus2, fResiko, gubug, "", System.currentTimeMillis());
                         //add into sync tables
 
-                        dbManager.insertsyncTable("identitas_ibu_edit",System.currentTimeMillis(),dataArray.toString(),0,0);
+                        dbManager.insertsyncTable("identitas_ibu_edit",System.currentTimeMillis(),getDusun(), dataArray.toString(),0,0);
 
                     }
                     else {
                         //insert new data
                         dbManager.insertibu(UUID, mothername, husbandname, dobss, dusunss, hphtss, htpss, goldarahss, "", notelponss, radioStatus2, fResiko, gubug, "",System.currentTimeMillis());
-                        dbManager.insertsyncTable("identitas_ibu", System.currentTimeMillis(), dataArray.toString(), 0, 0);
+                        dbManager.insertsyncTable("identitas_ibu", System.currentTimeMillis(),getDusun(), dataArray.toString(), 0, 0);
                     }
                     dbManager.close();
                     finish();

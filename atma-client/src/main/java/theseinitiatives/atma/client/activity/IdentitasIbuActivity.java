@@ -580,6 +580,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     }
                     resetUpdating();
                     refreshList();
+                  //  insert latest updateid into db
+                  //  fetchSyncedData()
                     getIbu("","resiko DESC");
                 }
 
@@ -616,6 +618,10 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     resetUpdating();
                     refreshList();
                     getIbu("","resiko DESC");
+                /****
+                 * ====================*/
+                    //    insert latest updateid into db
+                //    fetchSyncedData()
                 }
 
                 @Override
