@@ -31,6 +31,7 @@ import static theseinitiatives.atma.client.db.DbHelper.TABLE_NAME_RENCANA;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_NAME_TRANS;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_PERSALINAN;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_SYNC;
+import static theseinitiatives.atma.client.db.DbHelper.TABLE_UPDATEID_SYNC;
 import static theseinitiatives.atma.client.db.DbHelper.UPDATE_ID;
 
 public class DbManager {
@@ -66,6 +67,10 @@ public class DbManager {
             contentValue.put(DbHelper.LOCATION_ID, model.getlocation_id());
             contentValue.put(DbHelper.USER_ID, model.getuser_id());
             contentValue.put(UPDATE_ID, model.getupdate_id());
+
+
+            // inserting to table updateIdsync for checking latest update id
+            insertUpdateIdforPulling(model.getupdate_id(), model.getform_name());
 
             String data_ = null;
 
@@ -263,6 +268,8 @@ public class DbManager {
         }
     }
 
+
+
     public void insertibu(String uid,String mothername, String husbandname,String dobss, String gubugss,
     String hphtss, String htpss,String goldarahss, String kaderss,String notelponss,  String radioStatus2, String resiko,String gubug, String nifas_berakhir, long updateid) {
         ContentValues contentValue = new ContentValues();
@@ -423,6 +430,8 @@ public class DbManager {
                 //            + FORM_NAME + " TEXT , "
                 DbHelper.USER_ID,
                 DbHelper.LOCATION_ID,
+                DbHelper.DUSUN,
+                DbHelper.DESA,
                 DbHelper.UPDATE_ID,
                 DbHelper.FORM_NAME,
                 DbHelper.DATA
@@ -434,14 +443,7 @@ public class DbManager {
         return cursor;
     }
 
-    public Cursor fetchSyncedData() {
-        String sql = "SELECT "+UPDATE_ID+" FROM "+TABLE_SYNC+"  ORDER BY "+TABLE_SYNC+"."+UPDATE_ID+" DESC";
-        Cursor cursor = database.rawQuery(sql,null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-        return cursor;
-    }
+
 
     public Cursor fetchStatusPersalinan(String uniqueId){
         String[] col = new String[]{
@@ -1082,6 +1084,23 @@ public class DbManager {
         return random;
     }
 
+    private void insertUpdateIdforPulling(String updateId, String formName) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put(  DbHelper.UPDATE_ID, updateId);
+        contentValue.put(  DbHelper.FORM_NAME, formName);
+        contentValue.put(  DbHelper.IS_SYNC, 1);
+        database.insert(TABLE_UPDATEID_SYNC, null, contentValue);
+
+    }
+
+    public Cursor fetchSyncedData() {
+        String sql = "SELECT "+UPDATE_ID+" FROM "+TABLE_UPDATEID_SYNC+" ORDER BY "+UPDATE_ID+" DESC";
+        Cursor cursor = database.rawQuery(sql,null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
 
     public String getlatestUpdateId() {
         String upId ="0";

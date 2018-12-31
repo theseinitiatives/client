@@ -488,7 +488,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 "    }\n" +
                 "]";
 
-        // api post for ibu data
+        // api post for pushing data to server api
         RequestBody myreqbody = null;
         String data = (alldata_formatToJson()).toString();
         myreqbody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
