@@ -149,6 +149,13 @@ public class FormRencanaPersalinan extends AppCompatActivity {
 
         btnLogin = (Button) findViewById(R.id.saved);
 
+
+        //clear setter
+        setPenolongPersalinan("");
+        setTempatPersalinan("");
+        setPenolongPersalinan("");
+        setHubunganPemilik("");
+        setHubunganPendonor("");
         /*dbManager = new DbManager(this);
         dbManager.open();
         Cursor c = dbManager.fetchuniqueId(idIbu);
@@ -192,8 +199,8 @@ public class FormRencanaPersalinan extends AppCompatActivity {
             public void onClick(View v) {
                // String mothername = mother_names.getText().toString();
               //  String idIbu = id;
-                String namaDonor = nama_donors.getText().toString();
-                String namaTransportasi = transportasiNama.getText().toString();
+                String namaDonor = calonPendonor.getText().toString();
+                String namaTransportasi = pemilikTransportasi.getText().toString();
                 String txt_penolognPersalinan = getPenolongPersalinan();
                 String txt_tempatBersalin = getTempatPersalinan();
                 String txt_pendampingPersalinan = getPendampingPersalinan();
@@ -204,7 +211,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
 
                 JSONObject dataArray = new JSONObject();
                 try {
-                    dataArray.put(DbHelper.ID_IBU,uniqueId);
+                    dataArray.put(DbHelper.ID_IBU,uniqueid);
                     dataArray.put(DbHelper.NAME_PENDONOR, namaDonor);
                     dataArray.put(DbHelper.TEMPAT_PERSALINAN,txt_tempatBersalin);
                     dataArray.put(DbHelper.PENOLONG_PERSALINAN,txt_penolognPersalinan);
@@ -228,10 +235,10 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                 else {
                     dbManager.open();
                     if(isPreloaded) {
-                        dbManager.updateRencanaPersalinan(uniqueId, namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis());
+                        dbManager.updateRencanaPersalinan(uniqueid, namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis());
                         dbManager.insertsyncTable("rencana_persalinan_edit", System.currentTimeMillis(), textDusun,dataArray.toString(), 0, 0);
                     }else {
-                        dbManager.insertRencanaPersalinan(uniqueId, namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis());
+                        dbManager.insertRencanaPersalinan(uniqueid, namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis());
                         dbManager.insertsyncTable("rencana_persalinan", System.currentTimeMillis(),textDusun, dataArray.toString(), 0, 0);
                     }dbManager.close();
                     finish();
@@ -385,9 +392,12 @@ public class FormRencanaPersalinan extends AppCompatActivity {
         String tempatPersalinan = c.getString(c.getColumnIndexOrThrow(DbHelper.TEMPAT_PERSALINAN));
         String pendampingPersalinan = c.getString(c.getColumnIndexOrThrow(DbHelper.PENDAMPING_PERSALINAN));
         String hubunganIbu = c.getString(c.getColumnIndexOrThrow(DbHelper.HUBUNGAN_DENGAN_IBU));
-        String namePendonor = c.getString(c.getColumnIndexOrThrow(DbHelper.NAME_PENDONOR));
-        String pemilikKendaraan = c.getString(c.getColumnIndexOrThrow(DbHelper.NAME_PEMILIK));
         String hubunganPendonor = c.getString(c.getColumnIndexOrThrow(DbHelper.HUBUNGAN_PENDONOR_IBU));
+
+        String pemilikKendaraan = c.getString(c.getColumnIndexOrThrow(DbHelper.NAME_PEMILIK));
+        String namePendonor = c.getString(c.getColumnIndexOrThrow(DbHelper.NAME_PENDONOR));
+
+
 
         checkPenolongPersalinan(penolongPersalinan);
         checkTempatBersalin(tempatPersalinan);
@@ -425,6 +435,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
     }
 
     private void checkPendampingPersalinan(String value){
+        setPendampingPersalinan(value);
         if(value.contains(getString(R.string.suami)))
             checkBoxSuami.setChecked(true);
         if(value.contains(getString(R.string.ortu)))

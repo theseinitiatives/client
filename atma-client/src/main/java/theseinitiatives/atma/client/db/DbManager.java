@@ -734,7 +734,7 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
 
-        database.update(TABLE_NAME_RENCANA, contentValue,DbHelper.ID_IBU+" = ?",new String[]{idIbu});
+        database.update(DbHelper.TABLE_NAME_RENCANA, contentValue,"id_ibu = ?",new String[]{idIbu});
     }
     public void updatebanktransportasi(String id,String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets, long updateid) {
         ContentValues contentValue = new ContentValues();
