@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
@@ -16,10 +17,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,7 +40,16 @@ public class FormAddIbuActivity extends AppCompatActivity {
     EditText mother_names;
     EditText husband_names;
     EditText dobs;
-    EditText dusun;
+
+    public String getDusun() {
+        return dusun;
+    }
+
+    public void setDusun(String dusun) {
+        this.dusun = dusun;
+    }
+
+    String dusun;
     EditText gubugs;
     EditText hphts;
     EditText htps;
@@ -131,7 +143,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         mother_names = (EditText) findViewById(R.id.mother_name);
         husband_names = (EditText) findViewById(R.id.husband_name);
         dobs = (EditText) findViewById(R.id.dob);
-        dusun = (EditText) findViewById(R.id.dusun);
+       // dusun = (EditText) findViewById(R.id.dusun);
         gubugs = (EditText) findViewById(R.id.gubug);
         hphts = (EditText) findViewById(R.id.hpht);
         lay_lainnya = (LinearLayout) findViewById(R.id.lainnya_layout) ;
@@ -154,10 +166,31 @@ public class FormAddIbuActivity extends AppCompatActivity {
         terlaluTua = (CheckBox) findViewById(R.id.checskbox_tua);
         gravidaBanyak = (CheckBox) findViewById(R.id.checskbox_gravida);
         lainnya = (CheckBox) findViewById(R.id.checskbox_lainnya);
+        int buttons = 5;
+        AppCompatRadioButton[] rb = new AppCompatRadioButton[buttons];
 
+        RadioGroup rgp = (RadioGroup) findViewById(R.id.dusun_radio);
+        for (int i = 0; i < getlocationName().size(); i++) {
+            RadioButton rbn = new RadioButton(this);
+            rbn.setId(View.generateViewId());
+            Log.e("Location", getlocationName().get(0));
+            rbn.setText(getlocationName().get(i));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+            rbn.setLayoutParams(params);
+            rgp.addView(rbn);
+        }
+
+
+        rgp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioButton = (RadioButton) findViewById(checkedId);
+                setDusun(radioButton.getText().toString());
+               // Toast.makeText(getApplicationContext(),getDusun(),Toast.LENGTH_LONG).show();
+            }
+        });
         //==========================
-        //==========================
-        String[] dusunsList = {
+        /*String[] dusunsList = {
                 "Menges"	,
                 "Penandak"	,
                 "Menyiuh"	,
@@ -171,6 +204,9 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 "Selebung Tengak"	,
                 "Mekar Sari"
         };
+
+        set string from db
+                get location id where location tag id = 6
         // Search Nama Donor
         final ArrayAdapter<String> adapterDusun = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, dusunsList);
         //Find TextView control
@@ -178,7 +214,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         //Set the number of characters the user must type before the drop down list is shown
         dusun.setThreshold(1);
         //Set the adapter
-        dusun.setAdapter(adapterDusun);
+        dusun.setAdapter(adapterDusun);*/
 
 
         //==========================
@@ -243,7 +279,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 String mothername = mother_names.getText().toString();
                 String husbandname = husband_names.getText().toString();
                 String dobss = AllConstants.convertToYYYYMMDD(dobs.getText().toString());
-                String dusunss = dusun.getText().toString();
+                String dusunss = getDusun();
                 String hphtss = AllConstants.convertToYYYYMMDD(hphts.getText().toString());
                 String nama_kader = namaKader.getText().toString();
                 String goldarahss = getDarah() + " - "+getRhesus();
@@ -460,7 +496,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         mother_names.setText(cursor.getString(cursor.getColumnIndexOrThrow("name")));
         husband_names.setText(cursor.getString(cursor.getColumnIndexOrThrow("spousename")));
         dobs.setText(AllConstants.convertToDDMMYYYY(cursor.getString(cursor.getColumnIndexOrThrow("tgl_lahir"))));
-        dusun.setText(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
+      //  dusun.setText(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
         gubugs.setText(cursor.getString(cursor.getColumnIndexOrThrow("gubug")));
         hphts.setText(AllConstants.convertToDDMMYYYY(cursor.getString(cursor.getColumnIndexOrThrow("hpht"))));
 //        htps.setText(cursor.getString(cursor.getColumnIndexOrThrow("htp")));
@@ -470,6 +506,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         notelpons.setText(cursor.getString(cursor.getColumnIndexOrThrow("telp")));
        // faktorResiko.setText(cursor.getString(cursor.getColumnIndexOrThrow("resiko")));
         setSetUniqueId(cursor.getString(cursor.getColumnIndexOrThrow("unique_id")));
+        setDusun(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
         dbManager.close();
     }
 
@@ -575,6 +612,28 @@ public class FormAddIbuActivity extends AppCompatActivity {
         return names.toArray(new String[0]);
         // return languagess;
     }
+
+    public ArrayList<String> getlocationName() {
+        dbManager.open();
+        dbManager.setSelection(DbHelper.LOCATION_TAG_ID+"=6");
+        Cursor cursor = dbManager.fetchLocationTree();
+        ArrayList<String> names = new ArrayList<String>();
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                names.add(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.LOCATION_NAME)));
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        dbManager.close();
+
+        //  String[] languagess = { "Budi","Joni","Bravo" };
+        return names;
+        // return languagess;
+    }
+
+
 
     @Override
     public void onBackPressed() {
