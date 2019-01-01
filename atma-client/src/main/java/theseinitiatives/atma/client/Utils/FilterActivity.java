@@ -53,6 +53,11 @@ public class FilterActivity extends Activity {
     private void initComponenets(){
         htpSpinner = (Spinner) findViewById(R.id.filter_by_HTP);
         filterTextView = (TextView) findViewById(R.id.filter2textview);
+        if(mode<0){
+            htpSpinner.setVisibility(View.INVISIBLE);
+            filterTextView.setVisibility(View.INVISIBLE);
+            mode = 1;
+        }
         filterTextView.setText("Tampilkan hanya "+textView()[mode]);
         htpSpinner.setAdapter(spinnerAdapter(stringPool[mode][0]));
         htpSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/list_brown"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-
-    android:background="@color/light_brown"
     android:paddingTop="@dimen/activity_vertical_margin"
+
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".activity.nativeform.FormAddBankDarah">
 
     <!-- Login progress -->
@@ -38,16 +38,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="50dp"
                 android:text="Form Rencana Persalinan"
                 android:textAlignment="center"
-                android:layout_marginBottom="50dp"
                 android:textColor="@color/dark_brown"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
 
-            <include
-                layout="@layout/divider"/>
+            <include layout="@layout/divider" />
 
             <!--<LinearLayout
                 android:layout_width="match_parent"
@@ -72,8 +71,7 @@
 
 
             </LinearLayout>-->
-        <include
-            layout="@layout/divider"/>
+            <include layout="@layout/divider" />
 
 
             <LinearLayout
@@ -93,35 +91,40 @@
                         android:hint="@string/penolong_persalinan"
                         android:maxLines="1"
                         android:singleLine="true" />
+
                     <RadioGroup
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
                         android:orientation="vertical">
+
                         <RadioButton
                             android:id="@+id/dokter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Dokter"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Dokter" />
+
                         <RadioButton
                             android:id="@+id/bidan"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Bidan"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Bidan" />
+
                         <RadioButton
                             android:id="@+id/dukun"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Dukun"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Dukun" />
+
                         <RadioButton
                             android:id="@+id/lainnya"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Lainnya"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Lainnya" />
 
                     </RadioGroup>
 
@@ -129,8 +132,8 @@
 
             </LinearLayout>
 
-            <include
-                layout="@layout/divider"/>
+            <include layout="@layout/divider" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -148,49 +151,56 @@
                         android:hint="@string/tempat_bersalin"
                         android:maxLines="1"
                         android:singleLine="true" />
+
                     <RadioGroup
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
                         android:orientation="vertical">
+
                         <RadioButton
                             android:id="@+id/rs"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Rumas Sakit"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Rumas Sakit" />
+
                         <RadioButton
                             android:id="@+id/puskesmas"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Puskesmas"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Puskesmas" />
+
                         <RadioButton
                             android:id="@+id/polindes"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Polindes"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Polindes" />
+
                         <RadioButton
                             android:id="@+id/rumah"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Rumah"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Rumah" />
+
                         <RadioButton
                             android:id="@+id/tempat_lainnya"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Lainnya"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Lainnya" />
 
                     </RadioGroup>
 
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
-            <include
-                layout="@layout/divider"/>
+
+            <include layout="@layout/divider" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -245,12 +255,12 @@
                         android:text="Lainnya" />
 
 
-
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
-            <include
-                layout="@layout/divider"/>
+
+            <include layout="@layout/divider" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -274,8 +284,7 @@
 
             </LinearLayout>
 
-            <include
-                layout="@layout/divider"/>
+            <include layout="@layout/divider" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -293,44 +302,49 @@
                         android:hint="@string/hub_pemilik"
                         android:maxLines="1"
                         android:singleLine="true" />
+
                     <RadioGroup
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
                         android:orientation="vertical">
+
                         <RadioButton
                             android:id="@+id/hub_suami"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/suami"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="@string/suami" />
+
                         <RadioButton
                             android:id="@+id/anggota"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/anggota_keluarga"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="@string/anggota_keluarga" />
+
                         <RadioButton
                             android:id="@+id/tetangga"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/tetangga"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="@string/tetangga" />
 
                         <RadioButton
                             android:id="@+id/hub_lainnya"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Lainnya"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Lainnya" />
 
                     </RadioGroup>
 
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
-            <include
-                layout="@layout/divider"/>
+
+            <include layout="@layout/divider" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -353,8 +367,9 @@
 
 
             </LinearLayout>
-            <include
-                layout="@layout/divider"/>
+
+            <include layout="@layout/divider" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -371,47 +386,54 @@
                         android:hint="@string/hub_pendonor"
                         android:maxLines="1"
                         android:singleLine="true" />
+
                     <RadioGroup
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
                         android:orientation="vertical">
+
                         <RadioButton
                             android:id="@+id/pend_suami"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/suami"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="@string/suami" />
+
                         <RadioButton
                             android:id="@+id/pend_saudara"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/saudara"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="@string/saudara" />
+
                         <RadioButton
                             android:id="@+id/pend_ibu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/ibu"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="@string/ibu" />
+
                         <RadioButton
                             android:id="@+id/pend_ayah"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/ayah"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="@string/ayah" />
+
                         <RadioButton
                             android:id="@+id/pend_lainnya"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Lainnya"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Lainnya" />
 
                     </RadioGroup>
 
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
+
             <Button
                 android:id="@+id/saved"
                 style="?android:textAppearanceSmall"

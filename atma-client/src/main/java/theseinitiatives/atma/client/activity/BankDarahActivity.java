@@ -331,7 +331,7 @@ public class BankDarahActivity extends AppCompatActivity
             }
         });
 
-        Spinner dropdownSort = (Spinner) findViewById(R.id.dropdownSort);
+        final Spinner dropdownSort = (Spinner) findViewById(R.id.dropdownSort);
         dropdownSort.setAdapter(spinnerAdapter());
         final Context context= this.getApplicationContext();
         dropdownSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -346,12 +346,20 @@ public class BankDarahActivity extends AppCompatActivity
                 return;
             }
         });
+
+        ImageView sortButton = (ImageView) findViewById(R.id.sort_button);
+        sortButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                dropdownSort.performClick();
+            }
+        });
     }
     private ArrayAdapter<String> spinnerAdapter(){
         return new ArrayAdapter<>(this.getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, item[0]);
     }
     private final String [][] item = {
-            {"Urutkan ","Nama A-Z","Nama Z-A"},
-            {"name_pendonor ASC","name_pendonor ASC","name_pendonor DESC"}
+            {"Nama A-Z","Nama Z-A"},
+            {"name_pendonor ASC","name_pendonor DESC"}
     };
 }
