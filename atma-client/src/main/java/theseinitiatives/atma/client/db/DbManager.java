@@ -271,7 +271,7 @@ public class DbManager {
 
 
     public void insertibu(String uid,String mothername, String husbandname,String dobss, String gubugss,
-    String hphtss, String htpss,String goldarahss, String kaderss,String notelponss,  String radioStatus2, String resiko,String gubug, String nifas_berakhir, long updateid) {
+    String hphtss, String htpss,String goldarahss, String kaderss,String notelponss,  String radioStatus2, String resiko,String resiko_lain,String gubug, String nifas_berakhir, long updateid) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.UNIQUEID, uid);
         contentValue.put(  DbHelper.NAME, mothername);
@@ -284,6 +284,7 @@ public class DbManager {
         contentValue.put( DbHelper.GUBUG,gubug);
         contentValue.put( DbHelper.TELP,notelponss);
         contentValue.put( DbHelper.RESIKO,resiko);
+        contentValue.put( DbHelper.RESIKO_LAIN,resiko_lain);
         contentValue.put( DbHelper.KADER,kaderss);
         contentValue.put( DbHelper.NIFAS_SELESAI,nifas_berakhir);
         contentValue.put( DbHelper.USER_ID,getusername());
@@ -338,7 +339,7 @@ public class DbManager {
     }
 
     public void updateIbu(String _id, String mothername, String husbandname,String dobss, String gubugss,
-                          String hphtss, String htpss,String goldarahss, String kaderss,String notelponss, String radioStatus2,  String resiko,String gubug,String nifas_berakhir, long updateid) {
+                          String hphtss, String htpss,String goldarahss, String kaderss,String notelponss, String radioStatus2,  String resiko,String resikolain,String gubug,String nifas_berakhir, long updateid) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.NAME, mothername);
         contentValue.put(  DbHelper.SPOUSENAME, husbandname);
@@ -350,6 +351,7 @@ public class DbManager {
         contentValue.put( DbHelper.GUBUG,gubug);
         contentValue.put( DbHelper.TELP,notelponss);
         contentValue.put( DbHelper.RESIKO,resiko);
+        contentValue.put( DbHelper.RESIKO_LAIN,resikolain);
         contentValue.put( DbHelper.KADER,kaderss);
         contentValue.put( DbHelper.NIFAS_SELESAI,nifas_berakhir);
         contentValue.put( DbHelper.USER_ID,getusername());
@@ -868,6 +870,7 @@ public class DbManager {
                 DbHelper.KADER,
                 DbHelper.TELP,
                 DbHelper.RESIKO,
+                DbHelper.RESIKO_LAIN,
                 DbHelper.NIFAS_SELESAI,
                 DbHelper.ALASAN,
                 DbHelper.USER_ID,

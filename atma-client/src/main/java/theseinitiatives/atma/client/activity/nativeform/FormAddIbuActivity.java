@@ -34,6 +34,7 @@ import theseinitiatives.atma.client.activity.IdentitasIbuActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 
+import static android.view.View.VISIBLE;
 import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 import static theseinitiatives.atma.client.Utils.StringUtil.humanizes;
 
@@ -41,7 +42,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
     EditText mother_names;
     EditText husband_names;
     EditText dobs;
-
+    EditText txt_lainnya;
     public String getDusun() {
         return dusun;
     }
@@ -149,6 +150,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         hphts = (EditText) findViewById(R.id.hpht);
         lay_lainnya = (LinearLayout) findViewById(R.id.lainnya_layout) ;
         notelpons = (EditText) findViewById(R.id.notelpon);
+        txt_lainnya = (EditText) findViewById(R.id.text_lainnya);
         btnLogin = (Button) findViewById(R.id.saved);
         //  userService = ApiUtils.getUserService();
 
@@ -188,32 +190,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                // Toast.makeText(getApplicationContext(),getDusun(),Toast.LENGTH_LONG).show();
             }
         });
-        //==========================
-        /*String[] dusunsList = {
-                "Menges"	,
-                "Penandak"	,
-                "Menyiuh"	,
-                "Selebung Lauk"	,
-                "Selebung Daye"	,
-                "Melar"	,
-                "Jali"	,
-                "Nyangget Lauk"	,
-                "Nyangget Daye"	,
-                "Pucung"	,
-                "Selebung Tengak"	,
-                "Mekar Sari"
-        };
 
-        set string from db
-                get location id where location tag id = 6
-        // Search Nama Donor
-        final ArrayAdapter<String> adapterDusun = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, dusunsList);
-        //Find TextView control
-        final AutoCompleteTextView dusun = (AutoCompleteTextView) findViewById(R.id.dusun);
-        //Set the number of characters the user must type before the drop down list is shown
-        dusun.setThreshold(1);
-        //Set the adapter
-        dusun.setAdapter(adapterDusun);*/
 
 
         //==========================
@@ -287,7 +264,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 String fResiko = getFaktorResiko();
                 String gubug = gubugs.getText().toString();
                 String UUID = java.util.UUID.randomUUID().toString();
-
+                String resiko_lain = txt_lainnya.getText().toString();
 
 
 
@@ -318,6 +295,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     dataArray.put(DbHelper.GOL_DARAH,goldarahss);
                     dataArray.put(DbHelper.TELP,notelponss);
                     dataArray.put(DbHelper.RESIKO,fResiko!=null?fResiko:"");
+                    dataArray.put(DbHelper.RESIKO_LAIN,resiko_lain!=null?resiko_lain:"");
                     dataArray.put(DbHelper.GUBUG,gubug);
                     dataArray.put(DbHelper.KADER,nama_kader);
                     dataArray.put(DbHelper.GUBUG,gubug);
@@ -343,7 +321,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     dbManager.open();
                     if(valueExist(id)) {
                         //update ibu main tables
-                        dbManager.updateIbu(id, mothername, husbandname, dobss, dusunss, hphtss, htpss, goldarahss, "", notelponss, radioStatus2, fResiko, gubug, "", System.currentTimeMillis());
+                        dbManager.updateIbu(id, mothername, husbandname, dobss, dusunss, hphtss, htpss, goldarahss, "", notelponss, radioStatus2, fResiko,resiko_lain, gubug, "", System.currentTimeMillis());
                         //add into sync tables
 
                         dbManager.insertsyncTable("identitas_ibu_edit",System.currentTimeMillis(),getDusun(), dataArray.toString(),0,0);
@@ -351,7 +329,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     }
                     else {
                         //insert new data
-                        dbManager.insertibu(UUID, mothername, husbandname, dobss, dusunss, hphtss, htpss, goldarahss, "", notelponss, radioStatus2, fResiko, gubug, "",System.currentTimeMillis());
+                        dbManager.insertibu(UUID, mothername, husbandname, dobss, dusunss, hphtss, htpss, goldarahss, "", notelponss, radioStatus2, fResiko,resiko_lain, gubug, "",System.currentTimeMillis());
                         dbManager.insertsyncTable("identitas_ibu", System.currentTimeMillis(),getDusun(), dataArray.toString(), 0, 0);
                     }
                     dbManager.close();
@@ -440,10 +418,10 @@ public class FormAddIbuActivity extends AppCompatActivity {
 
     public void onCheckboxClicked(View view) {
         // Is the view now checked?
-//        boolean checked = ((CheckBox) view).isChecked();
+        boolean checked = ((CheckBox) view).isChecked();
 //
 //        // Check which checkbox was clicked
-//        switch(view.getId()) {
+        switch(view.getId()) {
 //            case R.id.checkbox_kek:
 //                if (checked)
 //                    setFaktorResiko("kek");
@@ -470,18 +448,18 @@ public class FormAddIbuActivity extends AppCompatActivity {
 //                    setFaktorResiko("gravida banyak");
 //                else
 //                    break;
-//            case R.id.checskbox_lainnya:
-//                if (checked) {
-//                    setFaktorResiko("Lainya");
-//                    lay_lainnya.setVisibility(VISIBLE);
-//                }
-//                else if(!checked) {
-//                    lay_lainnya.setVisibility(View.GONE);
-//                    }
-//                else
-//                    break;
+            case R.id.checskbox_lainnya:
+                if (checked) {
+                    setFaktorResiko("Lainya");
+                    lay_lainnya.setVisibility(VISIBLE);
+                }
+                else if(!checked) {
+                    lay_lainnya.setVisibility(View.GONE);
+                    }
+                else
+                    break;
 //                // TODO: Veggie sandwich
-//        }
+       }
     }
 
     private void fillField(String id){
@@ -503,7 +481,8 @@ public class FormAddIbuActivity extends AppCompatActivity {
 //        setStatusChecked(cursor.getString(cursor.getColumnIndexOrThrow("status")));
       //  kaders.setText(cursor.getString(cursor.getColumnIndexOrThrow("kader")));
         notelpons.setText(cursor.getString(cursor.getColumnIndexOrThrow("telp")));
-       // faktorResiko.setText(cursor.getString(cursor.getColumnIndexOrThrow("resiko")));
+        txt_lainnya.setVisibility(VISIBLE);
+        txt_lainnya.setText(cursor.getString(cursor.getColumnIndexOrThrow("resiko_lainnya")));
         setSetUniqueId(cursor.getString(cursor.getColumnIndexOrThrow("unique_id")));
         setDusun(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
         dbManager.close();

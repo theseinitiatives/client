@@ -46,6 +46,7 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String NIFAS_SELESAI = "nifas_selesai";
     public static final String ALASAN = "alasan";
     public static final String RESIKO = "resiko";
+    public static final String RESIKO_LAIN = "resiko_lainnya";
 
     //Table Column Transportasi
     public static final String Jenis = "jenis_kendaraan";
@@ -153,6 +154,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
 
 
+
     // Creating table Ibu
     private static final String CREATE_TABLE_IBU = "create table "
             + TABLE_NAME_IBU + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -168,6 +170,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + KADER + " TEXT, "
             + TELP + " TEXT , "
             + RESIKO + " TEXT , "
+            + RESIKO_LAIN + " TEXT , "
             + NIFAS_SELESAI + " TEXT , "
             + ALASAN + " TEXT , "
             + USER_ID + " TEXT , "
