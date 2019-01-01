@@ -31,7 +31,8 @@ import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 public class FormRencanaPersalinan extends AppCompatActivity {
     EditText transportasiNama;
     EditText nama_donors;
-
+    String DonorId;
+    String TransId;
     private boolean isPreloaded = false;
 
     private CheckBox checkBoxSuami;
@@ -200,7 +201,31 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                // String mothername = mother_names.getText().toString();
               //  String idIbu = id;
                 String namaDonor = calonPendonor.getText().toString();
+
+                //get id Donor
+                dbManager.open();
+                dbManager.setSelection(DbHelper.NAME_PENDONOR +"='"+namaDonor+"'");
+                Cursor donor_cur = dbManager.fetchBankDarah("","");
+                if(donor_cur.moveToFirst()){
+                     DonorId = donor_cur.getString(donor_cur.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+                }
+                donor_cur.close();
+                dbManager.close();
+
                 String namaTransportasi = pemilikTransportasi.getText().toString();
+                //get id trans
+                dbManager.open();
+                dbManager.setSelection(DbHelper.NAME +"='"+namaTransportasi+"'");
+                Cursor cursor = dbManager.fetchTrans("","");
+                if(cursor.moveToFirst()){
+                     TransId = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+                }
+                cursor.close();
+                dbManager.close();
+
+                Log.e("donor", DonorId);
+                Log.e("TRANS", TransId);
+
                 String txt_penolognPersalinan = getPenolongPersalinan();
                 String txt_tempatBersalin = getTempatPersalinan();
                 String txt_pendampingPersalinan = getPendampingPersalinan();
@@ -212,6 +237,8 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                 JSONObject dataArray = new JSONObject();
                 try {
                     dataArray.put(DbHelper.ID_IBU,uniqueid);
+                    dataArray.put(DbHelper.ID_TRANS,TransId);
+                    dataArray.put(DbHelper.ID_DONOR,DonorId);
                     dataArray.put(DbHelper.NAME_PENDONOR, namaDonor);
                     dataArray.put(DbHelper.TEMPAT_PERSALINAN,txt_tempatBersalin);
                     dataArray.put(DbHelper.PENOLONG_PERSALINAN,txt_penolognPersalinan);
@@ -236,10 +263,10 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                 else {
                     dbManager.open();
                     if(isPreloaded) {
-                        dbManager.updateRencanaPersalinan(uniqueid, namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis());
+                        dbManager.updateRencanaPersalinan(uniqueid,TransId,DonorId, namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis());
                         dbManager.insertsyncTable("rencana_persalinan_edit", System.currentTimeMillis(), textDusun,dataArray.toString(), 0, 0);
                     }else {
-                        dbManager.insertRencanaPersalinan(uniqueid, namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis());
+                        dbManager.insertRencanaPersalinan(uniqueid, TransId,DonorId,namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis());
                         dbManager.insertsyncTable("rencana_persalinan", System.currentTimeMillis(),textDusun, dataArray.toString(), 0, 0);
                     }dbManager.close();
                     finish();
@@ -247,12 +274,7 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                     startActivity(myIntent);
 
                 }
-                //validate form
-                //  if(validateinput(mothername,donor,notelponss,radioStatus,radioStatus2)){
-                //  dbManager.open();
-                //  dbManager.insertbankdarah(mothername,donor,notelponss,radioStatus,radioStatus2);
-                //  dbManager.close();
-                //  }
+
             }
         });
     }

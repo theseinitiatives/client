@@ -522,6 +522,7 @@ public class DbManager {
         String[] columns = new String[] { DbHelper._ID,
                 DbHelper.NAME_PENDONOR,
                 DbHelper.STATUS,
+                DbHelper.UNIQUEID,
                 DbHelper.DUSUN,
                 DbHelper.GUBUG,
                 DbHelper.GOL_DARAH,
@@ -703,9 +704,11 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
     }
-    public void insertRencanaPersalinan(String idIbu, String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi,long updateId) {
+    public void insertRencanaPersalinan(String idIbu, String id_trans, String id_donor, String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi,long updateId) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.ID_IBU,idIbu);
+        contentValue.put( DbHelper.ID_TRANS,id_trans);
+        contentValue.put( DbHelper.ID_DONOR,id_donor);
         contentValue.put( DbHelper.NAME_PENDONOR,namaDonor);
         contentValue.put( DbHelper.TEMPAT_PERSALINAN,txt_tempatBersalin);
         contentValue.put( DbHelper.PENOLONG_PERSALINAN,txt_penolognPersalinan);
@@ -720,9 +723,11 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(TABLE_NAME_RENCANA, null, contentValue);
     }
-    public void updateRencanaPersalinan(String idIbu, String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi,long updateId) {
+    public void updateRencanaPersalinan(String idIbu, String id_trans, String id_donor,String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi,long updateId) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.ID_IBU,idIbu);
+        contentValue.put( DbHelper.ID_TRANS,id_trans);
+        contentValue.put( DbHelper.ID_DONOR,id_donor);
         contentValue.put( DbHelper.NAME_PENDONOR,namaDonor);
         contentValue.put( DbHelper.TEMPAT_PERSALINAN,txt_tempatBersalin);
         contentValue.put( DbHelper.PENOLONG_PERSALINAN,txt_penolognPersalinan);

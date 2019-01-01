@@ -24,6 +24,7 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String _ID = "_id";
     public static final String ID_IBU = "id_ibu";
     public static final String ID_TRANS = "id_trans";
+    public static final String ID_DONOR = "id_donor";
 
     public static final String NAME = "name";
     public static final String NAME_PENDONOR = "name_pendonor";
@@ -237,12 +238,12 @@ public class DbHelper  extends SQLiteOpenHelper {
 
 
 
-
     // Creating table rencana_persalinan
     private static final String CREATE_TABLE_RENCANA = "create table "
             + TABLE_NAME_RENCANA + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + ID_IBU + " TEXT NOT NULL, "
             + ID_TRANS + " TEXT , "
+            + ID_DONOR + " TEXT , "
             + PENOLONG_PERSALINAN + " TEXT , "
             + TEMPAT_PERSALINAN + " TEXT , "
             + PENDAMPING_PERSALINAN + " TEXT , "
