@@ -237,6 +237,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + KOMPLIKASIIBU + " TEXT , "
             + KOMPLIKASIANAK + " TEXT , "
             + TEMPAT_PERSALINAN + " TEXT , "
+            + TEMPAT_LAIN + " TEXT , "
             + USER_ID + " TEXT , "
             + LOCATION_ID + " TEXT , "
             + UPDATE_ID + " TEXT , "

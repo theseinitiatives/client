@@ -49,6 +49,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
     String   tempatBersalin;
     String   komplikasiIbu;
     String   komplikasiAnak;
+    EditText lainnya_tempats;
 
     private boolean isPreloaded = false;
 
@@ -190,12 +191,15 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
         lay_tempat = (LinearLayout) findViewById(R.id.tempat_layout);
         lay_ibu = (LinearLayout) findViewById(R.id.ibu_layout);
         lay_anak = (LinearLayout) findViewById(R.id.anak_layout);
-      //  htps = (EditText) findViewById(R.id.htp);
+
+
+
         jumlahBayi = (EditText) findViewById(R.id.jumlah);
        //        jenisKelamin = (EditText) findViewById(R.id.jenis_kel);
         jumlahBayi = (EditText) findViewById(R.id.jumlah);
         resikoIbuLainnya = (AutoCompleteTextView) findViewById(R.id.lainnya_komplikasiibu);
         resikoAnakLainnya = (AutoCompleteTextView) findViewById(R.id.lainnya_komplikasianak);
+        lainnya_tempats = (EditText) findViewById(R.id.lainnya_tempat);
 
         dbManager = new DbManager(this);
         dbManager.open();
@@ -250,6 +254,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                 String komplikasiIbus = getKomplikasiIbu();
                 String komplikasiAnak = getKomplikasiAnak();
                 String tempat = getTempatBersalin();
+                String tempatLaiinya = lainnya_tempats.getText().toString();
                 Date currentTime = Calendar.getInstance().getTime();
                 JSONObject dataArray = new JSONObject();
                 String textDusun = getDusun(idIbu);
@@ -266,6 +271,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
 
                     dataArray.put(DbHelper.DUSUN,textDusun);
                     dataArray.put(DbHelper.TEMPAT_PERSALINAN,tempat);
+                    dataArray.put(DbHelper.TEMPAT_LAIN,tempatLaiinya);
                     dataArray.put(DbHelper.TIMESTAMP,dateNow());
                 }catch (Exception e) {
                     Log.d("Data array", e.getMessage());
@@ -273,11 +279,11 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
 
                     dbManager.open();
                     if(isPreloaded) {
-                        dbManager.updateStatusPersalinan(uniqueId, tgl_persalinn, ibubersalin, kondisi_ibu, kondisi_anak, jumlahBayis, jenisKelamins, komplikasiIbus, komplikasiAnak, tempat);
+                        dbManager.updateStatusPersalinan(uniqueId, tgl_persalinn, ibubersalin, kondisi_ibu, kondisi_anak, jumlahBayis, jenisKelamins, komplikasiIbus, komplikasiAnak, tempat, tempatLaiinya);
                         dbManager.insertsyncTable("status_persalinan_edit", System.currentTimeMillis(),textDusun, dataArray.toString(), 0, 0);
                     }
                     else{
-                        dbManager.insertStatusPersalinan(uniqueId, tgl_persalinn, ibubersalin, kondisi_ibu, kondisi_anak, jumlahBayis, jenisKelamins, komplikasiIbus, komplikasiAnak, tempat);
+                        dbManager.insertStatusPersalinan(uniqueId, tgl_persalinn, ibubersalin, kondisi_ibu, kondisi_anak, jumlahBayis, jenisKelamins, komplikasiIbus, komplikasiAnak, tempat,tempatLaiinya);
                         dbManager.insertsyncTable("status_persalinan", System.currentTimeMillis(),textDusun, dataArray.toString(), 0, 0);
                     }
                     dbManager.close();
@@ -413,18 +419,22 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
             case R.id.rs:
                 if (checked)
                     setTempatBersalin("rumahsakit");
+                    lay_tempat.setVisibility(GONE);
                 break;
             case R.id.polindes:
                 if (checked)
                     setTempatBersalin("polindes");
+                    lay_tempat.setVisibility(GONE);
                 break;
             case R.id.puskesmas:
                 if (checked)
                     setTempatBersalin("puskesmas");
+                    lay_tempat.setVisibility(GONE);
                 break;
             case R.id.rumah:
                 if (checked)
                     setTempatBersalin("rumah");
+                   lay_tempat.setVisibility(GONE);
                 break;
             case R.id.tempat_lainnya:
                 if (checked)
@@ -432,50 +442,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                     lay_tempat.setVisibility(VISIBLE);
                 break;
 
-                //set komlikasi
-//            case R.id.perdarahan:
-//                if (checked)
-//                    setKomplikasiIbu("perdarahan berat");
-//                break;
-//            case R.id.peb:
-//                if (checked)
-//                    setKomplikasiIbu("peb");
-//                break;
-//            case R.id.eklamsi:
-//                if (checked)
-//                    setKomplikasiIbu("eklamsi");
-//                break;
-//            case R.id.sepsis:
-//                if (checked)
-//                    setKomplikasiIbu("sepsis");
-//                break;
-//            case R.id.k_lainnya:
-//                if (checked) {
-//                    setKomplikasiIbu("lainnya");
-//                    lay_ibu.setVisibility(VISIBLE);
-//                }
-//                else
-//                    lay_ibu.setVisibility(VISIBLE);
-//                break;
 
-                //set komplikasi anak
-//            case R.id.prem:
-//                if (checked)
-//                    setKomplikasiAnak("prematur");
-//                break;
-//            case R.id.bblr:
-//                if (checked)
-//                    setKomplikasiAnak("bblr");
-//                break;
-//            case R.id.asfiksia:
-//                if (checked)
-//                    setKomplikasiAnak("asfiksia");
-//                break;
-//            case R.id.k_babylainnya:
-//                if (checked)
-//                    setKomplikasiAnak("lainnya");
-//                    lay_anak.setVisibility(VISIBLE);
-//                break;
         }
     }
 

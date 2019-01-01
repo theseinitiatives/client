@@ -297,7 +297,7 @@ public class DbManager {
 
     }
 
-    public void insertStatusPersalinan(String idIbu, String tgl_bersalin,String ibubersalin, String kondisi_ibu, String kondisi_anak,String jumlahBayis, String jenisKelamins, String komplikasiIbus, String komplikasiAnak, String tempat){
+    public void insertStatusPersalinan(String idIbu, String tgl_bersalin,String ibubersalin, String kondisi_ibu, String kondisi_anak,String jumlahBayis, String jenisKelamins, String komplikasiIbus, String komplikasiAnak, String tempat, String tempatLain){
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.ID_IBU,idIbu);
         contentValue.put( DbHelper.STATUS_BERSALIN,ibubersalin);
@@ -309,6 +309,7 @@ public class DbManager {
         contentValue.put( DbHelper.KOMPLIKASIIBU,komplikasiIbus);
         contentValue.put( DbHelper.KOMPLIKASIANAK,komplikasiAnak);
         contentValue.put( DbHelper.TEMPAT_PERSALINAN,tempat);
+        contentValue.put( DbHelper.TEMPAT_LAIN,tempatLain);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( UPDATE_ID,System.currentTimeMillis());
@@ -318,7 +319,7 @@ public class DbManager {
         database.insert(TABLE_PERSALINAN, null, contentValue);
     }
 
-    public void updateStatusPersalinan(String idIbu, String tgl_bersalin,String ibubersalin, String kondisi_ibu, String kondisi_anak,String jumlahBayis, String jenisKelamins, String komplikasiIbus, String komplikasiAnak, String tempat){
+    public void updateStatusPersalinan(String idIbu, String tgl_bersalin,String ibubersalin, String kondisi_ibu, String kondisi_anak,String jumlahBayis, String jenisKelamins, String komplikasiIbus, String komplikasiAnak, String tempat,String tempatLain){
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.ID_IBU,idIbu);
         contentValue.put( DbHelper.STATUS_BERSALIN,ibubersalin);
@@ -330,6 +331,7 @@ public class DbManager {
         contentValue.put( DbHelper.KOMPLIKASIIBU,komplikasiIbus);
         contentValue.put( DbHelper.KOMPLIKASIANAK,komplikasiAnak);
         contentValue.put( DbHelper.TEMPAT_PERSALINAN,tempat);
+        contentValue.put( DbHelper.TEMPAT_LAIN,tempatLain);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( UPDATE_ID,System.currentTimeMillis());
@@ -943,6 +945,7 @@ public class DbManager {
                 DbHelper.TGL_PERSALINAN,
                 DbHelper.STATUS_BERSALIN,
                 DbHelper.TEMPAT_PERSALINAN,
+                DbHelper.TEMPAT_LAIN,
                 DbHelper.KONDISI_IBU,
                 DbHelper.KONDISI_ANAK,
                 DbHelper.JENISKELAMIN,
