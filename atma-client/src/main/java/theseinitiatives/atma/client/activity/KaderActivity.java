@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import theseinitiatives.atma.client.AllConstants;
 import theseinitiatives.atma.client.LoginActivity;
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
@@ -37,6 +39,7 @@ import theseinitiatives.atma.client.adapter.KaderCursorAdapter;
 import theseinitiatives.atma.client.adapter.TransportasiCursorAdapter;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
+import theseinitiatives.atma.client.model.BankDarahmodel;
 import theseinitiatives.atma.client.model.KaderViewModel;
 import theseinitiatives.atma.client.model.TransportasiModel;
 
@@ -49,6 +52,7 @@ public class KaderActivity extends AppCompatActivity
     long upId;
     String locas;
     boolean forbidden = false;
+    private boolean firstRun = true;
     KaderCursorAdapter adapter;
     ArrayList<KaderViewModel> kaderviewmodel=new ArrayList<>();
     @Override
@@ -104,6 +108,58 @@ public class KaderActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if(firstRun) {
+            firstRun = false;
+            return;
+        }
+//        Log.d("On Resume params",AllConstants.params);
+//        Toast.makeText(getApplicationContext(),AllConstants.params,Toast.LENGTH_LONG).show();
+        refreshList();
+
+    }
+
+    private void refreshList(){
+        if(AllConstants.params == null)
+            return;
+        kaderviewmodel.clear();
+        dbManager.open();
+        String[]cond = AllConstants.params.split(AllConstants.FLAG_SEPARATOR);
+        if(cond.length<2){
+            cond = new String[]{"","","no"};
+        }
+        cond[0] = cond[0].contains("~") ? "" : cond[0];
+        cond[1] = cond[1].contains("~") ? "" : cond[1];
+        String selectionClause =
+                DbHelper.DUSUN + " LIKE '%"+cond[1]+"%'";
+
+        dbManager.clearClause();
+        dbManager.setSelection(selectionClause);
+        KaderViewModel p = null;
+        dbManager.setOrderBy("name ASC");
+        Cursor c = dbManager.fetchKaders("","");
+        while (c.moveToNext()) {
+            String name = c.getString(c.getColumnIndexOrThrow(DbHelper.NAME));
+            String dusun = c.getString(c.getColumnIndexOrThrow(DbHelper.DUSUN));
+            String username = c.getString(c.getColumnIndexOrThrow(DbHelper.USERNAME));
+            String password = c.getString(c.getColumnIndexOrThrow(DbHelper.PASSWORD));
+
+            p = new KaderViewModel();
+            p.setNama(name);
+            p.setDusuns(dusun);
+            p.setUsername(username);
+            p.setPassword(password);
+
+            kaderviewmodel.add(p);
+        }
+
+        dbManager.close();
+        lv.setAdapter(adapter);
+//        AllConstants.params = null;
+
+    }
     private void getKader(String searchTerm, String orderBy)
     {
         kaderviewmodel.clear();
