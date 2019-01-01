@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:andraoid="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:andraoid="http://schemas.android.com/apk/res-auto"
+    android:background="@color/list_brown"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
 
-    android:background="@color/light_brown"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".activity.nativeform.FormAddIbuActivity">
 
     <!-- Login progress -->
@@ -39,65 +39,67 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="50dp"
                 android:text="Form Tutup Ibu"
                 android:textAlignment="center"
-                android:layout_marginBottom="50dp"
                 android:textColor="@color/dark_brown"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-            <LinearLayout android:id="@+id/div2"
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/div2"
                 android:layout_width="fill_parent"
                 android:layout_height="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:orientation="vertical"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:background="@color/dark_brown">
+                android:background="@color/dark_brown"
+                android:orientation="vertical">
 
 
             </LinearLayout>
 
 
-                <LinearLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
+                    android:layout_height="wrap_content">
 
-                    <android.support.design.widget.TextInputLayout
+
+                    <TextView
+                        android:id="@+id/nifas_berakhir"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:hint="@string/tutup"
+                        android:maxLines="1"
+                        android:singleLine="true" />
 
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/nifas_berakhir"
+                        <RadioButton
+                            android:id="@+id/tutup_ya"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/tutup"
-                            android:maxLines="1"
-                            android:singleLine="true" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="@string/ya" />=
 
-                        <RadioGroup
+                        <RadioButton
+                            android:id="@+id/tutp_tidak"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="30dp"
-                            android:orientation="vertical">
-                            <RadioButton
-                                android:id="@+id/tutup_ya"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@string/ya"
-                                android:onClick="onRadioButtonClicked"/>=
-                            <RadioButton
-                                android:id="@+id/tutp_tidak"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@string/tidak"
-                                android:onClick="onRadioButtonClicked" />
-                        </RadioGroup>
-                    </android.support.design.widget.TextInputLayout>
+                            android:onClick="onRadioButtonClicked"
+                            android:text="@string/tidak" />
+                    </RadioGroup>
+                </android.support.design.widget.TextInputLayout>
 
-                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -122,36 +124,41 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30dp"
                         android:orientation="vertical">
+
                         <RadioButton
                             android:id="@+id/masa_nifas_berakhir"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Masa Nifas Berakhir"
-                            android:onClick="onRadioButtonClicked"/>
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Masa Nifas Berakhir" />
+
                         <RadioButton
                             android:id="@+id/keguguran"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Keguguran"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Keguguran" />
+
                         <RadioButton
                             android:id="@+id/meninggal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Ibu Meninggal"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Ibu Meninggal" />
+
                         <RadioButton
                             android:id="@+id/pindah"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Pindah (Bukan Sasaran)"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Pindah (Bukan Sasaran)" />
+
                         <RadioButton
                             android:id="@+id/salah_entry"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Salah entry"
-                            android:onClick="onRadioButtonClicked" />
+                            android:onClick="onRadioButtonClicked"
+                            android:text="Salah entry" />
                     </RadioGroup>
 
                 </android.support.design.widget.TextInputLayout>

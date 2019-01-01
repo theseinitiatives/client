@@ -380,7 +380,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             /**
              *
              * DATA Sync (For right now disabled)*/
-//            startSync();
+            startSync();
             return true;
         }
         //noinspection SimplifiableIfStatement
