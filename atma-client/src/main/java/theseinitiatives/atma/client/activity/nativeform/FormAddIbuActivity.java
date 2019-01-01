@@ -61,6 +61,8 @@ public class FormAddIbuActivity extends AppCompatActivity {
     LinearLayout lay_lainnya;
     String setUniqueId;
 
+    private RadioGroup rgp;
+
     public String getSetUniqueId() {
         return setUniqueId;
     }
@@ -170,7 +172,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         gravidaBanyak = (CheckBox) findViewById(R.id.checskbox_gravida);
         lainnya = (CheckBox) findViewById(R.id.checskbox_lainnya);
 
-        RadioGroup rgp = (RadioGroup) findViewById(R.id.dusun_radio);
+        rgp = (RadioGroup) findViewById(R.id.dusun_radio);
         for (int i = 0; i < getlocationName().size(); i++) {
             RadioButton rbn = new RadioButton(this);
             rbn.setId(View.generateViewId());
@@ -484,7 +486,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         txt_lainnya.setVisibility(VISIBLE);
         txt_lainnya.setText(cursor.getString(cursor.getColumnIndexOrThrow("resiko_lainnya")));
         setSetUniqueId(cursor.getString(cursor.getColumnIndexOrThrow("unique_id")));
-        setDusun(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
+        checkDusun(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
         dbManager.close();
     }
 
@@ -542,6 +544,17 @@ public class FormAddIbuActivity extends AppCompatActivity {
         }
     }
 
+    private void checkDusun(String value){
+        ArrayList<String> listDusun = getlocationName();
+        for(int i=0;i<listDusun.size();i++){
+            if(listDusun.get(i).equalsIgnoreCase(value)){
+                RadioButton r = (RadioButton) rgp.getChildAt(i);
+                r.setChecked(true);
+                setDusun(value);
+                break;
+            }
+        }
+    }
     private void setRhesusChecked(String value){
         if(value==null)
             return;

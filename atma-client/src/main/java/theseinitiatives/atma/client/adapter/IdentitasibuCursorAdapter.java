@@ -72,7 +72,7 @@ public class IdentitasibuCursorAdapter extends BaseAdapter {
                         R.drawable.icon_mother48 :
                         R.drawable.icon_pregnant48
         );
-
+        lin.setBackgroundColor(0xf7efd5);
         if(identitasModels.get(position).getResiko()!=null) {
             System.out.println(identitasModels.get(position).getNama()+" : "+identitasModels.get(position).getResiko().length()+" -> "+identitasModels.get(position).getResiko());
             if (identitasModels.get(position).getResiko().length() > 2) {
