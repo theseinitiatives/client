@@ -25,6 +25,7 @@ import theseinitiatives.atma.client.model.syncmodel.TransportasiData;
 
 import static theseinitiatives.atma.client.db.DbHelper.FORM_NAME;
 import static theseinitiatives.atma.client.db.DbHelper.KADER_VAR;
+import static theseinitiatives.atma.client.db.DbHelper.PENOLONG_LAIN;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_NAME_BANK;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_NAME_IBU;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_NAME_RENCANA;
@@ -706,7 +707,12 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
     }
-    public void insertRencanaPersalinan(String idIbu, String id_trans, String id_donor, String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi,long updateId) {
+    public void insertRencanaPersalinan(String idIbu, String id_trans, String id_donor, String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi,long updateId,
+                                        String penolongLain,
+                                        String tempatLain,
+                                        String pendampingLain,
+                                        String hubTransLain,
+                                        String hubDonorLain) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.ID_IBU,idIbu);
         contentValue.put( DbHelper.ID_TRANS,id_trans);
@@ -717,6 +723,13 @@ public class DbManager {
         contentValue.put( DbHelper.PENDAMPING_PERSALINAN,txt_pendampingPersalinan);
         contentValue.put( DbHelper.HUBUNGAN_DENGAN_IBU,txt_hubunganPemilik);
         contentValue.put( DbHelper.HUBUNGAN_PENDONOR_IBU,txt_hubunganPendonor);
+
+        contentValue.put( DbHelper.PENOLONG_LAIN,penolongLain);
+        contentValue.put( DbHelper.TEMPAT_LAIN,tempatLain);
+        contentValue.put( DbHelper.PENDAMPING_LAIN,pendampingLain);
+        contentValue.put( DbHelper.HUB_TRANS_LAIN,hubTransLain);
+        contentValue.put( DbHelper.HUB_DONOR_LAIN,hubDonorLain);
+
         contentValue.put( DbHelper.NAME_PEMILIK,namaTransportasi);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
@@ -725,7 +738,12 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.insert(TABLE_NAME_RENCANA, null, contentValue);
     }
-    public void updateRencanaPersalinan(String idIbu, String id_trans, String id_donor,String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi,long updateId) {
+    public void updateRencanaPersalinan(String idIbu, String id_trans, String id_donor,String namaDonor, String txt_tempatBersalin, String txt_penolognPersalinan, String txt_pendampingPersalinan, String txt_hubunganPemilik, String txt_hubunganPendonor, String namaTransportasi,long updateId,
+                                         String penolongLain,
+                                        String tempatLain,
+                                        String pendampingLain,
+                                        String hubTransLain,
+                                        String hubDonorLain) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.ID_IBU,idIbu);
         contentValue.put( DbHelper.ID_TRANS,id_trans);
@@ -736,6 +754,12 @@ public class DbManager {
         contentValue.put( DbHelper.PENDAMPING_PERSALINAN,txt_pendampingPersalinan);
         contentValue.put( DbHelper.HUBUNGAN_DENGAN_IBU,txt_hubunganPemilik);
         contentValue.put( DbHelper.HUBUNGAN_PENDONOR_IBU,txt_hubunganPendonor);
+        contentValue.put( DbHelper.PENOLONG_LAIN,penolongLain);
+        contentValue.put( DbHelper.TEMPAT_LAIN,tempatLain);
+        contentValue.put( DbHelper.PENDAMPING_LAIN,pendampingLain);
+        contentValue.put( DbHelper.HUB_TRANS_LAIN,hubTransLain);
+        contentValue.put( DbHelper.HUB_DONOR_LAIN,hubDonorLain);
+
         contentValue.put( DbHelper.NAME_PEMILIK,namaTransportasi);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
@@ -896,6 +920,11 @@ public class DbManager {
                 DbHelper.NAME_PEMILIK,
                 DbHelper.NAME_PENDONOR,
                 DbHelper.HUBUNGAN_PENDONOR_IBU,
+                DbHelper.PENOLONG_LAIN,
+                DbHelper.TEMPAT_LAIN,
+                DbHelper.PENDAMPING_LAIN,
+                DbHelper.HUB_TRANS_LAIN,
+                DbHelper.HUB_DONOR_LAIN,
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };

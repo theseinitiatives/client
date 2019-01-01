@@ -11,7 +11,7 @@
 
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".activity.nativeform.FormAddBankDarah">
+    tools:context=".activity.nativeform.FormRencanaPersalinan">
 
     <!-- Login progress -->
     <ProgressBar
@@ -48,30 +48,7 @@
 
             <include layout="@layout/divider" />
 
-            <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-
-                    <AutoCompleteTextView
-                        android:id="@+id/htp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/htp"
-                        android:inputType="date"
-                        android:maxLines="1"
-                        android:singleLine="true" />
-
-                </android.support.design.widget.TextInputLayout>
-
-
-            </LinearLayout>-->
-            <include layout="@layout/divider" />
+                      <include layout="@layout/divider" />
 
 
             <LinearLayout
@@ -127,6 +104,33 @@
                             android:text="Lainnya" />
 
                     </RadioGroup>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+            <include layout="@layout/divider" />
+
+            <LinearLayout
+                android:id="@+id/penolonglainLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <AutoCompleteTextView
+                        android:id="@+id/txt_penolonglain"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/lainnya"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -198,7 +202,33 @@
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
+            <include layout="@layout/divider" />
 
+            <LinearLayout
+                android:id="@+id/tempatlainLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <AutoCompleteTextView
+                        android:id="@+id/txt_tempatlain"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/lainnya"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
             <include layout="@layout/divider" />
 
             <LinearLayout
@@ -224,6 +254,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="32dp"
+                        android:onClick="onCheckboxClicked"
                         android:text="@string/suami" />
 
                     <CheckBox
@@ -231,6 +262,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="32dp"
+                        android:onClick="onCheckboxClicked"
                         android:text="@string/ortu" />
 
                     <CheckBox
@@ -238,6 +270,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="32dp"
+                        android:onClick="onCheckboxClicked"
                         android:text="@string/mertua" />
 
                     <CheckBox
@@ -245,6 +278,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="32dp"
+                        android:onClick="onCheckboxClicked"
                         android:text="@string/saudara" />
 
                     <CheckBox
@@ -252,13 +286,40 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="32dp"
+                        android:onClick="onCheckboxClicked"
                         android:text="Lainnya" />
 
 
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
+            <include layout="@layout/divider" />
 
+            <LinearLayout
+                android:id="@+id/pendampinglainLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <AutoCompleteTextView
+                        android:id="@+id/txt_pendampinglain"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/lainnya"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
             <include layout="@layout/divider" />
 
             <LinearLayout
@@ -338,6 +399,34 @@
                             android:text="Lainnya" />
 
                     </RadioGroup>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <include layout="@layout/divider" />
+
+            <LinearLayout
+                android:id="@+id/hubungantranslainLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <AutoCompleteTextView
+                        android:id="@+id/txt_hubungantranslain"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/lainnya"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -429,6 +518,33 @@
                             android:text="Lainnya" />
 
                     </RadioGroup>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+            <include layout="@layout/divider" />
+
+            <LinearLayout
+                android:id="@+id/hubungandonorlainLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <AutoCompleteTextView
+                        android:id="@+id/txt_hubungandonorlain"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/lainnya"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true" />
 
                 </android.support.design.widget.TextInputLayout>
 

@@ -71,6 +71,11 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String PENDAMPING_PERSALINAN = "pendamping_persalinan";
     public static final String HUBUNGAN_DENGAN_IBU = "hubungan_ibu";
     public static final String HUBUNGAN_PENDONOR_IBU = "hubungan_pendonor";
+    public static final String PENOLONG_LAIN = "penolong_lainnya";
+    public static final String TEMPAT_LAIN = "tempat_lainnya";
+    public static final String PENDAMPING_LAIN = "pendamping_lainnya";
+    public static final String HUB_TRANS_LAIN = "hub_pemiliktrans_lainnya";
+    public static final String HUB_DONOR_LAIN = "hub_donor_lainnya";
 
     public static final String NAME_PEMILIK = "pemilik_kendaraan";
    // public static final String IS_SYNC = "is_sync";
@@ -254,6 +259,11 @@ public class DbHelper  extends SQLiteOpenHelper {
             + NAME_PENDONOR + " TEXT,"
             + NAME_PEMILIK + " TEXT,"
             + HUBUNGAN_PENDONOR_IBU + " TEXT , "
+            + PENOLONG_LAIN + " TEXT , "
+            + TEMPAT_LAIN + " TEXT , "
+            + PENDAMPING_LAIN + " TEXT , "
+            + HUB_TRANS_LAIN + " TEXT , "
+            + HUB_DONOR_LAIN + " TEXT , "
             + USER_ID + " TEXT , "
             + LOCATION_ID + " TEXT , "
             + UPDATE_ID + " TEXT , "

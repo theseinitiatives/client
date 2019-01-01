@@ -11,6 +11,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -26,11 +27,30 @@ import theseinitiatives.atma.client.activity.IdentitasIbuActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 
 public class FormRencanaPersalinan extends AppCompatActivity {
     EditText transportasiNama;
     EditText nama_donors;
+
+    LinearLayout penolonglainLayouts;
+    EditText txt_penolonglains;
+
+    LinearLayout tempatlainLayouts;
+    EditText txt_tempatlains;
+
+    LinearLayout pendampinglainLayouts;
+    EditText txt_pendampinglains;
+
+
+    LinearLayout hubungantranslainLayouts;
+    EditText txt_hubungantranslains;
+
+    LinearLayout hubungandonorlainLayouts;
+    EditText txt_hubungandonorlains;
+
     String DonorId;
     String TransId;
     private boolean isPreloaded = false;
@@ -113,6 +133,23 @@ public class FormRencanaPersalinan extends AppCompatActivity {
         dbManager = new DbManager(this);
         final String idIbu = getIntent().getStringExtra("id");
         final String uniqueid = getIntent().getStringExtra("uniqueId");
+        penolonglainLayouts = (LinearLayout) findViewById(R.id.penolonglainLayout);
+        txt_penolonglains = (EditText) findViewById(R.id.txt_penolonglain);
+
+        penolonglainLayouts = (LinearLayout) findViewById(R.id.penolonglainLayout);
+        txt_penolonglains = (EditText) findViewById(R.id.txt_penolonglain);
+
+        tempatlainLayouts = (LinearLayout) findViewById(R.id.tempatlainLayout);
+        txt_tempatlains = (EditText) findViewById(R.id.txt_tempatlain);
+
+        pendampinglainLayouts = (LinearLayout) findViewById(R.id.pendampinglainLayout);
+        txt_pendampinglains = (EditText) findViewById(R.id.txt_pendampinglain);
+
+        hubungantranslainLayouts = (LinearLayout) findViewById(R.id.hubungantranslainLayout);
+        txt_hubungantranslains = (EditText) findViewById(R.id.txt_hubungantranslain);
+
+        hubungandonorlainLayouts = (LinearLayout) findViewById(R.id.hubungandonorlainLayout);
+        txt_hubungandonorlains = (EditText) findViewById(R.id.txt_hubungandonorlain);
 
         dokter = (RadioButton) findViewById(R.id.dokter);
         bidan = (RadioButton) findViewById(R.id.bidan);
@@ -234,6 +271,16 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                 Date currentTime = Calendar.getInstance().getTime();
                 String textDusun = getDusun(idIbu);
 
+
+
+                String penolongLain = txt_penolonglains.getText().toString();
+                String tempatLain = txt_tempatlains.getText().toString();
+                String pendampingLain = txt_pendampinglains.getText().toString();
+                String hubTransLain = txt_hubungantranslains.getText().toString();
+                String hubDonorLain = txt_hubungandonorlains.getText().toString();
+
+
+
                 JSONObject dataArray = new JSONObject();
                 try {
                     dataArray.put(DbHelper.ID_IBU,uniqueid);
@@ -247,6 +294,11 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                     dataArray.put(DbHelper.HUBUNGAN_PENDONOR_IBU,txt_hubunganPendonor);
                     dataArray.put(DbHelper.NAME_PEMILIK,namaTransportasi);
                     dataArray.put(DbHelper.DUSUN,textDusun);
+                    dataArray.put(DbHelper.PENOLONG_LAIN,penolongLain);
+                    dataArray.put(DbHelper.TEMPAT_LAIN,tempatLain);
+                    dataArray.put(DbHelper.PENDAMPING_LAIN,pendampingLain);
+                    dataArray.put(DbHelper.HUB_TRANS_LAIN,hubTransLain);
+                    dataArray.put(DbHelper.HUB_DONOR_LAIN,hubDonorLain);
                     dataArray.put(DbHelper.TIMESTAMP,dateNow());
 
 
@@ -260,13 +312,14 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }
 
+
                 else {
                     dbManager.open();
                     if(isPreloaded) {
-                        dbManager.updateRencanaPersalinan(uniqueid,TransId,DonorId, namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis());
+                        dbManager.updateRencanaPersalinan(uniqueid,TransId,DonorId, namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis(),penolongLain,tempatLain,pendampingLain,hubTransLain,hubDonorLain);
                         dbManager.insertsyncTable("rencana_persalinan_edit", System.currentTimeMillis(), textDusun,dataArray.toString(), 0, 0);
                     }else {
-                        dbManager.insertRencanaPersalinan(uniqueid, TransId,DonorId,namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis());
+                        dbManager.insertRencanaPersalinan(uniqueid, TransId,DonorId,namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis(),penolongLain,tempatLain,pendampingLain,hubTransLain,hubDonorLain);
                         dbManager.insertsyncTable("rencana_persalinan", System.currentTimeMillis(),textDusun, dataArray.toString(), 0, 0);
                     }dbManager.close();
                     finish();
@@ -289,79 +342,111 @@ public class FormRencanaPersalinan extends AppCompatActivity {
             case R.id.dokter:
                 if (checked)
                     setPenolongPersalinan("dokter");
+                    penolonglainLayouts.setVisibility(GONE);
+
                 break;
             case R.id.bidan:
                 if (checked)
                     setPenolongPersalinan("bidan");
+                    penolonglainLayouts.setVisibility(GONE);
+
                 break;
             case R.id.dukun:
                 if (checked)
                     setPenolongPersalinan("dukun");
+                    penolonglainLayouts.setVisibility(GONE);
+
                 break;
             case R.id.lainnya:
-                if (checked)
+                if (checked){
                     setPenolongPersalinan("lainnya");
+                    penolonglainLayouts.setVisibility(View.VISIBLE);}
                 break;
             case R.id.rs:
                 if (checked)
                     setTempatPersalinan("rumahsakit");
+                    tempatlainLayouts.setVisibility(GONE);
+
                 break;
             case R.id.polindes:
                 if (checked)
                     setTempatPersalinan("polindes");
+                    tempatlainLayouts.setVisibility(GONE);
+
                 break;
             case R.id.puskesmas:
                 if (checked)
                     setTempatPersalinan("puskesmas");
+                    tempatlainLayouts.setVisibility(GONE);
+
                 break;
             case R.id.rumah:
                 if (checked)
                     setTempatPersalinan("rumah");
+                    tempatlainLayouts.setVisibility(GONE);
+
                 break;
             case R.id.tempat_lainnya:
-                if (checked)
+                if (checked){
                     setTempatPersalinan("lainnya");
+                    tempatlainLayouts.setVisibility(View.VISIBLE);}
                 break;
 
             case R.id.hub_suami:
                 if (checked)
                     setHubunganPemilik("suami");
+                    hubungantranslainLayouts.setVisibility(GONE);
+
                 break;
 
             case R.id.anggota:
                 if (checked)
                     setHubunganPemilik("anggotaKeluarga");
+                    hubungantranslainLayouts.setVisibility(GONE);
+
                 break;
 
             case R.id.tetangga:
                 if (checked)
                     setHubunganPemilik("tetangga");
+                    hubungantranslainLayouts.setVisibility(GONE);
+
                 break;
 
             case R.id.hub_lainnya:
-                if (checked)
-                    setHubunganPemilik("lainnya");
+                if (checked){
+                    hubungantranslainLayouts.setVisibility(View.VISIBLE);
+                    setHubunganPemilik("lainnya");}
                 break;
 
             case R.id.pend_suami:
                 if (checked)
                     setHubunganPendonor("suami");
+                    hubungandonorlainLayouts.setVisibility(GONE);
+
                 break;
             case R.id.pend_saudara:
                 if (checked)
                     setHubunganPendonor("saudara");
+                    hubungandonorlainLayouts.setVisibility(GONE);
+
                 break;
             case R.id.pend_ibu:
                 if (checked)
                     setHubunganPendonor("ibu");
+                    hubungandonorlainLayouts.setVisibility(GONE);
+
                 break;
             case R.id.pend_ayah:
                 if (checked)
                     setHubunganPendonor("ayah");
+                    hubungandonorlainLayouts.setVisibility(GONE);
                 break;
             case R.id.pend_lainnya:
-                if (checked)
+                if (checked){
                     setHubunganPendonor("lainnya");
+                    hubungandonorlainLayouts.setVisibility(View.VISIBLE);}
+
                 break;
 
 
@@ -369,6 +454,26 @@ public class FormRencanaPersalinan extends AppCompatActivity {
             }
         }
 
+
+    public void onCheckboxClicked(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+//
+//        // Check which checkbox was clicked
+        switch(view.getId()) {
+            case R.id.pendamping_lainnya:
+                if (checked) {
+                  //  setFaktorResiko("Lainya");
+                    pendampinglainLayouts.setVisibility(VISIBLE);
+                }
+                else if(!checked) {
+                    pendampinglainLayouts.setVisibility(View.GONE);
+                }
+                else
+                    break;
+        }
+
+        }
     public String[] getNamaPemilik() {
         dbManager.open();
         Cursor cursor = dbManager.fetchnamapemilik();
