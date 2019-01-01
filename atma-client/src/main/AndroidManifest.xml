@@ -108,6 +108,13 @@
             android:name="theseinitiatives.atma.client.activity.nativeform.StikerActivity"
             android:label="@string/title_add_kader"
             android:theme="@style/AppThemeCustomized"></activity>
+
+        <activity
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
+            android:name="theseinitiatives.atma.client.activity.InformasiActivity"
+            android:label="INFORMASI"
+            android:theme="@style/AppThemeCustomized"></activity>
         <activity
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"

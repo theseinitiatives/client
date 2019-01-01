@@ -286,7 +286,10 @@ public class TransportasiActivity extends AppCompatActivity
                     .setNegativeButton("Tidak", dialogClickListener).show();
         }
         if(id == R.id.info){
-            navi.gotoKIA();
+            Intent intent = new Intent(TransportasiActivity.this, InformasiActivity.class);
+            startActivity(intent);
+            finish();
+            // navi.gotoKIA();
         }
         if(id == R.id.kader_add){
             if(!forbidden) {
