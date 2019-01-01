@@ -50,6 +50,7 @@ public class DbHelper  extends SQLiteOpenHelper {
 
     //Table Column Transportasi
     public static final String Jenis = "jenis_kendaraan";
+    public static final String Jenis_LAIN = "jenis_kendaraan_lainnya";
     public static final String Kapasitas = "kapasitas_kendaraan";
     public static final String GUBUG = "gubug";
     public static final String PROFESI = "profesi";
@@ -192,6 +193,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + UNIQUEID + " TEXT NOT NULL, "
             + NAME + " TEXT , "
             + Jenis + " TEXT, "
+            + Jenis_LAIN + " TEXT, "
             + Kapasitas + " TEXT , "
             + TELP + " TEXT , "
             + DUSUN + " TEXT , "

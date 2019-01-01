@@ -464,6 +464,7 @@ public class DbManager {
                 DbHelper.NAME,
                 DbHelper.UNIQUEID,
                 DbHelper.Jenis,
+                DbHelper.Jenis_LAIN,
                 DbHelper.Kapasitas,
                 DbHelper.TELP,
                 DbHelper.DUSUN,
@@ -691,12 +692,13 @@ public class DbManager {
         database.update(DbHelper.TABLE_NAME_BANK, contentValue,"_id = ?",new String[]{id});
     }
 
-    public void insertbanktransportasi(String uuid,String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets,long updateId) {
+    public void insertbanktransportasi(String uuid,String text_pemiliks, String jenis,String kend_lain, String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets,long updateId) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.UNIQUEID, uuid);
         contentValue.put( DbHelper.NAME,text_pemiliks);
         contentValue.put( DbHelper.TELP,text_nohp);
         contentValue.put( DbHelper.Jenis,jenis);
+        contentValue.put( DbHelper.Jenis_LAIN,kend_lain);
         contentValue.put( DbHelper.GUBUG,text_gubug);
         contentValue.put( DbHelper.Kapasitas,text_kapasitass);
         contentValue.put( DbHelper.DUSUN,text_dusuns);
@@ -771,11 +773,12 @@ public class DbManager {
 
         database.update(DbHelper.TABLE_NAME_RENCANA, contentValue,"id_ibu = ?",new String[]{idIbu});
     }
-    public void updatebanktransportasi(String id,String text_pemiliks, String jenis,String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets, long updateid) {
+    public void updatebanktransportasi(String id,String text_pemiliks, String jenis, String kend_lain, String text_nohp, String text_gubug, String text_kapasitass, String text_dusuns, String text_profesis, String text_kets, long updateid) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.NAME,text_pemiliks);
         contentValue.put( DbHelper.TELP,text_nohp);
         contentValue.put( DbHelper.Jenis,jenis);
+        contentValue.put( DbHelper.Jenis_LAIN,kend_lain);
         contentValue.put( DbHelper.GUBUG,text_gubug);
         contentValue.put( DbHelper.Kapasitas,text_kapasitass);
         contentValue.put( DbHelper.DUSUN,text_dusuns);

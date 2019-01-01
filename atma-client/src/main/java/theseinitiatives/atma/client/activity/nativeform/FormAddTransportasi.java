@@ -25,6 +25,8 @@ import theseinitiatives.atma.client.activity.TransportasiActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 import static theseinitiatives.atma.client.Utils.StringUtil.humanizes;
 
@@ -51,12 +53,13 @@ public class FormAddTransportasi extends AppCompatActivity {
     EditText kapasitass;
     EditText no_hp;
     EditText gubugs;
-   // EditText dusuns;
+    EditText kend_lainnyas;
     EditText profesis;
     EditText kets;
     private DbManager dbManager;
     Button btnLogin;
     String setUniqueId;
+    LinearLayout lay_lainnya;
 
     public String getSetUniqueId() {
         return setUniqueId;
@@ -79,9 +82,9 @@ public class FormAddTransportasi extends AppCompatActivity {
       //  dusuns = (EditText) findViewById(R.id.dusun);
         profesis = (EditText) findViewById(R.id.profesi);
         kets = (EditText) findViewById(R.id.ket);
-      //  LinearLayout kapasitas_layoutss=(LinearLayout)this.findViewById(R.id.kapasitas_layout);
-        kapasitass.setVisibility(View.GONE);
-
+        lay_lainnya = (LinearLayout)this.findViewById(R.id.lainnya_layout);
+        kapasitass.setVisibility(GONE);
+        kend_lainnyas = (EditText) findViewById(R.id.kend_lainnya) ;
 
         //==========================
         RadioGroup rgp = (RadioGroup) findViewById(R.id.dusun_radio);
@@ -129,12 +132,14 @@ public class FormAddTransportasi extends AppCompatActivity {
                 String text_nohp = no_hp.getText().toString();
                 String jeniss = getJenis();
                 String UUID = java.util.UUID.randomUUID().toString();
+                String kend_lainnya = kend_lainnyas.getText().toString();
 
                 JSONObject dataArray = new JSONObject();
                 try {
                     dataArray.put(DbHelper.NAME, text_pemiliks);
                     dataArray.put(DbHelper.TELP,text_nohp);
                     dataArray.put(DbHelper.Jenis,jeniss);
+                    dataArray.put(DbHelper.Jenis_LAIN,kend_lainnya);
                     dataArray.put(DbHelper.GUBUG,text_gubug);
                     dataArray.put(DbHelper.Kapasitas,text_kapasitass);
                     dataArray.put(DbHelper.DUSUN,text_dusuns);
@@ -161,11 +166,11 @@ public class FormAddTransportasi extends AppCompatActivity {
                 else {
                     dbManager.open();
                     if(id!=null) {
-                        dbManager.updatebanktransportasi(id, text_pemiliks, jeniss, text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets,System.currentTimeMillis());
+                        dbManager.updatebanktransportasi(id, text_pemiliks, jeniss, kend_lainnya, text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets,System.currentTimeMillis());
                         dbManager.insertsyncTable("transportasi_edit", System.currentTimeMillis(),getDusun(), dataArray.toString(), 0, 0);
 
                     } else {
-                        dbManager.insertbanktransportasi(UUID, text_pemiliks, jeniss, text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets,System.currentTimeMillis());
+                        dbManager.insertbanktransportasi(UUID, text_pemiliks, jeniss, kend_lainnya,text_nohp, text_gubug, text_kapasitass, text_dusuns, text_profesis, text_kets,System.currentTimeMillis());
                         dbManager.insertsyncTable("transportasi", System.currentTimeMillis(),getDusun(), dataArray.toString(), 0, 0);
 
                     }
@@ -195,26 +200,31 @@ public class FormAddTransportasi extends AppCompatActivity {
                 if (checked)
                     setJenis("mobil");
                     kapasitass.setVisibility(View.VISIBLE);
+                    lay_lainnya.setVisibility(GONE);
                 break;
             case R.id.motor:
                 if (checked)
                     setJenis("motor");
-                    kapasitass.setVisibility(View.GONE);
+                    kapasitass.setVisibility(GONE);
+                    lay_lainnya.setVisibility(GONE);
                 break;
             case R.id.cidomo:
                 if (checked)
                     setJenis("cidomo");
                     kapasitass.setVisibility(View.VISIBLE);
+                    lay_lainnya.setVisibility(GONE);
                 break;
             case R.id.pickup:
                 if (checked)
                     setJenis("mobil_pickup");
                     kapasitass.setVisibility(View.VISIBLE);
+                    lay_lainnya.setVisibility(GONE);
                 break;
             case R.id.id_lainnya:
                 if (checked)
                     setJenis("id_lainnya");
-                    kapasitass.setVisibility(View.GONE);
+                    kapasitass.setVisibility(VISIBLE);
+                    lay_lainnya.setVisibility(VISIBLE);
                 break;
 
         }
