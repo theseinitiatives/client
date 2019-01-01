@@ -380,7 +380,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             /**
              *
              * DATA Sync (For right now disabled)*/
-            startSync();
+//            startSync();
             return true;
         }
         //noinspection SimplifiableIfStatement
@@ -660,7 +660,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             }
         });
 
-        Spinner dropdownSort = (Spinner) findViewById(R.id.dropdownSort);
+        final Spinner dropdownSort = (Spinner) findViewById(R.id.dropdownSort);
         dropdownSort.setAdapter(spinnerAdapter());
         dropdownSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -674,13 +674,21 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 return;
             }
         });
+
+        ImageView sortButton = (ImageView) findViewById(R.id.sort_button);
+        sortButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                dropdownSort.performClick();
+            }
+        });
     }
     private ArrayAdapter<String> spinnerAdapter(){
         return new ArrayAdapter<>(this.getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, sortItem[0]);
     }
 
     private final String [][] sortItem = {
-            {"Urutkan","Faktor Resiko","Nama A-Z","Nama Z-A","HTP Jan-Des", "HTP Des-Jan"},
-            {"resiko DESC","resiko DESC","name ASC","name DESC", "htp ASC", "htp DESC"}
+            {"Faktor Resiko","Nama A-Z","Nama Z-A","HTP Jan-Des", "HTP Des-Jan"},
+            {"resiko DESC","name ASC","name DESC", "htp ASC", "htp DESC"}
     };
 }
