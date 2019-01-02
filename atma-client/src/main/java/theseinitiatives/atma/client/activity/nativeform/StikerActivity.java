@@ -60,7 +60,13 @@ public class StikerActivity extends AppCompatActivity {
         }
         Cursor cursorkerndaran = dbManager.fetchJenisKendaraan(jenisk_pemilik);
         if (cursorkerndaran.moveToFirst()) {
-            transportsi_.setText("" + humanizes(cursorkerndaran.getString(cursorkerndaran.getColumnIndexOrThrow("jenis_kendaraan"))));
+            String kendaraan = cursorkerndaran.getString(cursorkerndaran.getColumnIndexOrThrow("jenis_kendaraan")).contains("pickup")
+                    ? getString(R.string.pickup)
+                    : cursorkerndaran.getString(cursorkerndaran.getColumnIndexOrThrow("jenis_kendaraan")).equalsIgnoreCase("id_lainnya")
+                    ?cursorkerndaran.getString(cursorkerndaran.getColumnIndexOrThrow("jenis_kendaraan_lainnya"))
+                    :cursorkerndaran.getString(cursorkerndaran.getColumnIndexOrThrow("jenis_kendaraan"));
+
+            transportsi_.setText("" + humanizes(kendaraan));
             Log.e("JENISK",cursorkerndaran.getString(cursorkerndaran.getColumnIndexOrThrow("jenis_kendaraan")));
         }
     }

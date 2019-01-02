@@ -50,7 +50,9 @@ public class TransportasiDetailActivity extends AppCompatActivity {
                 "KENDARAAN",
                 (cursor.getString(cursor.getColumnIndexOrThrow("jenis_kendaraan")).contains("pickup")
                     ? getString(R.string.pickup)
-                    : cursor.getString(cursor.getColumnIndexOrThrow("jenis_kendaraan"))
+                    : cursor.getString(cursor.getColumnIndexOrThrow("jenis_kendaraan")).equalsIgnoreCase("id_lainnya")
+                        ?cursor.getString(cursor.getColumnIndexOrThrow("jenis_kendaraan_lainnya"))
+                        :cursor.getString(cursor.getColumnIndexOrThrow("jenis_kendaraan"))
         )));
         kapasitas.setText("KAPASITAS: "+cursor.getString(cursor.getColumnIndexOrThrow("kapasitas_kendaraan")));
         keterangan.setText("KETERANGAN: "+cursor.getString(cursor.getColumnIndexOrThrow("keterangan")));

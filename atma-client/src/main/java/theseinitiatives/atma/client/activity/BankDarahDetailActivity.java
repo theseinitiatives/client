@@ -44,7 +44,7 @@ public class BankDarahDetailActivity extends AppCompatActivity {
 
             name.setText("Nama: " + c.getString(c.getColumnIndexOrThrow("name_pendonor")));
             golonganDarah.setText("Golongan Darah: " + c.getString(c.getColumnIndexOrThrow("gol_darah")));
-            dusun.setText(c.getString(c.getColumnIndexOrThrow("dusun")));
+            dusun.setText("Dusun: " +c.getString(c.getColumnIndexOrThrow("dusun")));
             gubug.setText("Gubug: " + c.getString(c.getColumnIndexOrThrow("gubug")));
             telepon.setText("Telepon: " + c.getString(c.getColumnIndexOrThrow("telp")));
         }

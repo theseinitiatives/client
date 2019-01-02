@@ -1161,7 +1161,8 @@ public class DbManager {
 
     public Cursor fetchJenisKendaraan(String namas) {
         String[] columns = new String[] {
-                DbHelper.Jenis};
+                DbHelper.Jenis,
+                DbHelper.Jenis_LAIN};
         Cursor c=null;
         c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.NAME +" LIKE '%"+namas+"%'", selectionArgs, groupBy, having, orderBy, limit);
         Log.e("JENIS",c.toString());
