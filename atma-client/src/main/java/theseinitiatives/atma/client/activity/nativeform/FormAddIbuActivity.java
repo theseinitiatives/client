@@ -323,7 +323,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     dbManager.open();
                     if(valueExist(id)) {
                         //update ibu main tables
-                        dbManager.updateIbu(id, mothername, husbandname, dobss, dusunss, hphtss, htpss, goldarahss, "", notelponss, radioStatus2, fResiko,resiko_lain, gubug, "", System.currentTimeMillis());
+                        dbManager.updateIbu(id, mothername, husbandname, dobss, dusunss, hphtss, htpss, goldarahss, nama_kader, notelponss, radioStatus2, fResiko,resiko_lain, gubug, "", System.currentTimeMillis());
                         //add into sync tables
 
                         dbManager.insertsyncTable("identitas_ibu_edit",System.currentTimeMillis(),getDusun(), dataArray.toString(),0,0);
@@ -331,7 +331,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     }
                     else {
                         //insert new data
-                        dbManager.insertibu(UUID, mothername, husbandname, dobss, dusunss, hphtss, htpss, goldarahss, "", notelponss, radioStatus2, fResiko,resiko_lain, gubug, "",System.currentTimeMillis());
+                        dbManager.insertibu(UUID, mothername, husbandname, dobss, dusunss, hphtss, htpss, goldarahss, nama_kader, notelponss, radioStatus2, fResiko,resiko_lain, gubug, "",System.currentTimeMillis());
                         dbManager.insertsyncTable("identitas_ibu", System.currentTimeMillis(),getDusun(), dataArray.toString(), 0, 0);
                     }
                     dbManager.close();

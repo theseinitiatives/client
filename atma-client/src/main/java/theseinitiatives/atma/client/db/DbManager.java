@@ -491,7 +491,7 @@ public class DbManager {
         Cursor c=null;
 
         if(searchTerm != null && searchTerm.length()>0) {
-            c = database.query(DbHelper.TABLE_KADER, KADER_VAR, DbHelper.NAME+" LIKE '%"+searchTerm+"%'", selectionArgs, groupBy, having, orderByASCDESC, limit);
+            c = database.query(DbHelper.TABLE_KADER, KADER_VAR, DbHelper.NAME+" LIKE '%"+searchTerm+"%'", selectionArgs, DbHelper.USERNAME, having, orderByASCDESC, limit);
             return c;
         }
 
