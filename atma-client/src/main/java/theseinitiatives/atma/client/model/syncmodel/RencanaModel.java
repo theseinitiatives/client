@@ -12,6 +12,76 @@ public class RencanaModel {
     @SerializedName("id_trans")
     @Expose
     private String id_trans;
+
+    public String getId_donor() {
+        return id_donor;
+    }
+
+    public void setId_donor(String id_donor) {
+        this.id_donor = id_donor;
+    }
+
+    public String getPenolong_lainnya() {
+        return penolong_lainnya;
+    }
+
+    public void setPenolong_lainnya(String penolong_lainnya) {
+        this.penolong_lainnya = penolong_lainnya;
+    }
+
+    public String getTempat_lainnya() {
+        return tempat_lainnya;
+    }
+
+    public void setTempat_lainnya(String tempat_lainnya) {
+        this.tempat_lainnya = tempat_lainnya;
+    }
+
+    public String getPendamping_lainnya() {
+        return pendamping_lainnya;
+    }
+
+    public void setPendamping_lainnya(String pendamping_lainnya) {
+        this.pendamping_lainnya = pendamping_lainnya;
+    }
+
+    public String getHub_pemiliktrans_lainnya() {
+        return hub_pemiliktrans_lainnya;
+    }
+
+    public void setHub_pemiliktrans_lainnya(String hub_pemiliktrans_lainnya) {
+        this.hub_pemiliktrans_lainnya = hub_pemiliktrans_lainnya;
+    }
+
+    public String getHub_donor_lainnya() {
+        return hub_donor_lainnya;
+    }
+
+    public void setHub_donor_lainnya(String hub_donor_lainnya) {
+        this.hub_donor_lainnya = hub_donor_lainnya;
+    }
+
+    @SerializedName("penolong_lainnya")
+    @Expose
+    private String penolong_lainnya;
+    @SerializedName("tempat_lainnya")
+    @Expose
+    private String tempat_lainnya;
+    @SerializedName("pendamping_lainnya")
+    @Expose
+    private String pendamping_lainnya;
+    @SerializedName("id_hub_pemiliktrans_lainnyadonor")
+    @Expose
+    private String hub_pemiliktrans_lainnya;
+    @SerializedName("hub_donor_lainnya")
+    @Expose
+    private String hub_donor_lainnya;
+
+
+
+    @SerializedName("id_donor")
+    @Expose
+    private String id_donor;
     @SerializedName("penolong_persalinan")
     @Expose
     private String penolong_persalinan;

@@ -36,6 +36,18 @@ public class BankdarahData {
     @Expose
     private String telp;
 
+    public String getTgl_donor() {
+        return tgl_donor;
+    }
+
+    public void setTgl_donor(String tgl_donor) {
+        this.tgl_donor = tgl_donor;
+    }
+
+    @SerializedName("tgl_donor")
+    @Expose
+    private String tgl_donor;
+
 
 
     @SerializedName("user_id")

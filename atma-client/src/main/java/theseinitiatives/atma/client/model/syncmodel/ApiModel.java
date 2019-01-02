@@ -15,6 +15,29 @@ public class ApiModel {
     @SerializedName("data")
     @Expose
     private String data;
+    @SerializedName("dusun")
+    @Expose
+    private String dusun;
+
+    public String getDusun() {
+        return dusun;
+    }
+
+    public void setDusun(String dusun) {
+        this.dusun = dusun;
+    }
+
+    public String getDesa() {
+        return desa;
+    }
+
+    public void setDesa(String desa) {
+        this.desa = desa;
+    }
+
+    @SerializedName("desa")
+    @Expose
+    private String desa;
     @SerializedName("location_id")
     @Expose
     private String location_id;

@@ -23,6 +23,8 @@ import theseinitiatives.atma.client.model.syncmodel.RencanaModel;
 import theseinitiatives.atma.client.model.syncmodel.StatusModel;
 import theseinitiatives.atma.client.model.syncmodel.TransportasiData;
 
+import static theseinitiatives.atma.client.db.DbHelper.DESA;
+import static theseinitiatives.atma.client.db.DbHelper.DUSUN;
 import static theseinitiatives.atma.client.db.DbHelper.FORM_NAME;
 import static theseinitiatives.atma.client.db.DbHelper.KADER_VAR;
 import static theseinitiatives.atma.client.db.DbHelper.PENOLONG_LAIN;
@@ -33,6 +35,7 @@ import static theseinitiatives.atma.client.db.DbHelper.TABLE_NAME_TRANS;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_PERSALINAN;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_SYNC;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_UPDATEID_SYNC;
+import static theseinitiatives.atma.client.db.DbHelper.UNIQUEID;
 import static theseinitiatives.atma.client.db.DbHelper.UPDATE_ID;
 
 public class DbManager {
@@ -68,11 +71,15 @@ public class DbManager {
             contentValue.put(DbHelper.LOCATION_ID, model.getlocation_id());
             contentValue.put(DbHelper.USER_ID, model.getuser_id());
             contentValue.put(UPDATE_ID, model.getupdate_id());
+           // contentValue.put(DUSUN, model.getDusun());
+           // contentValue.put(DESA, model.getDesa());
 
-
-            // inserting to table updateIdsync for checking latest update id
             insertUpdateIdforPulling(model.getupdate_id(), model.getform_name());
+            // inserting to table updateIdsync for checking latest update id
+         /*   Long logn = Long.parseLong(model.getupdate_id());
 
+            insertsyncTable(model.getform_name(),logn,model.getDusun(),model.getData(),1,1);
+         */
             String data_ = null;
 
             //check data in server of is mixed between array and list
@@ -93,7 +100,7 @@ public class DbManager {
             Log.i("aaaaaaaaaaaaaaaaa" ,data_);
 
             // insert into db
-            if(model.getform_name().equals("identitas_ibu")) {
+            if(model.getform_name().contains("identitas_ibu")) {
                 IbuData[] ibuData = gson.fromJson(data_, IbuData[].class);
                 List<IbuData> ibuDataListed = new ArrayList<>(Arrays.asList(ibuData));
                 for (IbuData listIbuData : ibuDataListed) {
@@ -102,7 +109,7 @@ public class DbManager {
                     contentValue.put(DbHelper.NAME, listIbuData.getName());
                     contentValue.put(DbHelper.SPOUSENAME, listIbuData.getSpousename());
                     contentValue.put(DbHelper.GOL_DARAH, listIbuData.getGolDarah());
-                    contentValue.put(DbHelper.DUSUN, listIbuData.getDusun());
+                    contentValue.put(DUSUN, listIbuData.getDusun());
                     contentValue.put(DbHelper.HPHT, listIbuData.getHpht());
                     contentValue.put(DbHelper.HTP, listIbuData.getHtp());
                     contentValue.put(DbHelper.TGL_LAHIR, listIbuData.getTglLahir());
@@ -111,22 +118,26 @@ public class DbManager {
                     contentValue.put(DbHelper.ALASAN, listIbuData.getAlasan());
                     contentValue.put(DbHelper.GUBUG, listIbuData.getGubug());
                     contentValue.put(DbHelper.KADER, listIbuData.getKader());
-                   /* contentValue.put(DbHelper.USER_ID, listIbuData.getUser_id());
-                    contentValue.put(DbHelper.LOCATION_ID, listIbuData.getLocation_id());
-                    contentValue.put(DbHelper.UPDATE_ID, listIbuData.getUpdate_id());
+                   contentValue.put(DbHelper.RESIKO, listIbuData.getResiko());
+                    contentValue.put(DbHelper.RESIKO_LAIN, listIbuData.getResiko_lainnya());
+                    /*  contentValue.put(DbHelper.UPDATE_ID, listIbuData.getUpdate_id());
                    */ contentValue.put(DbHelper.IS_SEND, 1);
                     contentValue.put(DbHelper.IS_SYNC, 1);
                     contentValue.put(DbHelper.TIMESTAMP, listIbuData.getTimestamp());
-                    if(getUniqueID(listIbuData.getUnique_id(),"identitas_ibu")!=null){
-                        Log.e("UPDATING====DATA","");
-                        database.update(DbHelper.TABLE_NAME_IBU, contentValue,"unique_id = ?",new String[]{listIbuData.getUnique_id()});
+                    if(model.getform_name().equalsIgnoreCase("identitas_ibu")) {
+                        if (getUniqueID(listIbuData.getUnique_id(), "identitas_ibu") != null) {
+                            Log.e("UPDATING====DATAIBU", "");
+                            database.update(DbHelper.TABLE_NAME_IBU, contentValue, "unique_id = ?", new String[]{listIbuData.getUnique_id()});
+                        } else {
+                            database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
+                        }
                     }
-                    else {
-                        database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
-                    }
+                    else
+                        database.update(DbHelper.TABLE_NAME_IBU, contentValue, "unique_id = ?", new String[]{listIbuData.getUnique_id()});
+
                 }
             }
-            else if(model.getform_name().equals("transportasi")){
+            else if(model.getform_name().contains("transportasi")){
                 TransportasiData[] transportasiData = gson.fromJson(data_, TransportasiData[].class);
                 List<TransportasiData> TransportasiDataList = new ArrayList<>(Arrays.asList(transportasiData));
                 for (TransportasiData listTransportasi : TransportasiDataList){
@@ -134,8 +145,9 @@ public class DbManager {
                     contentValue.put(DbHelper.UNIQUEID, listTransportasi.getUniqueId());
                     contentValue.put(DbHelper.NAME, listTransportasi.getName());
                     contentValue.put(DbHelper.Jenis, listTransportasi.getJenis_kendaraan());
+                    contentValue.put(DbHelper.Jenis_LAIN, listTransportasi.getJenis_kendaraan_lainnya());
                     contentValue.put(DbHelper.Kapasitas, listTransportasi.getKapasitas_kendaraan());
-                    contentValue.put(DbHelper.DUSUN, listTransportasi.getGubug());
+                    contentValue.put(DUSUN, listTransportasi.getDusun());
                     contentValue.put(DbHelper.TELP, listTransportasi.getTelp());
                     contentValue.put(DbHelper.GUBUG, listTransportasi.getGubug());
                     contentValue.put(DbHelper.PROFESI, listTransportasi.getProfesi());
@@ -146,46 +158,56 @@ public class DbManager {
                    */ contentValue.put(DbHelper.IS_SEND, 1);
                     contentValue.put(DbHelper.IS_SYNC, 1);
                     contentValue.put(DbHelper.TIMESTAMP, listTransportasi.getTimestamp());
-                    if(getUniqueID(listTransportasi.getUniqueId(),"transportasi")!=null){
-                        Log.e("UPDATING====DATA",listTransportasi.getUniqueId());
-                        database.update(DbHelper.TABLE_NAME_TRANS, contentValue,"unique_id = ?",new String[]{listTransportasi.getUniqueId()});
+                    if(model.getform_name().equalsIgnoreCase("transportasi")) {
+                        if (getUniqueID(listTransportasi.getUniqueId(), "transportasi") != null) {
+                            Log.e("UPDATING====DATATRANS", listTransportasi.getUniqueId());
+                            database.update(DbHelper.TABLE_NAME_TRANS, contentValue, "unique_id = ?", new String[]{listTransportasi.getUniqueId()});
+                        }
+                        database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
                     }
-                    database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
+                    else if(model.getform_name().contains("edit"))
+                        database.update(DbHelper.TABLE_NAME_TRANS, contentValue, "unique_id = ?", new String[]{listTransportasi.getUniqueId()});
                 }
 
             }
-            else if(model.getform_name().equals("bank_darah")){
+            else if(model.getform_name().contains("bank_darah")){
                 BankdarahData[] bankdarahData = gson.fromJson(data_, BankdarahData[].class);
                 List<BankdarahData> BankDarahDataListed = new ArrayList<>(Arrays.asList(bankdarahData));
                 for (BankdarahData listBankDarah : BankDarahDataListed){
                    // contentValue.put(DbHelper._ID, listBankDarah.getId());
                     contentValue.put(DbHelper.UNIQUEID, listBankDarah.getUniqueId());
                     contentValue.put(DbHelper.NAME_PENDONOR, listBankDarah.getName_pendonor());
-                    contentValue.put(DbHelper.DUSUN, listBankDarah.getDusun());
+                    contentValue.put(DUSUN, listBankDarah.getDusun());
                     contentValue.put(DbHelper.GUBUG, listBankDarah.getGubug());
                     contentValue.put(DbHelper.GOL_DARAH, listBankDarah.getGolDarah());
                     contentValue.put(DbHelper.TELP, listBankDarah.getTelp());
-                   /* contentValue.put(DbHelper.USER_ID, listBankDarah.getUser_id());
-                    contentValue.put(DbHelper.LOCATION_ID, listBankDarah.getLocation_id());
+                    contentValue.put(DbHelper.TGL_DONOR, listBankDarah.getTgl_donor());
+                   /* contentValue.put(DbHelper.LOCATION_ID, listBankDarah.getLocation_id());
                     contentValue.put(DbHelper.UPDATE_ID, listBankDarah.getUpdate_id());
                    */ contentValue.put(DbHelper.IS_SEND, 1);
                     contentValue.put(DbHelper.IS_SYNC, 1);
                     contentValue.put(DbHelper.TIMESTAMP, listBankDarah.getTimestamp());
-                    if(getUniqueID(listBankDarah.getUniqueId(),"transportasi")!=null){
-                        Log.e("UPDATING====DATA","");
-                        database.update(DbHelper.TABLE_NAME_TRANS, contentValue,"unique_id = ?",new String[]{listBankDarah.getUniqueId()});
+                    if(model.getform_name().equalsIgnoreCase("bank_darah")) {
+                        if (getUniqueID(listBankDarah.getUniqueId(), "bank_darah") != null) {
+                            Log.e("UPDATING====DATAKADER", "");
+                            database.update(DbHelper.TABLE_NAME_BANK, contentValue, "unique_id = ?", new String[]{listBankDarah.getUniqueId()});
+                        }
+                        database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);
                     }
-                    database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);
+                    else
+                        database.update(DbHelper.TABLE_NAME_BANK, contentValue, "unique_id = ?", new String[]{listBankDarah.getUniqueId()});
+
                 }
 
             }
-            else if(model.getform_name().equals("rencana_persalinan")){
+            else if(model.getform_name().contains("rencana_persalinan")){
                 RencanaModel[] rencanaModels = gson.fromJson(data_, RencanaModel[].class);
                 List<RencanaModel> rencanaModels1 = new ArrayList<>(Arrays.asList(rencanaModels));
                 for (RencanaModel rencanaModel : rencanaModels1){
-                    contentValue.put(DbHelper._ID, rencanaModel.getId());
+
                     contentValue.put(DbHelper.ID_IBU, rencanaModel.getId_ibu());
                     contentValue.put(DbHelper.ID_TRANS, rencanaModel.getId_trans());
+                    contentValue.put(DbHelper.ID_DONOR, rencanaModel.getId_donor());
                     contentValue.put(DbHelper.PENOLONG_PERSALINAN, rencanaModel.getPenolong_persalinan());
                     contentValue.put(DbHelper.TEMPAT_PERSALINAN, rencanaModel.getTempat_persalinan());
                     contentValue.put(DbHelper.PENDAMPING_PERSALINAN, rencanaModel.getPendamping_persalinan());
@@ -193,20 +215,33 @@ public class DbManager {
                     contentValue.put(DbHelper.NAME_PENDONOR, rencanaModel.getName_pendonor());
                     contentValue.put(DbHelper.NAME_PEMILIK, rencanaModel.getPemilik_kendaraan());
                     contentValue.put(DbHelper.HUBUNGAN_PENDONOR_IBU, rencanaModel.getHubungan_pendonor());
-                   /* contentValue.put(DbHelper.USER_ID, rencanaModel.getUser_id());
-                    contentValue.put(DbHelper.LOCATION_ID, rencanaModel.getLocation_id());
-                    contentValue.put(DbHelper.UPDATE_ID, rencanaModel.getUpdate_id());
-                   */ contentValue.put(DbHelper.IS_SEND, 1);
+
+                    contentValue.put(DbHelper.PENOLONG_LAIN, rencanaModel.getPenolong_lainnya());
+                    contentValue.put(DbHelper.TEMPAT_LAIN, rencanaModel.getTempat_lainnya());
+                    contentValue.put(DbHelper.PENDAMPING_LAIN, rencanaModel.getPendamping_lainnya());
+                    contentValue.put(DbHelper.HUB_TRANS_LAIN, rencanaModel.getHub_pemiliktrans_lainnya());
+                    contentValue.put(DbHelper.HUB_DONOR_LAIN, rencanaModel.getHub_donor_lainnya());
+                    contentValue.put(DbHelper.IS_SEND, 1);
                     contentValue.put(DbHelper.IS_SYNC, 1);
                     contentValue.put(DbHelper.TIMESTAMP, rencanaModel.getTimestamp());
-                    database.insert(DbHelper.TABLE_NAME_RENCANA, null, contentValue);
+                    if(model.getform_name().equalsIgnoreCase("rencana_persalinan")) {
+                        if (getIDIbu(rencanaModel.getId_ibu(), "rencana_persalinan") != null) {
+                            Log.e("UPDATING====DATAKADER", "");
+                            database.update(DbHelper.TABLE_NAME_RENCANA, contentValue, "id_ibu = ?", new String[]{rencanaModel.getId_ibu()});
+                        }
+                        database.insert(DbHelper.TABLE_NAME_RENCANA, null, contentValue);
+                    }
+                    else
+                        database.update(DbHelper.TABLE_NAME_RENCANA, contentValue, "id_ibu = ?", new String[]{rencanaModel.getId_ibu()});
+
+                //    database.insert(DbHelper.TABLE_NAME_RENCANA, null, contentValue);
                 }
             }
-            else if(model.getform_name().equals("status_persalinan")){
+            else if(model.getform_name().contains("status_persalinan")){
                 StatusModel[] statusModels = gson.fromJson(data_, StatusModel[].class);
                 List<StatusModel> statusModels1 = new ArrayList<>(Arrays.asList(statusModels));
                 for (StatusModel statusModel : statusModels1){
-                    contentValue.put(DbHelper._ID, statusModel.getId());
+//                    contentValue.put(DbHelper._ID, statusModel.getId());
                     contentValue.put(DbHelper.ID_IBU, statusModel.getId_ibu());
                     contentValue.put(DbHelper.STATUS_BERSALIN, statusModel.getStatus_bersalin());
                     contentValue.put(DbHelper.TGL_PERSALINAN, statusModel.getTgl_persalinan());
@@ -217,33 +252,46 @@ public class DbManager {
                     contentValue.put(DbHelper.KOMPLIKASIIBU, statusModel.getKomplikasi_ibu());
                     contentValue.put(DbHelper.KOMPLIKASIANAK, statusModel.getKomplikasi_anak());
                     contentValue.put(DbHelper.TEMPAT_PERSALINAN, statusModel.getTempat_persalinan());
+                    contentValue.put(DbHelper.TEMPAT_LAIN, statusModel.getTempat_lainnya());
                    /* contentValue.put(DbHelper.USER_ID, statusModel.getUser_id());
                     contentValue.put(DbHelper.LOCATION_ID, statusModel.getLocation_id());
                     contentValue.put(DbHelper.UPDATE_ID, statusModel.getUpdate_id());
                    */ contentValue.put(DbHelper.IS_SEND, 1);
                     contentValue.put(DbHelper.IS_SYNC, 1);
                     contentValue.put(DbHelper.TIMESTAMP, statusModel.getTimestamp());
-                    database.insert(DbHelper.TABLE_PERSALINAN, null, contentValue);
+                    if(model.getform_name().equalsIgnoreCase("status_persalinan")) {
+                        if (getIDIbu(statusModel.getId_ibu(), "status_persalinan") != null) {
+                            Log.e("UPDATING====DATAKADER", "");
+                            database.update(DbHelper.TABLE_PERSALINAN, contentValue, "id_ibu = ?", new String[]{statusModel.getId_ibu()});
+                        }
+                        database.insert(DbHelper.TABLE_PERSALINAN, null, contentValue);
+                    }
+                    else
+                        database.update(DbHelper.TABLE_PERSALINAN, contentValue, "id_ibu = ?", new String[]{statusModel.getId_ibu()});
+
+                   // database.insert(DbHelper.TABLE_PERSALINAN, null, contentValue);
                 }
             }
 
             //close ibu and kader
-            else if(model.getform_name().equals("kader")){
+            else if(model.getform_name().contains("kader")){
                 Log.e("GETKADER","");
                 KaderModel[] KaderModels = gson.fromJson(data_, KaderModel[].class);
                 List<KaderModel> kadermodelslist = new ArrayList<>(Arrays.asList(KaderModels));
                 for (KaderModel kadermodels : kadermodelslist) {
                     contentValue.put(DbHelper.NAME, kadermodels.getName());
-                    contentValue.put(DbHelper.DUSUN, kadermodels.getDusun());
+                    contentValue.put(UNIQUEID, kadermodels.getUnique_id());
+                    contentValue.put(DUSUN, kadermodels.getDusun());
                     contentValue.put(DbHelper.TELP, kadermodels.getTelp());
                     contentValue.put(DbHelper.USERNAME, kadermodels.getUsername());
                     contentValue.put(DbHelper.PASSWORD, kadermodels.getPassword());
-                    contentValue.put(DbHelper.USER_ID, model.getuser_id());
-                    contentValue.put(DbHelper.LOCATION_ID, model.getlocation_id());
-                    contentValue.put(DbHelper.UPDATE_ID, model.getupdate_id());
                     contentValue.put(DbHelper.IS_SEND, 1);
                     contentValue.put(DbHelper.IS_SYNC, 1);
-                    database.insert(DbHelper.TABLE_KADER, null, contentValue);
+                        if (getUniqueID(kadermodels.getUnique_id(), "kader") != null) {
+                            Log.e("UPDATING====DATAKADER", "");
+                            database.update(DbHelper.TABLE_KADER, contentValue, "unique_id = ?", new String[]{kadermodels.getUnique_id()});
+                        }
+                        database.insert(DbHelper.TABLE_KADER, null, contentValue);
 
                 }
 
@@ -278,7 +326,7 @@ public class DbManager {
         contentValue.put(  DbHelper.NAME, mothername);
         contentValue.put(  DbHelper.SPOUSENAME, husbandname);
         contentValue.put( DbHelper.TGL_LAHIR,dobss);
-        contentValue.put( DbHelper.DUSUN,gubugss);
+        contentValue.put( DUSUN,gubugss);
         contentValue.put( DbHelper.HPHT,hphtss);
         contentValue.put( DbHelper.HTP,htpss);
         contentValue.put( DbHelper.GOL_DARAH,goldarahss);
@@ -347,7 +395,7 @@ public class DbManager {
         contentValue.put(  DbHelper.NAME, mothername);
         contentValue.put(  DbHelper.SPOUSENAME, husbandname);
         contentValue.put( DbHelper.TGL_LAHIR,dobss);
-        contentValue.put( DbHelper.DUSUN,gubugss);
+        contentValue.put( DUSUN,gubugss);
         contentValue.put( DbHelper.HPHT,hphtss);
         contentValue.put( DbHelper.HTP,htpss);
         contentValue.put( DbHelper.GOL_DARAH,goldarahss);
@@ -371,7 +419,7 @@ public class DbManager {
                 DbHelper.UNIQUEID,
                 DbHelper.SPOUSENAME,
                 DbHelper.TGL_LAHIR,
-                DbHelper.DUSUN,
+                DUSUN,
                 DbHelper.GUBUG,
                 DbHelper.HPHT,
                 DbHelper.HTP,
@@ -403,7 +451,7 @@ public class DbManager {
                 DbHelper.NAME,
                 DbHelper.SPOUSENAME,
                 DbHelper.TGL_LAHIR,
-                DbHelper.DUSUN,
+                DUSUN,
                 DbHelper.GUBUG,
                 DbHelper.HPHT,
                 DbHelper.HTP,
@@ -435,7 +483,7 @@ public class DbManager {
                 //            + FORM_NAME + " TEXT , "
                 DbHelper.USER_ID,
                 DbHelper.LOCATION_ID,
-                DbHelper.DUSUN,
+                DUSUN,
                 DbHelper.DESA,
                 DbHelper.UPDATE_ID,
                 DbHelper.FORM_NAME,
@@ -467,7 +515,7 @@ public class DbManager {
                 DbHelper.Jenis_LAIN,
                 DbHelper.Kapasitas,
                 DbHelper.TELP,
-                DbHelper.DUSUN,
+                DUSUN,
                 DbHelper.GUBUG,
                 DbHelper.PROFESI,
                 DbHelper.KET,
@@ -481,7 +529,7 @@ public class DbManager {
             return c;
         }
 
-        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
+        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, selection, selectionArgs, "unique_id", having, orderBy, limit);
         clearClause();
         return c;
     }
@@ -491,11 +539,11 @@ public class DbManager {
         Cursor c=null;
 
         if(searchTerm != null && searchTerm.length()>0) {
-            c = database.query(DbHelper.TABLE_KADER, KADER_VAR, DbHelper.NAME+" LIKE '%"+searchTerm+"%'", selectionArgs, DbHelper.USERNAME, having, orderByASCDESC, limit);
+            c = database.query(DbHelper.TABLE_KADER, KADER_VAR, DbHelper.NAME+" LIKE '%"+searchTerm+"%'", selectionArgs, UNIQUEID, having, orderByASCDESC, limit);
             return c;
         }
 
-        c = database.query(DbHelper.TABLE_KADER, KADER_VAR, selection, selectionArgs, groupBy, having, orderBy, limit);
+        c = database.query(DbHelper.TABLE_KADER, KADER_VAR, selection, selectionArgs, UNIQUEID, having, orderBy, limit);
         clearClause();
         return c;
     }
@@ -508,7 +556,7 @@ public class DbManager {
                 DbHelper.Jenis,
                 DbHelper.Kapasitas,
                 DbHelper.TELP,
-                DbHelper.DUSUN,
+                DUSUN,
                 DbHelper.GUBUG,
                 DbHelper.PROFESI,
                 DbHelper.KET,
@@ -529,7 +577,7 @@ public class DbManager {
                 DbHelper.NAME_PENDONOR,
                 DbHelper.STATUS,
                 DbHelper.UNIQUEID,
-                DbHelper.DUSUN,
+                DUSUN,
                 DbHelper.GUBUG,
                 DbHelper.GOL_DARAH,
                 DbHelper.TELP,
@@ -543,7 +591,7 @@ public class DbManager {
             return c;
         }
 
-        c = database.query(DbHelper.TABLE_NAME_BANK, columns, selection, selectionArgs, groupBy, having, orderBy, limit);
+        c = database.query(DbHelper.TABLE_NAME_BANK, columns, selection, selectionArgs, "unique_id", having, orderBy, limit);
         clearClause();
         return c;
 
@@ -553,7 +601,7 @@ public class DbManager {
         String[] columns = new String[] { DbHelper._ID,
                 DbHelper.NAME_PENDONOR,
                 DbHelper.STATUS,
-                DbHelper.DUSUN,
+                DUSUN,
                 DbHelper.GUBUG,
                 DbHelper.GOL_DARAH,
                 DbHelper.UNIQUEID,
@@ -662,7 +710,7 @@ public class DbManager {
         contentValue.put(  DbHelper.UNIQUEID, uuid);
         contentValue.put( DbHelper.NAME_PENDONOR,donor);
         contentValue.put( DbHelper.GUBUG,text_gubug);
-        contentValue.put( DbHelper.DUSUN,text_dusun);
+        contentValue.put( DUSUN,text_dusun);
         contentValue.put( DbHelper.STATUS,radioStatus);
         contentValue.put( DbHelper.GOL_DARAH,radioStatus2);
         contentValue.put( DbHelper.TELP,notelponss);
@@ -679,7 +727,7 @@ public class DbManager {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.NAME_PENDONOR,donor);
         contentValue.put( DbHelper.GUBUG,text_gubug);
-        contentValue.put( DbHelper.DUSUN,text_dusun);
+        contentValue.put( DUSUN,text_dusun);
         contentValue.put( DbHelper.STATUS,radioStatus);
         contentValue.put( DbHelper.GOL_DARAH,radioStatus2);
         contentValue.put( DbHelper.TELP,notelponss);
@@ -701,7 +749,7 @@ public class DbManager {
         contentValue.put( DbHelper.Jenis_LAIN,kend_lain);
         contentValue.put( DbHelper.GUBUG,text_gubug);
         contentValue.put( DbHelper.Kapasitas,text_kapasitass);
-        contentValue.put( DbHelper.DUSUN,text_dusuns);
+        contentValue.put( DUSUN,text_dusuns);
         contentValue.put( DbHelper.PROFESI,text_profesis);
         contentValue.put( DbHelper.KET,text_kets);
         contentValue.put( DbHelper.USER_ID,getusername());
@@ -781,7 +829,7 @@ public class DbManager {
         contentValue.put( DbHelper.Jenis_LAIN,kend_lain);
         contentValue.put( DbHelper.GUBUG,text_gubug);
         contentValue.put( DbHelper.Kapasitas,text_kapasitass);
-        contentValue.put( DbHelper.DUSUN,text_dusuns);
+        contentValue.put( DUSUN,text_dusuns);
         contentValue.put( DbHelper.PROFESI,text_profesis);
         contentValue.put( DbHelper.KET,text_kets);
         contentValue.put( DbHelper.USER_ID,getusername());
@@ -823,7 +871,7 @@ public class DbManager {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.NAME,name);
         contentValue.put( DbHelper.UNIQUEID,uuid);
-        contentValue.put( DbHelper.DUSUN,dusun);
+        contentValue.put( DUSUN,dusun);
         contentValue.put( DbHelper.TELP,hp);
         contentValue.put( DbHelper.USERNAME,username);
         contentValue.put( DbHelper.PASSWORD,password);
@@ -840,7 +888,7 @@ public class DbManager {
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName()); //get from user location
         contentValue.put( DbHelper.DESA,getDesa()); // get from location tree with tag id = 5
-        contentValue.put( DbHelper.DUSUN,dusun); // get from location tree with tag id = 5
+        contentValue.put( DUSUN,dusun); // get from location tree with tag id = 5
         contentValue.put( DbHelper.DATA,data);
         contentValue.put( UPDATE_ID,updateId);
         contentValue.put( FORM_NAME,formName);
@@ -861,7 +909,7 @@ public class DbManager {
 
     public Cursor fetchKader(){
         clearClause();
-        return database.query(DbHelper.KADER,DbHelper.KADER_VAR,selection,selectionArgs,groupBy,having,orderBy, limit);
+        return database.query(DbHelper.KADER,DbHelper.KADER_VAR,selection,selectionArgs,UNIQUEID,having,orderBy, limit);
     }
 
     public Cursor fetchUserData(){
@@ -890,7 +938,7 @@ public class DbManager {
                 DbHelper.NAME,
                 DbHelper.SPOUSENAME,
                 DbHelper.TGL_LAHIR,
-                DbHelper.DUSUN,
+                DUSUN,
                 DbHelper.GUBUG,
                 DbHelper.HPHT,
                 DbHelper.HTP,
@@ -970,7 +1018,7 @@ public class DbManager {
         String[] columns = new String[] {
                 DbHelper.NAME};
         Cursor c=null;
-        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, null, selectionArgs, groupBy, having, orderBy, limit);
+        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, null, selectionArgs, UNIQUEID, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -980,7 +1028,7 @@ public class DbManager {
         String[] columns = new String[] {
                 DbHelper.NAME_PENDONOR};
         Cursor c=null;
-        c = database.query(DbHelper.TABLE_NAME_BANK, columns, null, selectionArgs, groupBy, having, orderBy, limit);
+        c = database.query(DbHelper.TABLE_NAME_BANK, columns, null, selectionArgs, UNIQUEID, having, orderBy, limit);
         if (c != null) {
             c.moveToFirst();
         }
@@ -1003,6 +1051,16 @@ public class DbManager {
                 DbHelper.UNIQUEID};
         Cursor c=null;
         c = database.query(tablename, columns, DbHelper.UNIQUEID +"='"+id+"'", selectionArgs, groupBy, having, orderBy);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+    }
+    public Cursor fetchIdIbu(String id, String tablename) {
+        String[] columns = new String[] {
+                DbHelper.ID_IBU};
+        Cursor c=null;
+        c = database.query(tablename, columns, DbHelper.ID_IBU +"='"+id+"'", selectionArgs, groupBy, having, orderBy);
         if (c != null) {
             c.moveToFirst();
         }
@@ -1114,6 +1172,17 @@ public class DbManager {
         Cursor cursor = fetchuniqueId(id, tablename);
         if(cursor.moveToFirst()) {
             uniq = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+            // locName = userd.getString(userd.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
+            //close();
+        }
+        return uniq;
+    }
+
+    public String getIDIbu(String id, String tablename){
+        String uniq=null;
+        Cursor cursor = fetchIdIbu(id, tablename);
+        if(cursor.moveToFirst()) {
+            uniq = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.ID_IBU));
             // locName = userd.getString(userd.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
             //close();
         }

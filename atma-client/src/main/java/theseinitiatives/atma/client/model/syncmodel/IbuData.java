@@ -42,6 +42,23 @@ public class IbuData {
     @SerializedName("hpht")
     @Expose
     private String hpht;
+
+    public String getResiko() {
+        return resiko;
+    }
+
+    public void setResiko(String resiko) {
+        this.resiko = resiko;
+    }
+
+    public String getResiko_lainnya() {
+        return resiko_lainnya;
+    }
+
+    public void setResiko_lainnya(String resiko_lainnya) {
+        this.resiko_lainnya = resiko_lainnya;
+    }
+
     @SerializedName("htp")
     @Expose
     private String htp;
@@ -63,6 +80,12 @@ public class IbuData {
     @SerializedName("alasan")
     @Expose
     private String alasan;
+    @SerializedName("resiko")
+    @Expose
+    private String resiko;
+    @SerializedName("resiko_lainnya")
+    @Expose
+    private String resiko_lainnya;
     @SerializedName("kondisi_anak")
     @Expose
     private String kondisiAnak;

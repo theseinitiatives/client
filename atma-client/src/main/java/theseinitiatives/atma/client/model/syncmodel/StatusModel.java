@@ -11,6 +11,18 @@ public class StatusModel {
     @Expose
     private String id_ibu;
 
+    public String getTempat_lainnya() {
+        return tempat_lainnya;
+    }
+
+    public void setTempat_lainnya(String tempat_lainnya) {
+        this.tempat_lainnya = tempat_lainnya;
+    }
+
+    @SerializedName("tempat_lainnya")
+    @Expose
+    private String tempat_lainnya;
+
     @SerializedName("status_bersalin")
     @Expose
     private String status_bersalin;

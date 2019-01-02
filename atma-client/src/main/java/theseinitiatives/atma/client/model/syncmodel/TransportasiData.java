@@ -21,6 +21,29 @@ public class TransportasiData {
     @SerializedName("jenis_kendaraan")
     @Expose
     private String jenis_kendaraan;
+
+    @SerializedName("dusun")
+    @Expose
+    private String dusun;
+
+    public String getDusun() {
+        return dusun;
+    }
+
+    public void setDusun(String dusun) {
+        this.dusun = dusun;
+    }
+    public String getJenis_kendaraan_lainnya() {
+        return jenis_kendaraan_lainnya;
+    }
+
+    public void setJenis_kendaraan_lainnya(String jenis_kendaraan_lainnya) {
+        this.jenis_kendaraan_lainnya = jenis_kendaraan_lainnya;
+    }
+
+    @SerializedName("jenis_kendaraan_lainnya")
+    @Expose
+    private String jenis_kendaraan_lainnya;
     @SerializedName("gubug")
     @Expose
     private String gubug;

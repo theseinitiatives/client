@@ -21,6 +21,18 @@ public class KaderModel {
     @Expose
     private String password;
 
+    public String getUnique_id() {
+        return unique_id;
+    }
+
+    public void setUnique_id(String unique_id) {
+        this.unique_id = unique_id;
+    }
+
+    @SerializedName("unique_id")
+    @Expose
+    private String unique_id;
+
     public String getName() {
         return name;
     }
