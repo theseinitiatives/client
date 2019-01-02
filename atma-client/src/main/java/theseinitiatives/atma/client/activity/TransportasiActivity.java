@@ -152,13 +152,16 @@ public class TransportasiActivity extends AppCompatActivity
                 String jenis = c.getString(c.getColumnIndexOrThrow("jenis_kendaraan"));
                 String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
                 String gubug = c.getString(c.getColumnIndexOrThrow("gubug"));
+                String kend_lain = c.getString(c.getColumnIndexOrThrow("jenis_kendaraan_lainnya"));
                 p = new TransportasiModel();
                 p.setId(uid);
                 p.setNama(name);
                 p.setKendaraan(jenis.contains("pickup") ? "Mobil Pick-Up" : jenis);
                 p.setDusuns(dusun+" / "+gubug);
+                p.setKend_lainnya(kend_lain);
 
-                transportasiModels.add(p);
+
+            transportasiModels.add(p);
             }
 
             dbManager.close();
@@ -194,12 +197,13 @@ public class TransportasiActivity extends AppCompatActivity
             String jenis = c.getString(c.getColumnIndexOrThrow("jenis_kendaraan"));
             String dusun = c.getString(c.getColumnIndexOrThrow("dusun"));
             String gubug = c.getString(c.getColumnIndexOrThrow("gubug"));
+            String kend_lain = c.getString(c.getColumnIndexOrThrow("jenis_kendaraan_lainnya"));
             p = new TransportasiModel();
             p.setId(uid);
             p.setNama(name);
             p.setKendaraan(jenis.contains("pickup") ? "Mobil Pick-Up" : jenis);
             p.setDusuns(dusun+" / "+gubug);
-
+            p.setKend_lainnya(kend_lain);
             transportasiModels.add(p);
         }
 

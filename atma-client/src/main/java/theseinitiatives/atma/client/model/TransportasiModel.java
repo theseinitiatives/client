@@ -11,6 +11,16 @@ public class TransportasiModel {
 
     String Dusuns ;
 
+    String kend_lainnya;
+
+    public String getKend_lainnya() {
+        return kend_lainnya;
+    }
+
+    public void setKend_lainnya(String kend_lainnya) {
+        this.kend_lainnya = kend_lainnya;
+    }
+
     public void setId(String id){
         this.id=id;
     }

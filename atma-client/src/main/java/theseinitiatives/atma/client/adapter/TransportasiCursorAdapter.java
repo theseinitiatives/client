@@ -57,7 +57,8 @@ public class TransportasiCursorAdapter extends BaseAdapter {
 
         name.setText("Nama: "+humanizes(transportasiModels.get(position).getNama()));
         dusunss.setText("Dusun: "+humanizes(transportasiModels.get(position).getDusuns()));
-        kend.setText("Jenis Kendaraan: "+humanizes(transportasiModels.get(position).getKendaraan()));
+        String kendaraan = transportasiModels.get(position).getKendaraan().equalsIgnoreCase("id_lainnya")?transportasiModels.get(position).getKend_lainnya():transportasiModels.get(position).getKendaraan();
+        kend.setText("Jenis Kendaraan: "+humanizes(kendaraan));
 
 
         final int pos=position;
