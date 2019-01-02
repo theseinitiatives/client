@@ -15,14 +15,14 @@
     <LinearLayout
         android:id="@+id/layout_above"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="150dp"
         android:orientation="vertical">
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linier_layouts"
-        android:layout_width="160dp"
+        android:layout_width="140dp"
         android:layout_height="match_parent"
         android:layout_below="@+id/layout_above"
         android:orientation="vertical">
@@ -35,10 +35,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/layout_above"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:layout_toEndOf="@+id/linier_layouts"
         android:text=""
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/htp"
@@ -46,10 +46,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/nama_ibu"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:layout_toEndOf="@+id/linier_layouts"
         android:text="18-06-2018"
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/penolong"
@@ -57,10 +57,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/htp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:layout_toEndOf="@+id/linier_layouts"
         android:text=""
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/tempat"
@@ -68,10 +68,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/penolong"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:layout_toEndOf="@+id/linier_layouts"
         android:text=""
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/pendamping"
@@ -79,10 +79,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tempat"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:layout_toEndOf="@+id/linier_layouts"
         android:text=""
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 
 
     <TextView
@@ -91,10 +91,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/pendamping"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:layout_toEndOf="@+id/linier_layouts"
         android:text=""
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 
 
     <TextView
@@ -103,10 +103,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/transportasi"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="1dp"
         android:layout_toEndOf="@+id/linier_layouts"
         android:text="asdasdsada"
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 
     <!--
 
