@@ -279,11 +279,11 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
 
                     dbManager.open();
                     if(isPreloaded) {
-                        dbManager.updateStatusPersalinan(uniqueId, tgl_persalinn, ibubersalin, kondisi_ibu, kondisi_anak, jumlahBayis, jenisKelamins, komplikasiIbus, komplikasiAnak, tempat, tempatLaiinya);
+                        dbManager.updateStatusPersalinan(uniqueId, tgl_persalinn, ibubersalin, kondisi_ibu, kondisi_anak, jumlahBayis, jenisKelamins, komplikasiIbus, komplikasiAnak, tempat, tempatLaiinya, textDusun);
                         dbManager.insertsyncTable("status_persalinan_edit", System.currentTimeMillis(),textDusun, dataArray.toString(), 0, 0);
                     }
                     else{
-                        dbManager.insertStatusPersalinan(uniqueId, tgl_persalinn, ibubersalin, kondisi_ibu, kondisi_anak, jumlahBayis, jenisKelamins, komplikasiIbus, komplikasiAnak, tempat,tempatLaiinya);
+                        dbManager.insertStatusPersalinan(uniqueId, tgl_persalinn, ibubersalin, kondisi_ibu, kondisi_anak, jumlahBayis, jenisKelamins, komplikasiIbus, komplikasiAnak, tempat,tempatLaiinya, textDusun);
                         dbManager.insertsyncTable("status_persalinan", System.currentTimeMillis(),textDusun, dataArray.toString(), 0, 0);
                     }
                     dbManager.close();

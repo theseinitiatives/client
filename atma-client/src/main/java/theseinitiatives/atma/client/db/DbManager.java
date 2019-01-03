@@ -762,12 +762,13 @@ public class DbManager {
                                         String tempatLain,
                                         String pendampingLain,
                                         String hubTransLain,
-                                        String hubDonorLain) {
+                                        String hubDonorLain, String dusun) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.ID_IBU,idIbu);
         contentValue.put( DbHelper.ID_TRANS,id_trans);
         contentValue.put( DbHelper.ID_DONOR,id_donor);
         contentValue.put( DbHelper.NAME_PENDONOR,namaDonor);
+        contentValue.put( DbHelper.DUSUN,dusun);
         contentValue.put( DbHelper.TEMPAT_PERSALINAN,txt_tempatBersalin);
         contentValue.put( DbHelper.PENOLONG_PERSALINAN,txt_penolognPersalinan);
         contentValue.put( DbHelper.PENDAMPING_PERSALINAN,txt_pendampingPersalinan);
@@ -793,12 +794,14 @@ public class DbManager {
                                         String tempatLain,
                                         String pendampingLain,
                                         String hubTransLain,
-                                        String hubDonorLain) {
+                                        String hubDonorLain,
+                                        String dusun) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.ID_IBU,idIbu);
         contentValue.put( DbHelper.ID_TRANS,id_trans);
         contentValue.put( DbHelper.ID_DONOR,id_donor);
         contentValue.put( DbHelper.NAME_PENDONOR,namaDonor);
+        contentValue.put( DbHelper.DUSUN,dusun);
         contentValue.put( DbHelper.TEMPAT_PERSALINAN,txt_tempatBersalin);
         contentValue.put( DbHelper.PENOLONG_PERSALINAN,txt_penolognPersalinan);
         contentValue.put( DbHelper.PENDAMPING_PERSALINAN,txt_pendampingPersalinan);

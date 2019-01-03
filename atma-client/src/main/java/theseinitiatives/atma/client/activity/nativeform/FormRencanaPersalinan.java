@@ -338,10 +338,10 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                 else {
                     dbManager.open();
                     if(isPreloaded) {
-                        dbManager.updateRencanaPersalinan(uniqueid,TransId,DonorId, namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis(),penolongLain,tempatLain,pendampingLain,hubTransLain,hubDonorLain);
+                        dbManager.updateRencanaPersalinan(uniqueid,TransId,DonorId, namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis(),penolongLain,tempatLain,pendampingLain,hubTransLain,hubDonorLain,textDusun);
                         dbManager.insertsyncTable("rencana_persalinan_edit", System.currentTimeMillis(), textDusun,dataArray.toString(), 0, 0);
                     }else {
-                        dbManager.insertRencanaPersalinan(uniqueid, TransId,DonorId,namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis(),penolongLain,tempatLain,pendampingLain,hubTransLain,hubDonorLain);
+                        dbManager.insertRencanaPersalinan(uniqueid, TransId,DonorId,namaDonor, txt_tempatBersalin, txt_penolognPersalinan, txt_pendampingPersalinan, txt_hubunganPemilik, txt_hubunganPendonor, namaTransportasi, System.currentTimeMillis(),penolongLain,tempatLain,pendampingLain,hubTransLain,hubDonorLain,textDusun);
                         dbManager.insertsyncTable("rencana_persalinan", System.currentTimeMillis(),textDusun, dataArray.toString(), 0, 0);
                     }dbManager.close();
                     finish();

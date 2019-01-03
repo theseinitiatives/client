@@ -256,6 +256,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + ID_IBU + " TEXT NOT NULL, "
             + ID_TRANS + " TEXT , "
             + ID_DONOR + " TEXT , "
+            + DUSUN + " TEXT , "
             + PENOLONG_PERSALINAN + " TEXT , "
             + TEMPAT_PERSALINAN + " TEXT , "
             + PENDAMPING_PERSALINAN + " TEXT , "
