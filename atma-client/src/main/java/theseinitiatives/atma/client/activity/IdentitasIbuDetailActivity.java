@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,8 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         TextView txt_kader = (TextView) findViewById(R.id.kader);
         TextView txt_hp = (TextView) findViewById(R.id.hp);
         TextView txt_resiko = (TextView) findViewById(R.id.resioko);
+
+        ImageView foto = (ImageView) findViewById(R.id.mother_picture);
 
 
         TextView tgl_bersalin = (TextView) findViewById(R.id.tgl_persalinan);
@@ -93,6 +96,14 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
 
 
         }
+
+        foto.setImageResource(R.drawable.icon_pregnant48);
+        if(status_persalinan.getCount()>0){
+            if(status_persalinan.getString(status_persalinan.getColumnIndexOrThrow(DbHelper.STATUS_BERSALIN)).equals("nifas")){
+                foto.setImageResource(R.drawable.logo_ibu);
+            }
+        }
+
         ///rencana persalinan
         final Cursor cursorRencanaPersalinan = dbManager.fetchRencanaPersalinan(uniqueId);
         if ( cursorRencanaPersalinan.moveToFirst() ) {
