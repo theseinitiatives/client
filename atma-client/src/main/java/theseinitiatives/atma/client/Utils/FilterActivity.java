@@ -145,7 +145,7 @@ public class FilterActivity extends Activity {
     private String [][] bloodString(){
         return new String[][]{
                 {"---","A","B","AB","O"},
-                {"~","a -","b -","ab -","o -"}
+                {"~","a -","b -%' AND "+DbHelper.GOL_DARAH + " NOT LIKE 'a%","ab -","o -"}
         };
     }
 
