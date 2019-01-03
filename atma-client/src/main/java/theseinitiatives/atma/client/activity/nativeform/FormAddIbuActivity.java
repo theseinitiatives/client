@@ -547,12 +547,16 @@ public class FormAddIbuActivity extends AppCompatActivity {
     private void checkDusun(String value){
         ArrayList<String> listDusun = getlocationName();
         for(int i=0;i<listDusun.size();i++){
+            RadioButton r = (RadioButton) rgp.getChildAt(i);
+
             if(listDusun.get(i).equalsIgnoreCase(value)){
-                RadioButton r = (RadioButton) rgp.getChildAt(i);
+
                 r.setChecked(true);
                 setDusun(value);
-                break;
+               // break;
             }
+            r.setClickable(false);
+
         }
     }
     private void setRhesusChecked(String value){

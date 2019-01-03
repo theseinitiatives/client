@@ -125,12 +125,12 @@ public class DbManager {
                     contentValue.put(DbHelper.IS_SYNC, 1);
                     contentValue.put(DbHelper.TIMESTAMP, listIbuData.getTimestamp());
                     if(model.getform_name().equalsIgnoreCase("identitas_ibu_edit")) {
-                        if (getUniqueID(listIbuData.getUnique_id(), "identitas_ibu") != null) {
+                       // if (getUniqueID(listIbuData.getUnique_id(), "identitas_ibu") != null) {
                             Log.e("UPDATING====DATAIBU", "");
                             database.update(DbHelper.TABLE_NAME_IBU, contentValue, "unique_id = ?", new String[]{listIbuData.getUnique_id()});
-                        } else {
-                            database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
-                        }
+                      //  } else {
+                      //      database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
+                       // }
                     }
                     else
                         database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
@@ -158,13 +158,13 @@ public class DbManager {
                     contentValue.put(DbHelper.IS_SYNC, 1);
                     contentValue.put(DbHelper.TIMESTAMP, listTransportasi.getTimestamp());
                     if(model.getform_name().equalsIgnoreCase("transportasi_edit")) {
-                        if (getUniqueID(listTransportasi.getUniqueId(), "transportasi") != null) {
+                     //   if (getUniqueID(listTransportasi.getUniqueId(), "transportasi") != null) {
                             Log.e("UPDATING====DATATRANS", listTransportasi.getUniqueId());
                             database.update(DbHelper.TABLE_NAME_TRANS, contentValue, "unique_id = ?", new String[]{listTransportasi.getUniqueId()});
-                        }
-                        database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
+                       // }
+                       // database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
                     }
-                    else if(model.getform_name().contains("edit"))
+                    else
                         database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
                 }
 
@@ -187,11 +187,11 @@ public class DbManager {
                     contentValue.put(DbHelper.IS_SYNC, 1);
                     contentValue.put(DbHelper.TIMESTAMP, listBankDarah.getTimestamp());
                     if(model.getform_name().equalsIgnoreCase("bank_darah_edit")) {
-                        if (getUniqueID(listBankDarah.getUniqueId(), "bank_darah") != null) {
-                            Log.e("UPDATING====DATAKADER", "");
+                       // if (getUniqueID(listBankDarah.getUniqueId(), "bank_darah") != null) {
+                       //     Log.e("UPDATING====DATAKADER", "");
                             database.update(DbHelper.TABLE_NAME_BANK, contentValue, "unique_id = ?", new String[]{listBankDarah.getUniqueId()});
-                        }
-                        database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);
+                      //  }
+                      //  database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);
                     }
                     else
                         database.insert(DbHelper.TABLE_NAME_BANK, null, contentValue);
@@ -223,11 +223,11 @@ public class DbManager {
                     contentValue.put(DbHelper.IS_SYNC, 1);
                     contentValue.put(DbHelper.TIMESTAMP, rencanaModel.getTimestamp());
                     if(model.getform_name().equalsIgnoreCase("rencana_persalinan_edit")) {
-                        if (getIDIbu(rencanaModel.getId_ibu(), "rencana_persalinan") != null) {
+                       // if (getIDIbu(rencanaModel.getId_ibu(), "rencana_persalinan") != null) {
                             Log.e("UPDATING====DATAKADER", "");
                             database.update(DbHelper.TABLE_NAME_RENCANA, contentValue, "id_ibu = ?", new String[]{rencanaModel.getId_ibu()});
-                        }
-                        database.insert(DbHelper.TABLE_NAME_RENCANA, null, contentValue);
+                       // }
+                       // database.insert(DbHelper.TABLE_NAME_RENCANA, null, contentValue);
                     }
                     else
                         database.insert(DbHelper.TABLE_NAME_RENCANA, null, contentValue);
@@ -257,11 +257,11 @@ public class DbManager {
                     contentValue.put(DbHelper.IS_SYNC, 1);
                     contentValue.put(DbHelper.TIMESTAMP, statusModel.getTimestamp());
                     if(model.getform_name().equalsIgnoreCase("status_persalinan_edit")) {
-                        if (getIDIbu(statusModel.getId_ibu(), "status_persalinan") != null) {
+                       // if (getIDIbu(statusModel.getId_ibu(), "status_persalinan") != null) {
                             Log.e("UPDATING====DATAKADER", "");
                             database.update(DbHelper.TABLE_PERSALINAN, contentValue, "id_ibu = ?", new String[]{statusModel.getId_ibu()});
-                        }
-                        database.insert(DbHelper.TABLE_PERSALINAN, null, contentValue);
+                       // }
+                      //  database.insert(DbHelper.TABLE_PERSALINAN, null, contentValue);
                     }
                     else
                         database.insert(DbHelper.TABLE_PERSALINAN, null, contentValue);

@@ -49,6 +49,7 @@ public class FormAddTransportasi extends AppCompatActivity {
         this.dusun = dusun;
     }
 
+    private RadioGroup rgp;
     String dusun;
     EditText kapasitass;
     EditText no_hp;
@@ -87,7 +88,7 @@ public class FormAddTransportasi extends AppCompatActivity {
         kend_lainnyas = (EditText) findViewById(R.id.kend_lainnya) ;
 
         //==========================
-        RadioGroup rgp = (RadioGroup) findViewById(R.id.dusun_radio);
+        rgp = (RadioGroup) findViewById(R.id.dusun_radio);
         for (int i = 0; i < getlocationName().size(); i++) {
             RadioButton rbn = new RadioButton(this);
             rbn.setId(View.generateViewId());
@@ -243,6 +244,7 @@ public class FormAddTransportasi extends AppCompatActivity {
         kets.setText(c.getString(c.getColumnIndexOrThrow("keterangan")));
         profesis.setText(c.getString(c.getColumnIndexOrThrow("profesi")));
         setSetUniqueId(c.getString(c.getColumnIndexOrThrow("unique_id")));
+        checkDusun(c.getString(c.getColumnIndexOrThrow("dusun")));
     }
 
     private void setJenisKendaraanChecked(String value){
@@ -284,7 +286,21 @@ public class FormAddTransportasi extends AppCompatActivity {
         return names;
         // return languagess;
     }
+    private void checkDusun(String value){
+        ArrayList<String> listDusun = getlocationName();
+        for(int i=0;i<listDusun.size();i++){
+            RadioButton r = (RadioButton) rgp.getChildAt(i);
 
+            if(listDusun.get(i).equalsIgnoreCase(value)){
+
+                r.setChecked(true);
+                setDusun(value);
+                // break;
+            }
+            r.setClickable(false);
+
+        }
+    }
     @Override
     public void onBackPressed() {
         Log.d("CDA", "onBackPressed Called");
