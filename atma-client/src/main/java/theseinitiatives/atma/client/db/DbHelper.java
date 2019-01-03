@@ -231,6 +231,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + TABLE_PERSALINAN + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + ID_IBU + " TEXT NOT NULL, "
             + STATUS_BERSALIN + " INTEGER DEFAULT 0, "
+            + DUSUN + " TEXT , "
             + TGL_PERSALINAN + " TEXT , "
             + KONDISI_IBU + " TEXT , "
             + KONDISI_ANAK + " TEXT , "
