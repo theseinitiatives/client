@@ -47,7 +47,7 @@ public class FormAddBankDarah extends AppCompatActivity {
     public void setDusun(String dusun) {
         this.dusun = dusun;
     }
-
+    private RadioGroup rgp;
     String dusun;
     public String getSetUniqueId() {
         return setUniqueId;
@@ -112,7 +112,7 @@ public class FormAddBankDarah extends AppCompatActivity {
         //==========================
 
 
-        RadioGroup rgp = (RadioGroup) findViewById(R.id.dusun_radio);
+         rgp = (RadioGroup) findViewById(R.id.dusun_radio);
         for (int i = 0; i < getlocationName().size(); i++) {
             RadioButton rbn = new RadioButton(this);
             rbn.setId(View.generateViewId());
@@ -318,6 +318,7 @@ public class FormAddBankDarah extends AppCompatActivity {
                 notelpons.setText(c.getString(c.getColumnIndexOrThrow("telp")));
                 setGolonganDarahClicked(c.getString(c.getColumnIndexOrThrow("gol_darah")));
                 setSetUniqueId(c.getString(c.getColumnIndexOrThrow("unique_id")));
+                checkDusun(c.getString(c.getColumnIndexOrThrow("dusun")));
             }
             dbManager.close();
         }
@@ -367,6 +368,22 @@ public class FormAddBankDarah extends AppCompatActivity {
         //  String[] languagess = { "Budi","Joni","Bravo" };
         return names;
         // return languagess;
+    }
+
+    private void checkDusun(String value){
+        ArrayList<String> listDusun = getlocationName();
+        for(int i=0;i<listDusun.size();i++){
+            RadioButton r = (RadioButton) rgp.getChildAt(i);
+
+            if(listDusun.get(i).equalsIgnoreCase(value)){
+
+                r.setChecked(true);
+                setDusun(value);
+                // break;
+            }
+            r.setClickable(false);
+
+        }
     }
 
     @Override

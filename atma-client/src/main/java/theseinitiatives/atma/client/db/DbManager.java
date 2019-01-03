@@ -164,7 +164,7 @@ public class DbManager {
                         }
                         database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
                     }
-                    else if(model.getform_name().contains("edit"))
+                    else
                         database.insert(DbHelper.TABLE_NAME_TRANS, null, contentValue);
                 }
 
