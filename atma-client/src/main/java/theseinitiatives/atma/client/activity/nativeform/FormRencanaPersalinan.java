@@ -243,8 +243,12 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                 dbManager.open();
                 dbManager.setSelection(DbHelper.NAME_PENDONOR +"='"+namaDonor+"'");
                 Cursor donor_cur = dbManager.fetchBankDarah("","");
-                if(donor_cur.moveToFirst()){
-                     DonorId = donor_cur.getString(donor_cur.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+                if(donor_cur != null) {
+                    if (donor_cur.moveToFirst()) {
+                        DonorId = donor_cur.getString(donor_cur.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+                    }
+                    else
+                        DonorId  ="";
                 }
                 donor_cur.close();
                 dbManager.close();
@@ -254,8 +258,13 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                 dbManager.open();
                 dbManager.setSelection(DbHelper.NAME +"='"+namaTransportasi+"'");
                 Cursor cursor = dbManager.fetchTrans("","");
-                if(cursor.moveToFirst()){
-                     TransId = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+                if(cursor != null){
+                    if(cursor.moveToFirst()){
+                         TransId = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+                    }
+                    else
+                        TransId = "";
+
                 }
                 cursor.close();
                 dbManager.close();
@@ -306,10 +315,23 @@ public class FormRencanaPersalinan extends AppCompatActivity {
                     Log.d("Data array", e.getMessage());
                 }
 
+                if( namaTransportasi.isEmpty() || namaDonor.isEmpty() || txt_penolognPersalinan.isEmpty() | txt_tempatBersalin.isEmpty() | txt_pendampingPersalinan.isEmpty() || txt_hubunganPemilik.isEmpty() || txt_hubunganPendonor.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Semua data harus diisi!",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if( TransId.equalsIgnoreCase("") || DonorId.equalsIgnoreCase("") ) {
+                    Toast.makeText(getApplicationContext(), "Data Pendonor / Pemilik Transportasi tidak valid, " +
+                                    "silahkan isi data di  Form transportasi / Donor Darah terlebih dahulu!",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 if( namaDonor.contains("'") ) {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
                             Toast.LENGTH_LONG).show();
+                    return;
                 }
 
 
