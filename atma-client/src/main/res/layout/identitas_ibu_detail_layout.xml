@@ -27,9 +27,10 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/mother_picture"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/icon_mother72" />
+                android:src="@drawable/logo_ibu" />
 
         </LinearLayout>
 
