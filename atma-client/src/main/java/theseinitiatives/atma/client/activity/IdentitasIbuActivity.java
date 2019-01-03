@@ -33,7 +33,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -46,6 +48,7 @@ import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
 import theseinitiatives.atma.client.Utils.ApiUtils;
 import theseinitiatives.atma.client.Utils.FilterActivity;
+import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.nativeform.FormAddIbuActivity;
 import theseinitiatives.atma.client.activity.nativeform.FormCloseIbu;
 import theseinitiatives.atma.client.activity.nativeform.FormRencanaPersalinan;
@@ -78,6 +81,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
     String locas;
     boolean forbidden = false;
     private boolean firstRun = true;
+    String EventName = "IdentitasIbu";
 
     boolean isDusun = false;
     @Override
@@ -88,6 +92,10 @@ public class IdentitasIbuActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
+      /*  Map<String, String> Params = new HashMap<String, String>();
+        Params.put("Start",dateNow().toString());
+        FlurryHelper.logEvent(EventName,Params,true);*/
+        Log.e("STARTING","TEST");
         lv = (ListView) findViewById(R.id.list_view);
         sv= (SearchView) findViewById(R.id.sv);
         //lv.setAdapter(adapter);
@@ -248,7 +256,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     intent.putExtra("uniqueId", uniqueId);
                     intent.putExtra("id", uid);
                     startActivity(intent);
-                    finish();
+                   // finish();
                 }if ("Form Status Persalinan".equals(forms[which])) {
                     if(forbidden){
                         Toast.makeText(IdentitasIbuActivity.this, "Maaf fitur ini hanya untuk bidan!",
@@ -265,7 +273,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     intent.putExtra("uniqueId", uniqueId);
                     intent.putExtra("id", uid);
                     startActivity(intent);
-                    finish();
+                 //   finish();
                 }
                 if ("Detail View Ibu".equals(forms[which])) {
                     String uid = identitasModels.get((int) ids).getId();
@@ -278,7 +286,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     intent.putExtra("uniqueId", uniqueId);
                     intent.putExtra("id", uid);
                     startActivity(intent);
-                    finish();
+                  //  finish();
+                    FlurryHelper.endTimedEvent(EventName);
                 }
                 if ("Tutup Ibu".equals(forms[which])) {
                     if(forbidden){
@@ -296,7 +305,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     intent.putExtra("uniqueId", uniqueId);
                     intent.putExtra("id", uid);
                     startActivity(intent);
-                    finish();
+                  //  finish();
                 }
             }
         });
@@ -395,18 +404,22 @@ public class IdentitasIbuActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        final Map<String, String> Params2 = new HashMap<String, String>();
+        Params2.put("End",dateNow().toString());
         NavigationmenuController  navi= new NavigationmenuController(this);
         int id = item.getItemId();
        // MenuItem register = R.id.nav_identitas_ibu;
         if (id == R.id.nav_identitas_ibu) {
-            navi.startIdentitasIbu();
+           // navi.startIdentitasIbu();
         }
         if (id == R.id.nav_transportasi) {
             navi.startTransportasi();
+            FlurryHelper.endTimedEvent(EventName,Params2);
         }
 
         if (id == R.id.nav_bank_darah) {
             navi.startBankDarah();
+            FlurryHelper.endTimedEvent(EventName,Params2);
         }
         if(id == R.id.nav_logout){
 //            super.onBackPressed();
@@ -419,6 +432,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             finish();
                             startActivity(intent);
+                            FlurryHelper.endTimedEvent(EventName,Params2);
                             break;
 
                         case DialogInterface.BUTTON_NEGATIVE:
@@ -435,11 +449,14 @@ public class IdentitasIbuActivity extends AppCompatActivity
             Intent intent = new Intent(IdentitasIbuActivity.this, InformasiActivity.class);
             startActivity(intent);
             finish();
+
+            FlurryHelper.endTimedEvent(EventName,Params2);
            // navi.gotoKIA();
         }
         if(id == R.id.kader_add){
             if(!forbidden) {
                 navi.addKader();
+                FlurryHelper.endTimedEvent(EventName,Params2);
             }
             else
                 Toast.makeText(IdentitasIbuActivity.this, "Maaf fitur ini hanya untuk bidan!",

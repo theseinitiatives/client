@@ -22,18 +22,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.IdentitasIbuActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 import theseinitiatives.atma.client.sync.ApiService;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
+import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 
 /**
  * A login screen that offers login via email/password.
@@ -123,9 +128,14 @@ public class LoginActivity extends AppCompatActivity {
                     c.getString(c.getColumnIndexOrThrow("password")).equals(password)) {
                 Intent myIntent = new Intent(getApplicationContext(), IdentitasIbuActivity.class);
                 myIntent.putExtra("login status", "Login Success");
+                FlurryAgent.onStartSession(context);
                 startActivity(myIntent);
                 finish();
                 overridePendingTransition(0, 0);
+                Map<String, String> Params = new HashMap<String, String>();
+                Params.put("Start",dateNow().toString());
+                FlurryHelper.logEvent("IdentitasIbu",Params,true);
+
                 return false;
             }else{
                 Toast.makeText(getApplicationContext(), "Failed to Login, please check your connection, username or password", Toast.LENGTH_LONG).show();
@@ -226,6 +236,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void fillUserIfExists() {
+
         DbManager db = new DbManager(getApplicationContext()).open();
         Cursor c = db.fetchUserCredential();
         if(c.moveToFirst()) {
@@ -233,6 +244,7 @@ public class LoginActivity extends AppCompatActivity {
                 String user = c.getString(c.getColumnIndexOrThrow("username"));
                 edtUsername.setText(user);
                 edtUsername.setEnabled(false);
+                FlurryAgent.setUserId(user);
             } catch (Exception e) {
 
             }

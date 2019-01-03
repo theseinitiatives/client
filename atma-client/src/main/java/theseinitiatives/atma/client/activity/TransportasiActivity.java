@@ -27,20 +27,26 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import theseinitiatives.atma.client.AllConstants;
 import theseinitiatives.atma.client.LoginActivity;
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
 import theseinitiatives.atma.client.Utils.FilterActivity;
+import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.nativeform.FormAddTransportasi;
 import theseinitiatives.atma.client.adapter.TransportasiCursorAdapter;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 import theseinitiatives.atma.client.model.TransportasiModel;
 
+import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
+
 public class TransportasiActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String EventName = "Transportasi";
     private Activity activity;
     private DbManager dbManager;
     ListView lv;
@@ -253,17 +259,21 @@ public class TransportasiActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        final Map<String, String> Params2 = new HashMap<String, String>();
+        Params2.put("End",dateNow().toString());
         NavigationmenuController navi= new NavigationmenuController(this);
         int id = item.getItemId();
        // MenuItem register = R.id.nav_identitas_ibu;
         if (id == R.id.nav_identitas_ibu) {
+            FlurryHelper.endTimedEvent(EventName,Params2);
             navi.startIdentitasIbu();
         }
         if (id == R.id.nav_transportasi) {
-            navi.startTransportasi();
+           // navi.startTransportasi();
         }
 
         if (id == R.id.nav_bank_darah) {
+            FlurryHelper.endTimedEvent(EventName,Params2);
             navi.startBankDarah();
         }
         if(id == R.id.nav_logout){
@@ -273,6 +283,7 @@ public class TransportasiActivity extends AppCompatActivity
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which){
                         case DialogInterface.BUTTON_POSITIVE:
+                            FlurryHelper.endTimedEvent(EventName,Params2);
                             Intent intent = new Intent(TransportasiActivity.this,LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             finish();
@@ -290,6 +301,7 @@ public class TransportasiActivity extends AppCompatActivity
                     .setNegativeButton("Tidak", dialogClickListener).show();
         }
         if(id == R.id.info){
+            FlurryHelper.endTimedEvent(EventName,Params2);
             Intent intent = new Intent(TransportasiActivity.this, InformasiActivity.class);
             startActivity(intent);
             finish();
@@ -297,6 +309,7 @@ public class TransportasiActivity extends AppCompatActivity
         }
         if(id == R.id.kader_add){
             if(!forbidden) {
+                FlurryHelper.endTimedEvent(EventName,Params2);
                 navi.addKader();
             }
 

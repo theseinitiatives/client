@@ -300,7 +300,7 @@ public class FormAddBankDarah extends AppCompatActivity {
                 break;
             case R.id.tidak_tahu:
                 if (checked)
-                    setRhesus("tidak_tahu");
+                    setRhesus("tidak tahu");
                 break;
         }
         }
