@@ -116,6 +116,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         Statuss2 = statuss2;
     }
 
+    private AutoCompleteTextView namaKader;
     String Statuss2;
     Button btnLogin;
 
@@ -164,6 +165,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         rhPositive = (RadioButton)findViewById(R.id.rh_positive);
         rhNegative = (RadioButton)findViewById(R.id.rh_negative);
         rhUnknown = (RadioButton)findViewById(R.id.rh_tidak_tahu);
+        namaKader = (AutoCompleteTextView) findViewById(R.id.kader_nama);
 
         kek = (CheckBox) findViewById(R.id.checkbox_kek);
         anemia = (CheckBox) findViewById(R.id.checkbox_anemia);
@@ -481,7 +483,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
 //        htps.setText(cursor.getString(cursor.getColumnIndexOrThrow("htp")));
         setDarahRhChecked(cursor.getString(cursor.getColumnIndexOrThrow("gol_darah")));
 //        setStatusChecked(cursor.getString(cursor.getColumnIndexOrThrow("status")));
-      //  kaders.setText(cursor.getString(cursor.getColumnIndexOrThrow("kader")));
+        namaKader.setText(cursor.getString(cursor.getColumnIndexOrThrow("kader")));
         notelpons.setText(cursor.getString(cursor.getColumnIndexOrThrow("telp")));
         txt_lainnya.setVisibility(VISIBLE);
         txt_lainnya.setText(cursor.getString(cursor.getColumnIndexOrThrow("resiko_lainnya")));
@@ -566,6 +568,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
             case "positif" : rhPositive.setChecked(true); break;
             case "negatif" : rhNegative.setChecked(true); break;
             case "tidak_tahu" : rhUnknown.setChecked(true); break;
+            case "tidak tahu" : rhUnknown.setChecked(true); break;
             default:
                 rhPositive.setChecked(false);
                 rhNegative.setChecked(false);

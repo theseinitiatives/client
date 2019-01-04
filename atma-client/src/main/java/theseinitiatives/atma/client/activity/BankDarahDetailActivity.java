@@ -16,7 +16,7 @@ import theseinitiatives.atma.client.db.DbManager;
 
 public class BankDarahDetailActivity extends AppCompatActivity {
 
-    private TextView name, golonganDarah, dusun, gubug, telepon;
+    private TextView name, golonganDarah, dusun, gubug, telepon, tgl_donor;
     private Button editButton;
     private Cursor c;
     String id;
@@ -31,7 +31,7 @@ public class BankDarahDetailActivity extends AppCompatActivity {
         dusun = (TextView)findViewById(R.id.donor_detail_dusun);
         gubug = (TextView)findViewById(R.id.donor_detail_gubug);
         telepon = (TextView)findViewById(R.id.donor_detail_telepon);
-
+        tgl_donor  = (TextView)findViewById(R.id.tgl_donor);
 
          id = getIntent().getStringExtra("id");
 
@@ -47,6 +47,7 @@ public class BankDarahDetailActivity extends AppCompatActivity {
             dusun.setText("Dusun: " +c.getString(c.getColumnIndexOrThrow("dusun")));
             gubug.setText("Gubug: " + c.getString(c.getColumnIndexOrThrow("gubug")));
             telepon.setText("Telepon: " + c.getString(c.getColumnIndexOrThrow("telp")));
+            tgl_donor.setText("Tgl Donor Terakhir: " + c.getString(c.getColumnIndexOrThrow("tgl_donor")));
         }
         editButton = (Button) findViewById(R.id.donor_detail_edit_button);
        // dbManager.open();

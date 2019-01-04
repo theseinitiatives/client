@@ -238,13 +238,14 @@ public class FormAddTransportasi extends AppCompatActivity {
         no_hp.setText(c.getString(c.getColumnIndexOrThrow("telp")));
 //        dusuns.setText(c.getString(c.getColumnIndexOrThrow("dusun")));
         setJenisKendaraanChecked(c.getString(c.getColumnIndexOrThrow("jenis_kendaraan")));
-        if(c.getString(c.getColumnIndexOrThrow("jenis_kendaraan")).equalsIgnoreCase("mobil"))
+        if(!c.getString(c.getColumnIndexOrThrow("jenis_kendaraan")).equalsIgnoreCase("motor"))
             kapasitass.setVisibility(View.VISIBLE);
         kapasitass.setText(c.getString(c.getColumnIndexOrThrow("kapasitas_kendaraan")));
         kets.setText(c.getString(c.getColumnIndexOrThrow("keterangan")));
         profesis.setText(c.getString(c.getColumnIndexOrThrow("profesi")));
         setSetUniqueId(c.getString(c.getColumnIndexOrThrow("unique_id")));
         checkDusun(c.getString(c.getColumnIndexOrThrow("dusun")));
+
     }
 
     private void setJenisKendaraanChecked(String value){
@@ -256,6 +257,7 @@ public class FormAddTransportasi extends AppCompatActivity {
             case "motor" : ((RadioButton)findViewById(R.id.motor)).setChecked(true);break;
             case "cidomo": ((RadioButton)findViewById(R.id.cidomo)).setChecked(true);break;
             case "pickup": ((RadioButton)findViewById(R.id.pickup)).setChecked(true);break;
+            case "mobil_pickup": ((RadioButton)findViewById(R.id.pickup)).setChecked(true);break;
             case "id_lainnya" : ((RadioButton)findViewById(R.id.id_lainnya)).setChecked(true);break;
             default:
                 ((RadioButton)findViewById(R.id.mobil)).setChecked(true);

@@ -564,10 +564,10 @@ public class FormRencanaPersalinan extends AppCompatActivity {
             return;
         setPenolongPersalinan(value);
         switch (value){
-            case "dokter" : dokter.setChecked(true);
-            case "bidan" : bidan.setChecked(true);
-            case "dukun" : dukun.setChecked(true);
-            case "lainnya" : penolongLainnya.setChecked(true);
+            case "dokter" : dokter.setChecked(true);break;
+            case "bidan" : bidan.setChecked(true);break;
+            case "dukun" : dukun.setChecked(true);break;
+            case "lainnya" : penolongLainnya.setChecked(true);break;
         }
     }
 

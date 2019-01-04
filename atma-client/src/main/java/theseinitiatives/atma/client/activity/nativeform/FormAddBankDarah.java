@@ -319,6 +319,7 @@ public class FormAddBankDarah extends AppCompatActivity {
                 setGolonganDarahClicked(c.getString(c.getColumnIndexOrThrow("gol_darah")));
                 setSetUniqueId(c.getString(c.getColumnIndexOrThrow("unique_id")));
                 checkDusun(c.getString(c.getColumnIndexOrThrow("dusun")));
+                tgl_donor.setText(c.getString(c.getColumnIndexOrThrow("tgl_donor")));
             }
             dbManager.close();
         }
@@ -341,6 +342,7 @@ public class FormAddBankDarah extends AppCompatActivity {
                 case "positif" :   ((RadioButton)findViewById(R.id.positive)).setChecked(true); break;
                 case "negatif" :   ((RadioButton)findViewById(R.id.negative)).setChecked(true); break;
                 case "tidak_tahu" :   ((RadioButton)findViewById(R.id.tidak_tahu)).setChecked(true); break;
+                case "tidak tahu" :   ((RadioButton)findViewById(R.id.tidak_tahu)).setChecked(true); break;
             }
         }
 

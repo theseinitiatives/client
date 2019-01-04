@@ -77,14 +77,21 @@
                 android:text="Telepon : "
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tgl_donor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Donor Terakhir : "
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
 
             <Button
                 android:id="@+id/donor_detail_edit_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="center"
                 android:layout_marginTop="40dp"
-                android:gravity="right"
+                android:gravity="center"
                 android:text="Edit Data Pendonor" />
         </LinearLayout>
 

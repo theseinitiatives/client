@@ -602,6 +602,7 @@ public class DbManager {
                 DUSUN,
                 DbHelper.GUBUG,
                 DbHelper.GOL_DARAH,
+                DbHelper.TGL_DONOR,
                 DbHelper.UNIQUEID,
                 DbHelper.TELP,
                 DbHelper.IS_SEND,
