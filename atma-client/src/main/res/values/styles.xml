@@ -18,9 +18,20 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">?android:attr/listDivider</item>
+        <item name="android:background">@color/dark_brown</item>
+    </style>
+
+    <style name="AppThemeCustomized.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppThemeCustomized.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="popupWindow">
+        <item name="android:background">#00F0F0F0</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
 </resources>

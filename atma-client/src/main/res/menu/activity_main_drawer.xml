@@ -6,20 +6,28 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_identitas_ibu"
-            android:icon="@drawable/tambah"
+            android:icon="@drawable/icon_mother48"
             android:title="Identitas Ibu" />
         <item
             android:id="@+id/nav_transportasi"
-            android:icon="@drawable/car"
+            android:icon="@drawable/icon_transportasi48"
             android:title="Transportasi" />
         <item
             android:id="@+id/nav_bank_darah"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/icon_darah48"
             android:title="Bank Darah" />
         <item
+            android:id="@+id/info"
+            android:icon="@drawable/icon_info48"
+            android:title="Informasi" />
+        <item
+            android:id="@+id/kader_add"
+            android:icon="@drawable/logo_add_kader"
+            android:title="Tambah Kader" />
+        <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Logout" />
+            android:icon="@drawable/icon_exit48"
+            android:title="Keluar" />
     </group>
 
 

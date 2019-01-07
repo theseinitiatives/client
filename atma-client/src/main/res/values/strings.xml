@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">ATMA</string>
-    <string name="title_activity_login">ATMA
+    <string name="app_name">P4K</string>
+    <string name="title_activity_login">P4K
     </string>
 
     <!-- Strings related to login -->
@@ -28,7 +28,7 @@
     <string name="bankdarah">Bank Darah</string>
     <string name="mother_names">Nama Ibu :</string>
     <string name="husband_name">Nama Suami</string>
-    <string name="gubug">Gubug</string>
+    <string name="gubug">RT/Gubug</string>
     <string name="hpht">HPHT</string>
     <string name="htp">HTP</string>
     <string name="gol_darah">Golongan Darah</string>
@@ -55,4 +55,58 @@
     <string name="Mobil">Mobil</string>
     <string name="motor">Motor</string>
     <string name="kapasitass">Kapasitas Kendaraan</string>
+    <string name="dusun">Dusun</string>
+    <string name="cidomo">Cidomo</string>
+    <string name="rhesus">Rhesus</string>
+    <string name="pickup">Mobil pick-up</string>
+    <string name="nohp">No Hp</string>
+    <string name="statusbersalin">Apakah Ibu Telah Bersalin</string>
+    <string name="ya">Ya</string>
+    <string name="tidak">Tidak</string>
+    <string name="persalinan">Tanggal Persalinan</string>
+    <string name="kondisiibu">Kondisi Ibu</string>
+    <string name="meninggal">Meninggal</string>
+    <string name="kondisianak">Kondisi Anak</string>
+    <string name="nifasberakhir">Ibu sudah Selesai Masa Nifas</string>
+    <string name="title_activity_transportasi_detail">TransportasiDetailActivity</string>
+    <string name="penolong_persalinan">Penolong Persalinan</string>
+    <string name="tempat_bersalin">Tempat Persalinan</string>
+    <string name="pendamping">Pendamping Persalinan</string>
+    <string name="ortu">Orang Tua</string>
+    <string name="saudara">Saudara</string>
+    <string name="anggota_keluarga">Anggota Keluarga</string>
+    <string name="tetangga">Tetangga</string>
+    <string name="ibu">Ibu</string>
+    <string name="ayah">Ayah</string>
+    <string name="calon_pendonor">Calon Pendonor</string>
+    <string name="transportasipemilik">Transportasi (Pemilik Kendaraan)</string>
+    <string name="hub_pemilik">Hubungan Pemilik Transportasi dengan ibu</string>
+    <string name="hub_pendonor">Hubungan Pendonor dengan ibu</string>
+    <string name="title_activity_bank_darah_detail">BankDarahDetailActivity</string>
+    <string name="tutup">Apakah Anda ingin mengeluarkan ibu dari aplikasi?</string>
+    <string name="alasan">Alasan Penutupan</string>
+    <string name="faktor_resiko">Faktor Resiko</string>
+    <string name="terakhirdonor">Tanggal Terakhir Donor</string>
+    <string name="title_add_kader">Tambah Kader</string>
+    <string name="search">Search</string>
+    <string name="title_activity_filter">FilterActivity</string>
+    <string name="komplikasi">Komplikasi Ibu</string>
+    <string name="jumlah_bayi">Jumlah Bayi</string>
+    <string name="jenis_kel">Jenis Kelamin</string>
+    <string name="komplikasi_bayi">komplikasi bayi baru lahir</string>
+    <string name="mertua">Mertua</string>
+    <string name="nohpibu">No Hp Ibu:</string>
+    <string name="kek">KEK</string>
+    <string name="anemia">Anemia</string>
+    <string name="terlalu_muda">Terlalu Muda</string>
+    <string name="terlalu_tua">Terlalu Tua</string>
+    <string name="gravida_banyak">Gravida Banyak</string>
+    <string name="dokter">dokter</string>
+    <string name="bidan">bidan</string>
+    <string name="dukun">dukun</string>
+    <string name="rumah_sakit">rumahsakit</string>
+    <string name="puskesmas">puskesmas</string>
+    <string name="polindes">polindes</string>
+    <string name="rumah">rumah</string>
+
 </resources>

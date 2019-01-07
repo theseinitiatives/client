@@ -15,49 +15,52 @@
         android:layout_height="fill_parent"
         android:layout_weight="5"
         >
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:background="@color/aliceblue">
+            android:background="@color/aliceblue"
+            android:orientation="vertical">
+
             <ImageView
                 android:id="@+id/ibu"
                 android:layout_width="60dp"
                 android:layout_height="fill_parent"
-                android:src="@drawable/woman"/>
+                android:src="@drawable/icon_transportasi48" />
 
         </LinearLayout>
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="300dp"
             android:layout_height="fill_parent"
             android:layout_marginLeft="5dp"
             android:background="@color/almostWhite"
-            >
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Nama Ibu : Z Rana"
-                android:id="@+id/name" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
+                android:id="@+id/kendaraan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Transportasi : Motor"
-                android:textSize="12sp"
-                android:id="@+id/kendaraan" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
             <TextView
+                android:id="@+id/dusuns"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Transportasi : Motor"
-                android:textSize="12sp"
-                android:id="@+id/dusuns" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
