@@ -235,7 +235,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:text="Edit Ibu" />
+                    android:text="Ubah data Ibu" />
 
                 <TextView
                     android:layout_width="100dp"

@@ -95,7 +95,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
       /*  Map<String, String> Params = new HashMap<String, String>();
         Params.put("Start",dateNow().toString());
         FlurryHelper.logEvent(EventName,Params,true);*/
-        Log.e("STARTING","TEST");
+      //  Log.e("STARTING","TEST");
         lv = (ListView) findViewById(R.id.list_view);
         sv= (SearchView) findViewById(R.id.sv);
         //lv.setAdapter(adapter);
@@ -127,7 +127,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         locas = dbManager.getlocName();
 
         dbManager.close();
-                Log.e("DATETIME","  "+dateNow());
+              //  Log.e("DATETIME","  "+dateNow());
         /*String extra = getIntent().getStringExtra("login status");
 
         if(extra!=null){
@@ -137,7 +137,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Long ids = id+1;
-                Log.i("__id", ""+id);
+              //  Log.i("__id", ""+id);
 
              //   IdentitasIbuDetailActivity.id = String.valueOf(ids);
              //   FormRencanaPersalinan.id = String.valueOf(ids);
@@ -171,7 +171,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         mService = ApiUtils.getSOService();
-        Log.i("MSERVICE", mService.toString());
+       // Log.i("MSERVICE", mService.toString());
         refreshList();
 
     }
@@ -206,7 +206,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                         ? " AND "+DbHelper.RESIKO + " != ''"
                         : "");
         //HTP    //DUSUN //RISTI
-        Log.d("Query refresh",selectionClause);
+       // Log.d("Query refresh",selectionClause);
         dbManager.clearClause();
         dbManager.setSelection(selectionClause);
         identitasModels.clear();
@@ -237,7 +237,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
     }
     public void choose (final  long ids){
-        final String[] forms = {"Form Rencana Persalinan","Form Status Persalinan","Detail View Ibu","Tutup Ibu" };
+        final String[] forms = {"Form Rencana Persalinan","Form Status Persalinan","Data Lengkap Ibu","Tutup Ibu" };
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("");
         builder.setItems(forms, new DialogInterface.OnClickListener() {
@@ -275,7 +275,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     startActivity(intent);
                  //   finish();
                 }
-                if ("Detail View Ibu".equals(forms[which])) {
+                if ("Data Lengkap Ibu".equals(forms[which])) {
                     String uid = identitasModels.get((int) ids).getId();
                     Intent intent = new Intent(IdentitasIbuActivity.this, IdentitasIbuDetailActivity.class);
                     dbManager.open();
@@ -521,8 +521,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
             @Override
             public void onResponse(Call<ResponseBody>callback,Response<ResponseBody>response) {
                 String res = response.toString();
-                Log.e("DEMO", "post submitted to API." + response);
-                Log.e(TAG, "onResponse: " +response.code());
+              //  Log.e("DEMO", "post submitted to API." + response);
+              //  Log.e(TAG, "onResponse: " +response.code());
                 if (response.code()==201){
                     updateSyncFlagIbu();
                 }
@@ -530,8 +530,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("DEMO", "Unable to submit post to API.",t);
-                Log.e("call", String.valueOf(call));
+              ///  Log.e("DEMO", "Unable to submit post to API.",t);
+             //   Log.e("call", String.valueOf(call));
                pulldata();
             }
         });
@@ -562,7 +562,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                         rowObject.put(cursor.getColumnName(i),
                                 cursor.getString(i));
                     } catch (Exception e) {
-                        Log.d(TAG, e.getMessage());
+                      //  Log.d(TAG, e.getMessage());
                     }
                 }
             }
@@ -576,7 +576,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
     }
 
     public void pulldata() {
-        Log.e("pull data====",locas + upId);
+      //  Log.e("pull data====",locas + upId);
         /*if(true)
             return;*/
         if(!isDusun) {
@@ -586,14 +586,14 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
                     if(response.isSuccessful()) {
                         dbManager.open();
-                        Log.e("RESPONSE-----", response.body().toString());
+                      //  Log.e("RESPONSE-----", response.body().toString());
                         dbManager.saveTodb2(response.body(),null);
                         dbManager.close();
                         Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
                                 Toast.LENGTH_LONG).show();
-                        Log.e("PULLING", response.body().toString());
+                      //  Log.e("PULLING", response.body().toString());
                         //  mAdapter.updateAnswers(response.body().getItems());
-                        Log.d("MainActivity", "posts loaded from API");
+                      //  Log.d("MainActivity", "posts loaded from API");
                     }else {
                         int statusCode  = response.code();
                         // handle request errors depending on status code
@@ -608,10 +608,10 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 @Override
                 public void onFailure(Call<List<ApiModel>> call, Throwable t) {
                     // showErrorMessage();
-                    Log.e("PULLING", "FAIL===");
+                  //  Log.e("PULLING", "FAIL===");
                     Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
                             Toast.LENGTH_LONG).show();
-                    Log.d("MainActivity", "error loading from API"+t);
+                  //  Log.d("MainActivity", "error loading from API"+t);
                     resetUpdating();
                 }
             });
@@ -623,14 +623,14 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
                     if(response.isSuccessful()) {
                         dbManager.open();
-                        Log.e("RESPONSE-----", response.body().toString());
+                       // Log.e("RESPONSE-----", response.body().toString());
                         dbManager.saveTodb2(response.body(),null);
                         dbManager.close();
                         Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
                                 Toast.LENGTH_LONG).show();
-                        Log.e("PULLING", response.body().toString());
+                       // Log.e("PULLING", response.body().toString());
                         //  mAdapter.updateAnswers(response.body().getItems());
-                        Log.d("MainActivity", "posts loaded from API");
+                       // Log.d("MainActivity", "posts loaded from API");
                     }else {
                         int statusCode  = response.code();
                         // handle request errors depending on status code
@@ -647,10 +647,10 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 @Override
                 public void onFailure(Call<List<ApiModel>> call, Throwable t) {
                     // showErrorMessage();
-                    Log.e("PULLING", "FAIL===");
+                  //  Log.e("PULLING", "FAIL===");
                     Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
                             Toast.LENGTH_LONG).show();
-                    Log.d("MainActivity", "error loading from API"+t);
+                  //  Log.d("MainActivity", "error loading from API"+t);
                     resetUpdating();
                 }
             });

@@ -37,7 +37,7 @@
         android:id="@+id/filter_check"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tampilkan Hanya Ibu Risti" />
+        android:text="Tampilkan Ibu dgn Faktor Resiko" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
             android:layout_weight="1"
-            android:text="clear" />
+            android:text="Hapus" />
 
         <Button
             android:id="@+id/filter_button"
@@ -61,7 +61,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginTop="0dp"
             android:layout_weight="1"
-            android:text="filter" />
+            android:text="Oke" />
 
     </LinearLayout>
 
