@@ -124,16 +124,19 @@ public class DbManager {
                    */ contentValue.put(DbHelper.IS_SEND, 1);
                     contentValue.put(DbHelper.IS_SYNC, 1);
                     contentValue.put(DbHelper.TIMESTAMP, listIbuData.getTimestamp());
-                    if(model.getform_name().equalsIgnoreCase("identitas_ibu_edit")) {
-                       // if (getUniqueID(listIbuData.getUnique_id(), "identitas_ibu") != null) {
+                    if (model.getform_name().equalsIgnoreCase("identitas_ibu")) {
+                        if (getUniqueID(listIbuData.getUnique_id(), "identitas_ibu") == null) {
+                            database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
+                        }
+                    }
+                    else if(model.getform_name().equalsIgnoreCase("identitas_ibu_edit")) {
+                       if (getUniqueID(listIbuData.getUnique_id(), "identitas_ibu") != null) {
                             Log.e("UPDATING====DATAIBU", "");
                             database.update(DbHelper.TABLE_NAME_IBU, contentValue, "unique_id = ?", new String[]{listIbuData.getUnique_id()});
-                      //  } else {
+                        } //else {
                       //      database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
                        // }
                     }
-                    else
-                        database.insert(DbHelper.TABLE_NAME_IBU, null, contentValue);
                 }
             }
             else if(model.getform_name().contains("transportasi")){
