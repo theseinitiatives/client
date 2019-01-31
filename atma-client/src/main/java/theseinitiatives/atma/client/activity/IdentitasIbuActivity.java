@@ -576,6 +576,16 @@ public class IdentitasIbuActivity extends AppCompatActivity
     }
 
     public void pulldata() {
+        dbManager.open();
+        if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
+            forbidden = true;
+            isDusun = true;
+        }
+        String updateID = dbManager.getlatestUpdateId();
+        upId = Long.parseLong(updateID);
+        locas = dbManager.getlocName();
+        dbManager.close();
+
         Log.e("pull data====",locas + upId);
         /*if(true)
             return;*/
