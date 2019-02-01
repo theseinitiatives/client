@@ -13,6 +13,8 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.lang.reflect.Field;
+
 import theseinitiatives.atma.client.AllConstants;
 import theseinitiatives.atma.client.R;
 import theseinitiatives.atma.client.db.DbHelper;
@@ -52,6 +54,17 @@ public class FilterActivity extends Activity {
 
     private void initComponenets(){
         htpSpinner = (Spinner) findViewById(R.id.filter_by_HTP);
+        try {
+            Field popup = Spinner.class.getDeclaredField("mPopup");
+            popup.setAccessible(true);
+
+            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(htpSpinner);
+
+            popupWindow.setHeight(400);
+        }
+        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
+            // silently fail...
+        }
         filterTextView = (TextView) findViewById(R.id.filter2textview);
         if(mode<0){
             htpSpinner.setVisibility(View.INVISIBLE);
@@ -73,6 +86,17 @@ public class FilterActivity extends Activity {
         });
 
         dusunSpinner = (Spinner) findViewById(R.id.filter_by_dusun);
+        try {
+            Field popup = Spinner.class.getDeclaredField("mPopup");
+            popup.setAccessible(true);
+
+            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(dusunSpinner);
+
+            popupWindow.setHeight(400);
+        }
+        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
+            // silently fail...
+        }
         dusunSpinner.setAdapter(spinnerAdapter(dusunString()[0]));
         dusunSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
