@@ -1222,8 +1222,8 @@ public class DbManager {
 
     public String getlatestUpdateId() {
         String upId ="0";
-        Cursor cursor = fetchSyncedData();
         setOrderBy(UPDATE_ID+" DESC");
+        Cursor cursor = fetchSyncedData();
 
         if(cursor.moveToFirst()) {
             upId = cursor.getString(cursor.getColumnIndexOrThrow(UPDATE_ID));
