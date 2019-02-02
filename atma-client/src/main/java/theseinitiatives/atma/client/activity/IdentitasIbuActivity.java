@@ -576,7 +576,6 @@ public class IdentitasIbuActivity extends AppCompatActivity
     }
 
     public void pulldata() {
-
         dbManager.open();
         if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
             forbidden = true;
@@ -596,8 +595,12 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
 
                     if(response.isSuccessful()) {
+                        Log.e("RESPONSE-----", response.body().toString());
+                        if(response.body().toString().length() < 10) {
+                            resetUpdating();
+                            return;
+                        }
                         dbManager.open();
-                      //  Log.e("RESPONSE-----", response.body().toString());
                         dbManager.saveTodb2(response.body(),null);
                         dbManager.close();
                         Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
@@ -633,8 +636,12 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
 
                     if(response.isSuccessful()) {
+                        Log.e("RESPONSE-----", response.body().toString());
+                        if(response.body().toString().length() < 10) {
+                            resetUpdating();
+                            return;
+                        }
                         dbManager.open();
-                       // Log.e("RESPONSE-----", response.body().toString());
                         dbManager.saveTodb2(response.body(),null);
                         dbManager.close();
                         Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
