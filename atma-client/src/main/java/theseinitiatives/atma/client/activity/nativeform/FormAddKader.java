@@ -96,7 +96,7 @@ public class FormAddKader extends AppCompatActivity {
                 String nama_kader = humanizes(kaders.getText().toString());
                 String namaDusun = getDusun();
                 String noHp = nohps.getText().toString();
-                String username = "kader_"+namaDusun.replace(" ","").toLowerCase();
+                String username = "kader"+namaDusun.replace(" ","").toLowerCase();
                 String password = "kaders"+""+randomNum();
                 String UUID = java.util.UUID.randomUUID().toString();
                 JSONObject dataArray = new JSONObject();
