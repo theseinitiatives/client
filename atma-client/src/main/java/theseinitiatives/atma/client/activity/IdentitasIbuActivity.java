@@ -590,7 +590,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         /*if(true)
             return;*/
         if(!isDusun) {
-            mService.getDataDesa(locas,upId,100).enqueue(new Callback<List<ApiModel>>() {
+            mService.getDataDesa(locas,upId,250).enqueue(new Callback<List<ApiModel>>() {
                 @Override
                 public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
 
@@ -631,7 +631,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             });
         }
         else{
-            mService.getDataDusun(locas,upId,100).enqueue(new Callback<List<ApiModel>>() {
+            mService.getDataDusun(locas,upId,250).enqueue(new Callback<List<ApiModel>>() {
                 @Override
                 public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
 
