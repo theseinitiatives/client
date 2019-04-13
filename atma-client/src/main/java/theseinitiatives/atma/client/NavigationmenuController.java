@@ -2,8 +2,10 @@ package theseinitiatives.atma.client;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -109,6 +111,10 @@ public class NavigationmenuController {
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which){
                         case DialogInterface.BUTTON_POSITIVE:
+                            SharedPreferences sharedPref = activity.getSharedPreferences(AllConstants.SHARED_PREF,Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.remove(activity.getString(R.string.loggedin));
+                            editor.apply();
                             Intent intent = new Intent(activity,LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             activity.finish();
