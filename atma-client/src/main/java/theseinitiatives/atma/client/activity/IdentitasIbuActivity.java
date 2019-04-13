@@ -93,10 +93,6 @@ public class IdentitasIbuActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-      /*  Map<String, String> Params = new HashMap<String, String>();
-        Params.put("Start",dateNow().toString());
-        FlurryHelper.logEvent(EventName,Params,true);*/
       //  Log.e("STARTING","TEST");
         lv = (ListView) findViewById(R.id.list_view);
         sv= (SearchView) findViewById(R.id.sv);
@@ -289,7 +285,6 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     intent.putExtra("id", uid);
                     startActivity(intent);
                   //  finish();
-                    FlurryHelper.endTimedEvent(EventName);
                 }
                 if ("Tutup Ibu".equals(forms[which])) {
                     if(forbidden){
@@ -406,69 +401,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        final Map<String, String> Params2 = new HashMap<String, String>();
-        Params2.put("End",dateNow().toString());
         NavigationmenuController  navi= new NavigationmenuController(this);
-        int id = item.getItemId();
-       // MenuItem register = R.id.nav_identitas_ibu;
-        if (id == R.id.nav_identitas_ibu) {
-           // navi.startIdentitasIbu();
-        }
-        if (id == R.id.nav_transportasi) {
-            navi.startTransportasi();
-            FlurryHelper.endTimedEvent(EventName,Params2);
-        }
-
-        if (id == R.id.nav_bank_darah) {
-            navi.startBankDarah();
-            FlurryHelper.endTimedEvent(EventName,Params2);
-        }
-        if(id == R.id.nav_logout){
-//            super.onBackPressed();
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which){
-                        case DialogInterface.BUTTON_POSITIVE:
-                            Intent intent = new Intent(IdentitasIbuActivity.this,LoginActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            finish();
-                            startActivity(intent);
-                            FlurryHelper.endTimedEvent(EventName,Params2);
-                            break;
-
-                        case DialogInterface.BUTTON_NEGATIVE:
-                            break;
-                    }
-                }
-            };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(IdentitasIbuActivity.this);
-            builder.setMessage("Anda yakin untuk \"Keluar\" dari aplikasi?").setPositiveButton("Ya", dialogClickListener)
-                    .setNegativeButton("Tidak", dialogClickListener).show();
-        }
-        if(id == R.id.info){
-            Intent intent = new Intent(IdentitasIbuActivity.this, InformasiActivity.class);
-            startActivity(intent);
-            finish();
-
-            FlurryHelper.endTimedEvent(EventName,Params2);
-           // navi.gotoKIA();
-        }
-        if(id == R.id.kader_add){
-            if(!forbidden) {
-                navi.addKader();
-                FlurryHelper.endTimedEvent(EventName,Params2);
-            }
-            else
-                Toast.makeText(IdentitasIbuActivity.this, "Maaf fitur ini hanya untuk bidan!",
-                        Toast.LENGTH_LONG).show();
-            //super.onBackPressed();
-        }
-
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        navi.navigateTo(item,forbidden);
         return true;
     }
 
@@ -632,92 +566,6 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 resetUpdating();
             }
         });
-
-
-//        if(!isDusun) {
-//            mService.getDataDesa(locas,upId,5000).enqueue(new Callback<List<ApiModel>>() {
-//                @Override
-//                public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
-//
-//                    if(response.isSuccessful()) {
-//                        Log.e("RESPONSE-----", response.body().toString());
-//                        if(response.body().toString().length() < 10) {
-//                            resetUpdating();
-//                            return;
-//                        }
-//                        dbManager.open();
-//                        dbManager.saveTodb2(response.body(),null);
-//                        dbManager.close();
-//                        Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
-//                                Toast.LENGTH_LONG).show();
-//                      //  Log.e("PULLING", response.body().toString());
-//                        //  mAdapter.updateAnswers(response.body().getItems());
-//                      //  Log.d("MainActivity", "posts loaded from API");
-//                    }else {
-//                        int statusCode  = response.code();
-//                        // handle request errors depending on status code
-//                    }
-//                    resetUpdating();
-//                    refreshList();
-//                  //  insert latest updateid into db
-//                  //  fetchSyncedData()
-//                    getIbu("","resiko DESC");
-//                }
-//
-//                @Override
-//                public void onFailure(Call<List<ApiModel>> call, Throwable t) {
-//                    // showErrorMessage();
-//                  //  Log.e("PULLING", "FAIL===");
-//                    Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
-//                            Toast.LENGTH_LONG).show();
-//                  //  Log.d("MainActivity", "error loading from API"+t);
-//                    resetUpdating();
-//                }
-//            });
-//        }
-//        else{
-//            mService.getDataDusun(locas,upId,1000).enqueue(new Callback<List<ApiModel>>() {
-//                @Override
-//                public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
-//
-//                    if(response.isSuccessful()) {
-//                        Log.e("RESPONSE-----", response.body().toString());
-//                        if(response.body().toString().length() < 10) {
-//                            resetUpdating();
-//                            return;
-//                        }
-//                        dbManager.open();
-//                        dbManager.saveTodb2(response.body(),null);
-//                        dbManager.close();
-//                        Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
-//                                Toast.LENGTH_LONG).show();
-//                       // Log.e("PULLING", response.body().toString());
-//                        //  mAdapter.updateAnswers(response.body().getItems());
-//                       // Log.d("MainActivity", "posts loaded from API");
-//                    }else {
-//                        int statusCode  = response.code();
-//                        // handle request errors depending on status code
-//                    }
-//                    resetUpdating();
-//                    refreshList();
-//                    getIbu("","resiko DESC");
-//                /****
-//                 * ====================*/
-//                    //    insert latest updateid into db
-//                //    fetchSyncedData()
-//                }
-//
-//                @Override
-//                public void onFailure(Call<List<ApiModel>> call, Throwable t) {
-//                    // showErrorMessage();
-//                  //  Log.e("PULLING", "FAIL===");
-//                    Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
-//                            Toast.LENGTH_LONG).show();
-//                  //  Log.d("MainActivity", "error loading from API"+t);
-//                    resetUpdating();
-//                }
-//            });
-//        }
 
     }
 

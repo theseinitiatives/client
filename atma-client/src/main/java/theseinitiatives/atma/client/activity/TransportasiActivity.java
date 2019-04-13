@@ -260,69 +260,8 @@ public class TransportasiActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        final Map<String, String> Params2 = new HashMap<String, String>();
-        Params2.put("End",dateNow().toString());
         NavigationmenuController navi= new NavigationmenuController(this);
-        int id = item.getItemId();
-       // MenuItem register = R.id.nav_identitas_ibu;
-        if (id == R.id.nav_identitas_ibu) {
-            FlurryHelper.endTimedEvent(EventName,Params2);
-            navi.startIdentitasIbu();
-        }
-        if (id == R.id.nav_transportasi) {
-           // navi.startTransportasi();
-        }
-
-        if (id == R.id.nav_bank_darah) {
-            FlurryHelper.endTimedEvent(EventName,Params2);
-            navi.startBankDarah();
-        }
-        if(id == R.id.nav_logout){
-//            super.onBackPressed();
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which){
-                        case DialogInterface.BUTTON_POSITIVE:
-                            FlurryHelper.endTimedEvent(EventName,Params2);
-                            Intent intent = new Intent(TransportasiActivity.this,LoginActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            finish();
-                            startActivity(intent);
-                            break;
-
-                        case DialogInterface.BUTTON_NEGATIVE:
-                            break;
-                    }
-                }
-            };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(TransportasiActivity.this);
-            builder.setMessage("Anda yakin untuk \"Keluar\" dari aplikasi?").setPositiveButton("Ya", dialogClickListener)
-                    .setNegativeButton("Tidak", dialogClickListener).show();
-        }
-        if(id == R.id.info){
-            FlurryHelper.endTimedEvent(EventName,Params2);
-            Intent intent = new Intent(TransportasiActivity.this, InformasiActivity.class);
-            startActivity(intent);
-            finish();
-            // navi.gotoKIA();
-        }
-        if(id == R.id.kader_add){
-            if(!forbidden) {
-                FlurryHelper.endTimedEvent(EventName,Params2);
-                navi.addKader();
-            }
-
-            else{
-                Toast.makeText(TransportasiActivity.this, "Maaf fitur ini hanya untuk bidan!",
-                        Toast.LENGTH_LONG).show();
-            }
-            //super.onBackPressed();
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        navi.navigateTo(item,forbidden);
         return true;
     }
 

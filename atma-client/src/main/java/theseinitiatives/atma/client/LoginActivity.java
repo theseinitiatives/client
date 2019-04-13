@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
         if (loggedIn){
             long last_active = sharedPref.getLong("last_active", 0);
             long interval = System.currentTimeMillis()-last_active;
-            if (!(interval>=172800000)){
+            if (!(interval>=57600000)){
                 Intent myIntent = new Intent(getApplicationContext(), IdentitasIbuActivity.class);
                 startActivity(myIntent);
                 finish();
@@ -152,9 +152,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(myIntent);
                 finish();
                 overridePendingTransition(0, 0);
-                Map<String, String> Params = new HashMap<String, String>();
-                Params.put("Start",dateNow().toString());
-                FlurryHelper.logEvent("IdentitasIbu",Params,true);
 
                 return false;
             }else{
