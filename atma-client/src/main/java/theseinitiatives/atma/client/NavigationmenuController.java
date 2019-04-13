@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import theseinitiatives.atma.client.activity.nativeform.FormAddKader;
 import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 
 public class NavigationmenuController {
+    private static final String TAG =NavigationmenuController.class.getCanonicalName() ;
     private final Activity activity;
 
 
@@ -87,18 +89,17 @@ public class NavigationmenuController {
         // Handle navigation view item clicks here.
         NavigationmenuController navi= new NavigationmenuController(activity);
         int id = item.getItemId();
-        // MenuItem register = R.id.nav_identitas_ibu;
         if (id == R.id.nav_identitas_ibu) {
-            if (activity.getLocalClassName()==IdentitasIbuActivity.class.getSimpleName())
+            if (!activity.getLocalClassName().equals(IdentitasIbuActivity.class.getCanonicalName()))
                 navi.startIdentitasIbu();
         }
         if (id == R.id.nav_transportasi) {
-            if (activity.getLocalClassName()==TransportasiActivity.class.getSimpleName())
+            if (!activity.getLocalClassName().equals(TransportasiActivity.class.getCanonicalName()))
             navi.startTransportasi();
         }
 
         if (id == R.id.nav_bank_darah) {
-            if (activity.getLocalClassName()==BankDarahActivity.class.getSimpleName())
+            if (!activity.getLocalClassName().equals(BankDarahActivity.class.getCanonicalName()))
              navi.startBankDarah();
         }
         if(id == R.id.nav_logout){
@@ -125,14 +126,14 @@ public class NavigationmenuController {
                     .setNegativeButton("Tidak", dialogClickListener).show();
         }
         if(id == R.id.info){
-            if (activity.getLocalClassName()==InformasiActivity.class.getSimpleName()){
+            if (!activity.getLocalClassName().equals(InformasiActivity.class.getCanonicalName())){
                 Intent intent = new Intent(activity, InformasiActivity.class);
                 activity.startActivity(intent);
                 activity.finish();
             }
         }
         if(id == R.id.kader_add){
-            if (activity.getLocalClassName()==KaderActivity.class.getSimpleName()){
+            if (!activity.getLocalClassName().equals(KaderActivity.class.getCanonicalName())){
                 if(!forbidden) {
                     navi.addKader();
                 }
