@@ -1,7 +1,9 @@
 package theseinitiatives.atma.client;
 
 public class AllConstants {
-    public static final String BASE_URL = "https://server.p4kloteng.com";
+//    public static final String BASE_URL = "https://server.p4kloteng.com";
+    public static final String BASE_URL = "https://dev.atma.theseforall.org/";
+    public static final String SHARED_PREF = "shared_preferences";
     public static final String FLAG_SUCCESS = "success";
     public static final String FLAG_FAILED = "failed";
     public static final String FLAG_SEPARATOR = "##";

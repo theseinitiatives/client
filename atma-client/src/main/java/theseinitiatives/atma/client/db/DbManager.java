@@ -28,6 +28,7 @@ import static theseinitiatives.atma.client.db.DbHelper.DUSUN;
 import static theseinitiatives.atma.client.db.DbHelper.FORM_NAME;
 import static theseinitiatives.atma.client.db.DbHelper.KADER_VAR;
 import static theseinitiatives.atma.client.db.DbHelper.PENOLONG_LAIN;
+import static theseinitiatives.atma.client.db.DbHelper.POSYANDU;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_NAME_BANK;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_NAME_IBU;
 import static theseinitiatives.atma.client.db.DbHelper.TABLE_NAME_RENCANA;
@@ -318,13 +319,14 @@ public class DbManager {
 
 
 
-    public void insertibu(String uid,String mothername, String husbandname,String dobss, String gubugss,
+    public void insertibu(String uid,String mothername, String husbandname,String dobss, String posyandu, String gubugss,
     String hphtss, String htpss,String goldarahss, String kaderss,String notelponss,  String radioStatus2, String resiko,String resiko_lain,String gubug, String nifas_berakhir, long updateid) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.UNIQUEID, uid);
         contentValue.put(  DbHelper.NAME, mothername);
         contentValue.put(  DbHelper.SPOUSENAME, husbandname);
         contentValue.put( DbHelper.TGL_LAHIR,dobss);
+        contentValue.put( POSYANDU,posyandu);
         contentValue.put( DUSUN,gubugss);
         contentValue.put( DbHelper.HPHT,hphtss);
         contentValue.put( DbHelper.HTP,htpss);
@@ -390,12 +392,13 @@ public class DbManager {
         database.update(TABLE_PERSALINAN, contentValue,DbHelper.ID_IBU+" = ?",new String[]{idIbu});
     }
 
-    public void updateIbu(String _id, String mothername, String husbandname,String dobss, String gubugss,
+    public void updateIbu(String _id, String mothername, String husbandname,String dobss, String posyandu, String gubugss,
                           String hphtss, String htpss,String goldarahss, String kaderss,String notelponss, String radioStatus2,  String resiko,String resikolain,String gubug,String nifas_berakhir, long updateid) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(  DbHelper.NAME, mothername);
         contentValue.put(  DbHelper.SPOUSENAME, husbandname);
         contentValue.put( DbHelper.TGL_LAHIR,dobss);
+        contentValue.put( POSYANDU,posyandu);
         contentValue.put( DUSUN,gubugss);
         contentValue.put( DbHelper.HPHT,hphtss);
         contentValue.put( DbHelper.HTP,htpss);
@@ -420,6 +423,7 @@ public class DbManager {
                 DbHelper.UNIQUEID,
                 DbHelper.SPOUSENAME,
                 DbHelper.TGL_LAHIR,
+                POSYANDU,
                 DUSUN,
                 DbHelper.GUBUG,
                 DbHelper.HPHT,
@@ -452,6 +456,7 @@ public class DbManager {
                 DbHelper.NAME,
                 DbHelper.SPOUSENAME,
                 DbHelper.TGL_LAHIR,
+                POSYANDU,
                 DUSUN,
                 DbHelper.GUBUG,
                 DbHelper.HPHT,
@@ -486,6 +491,7 @@ public class DbManager {
                 DbHelper.LOCATION_ID,
                 DUSUN,
                 DbHelper.DESA,
+                DbHelper.POSYANDU,
                 DbHelper.UPDATE_ID,
                 DbHelper.FORM_NAME,
                 DbHelper.DATA
@@ -846,7 +852,7 @@ public class DbManager {
     }
 
     public void insertUserData(String id,String username,String password, String email,String first_name, String last_name, String company, String phone, String groups,
-                               String location_id, String location_name, String location_tag_id, String parent_location) {
+                               String location_id, String location_name, String location_tag_id, String parent_location, String location_tag) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.PERSON_ID,id);
         contentValue.put( DbHelper.USERNAME,username);
@@ -861,21 +867,24 @@ public class DbManager {
         contentValue.put( DbHelper.LOCATION_NAME,location_name);
         contentValue.put( DbHelper.LOCATION_TAG_ID,location_tag_id);
         contentValue.put( DbHelper.PARENT_LOCATION,parent_location);
+        contentValue.put( DbHelper.LOCATION_TAG,location_tag);
         database.insert(DbHelper.TABLE_NAME_USER, null, contentValue);
     }
-    public void insertLocationTree(String location_id, String location_name, String location_tag_id, String parent_location) {
+    public void insertLocationTree(String location_id, String location_name, String location_tag_id, String parent_location, String location_tag) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.LOCATION_ID,location_id);
         contentValue.put( DbHelper.LOCATION_NAME,location_name);
         contentValue.put( DbHelper.LOCATION_TAG_ID,location_tag_id);
         contentValue.put( DbHelper.PARENT_LOCATION,parent_location);
+        contentValue.put( DbHelper.LOCATION_TAG,location_tag);
         database.insert(DbHelper.TABLE_LOCATION_TREE, null, contentValue);
     }
 
-    public void insertKader(String uuid,String name, String dusun, String hp, String username, String password) {
+    public void insertKader(String uuid,String name, String posyandu, String dusun, String hp, String username, String password) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.NAME,name);
         contentValue.put( DbHelper.UNIQUEID,uuid);
+        contentValue.put( POSYANDU,posyandu);
         contentValue.put( DUSUN,dusun);
         contentValue.put( DbHelper.TELP,hp);
         contentValue.put( DbHelper.USERNAME,username);
@@ -888,11 +897,28 @@ public class DbManager {
         database.insert(DbHelper.TABLE_KADER, null, contentValue);
     }
 
+    public void insertsyncTable(String formName, Long updateId, String posyandu, String dusun, String data, int issend, int issync) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName()); //get from user location
+        contentValue.put( DbHelper.DESA,getDesa()); // get from location tree with tag id = 5
+        contentValue.put( DbHelper.POSYANDU,posyandu); // get from location tree with tag id = 5
+        contentValue.put( DUSUN,dusun); // get from location tree with tag id = 5
+        contentValue.put( DbHelper.DATA,data);
+        contentValue.put( UPDATE_ID,updateId);
+        contentValue.put( FORM_NAME,formName);
+        contentValue.put( DbHelper.IS_SEND,issend);
+        contentValue.put( DbHelper.IS_SYNC,issync);
+        database.insert(DbHelper.TABLE_SYNC, null, contentValue);
+    }
+
+
     public void insertsyncTable(String formName, Long updateId, String dusun, String data, int issend, int issync) {
         ContentValues contentValue = new ContentValues();
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName()); //get from user location
         contentValue.put( DbHelper.DESA,getDesa()); // get from location tree with tag id = 5
+        contentValue.put( DbHelper.POSYANDU,getPosyandu(dusun)); // get from location tree with tag id = 5
         contentValue.put( DUSUN,dusun); // get from location tree with tag id = 5
         contentValue.put( DbHelper.DATA,data);
         contentValue.put( UPDATE_ID,updateId);
@@ -910,6 +936,21 @@ public class DbManager {
         // locName = userd.getString(userd.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
         //close();
         return locName;
+    }
+
+    private String getPosyandu(String dusun){
+        setSelection(DbHelper.LOCATION_NAME+" = '"+dusun+"'");
+        Cursor cursor = fetchLocationTree();
+        cursor.moveToFirst();
+        String parentId = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.PARENT_LOCATION));
+        Log.d("DbManager", "getPosyandu: parentId="+parentId);
+        setSelection("LOCATION_ID ="+parentId);
+        cursor = fetchLocationTree();
+        cursor.moveToFirst();
+        String locName = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
+        Log.d("DbManager", "getPosyandu: locName="+locName);
+        return locName;
+
     }
 
     public Cursor fetchKader(){
@@ -932,7 +973,8 @@ public class DbManager {
                 DbHelper.LOCATION_ID,
                 DbHelper.LOCATION_NAME,
                 DbHelper.LOCATION_TAG_ID,
-                DbHelper.PARENT_LOCATION
+                DbHelper.PARENT_LOCATION,
+                DbHelper.LOCATION_TAG
         };
         return database.query(DbHelper.TABLE_LOCATION_TREE,variable,selection,selectionArgs,groupBy,having,orderBy, limit);
     }
@@ -943,6 +985,7 @@ public class DbManager {
                 DbHelper.NAME,
                 DbHelper.SPOUSENAME,
                 DbHelper.TGL_LAHIR,
+                POSYANDU,
                 DUSUN,
                 DbHelper.GUBUG,
                 DbHelper.HPHT,
@@ -1161,6 +1204,16 @@ public class DbManager {
         // locName = userd.getString(userd.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
         //close();
         return locName;
+    }
+
+    public String getLocTagName(){
+
+        Cursor cursor = fetchUserData();
+        cursor.moveToFirst();
+        String locTagName = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.LOCATION_TAG));
+        // locName = userd.getString(userd.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
+        //close();
+        return locTagName;
     }
 
     public String getUserGroup(){

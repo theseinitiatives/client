@@ -50,8 +50,16 @@ public class FormAddIbuActivity extends AppCompatActivity {
     public void setDusun(String dusun) {
         this.dusun = dusun;
     }
+    public String getPosyandu() {
+        return posyandu;
+    }
+
+    public void setPosyandu(String posyandu) {
+        this.posyandu = posyandu;
+    }
 
     String dusun;
+    String posyandu;
     EditText gubugs;
     EditText hphts;
     EditText htps;
@@ -62,6 +70,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
     String setUniqueId;
 
     private RadioGroup rgp;
+    private RadioGroup posrgp;
 
     public String getSetUniqueId() {
         return setUniqueId;
@@ -175,14 +184,25 @@ public class FormAddIbuActivity extends AppCompatActivity {
         lainnya = (CheckBox) findViewById(R.id.checskbox_lainnya);
 
         rgp = (RadioGroup) findViewById(R.id.dusun_radio);
-        for (int i = 0; i < getlocationName().size(); i++) {
+        posrgp = (RadioGroup) findViewById(R.id.posyandu_radio);
+        for (int i = 0; i < getlocationName("dusun").size(); i++) {
             RadioButton rbn = new RadioButton(this);
             rbn.setId(View.generateViewId());
-            Log.e("Location", getlocationName().get(0));
-            rbn.setText(getlocationName().get(i));
+            Log.e("Location", getlocationName("dusun").get(0));
+            rbn.setText(getlocationName("dusun").get(i));
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
             rbn.setLayoutParams(params);
             rgp.addView(rbn);
+        }
+
+        for (int i = 0; i < getlocationName("posyandu").size(); i++) {
+            RadioButton rbn = new RadioButton(this);
+            rbn.setId(View.generateViewId());
+            Log.e("Location", getlocationName("posyandu").get(0));
+            rbn.setText(getlocationName("posyandu").get(i));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+            rbn.setLayoutParams(params);
+            posrgp.addView(rbn);
         }
 
 
@@ -191,7 +211,15 @@ public class FormAddIbuActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton radioButton = (RadioButton) findViewById(checkedId);
                 setDusun(radioButton.getText().toString());
-               // Toast.makeText(getApplicationContext(),getDusun(),Toast.LENGTH_LONG).show();
+                // Toast.makeText(getApplicationContext(),getDusun(),Toast.LENGTH_LONG).show();
+            }
+        });
+        posrgp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioButton = (RadioButton) findViewById(checkedId);
+                setPosyandu(radioButton.getText().toString());
+                // Toast.makeText(getApplicationContext(),getDusun(),Toast.LENGTH_LONG).show();
             }
         });
 
@@ -224,6 +252,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 };
 
                 Time date = new Time();
+                date.setToNow();
                 DatePickerDialog d = new DatePickerDialog(FormAddIbuActivity.this, dpd, date.year ,date.month, date.monthDay);
                 d.show();
 
@@ -246,6 +275,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 };
 
                 Time date = new Time();
+                date.setToNow();
                 DatePickerDialog d = new DatePickerDialog(FormAddIbuActivity.this, dpd, date.year ,date.month, date.monthDay);
                 d.show();
 
@@ -260,6 +290,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                 String husbandname = husband_names.getText().toString();
                 String dobss = AllConstants.convertToYYYYMMDD(dobs.getText().toString());
                 String dusunss = getDusun();
+                String posyanduss = getPosyandu();
                 String hphtss = AllConstants.convertToYYYYMMDD(hphts.getText().toString());
                 String nama_kader = namaKader.getText().toString();
                 String goldarahss = getDarah() + " - "+getRhesus();
@@ -293,6 +324,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     dataArray.put(DbHelper.NAME,humanizes( mothername));
                     dataArray.put(DbHelper.SPOUSENAME,humanizes(husbandname));
                     dataArray.put(DbHelper.TGL_LAHIR,dobss);
+                    dataArray.put(DbHelper.POSYANDU,posyanduss);
                     dataArray.put(DbHelper.DUSUN,dusunss);
                     dataArray.put(DbHelper.HPHT,hphtss);
                     dataArray.put(DbHelper.HTP,htpss);
@@ -325,16 +357,16 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     dbManager.open();
                     if(valueExist(id)) {
                         //update ibu main tables
-                        dbManager.updateIbu(id, mothername, husbandname, dobss, dusunss, hphtss, htpss, goldarahss, nama_kader, notelponss, radioStatus2, fResiko,resiko_lain, gubug, "", System.currentTimeMillis());
+                        dbManager.updateIbu(id, mothername, husbandname, dobss, posyanduss, dusunss, hphtss, htpss, goldarahss, nama_kader, notelponss, radioStatus2, fResiko,resiko_lain, gubug, "", System.currentTimeMillis());
                         //add into sync tables
 
-                        dbManager.insertsyncTable("identitas_ibu_edit",System.currentTimeMillis(),getDusun(), dataArray.toString(),0,0);
+                        dbManager.insertsyncTable("identitas_ibu_edit",System.currentTimeMillis(),posyanduss,getDusun(), dataArray.toString(),0,0);
 
                     }
                     else {
                         //insert new data
-                        dbManager.insertibu(UUID, mothername, husbandname, dobss, dusunss, hphtss, htpss, goldarahss, nama_kader, notelponss, radioStatus2, fResiko,resiko_lain, gubug, "",System.currentTimeMillis());
-                        dbManager.insertsyncTable("identitas_ibu", System.currentTimeMillis(),getDusun(), dataArray.toString(), 0, 0);
+                        dbManager.insertibu(UUID, mothername, husbandname, dobss, posyanduss, dusunss, hphtss, htpss, goldarahss, nama_kader, notelponss, radioStatus2, fResiko,resiko_lain, gubug, "",System.currentTimeMillis());
+                        dbManager.insertsyncTable("identitas_ibu", System.currentTimeMillis(),posyanduss,getDusun(), dataArray.toString(), 0, 0);
                     }
                     dbManager.close();
                     finish();
@@ -489,6 +521,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         txt_lainnya.setText(cursor.getString(cursor.getColumnIndexOrThrow("resiko_lainnya")));
         setSetUniqueId(cursor.getString(cursor.getColumnIndexOrThrow("unique_id")));
         checkDusun(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
+        checkPosyandu(cursor.getString(cursor.getColumnIndexOrThrow("posyandu")));
         dbManager.close();
     }
 
@@ -546,8 +579,24 @@ public class FormAddIbuActivity extends AppCompatActivity {
         }
     }
 
+    private void checkPosyandu(String value){
+        ArrayList<String> listDusun = getlocationName("posyandu");
+        for(int i=0;i<listDusun.size();i++){
+            RadioButton r = (RadioButton) posrgp.getChildAt(i);
+
+            if(listDusun.get(i).equalsIgnoreCase(value)){
+
+                r.setChecked(true);
+                setDusun(value);
+                // break;
+            }
+            r.setClickable(false);
+
+        }
+    }
+
     private void checkDusun(String value){
-        ArrayList<String> listDusun = getlocationName();
+        ArrayList<String> listDusun = getlocationName("dusun");
         for(int i=0;i<listDusun.size();i++){
             RadioButton r = (RadioButton) rgp.getChildAt(i);
 
@@ -555,7 +604,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
 
                 r.setChecked(true);
                 setDusun(value);
-               // break;
+                // break;
             }
             r.setClickable(false);
 
@@ -611,9 +660,9 @@ public class FormAddIbuActivity extends AppCompatActivity {
         // return languagess;
     }
 
-    public ArrayList<String> getlocationName() {
+    public ArrayList<String> getlocationName(String tag) {
         dbManager.open();
-        dbManager.setSelection(DbHelper.LOCATION_TAG_ID+"=6");
+        dbManager.setSelection(DbHelper.LOCATION_TAG+"='"+tag+"'");
         Cursor cursor = dbManager.fetchLocationTree();
         ArrayList<String> names = new ArrayList<String>();
         if (cursor != null) {

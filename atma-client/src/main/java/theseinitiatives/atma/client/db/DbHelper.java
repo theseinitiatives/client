@@ -34,6 +34,7 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String TGL_LAHIR = "tgl_lahir";
     public static final String DUSUN = "dusun";
     public static final String DESA = "desa";
+    public static final String POSYANDU = "posyandu";
     public static final String HPHT = "hpht";
     public static final String HTP = "htp";
     public static final String GOL_DARAH = "gol_darah";
@@ -104,6 +105,7 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String LOCATION_NAME = "location_name";
     public static final String PARENT_LOCATION = "parent_location";
     public static final String LOCATION_TAG_ID = "location_tag_id";
+    public static final String LOCATION_TAG = "location_tag";
 
 
     /*  Location Tree Variable*/
@@ -140,6 +142,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + LOCATION_ID + " TEXT , "
             + UPDATE_ID + " TEXT , "
             + DESA + " TEXT , "
+            + POSYANDU + " TEXT , "
             + DUSUN + " TEXT , "
             + DATA + " TEXT , "
             + FORM_NAME + " TEXT , "
@@ -168,6 +171,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + NAME + " TEXT ,"
             + SPOUSENAME + " TEXT , "
             + TGL_LAHIR + " TEXT , "
+            + POSYANDU + " TEXT , "
             + DUSUN + " TEXT , "
             + GUBUG + " TEXT , "
             + HPHT + " TEXT , "
@@ -196,6 +200,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + Jenis_LAIN + " TEXT, "
             + Kapasitas + " TEXT , "
             + TELP + " TEXT , "
+            + POSYANDU + " TEXT , "
             + DUSUN + " TEXT , "
             + GUBUG + " TEXT , "
             + PROFESI + " TEXT , "
@@ -213,6 +218,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + TABLE_NAME_BANK + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + UNIQUEID + " TEXT NOT NULL, "
             + NAME_PENDONOR + " TEXT , "
+            + POSYANDU + " TEXT , "
             + DUSUN + " TEXT , "
             + GUBUG + " TEXT , "
             + STATUS + " TEXT , "
@@ -294,7 +300,8 @@ public class DbHelper  extends SQLiteOpenHelper {
             +LOCATION_ID+ " TEXT, "
             +LOCATION_NAME+ " TEXT,"
             +PARENT_LOCATION+ " TEXT,"
-            +LOCATION_TAG_ID+ " TEXT"
+            +LOCATION_TAG_ID+ " TEXT,"
+            +LOCATION_TAG+ " TEXT"
             +")";
 
     // Creating table location tree
@@ -303,7 +310,8 @@ public class DbHelper  extends SQLiteOpenHelper {
             +LOCATION_ID+ " TEXT, "
             +LOCATION_NAME+ " TEXT,"
             +PARENT_LOCATION+ " TEXT,"
-            +LOCATION_TAG_ID+ " TEXT"
+            +LOCATION_TAG_ID+ " TEXT,"
+            +LOCATION_TAG+ " TEXT"
             +")";
 
     public static final String [] USER_VARIABLE = new String[]{
@@ -321,7 +329,8 @@ public class DbHelper  extends SQLiteOpenHelper {
             LOCATION_ID,
             LOCATION_NAME,
             PARENT_LOCATION,
-            LOCATION_TAG_ID
+            LOCATION_TAG_ID,
+            LOCATION_TAG
         };
     public static final String [] KADER_VAR = new String[]{
             NAME,

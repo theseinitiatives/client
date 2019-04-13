@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">P4K</string>
-    <string name="title_activity_login">P4K
+    <string name="app_name">P4K DEV</string>
+    <string name="title_activity_login">P4K DEV
     </string>
 
     <!-- Strings related to login -->
@@ -49,6 +49,7 @@
     <string name="lainnya">Lainnya</string>
     <string name="nama_pemilik">Nama Pemilik</string>
     <string name="jenis_kenda">Jenis Kendaraan</string>
+    <string name="posyandu">Posyandu</string>
     <string name="Dusun">Dusun</string>
     <string name="profesi_tesxt">Profesi</string>
     <string name="Kete">Keterangan</string>
@@ -108,5 +109,6 @@
     <string name="puskesmas">puskesmas</string>
     <string name="polindes">polindes</string>
     <string name="rumah">rumah</string>
+    <string name="loggedin">loggedin</string>
 
 </resources>

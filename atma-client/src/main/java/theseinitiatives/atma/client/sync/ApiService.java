@@ -31,6 +31,14 @@ public interface ApiService {
             @Query("batch-size") int batch
     );
 
+    @GET("api/pullv2")
+    Call<List<ApiModel>> getData(
+            @Query("loc-id") String location_id,
+            @Query("loc-name") String location_name,
+            @Query("update-id") long updateIds,
+            @Query("batch-size") int batch
+    );
+
 
     @Headers( "Content-Type: application/json; charset=utf-8")
     @POST("api/push")

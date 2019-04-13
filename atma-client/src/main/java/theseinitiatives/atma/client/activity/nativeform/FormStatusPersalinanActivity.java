@@ -233,6 +233,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                 };
 
                 Time date = new Time();
+                date.setToNow();
                 DatePickerDialog d = new DatePickerDialog(FormStatusPersalinanActivity.this, dpd, date.year ,date.month, date.monthDay);
                 d.show();
 

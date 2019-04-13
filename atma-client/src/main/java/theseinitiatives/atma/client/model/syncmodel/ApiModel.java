@@ -35,9 +35,20 @@ public class ApiModel {
         this.desa = desa;
     }
 
+    public String getPosyandu() {
+        return posyandu;
+    }
+
+    public void setPosyandu(String posyandu) {
+        this.posyandu = posyandu;
+    }
+
     @SerializedName("desa")
     @Expose
     private String desa;
+    @SerializedName("posyandu")
+    @Expose
+    private String posyandu;
     @SerializedName("location_id")
     @Expose
     private String location_id;

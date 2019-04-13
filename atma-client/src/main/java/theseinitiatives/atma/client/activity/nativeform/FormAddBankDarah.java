@@ -113,11 +113,11 @@ public class FormAddBankDarah extends AppCompatActivity {
 
 
          rgp = (RadioGroup) findViewById(R.id.dusun_radio);
-        for (int i = 0; i < getlocationName().size(); i++) {
+        for (int i = 0; i < getlocationName("dusun").size(); i++) {
             RadioButton rbn = new RadioButton(this);
             rbn.setId(View.generateViewId());
-            Log.e("Location", getlocationName().get(0));
-            rbn.setText(getlocationName().get(i));
+            Log.e("Location", getlocationName("dusun").get(0));
+            rbn.setText(getlocationName("dusun").get(i));
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
             rbn.setLayoutParams(params);
             rgp.addView(rbn);
@@ -172,6 +172,7 @@ public class FormAddBankDarah extends AppCompatActivity {
                 };
 
                 Time date = new Time();
+                date.setToNow();
                 DatePickerDialog d = new DatePickerDialog(FormAddBankDarah.this, dpd, date.year ,date.month, date.monthDay);
                 d.show();
 
@@ -352,9 +353,9 @@ public class FormAddBankDarah extends AppCompatActivity {
         return false;
     }
 
-    public ArrayList<String> getlocationName() {
+    public ArrayList<String> getlocationName(String tag) {
         dbManager.open();
-        dbManager.setSelection(DbHelper.LOCATION_TAG_ID+"=6");
+        dbManager.setSelection(DbHelper.LOCATION_TAG+"='"+tag+"'");
         Cursor cursor = dbManager.fetchLocationTree();
         ArrayList<String> names = new ArrayList<String>();
         if (cursor != null) {
@@ -373,7 +374,7 @@ public class FormAddBankDarah extends AppCompatActivity {
     }
 
     private void checkDusun(String value){
-        ArrayList<String> listDusun = getlocationName();
+        ArrayList<String> listDusun = getlocationName("dusun");
         for(int i=0;i<listDusun.size();i++){
             RadioButton r = (RadioButton) rgp.getChildAt(i);
 

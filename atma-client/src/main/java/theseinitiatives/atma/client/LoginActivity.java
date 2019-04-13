@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
         setContentView(R.layout.login_layout);
 
         edtUsername = (EditText) findViewById(R.id.email);
@@ -109,6 +110,21 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+
+    private void init(){
+        SharedPreferences sharedPref = getSharedPreferences(AllConstants.SHARED_PREF, Context.MODE_PRIVATE);
+        boolean loggedIn = sharedPref.getBoolean(getString(R.string.loggedin), false);
+        if (loggedIn){
+            long last_active = sharedPref.getLong("last_active", 0);
+            long interval = System.currentTimeMillis()-last_active;
+            if (!(interval>=172800000)){
+                Intent myIntent = new Intent(getApplicationContext(), IdentitasIbuActivity.class);
+                startActivity(myIntent);
+                finish();
+            }
+        }
+    }
+
     public boolean validateLogin(String username, String password){
         if(username == null || username.trim().length() == 0){
             Toast.makeText(this, "Username is required", Toast.LENGTH_SHORT).show();
@@ -126,6 +142,10 @@ public class LoginActivity extends AppCompatActivity {
         try {
             if (c.getString(c.getColumnIndexOrThrow("username")).equalsIgnoreCase(username) &&
                     c.getString(c.getColumnIndexOrThrow("password")).equals(password)) {
+                SharedPreferences sharedPref = getSharedPreferences(AllConstants.SHARED_PREF,Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean(getString(R.string.loggedin), true);
+                editor.apply();
                 Intent myIntent = new Intent(getApplicationContext(), IdentitasIbuActivity.class);
                 myIntent.putExtra("login status", "Login Success");
                 FlurryAgent.onStartSession(context);
@@ -159,6 +179,10 @@ public class LoginActivity extends AppCompatActivity {
                 if(AllConstants.MAY_PROCEED) {
 //                    progressBar.setVisibility(View.INVISIBLE);
                     go=AllConstants.MAY_PROCEED;
+                    SharedPreferences sharedPref = getSharedPreferences(AllConstants.SHARED_PREF,Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putBoolean(getString(R.string.loggedin), true);
+                    editor.apply();
                     Intent myIntent = new Intent(getApplicationContext(), IdentitasIbuActivity.class);
                     myIntent.putExtra("login status","Login Success");
                     startActivity(myIntent);
@@ -206,7 +230,8 @@ public class LoginActivity extends AppCompatActivity {
                     user_location.getString(DbHelper.LOCATION_ID),
                     user_location.getString("name"),
                     user_location.getString(DbHelper.LOCATION_TAG_ID),
-                    user_location.getString(DbHelper.PARENT_LOCATION)
+                    user_location.getString(DbHelper.PARENT_LOCATION),
+                    user_location.getString(DbHelper.LOCATION_TAG)
             );
         }catch (JSONException e){
             Log.e(getLocalClassName(),e.getMessage());
@@ -226,7 +251,8 @@ public class LoginActivity extends AppCompatActivity {
                         var.getString(DbHelper.LOCATION_ID),
                         var.getString("name"),
                         var.getString(DbHelper.LOCATION_TAG_ID),
-                        var.getString(DbHelper.PARENT_LOCATION)
+                        var.getString(DbHelper.PARENT_LOCATION),
+                        var.getString(DbHelper.LOCATION_TAG)
                 );
             }
         }catch (JSONException e){

@@ -102,6 +102,40 @@
 
 
                         <TextView
+                            android:id="@+id/radio_posyandu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/posyandu"
+                            android:maxLines="1"
+                            android:singleLine="true" />
+
+                        <RadioGroup
+                            android:id="@+id/posyandu_radio"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:orientation="vertical">
+
+                        </RadioGroup>
+
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <include layout="@layout/divider" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <TextView
                             android:id="@+id/radio_dusun"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

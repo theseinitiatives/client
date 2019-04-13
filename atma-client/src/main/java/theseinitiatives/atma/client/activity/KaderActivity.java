@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -358,4 +359,13 @@ public class KaderActivity extends AppCompatActivity
             {"Nama A-Z","Nama Z-A"},
             {"name ASC","name DESC"}
     };
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        SharedPreferences sharedPref = getSharedPreferences(AllConstants.SHARED_PREF,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putLong("last_active", System.currentTimeMillis());
+        editor.apply();
+    }
 }

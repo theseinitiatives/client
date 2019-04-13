@@ -44,6 +44,14 @@ public class FormAddKader extends AppCompatActivity {
     }
 
     String dusun;
+    String posyandu;
+    public String getPosyandu() {
+        return posyandu;
+    }
+
+    public void setPosyandu(String posyandu) {
+        this.posyandu = posyandu;
+    }
 
     private DbManager dbManager;
 
@@ -67,11 +75,11 @@ public class FormAddKader extends AppCompatActivity {
 
         //==========================
         RadioGroup rgp = (RadioGroup) findViewById(R.id.dusun_radio);
-        for (int i = 0; i < getlocationName().size(); i++) {
+        for (int i = 0; i < getlocationName("dusun").size(); i++) {
             RadioButton rbn = new RadioButton(this);
             rbn.setId(View.generateViewId());
-            Log.e("Location", getlocationName().get(0));
-            rbn.setText(getlocationName().get(i));
+            Log.e("Location", getlocationName("dusun").get(0));
+            rbn.setText(getlocationName("dusun").get(i));
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
             rbn.setLayoutParams(params);
             rgp.addView(rbn);
@@ -86,6 +94,26 @@ public class FormAddKader extends AppCompatActivity {
                 // Toast.makeText(getApplicationContext(),getDusun(),Toast.LENGTH_LONG).show();
             }
         });
+
+
+        RadioGroup posrgp = (RadioGroup) findViewById(R.id.posyandu_radio);
+        for (int i = 0; i < getlocationName("posyandu").size(); i++) {
+            RadioButton rbn = new RadioButton(this);
+            rbn.setId(View.generateViewId());
+            Log.e("Location", getlocationName("posyandu").get(0));
+            rbn.setText(getlocationName("posyandu").get(i));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+            rbn.setLayoutParams(params);
+            posrgp.addView(rbn);
+        }
+        posrgp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioButton = (RadioButton) findViewById(checkedId);
+                setPosyandu(radioButton.getText().toString());
+                // Toast.makeText(getApplicationContext(),getDusun(),Toast.LENGTH_LONG).show();
+            }
+        });
         
 
 
@@ -94,6 +122,7 @@ public class FormAddKader extends AppCompatActivity {
             public void onClick(View v) {
 
                 String nama_kader = humanizes(kaders.getText().toString());
+                String posyandu = getPosyandu();
                 String namaDusun = getDusun();
                 String noHp = nohps.getText().toString();
                 String username = "kader"+namaDusun.replace(" ","").toLowerCase();
@@ -113,8 +142,8 @@ public class FormAddKader extends AppCompatActivity {
                     Log.d("Data array", e.getMessage());
                 }
                 dbManager.open();
-                dbManager.insertKader(UUID,nama_kader,namaDusun,noHp,username, password);
-                dbManager.insertsyncTable("kader", System.currentTimeMillis(),getDusun(), dataArray.toString(), 0, 0);
+                dbManager.insertKader(UUID,nama_kader,posyandu,namaDusun,noHp,username, password);
+                dbManager.insertsyncTable("kader", System.currentTimeMillis(),getPosyandu(),getDusun(), dataArray.toString(), 0, 0);
 
                 dbManager.close();
                 finish();
@@ -139,9 +168,9 @@ public class FormAddKader extends AppCompatActivity {
         return random;
     }
 
-    public ArrayList<String> getlocationName() {
+    public ArrayList<String> getlocationName(String tag) {
         dbManager.open();
-        dbManager.setSelection(DbHelper.LOCATION_TAG_ID+"=6");
+        dbManager.setSelection(DbHelper.LOCATION_TAG+"='"+tag+"'");
         Cursor cursor = dbManager.fetchLocationTree();
         ArrayList<String> names = new ArrayList<String>();
         if (cursor != null) {

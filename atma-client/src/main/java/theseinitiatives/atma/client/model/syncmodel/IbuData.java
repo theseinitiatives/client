@@ -33,6 +33,9 @@ public class IbuData {
     @SerializedName("dusun")
     @Expose
     private String dusun;
+    @SerializedName("posyandu")
+    @Expose
+    private String posyandu;
     @SerializedName("gubug")
     @Expose
     private String gubug;
@@ -274,6 +277,14 @@ public class IbuData {
 
     public void setUpdate_id(String update_id) {
         this.update_id = update_id;
+    }
+
+    public String getPosyandu() {
+        return posyandu;
+    }
+
+    public void setPosyandu(String posyandu) {
+        this.posyandu = posyandu;
     }
 }
 

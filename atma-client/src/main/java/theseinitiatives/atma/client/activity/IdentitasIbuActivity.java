@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -79,6 +80,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
     String locaId = "";
     long upId;
     String locas;
+    String loc_tag;
     boolean forbidden = false;
     private boolean firstRun = true;
     String EventName = "IdentitasIbu";
@@ -584,95 +586,138 @@ public class IdentitasIbuActivity extends AppCompatActivity
         String updateID = dbManager.getlatestUpdateId();
         upId = Long.parseLong(updateID);
         locas = dbManager.getlocName();
+        loc_tag = dbManager.getLocTagName();
         dbManager.close();
 
         Log.e("pull data====",locas + upId);
         /*if(true)
             return;*/
-        if(!isDusun) {
-            mService.getDataDesa(locas,upId,5000).enqueue(new Callback<List<ApiModel>>() {
-                @Override
-                public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
 
-                    if(response.isSuccessful()) {
-                        Log.e("RESPONSE-----", response.body().toString());
-                        if(response.body().toString().length() < 10) {
-                            resetUpdating();
-                            return;
-                        }
-                        dbManager.open();
-                        dbManager.saveTodb2(response.body(),null);
-                        dbManager.close();
-                        Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
-                                Toast.LENGTH_LONG).show();
-                      //  Log.e("PULLING", response.body().toString());
-                        //  mAdapter.updateAnswers(response.body().getItems());
-                      //  Log.d("MainActivity", "posts loaded from API");
-                    }else {
-                        int statusCode  = response.code();
-                        // handle request errors depending on status code
+        mService.getData(loc_tag,locas,upId,5000).enqueue(new Callback<List<ApiModel>>() {
+            @Override
+            public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
+
+                if(response.isSuccessful()) {
+                    Log.e("RESPONSE-----", response.body().toString());
+                    if(response.body().toString().length() < 10) {
+                        resetUpdating();
+                        return;
                     }
-                    resetUpdating();
-                    refreshList();
-                  //  insert latest updateid into db
-                  //  fetchSyncedData()
-                    getIbu("","resiko DESC");
-                }
-
-                @Override
-                public void onFailure(Call<List<ApiModel>> call, Throwable t) {
-                    // showErrorMessage();
-                  //  Log.e("PULLING", "FAIL===");
-                    Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
+                    dbManager.open();
+                    dbManager.saveTodb2(response.body(),null);
+                    dbManager.close();
+                    Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
                             Toast.LENGTH_LONG).show();
-                  //  Log.d("MainActivity", "error loading from API"+t);
-                    resetUpdating();
+                    //  Log.e("PULLING", response.body().toString());
+                    //  mAdapter.updateAnswers(response.body().getItems());
+                    //  Log.d("MainActivity", "posts loaded from API");
+                }else {
+                    int statusCode  = response.code();
+                    // handle request errors depending on status code
                 }
-            });
-        }
-        else{
-            mService.getDataDusun(locas,upId,1000).enqueue(new Callback<List<ApiModel>>() {
-                @Override
-                public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
+                resetUpdating();
+                refreshList();
+                //  insert latest updateid into db
+                //  fetchSyncedData()
+                getIbu("","resiko DESC");
+            }
 
-                    if(response.isSuccessful()) {
-                        Log.e("RESPONSE-----", response.body().toString());
-                        if(response.body().toString().length() < 10) {
-                            resetUpdating();
-                            return;
-                        }
-                        dbManager.open();
-                        dbManager.saveTodb2(response.body(),null);
-                        dbManager.close();
-                        Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
-                                Toast.LENGTH_LONG).show();
-                       // Log.e("PULLING", response.body().toString());
-                        //  mAdapter.updateAnswers(response.body().getItems());
-                       // Log.d("MainActivity", "posts loaded from API");
-                    }else {
-                        int statusCode  = response.code();
-                        // handle request errors depending on status code
-                    }
-                    resetUpdating();
-                    refreshList();
-                    getIbu("","resiko DESC");
-                /****
-                 * ====================*/
-                    //    insert latest updateid into db
-                //    fetchSyncedData()
-                }
+            @Override
+            public void onFailure(Call<List<ApiModel>> call, Throwable t) {
+                // showErrorMessage();
+                //  Log.e("PULLING", "FAIL===");
+                Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
+                        Toast.LENGTH_LONG).show();
+                //  Log.d("MainActivity", "error loading from API"+t);
+                resetUpdating();
+            }
+        });
 
-                @Override
-                public void onFailure(Call<List<ApiModel>> call, Throwable t) {
-                    // showErrorMessage();
-                  //  Log.e("PULLING", "FAIL===");
-                    Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
-                            Toast.LENGTH_LONG).show();
-                  //  Log.d("MainActivity", "error loading from API"+t);
-                    resetUpdating();
-                }
-            });
-        }
+
+//        if(!isDusun) {
+//            mService.getDataDesa(locas,upId,5000).enqueue(new Callback<List<ApiModel>>() {
+//                @Override
+//                public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
+//
+//                    if(response.isSuccessful()) {
+//                        Log.e("RESPONSE-----", response.body().toString());
+//                        if(response.body().toString().length() < 10) {
+//                            resetUpdating();
+//                            return;
+//                        }
+//                        dbManager.open();
+//                        dbManager.saveTodb2(response.body(),null);
+//                        dbManager.close();
+//                        Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
+//                                Toast.LENGTH_LONG).show();
+//                      //  Log.e("PULLING", response.body().toString());
+//                        //  mAdapter.updateAnswers(response.body().getItems());
+//                      //  Log.d("MainActivity", "posts loaded from API");
+//                    }else {
+//                        int statusCode  = response.code();
+//                        // handle request errors depending on status code
+//                    }
+//                    resetUpdating();
+//                    refreshList();
+//                  //  insert latest updateid into db
+//                  //  fetchSyncedData()
+//                    getIbu("","resiko DESC");
+//                }
+//
+//                @Override
+//                public void onFailure(Call<List<ApiModel>> call, Throwable t) {
+//                    // showErrorMessage();
+//                  //  Log.e("PULLING", "FAIL===");
+//                    Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
+//                            Toast.LENGTH_LONG).show();
+//                  //  Log.d("MainActivity", "error loading from API"+t);
+//                    resetUpdating();
+//                }
+//            });
+//        }
+//        else{
+//            mService.getDataDusun(locas,upId,1000).enqueue(new Callback<List<ApiModel>>() {
+//                @Override
+//                public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
+//
+//                    if(response.isSuccessful()) {
+//                        Log.e("RESPONSE-----", response.body().toString());
+//                        if(response.body().toString().length() < 10) {
+//                            resetUpdating();
+//                            return;
+//                        }
+//                        dbManager.open();
+//                        dbManager.saveTodb2(response.body(),null);
+//                        dbManager.close();
+//                        Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
+//                                Toast.LENGTH_LONG).show();
+//                       // Log.e("PULLING", response.body().toString());
+//                        //  mAdapter.updateAnswers(response.body().getItems());
+//                       // Log.d("MainActivity", "posts loaded from API");
+//                    }else {
+//                        int statusCode  = response.code();
+//                        // handle request errors depending on status code
+//                    }
+//                    resetUpdating();
+//                    refreshList();
+//                    getIbu("","resiko DESC");
+//                /****
+//                 * ====================*/
+//                    //    insert latest updateid into db
+//                //    fetchSyncedData()
+//                }
+//
+//                @Override
+//                public void onFailure(Call<List<ApiModel>> call, Throwable t) {
+//                    // showErrorMessage();
+//                  //  Log.e("PULLING", "FAIL===");
+//                    Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
+//                            Toast.LENGTH_LONG).show();
+//                  //  Log.d("MainActivity", "error loading from API"+t);
+//                    resetUpdating();
+//                }
+//            });
+//        }
 
     }
 
@@ -729,4 +774,18 @@ public class IdentitasIbuActivity extends AppCompatActivity
             {"Faktor Resiko","Nama A-Z","Nama Z-A","HTP Jan-Des", "HTP Des-Jan"},
             {"resiko DESC","name ASC","name DESC", "htp ASC", "htp DESC"}
     };
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        SharedPreferences sharedPref = getSharedPreferences(AllConstants.SHARED_PREF,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putLong("last_active", System.currentTimeMillis());
+        editor.apply();
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+    }
 }
