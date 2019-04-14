@@ -1,5 +1,6 @@
 package theseinitiatives.atma.client.activity.nativeform;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,9 +21,12 @@ import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
+import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.IdentitasIbuActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
@@ -33,7 +37,8 @@ import static android.view.View.VISIBLE;
 import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 
 public class FormStatusPersalinanActivity extends AppCompatActivity {
-
+    private String TAG = FormStatusPersalinanActivity.class.getSimpleName();
+    final Activity activity = this;
     private RadioButton hamil,nifas,risti;
     EditText tgl_bersalin;
     String   statusibu;
@@ -278,19 +283,23 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
                     Log.d("Data array", e.getMessage());
                 }
 
-                    dbManager.open();
-                    if(isPreloaded) {
-                        dbManager.updateStatusPersalinan(uniqueId, tgl_persalinn, ibubersalin, kondisi_ibu, kondisi_anak, jumlahBayis, jenisKelamins, komplikasiIbus, komplikasiAnak, tempat, tempatLaiinya, textDusun);
-                        dbManager.insertsyncTable("status_persalinan_edit", System.currentTimeMillis(),textDusun, dataArray.toString(), 0, 0);
-                    }
-                    else{
-                        dbManager.insertStatusPersalinan(uniqueId, tgl_persalinn, ibubersalin, kondisi_ibu, kondisi_anak, jumlahBayis, jenisKelamins, komplikasiIbus, komplikasiAnak, tempat,tempatLaiinya, textDusun);
-                        dbManager.insertsyncTable("status_persalinan", System.currentTimeMillis(),textDusun, dataArray.toString(), 0, 0);
-                    }
-                    dbManager.close();
-                    finish();
-                    Intent myIntent = new Intent(FormStatusPersalinanActivity.this, IdentitasIbuActivity.class);
-                    startActivity(myIntent);
+                dbManager.open();
+                if(isPreloaded) {
+                    dbManager.updateStatusPersalinan(uniqueId, tgl_persalinn, ibubersalin, kondisi_ibu, kondisi_anak, jumlahBayis, jenisKelamins, komplikasiIbus, komplikasiAnak, tempat, tempatLaiinya, textDusun);
+                    dbManager.insertsyncTable("status_persalinan_edit", System.currentTimeMillis(),textDusun, dataArray.toString(), 0, 0);
+                }
+                else{
+                    dbManager.insertStatusPersalinan(uniqueId, tgl_persalinn, ibubersalin, kondisi_ibu, kondisi_anak, jumlahBayis, jenisKelamins, komplikasiIbus, komplikasiAnak, tempat,tempatLaiinya, textDusun);
+                    dbManager.insertsyncTable("status_persalinan", System.currentTimeMillis(),textDusun, dataArray.toString(), 0, 0);
+                }
+                dbManager.close();
+                Map<String, String> Params = new HashMap<>();
+                Params.put("Save",dateNow().toString());
+                FlurryHelper.logOneTimeEvent(activity.getClass().getSimpleName(), Params);
+                FlurryHelper.endFlurryLog(activity);
+                finish();
+                Intent myIntent = new Intent(FormStatusPersalinanActivity.this, IdentitasIbuActivity.class);
+                startActivity(myIntent);
 
 
 
@@ -589,5 +598,11 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
         dbManager.close();
         return namaDUsun;
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FlurryHelper.startFlurryLog(this);
     }
 }

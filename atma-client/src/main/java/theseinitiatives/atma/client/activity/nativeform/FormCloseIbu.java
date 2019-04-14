@@ -1,5 +1,6 @@
 package theseinitiatives.atma.client.activity.nativeform;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -11,8 +12,12 @@ import android.widget.RadioButton;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
+import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.IdentitasIbuActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
@@ -20,7 +25,8 @@ import theseinitiatives.atma.client.db.DbManager;
 import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 
 public class FormCloseIbu extends AppCompatActivity {
-
+    private String TAG = FormCloseIbu.class.getSimpleName();
+    final Activity activity = this;
 
     private DbManager dbManager;
 
@@ -81,6 +87,10 @@ public class FormCloseIbu extends AppCompatActivity {
                 dbManager.insertsyncTable("close_ibu", System.currentTimeMillis(),textDusun, dataArray.toString(), 0, 0);
 
                 dbManager.close();
+                Map<String, String> Params = new HashMap<>();
+                Params.put("Save",dateNow().toString());
+                FlurryHelper.logOneTimeEvent(activity.getClass().getSimpleName(), Params);
+                FlurryHelper.endFlurryLog(activity);
                 finish();
                 Intent myIntent = new Intent(FormCloseIbu.this, IdentitasIbuActivity.class);
                 startActivity(myIntent);
@@ -147,4 +157,9 @@ public class FormCloseIbu extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FlurryHelper.startFlurryLog(this);
+    }
 }

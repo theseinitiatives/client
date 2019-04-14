@@ -9,10 +9,13 @@ import android.widget.TextView;
 
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
+import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.db.DbManager;
+
 import static theseinitiatives.atma.client.Utils.StringUtil.humanizes;
 
 public class StikerActivity extends AppCompatActivity {
+    private String TAG = StikerActivity.class.getSimpleName();
 
     private TextView name, htp_, penolong_, tempat_, pendamping_, transportsi_, nama_donor;
     private Button editButton;
@@ -77,5 +80,11 @@ public class StikerActivity extends AppCompatActivity {
         NavigationmenuController navi = new NavigationmenuController(this);
         navi.backtoIbu();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FlurryHelper.startFlurryLog(this);
     }
 }

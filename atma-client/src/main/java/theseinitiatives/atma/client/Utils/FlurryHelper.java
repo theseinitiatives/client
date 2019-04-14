@@ -1,9 +1,15 @@
 
 package theseinitiatives.atma.client.Utils;
 
+import android.app.Activity;
+import android.util.Log;
+
 import com.flurry.android.FlurryAgent;
 
+import java.util.HashMap;
 import java.util.Map;
+
+import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 
 /**
  * Helps with logging custom events and errors to Flurry
@@ -69,6 +75,32 @@ public class FlurryHelper {
      */
     public static void logPageViews(){
         FlurryAgent.onPageView();
+    }
+
+    public static void logOneTimeEvent(String eventName, Map<String, String> eventParams){
+        FlurryHelper.logEvent(eventName,eventParams,false);
+    }
+
+    public static void startFlurryLog(Activity activity){
+        startFlurryLog(activity,"");
+    }
+
+    public static void endFlurryLog(Activity activity){
+        endFlurryLog(activity,"");
+    }
+
+    public static void startFlurryLog(Activity activity, String additionalName){
+        Log.d(activity.getClass().getSimpleName(), "startFlurryLog: "+activity.getClass().getSimpleName()+additionalName+" -> "+dateNow().toString());
+        Map<String, String> Params = new HashMap<>();
+        Params.put("Start",dateNow().toString());
+        FlurryHelper.logEvent(activity.getClass().getSimpleName()+additionalName,Params,true);
+    }
+
+    public static void endFlurryLog(Activity activity, String additionalName){
+        Log.d(activity.getClass().getSimpleName(), "endFlurryLog: "+activity.getClass().getSimpleName()+additionalName+" -> "+dateNow().toString());
+        Map<String, String> Params = new HashMap<>();
+        Params.put("End",dateNow().toString());
+        FlurryHelper.endTimedEvent(activity.getClass().getSimpleName()+additionalName,Params);
     }
 
 }

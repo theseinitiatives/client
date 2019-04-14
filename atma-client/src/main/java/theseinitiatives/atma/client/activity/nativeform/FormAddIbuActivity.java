@@ -1,11 +1,11 @@
 package theseinitiatives.atma.client.activity.nativeform;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatRadioButton;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
@@ -22,14 +22,16 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import theseinitiatives.atma.client.AllConstants;
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
+import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.IdentitasIbuActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
@@ -39,6 +41,8 @@ import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 import static theseinitiatives.atma.client.Utils.StringUtil.humanizes;
 
 public class FormAddIbuActivity extends AppCompatActivity {
+    private String TAG = FormAddIbuActivity.class.getSimpleName();
+    final Activity activity = this;
     EditText mother_names;
     EditText husband_names;
     EditText dobs;
@@ -144,6 +148,8 @@ public class FormAddIbuActivity extends AppCompatActivity {
             riskFactor = riskFactor.substring(0,riskFactor.length()-1);
         return riskFactor;
     }
+
+    String mode = "_add";
 
     public void setFaktorResiko(String faktorResiko) {
         this.faktorResiko = faktorResiko;
@@ -369,6 +375,10 @@ public class FormAddIbuActivity extends AppCompatActivity {
                         dbManager.insertsyncTable("identitas_ibu", System.currentTimeMillis(),posyanduss,getDusun(), dataArray.toString(), 0, 0);
                     }
                     dbManager.close();
+                    Map<String, String> Params = new HashMap<>();
+                    Params.put("Save",dateNow().toString());
+                    FlurryHelper.logOneTimeEvent(activity.getClass().getSimpleName()+mode, Params);
+                    FlurryHelper.endFlurryLog(activity,mode);
                     finish();
                     Intent myIntent = new Intent(FormAddIbuActivity.this, IdentitasIbuActivity.class);
                     startActivity(myIntent);
@@ -387,8 +397,11 @@ public class FormAddIbuActivity extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
         if(id != null)
-            if (!id.equalsIgnoreCase(""))
+            if (!id.equalsIgnoreCase("")){
                 fillField(id);
+                mode = "_edit";
+            }
+
     }
 
     public void onRadioButtonClicked(View view) {
@@ -686,9 +699,13 @@ public class FormAddIbuActivity extends AppCompatActivity {
     public void onBackPressed() {
         Log.d("CDA", "onBackPressed Called");
         NavigationmenuController navi= new NavigationmenuController(this);
-        navi.backtoIbu();
+        navi.backtoIbu(mode);
 
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FlurryHelper.startFlurryLog(this, mode);
+    }
 }

@@ -23,6 +23,7 @@ import java.util.Date;
 
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
+import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.IdentitasIbuActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
@@ -32,6 +33,7 @@ import static android.view.View.VISIBLE;
 import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 
 public class FormRencanaPersalinan extends AppCompatActivity {
+    private String TAG = FormRencanaPersalinan.class.getSimpleName();
     EditText transportasiNama;
     EditText nama_donors;
 
@@ -643,5 +645,9 @@ public class FormRencanaPersalinan extends AppCompatActivity {
 
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FlurryHelper.startFlurryLog(this);
+    }
 }

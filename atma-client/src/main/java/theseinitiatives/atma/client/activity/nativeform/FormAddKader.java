@@ -1,13 +1,12 @@
 package theseinitiatives.atma.client.activity.nativeform;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -17,11 +16,13 @@ import android.widget.RadioGroup;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
-import theseinitiatives.atma.client.activity.IdentitasIbuActivity;
+import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.KaderActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
@@ -30,7 +31,9 @@ import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 import static theseinitiatives.atma.client.Utils.StringUtil.humanizes;
 
 public class FormAddKader extends AppCompatActivity {
+    private String TAG = FormAddKader.class.getSimpleName();
 
+    final Activity activity = this;
     EditText kaders;
   //  EditText dusuns;
     EditText nohps;
@@ -146,6 +149,10 @@ public class FormAddKader extends AppCompatActivity {
                 dbManager.insertsyncTable("kader", System.currentTimeMillis(),getPosyandu(),getDusun(), dataArray.toString(), 0, 0);
 
                 dbManager.close();
+                Map<String, String> Params = new HashMap<>();
+                Params.put("Save",dateNow().toString());
+                FlurryHelper.logOneTimeEvent(activity.getClass().getSimpleName(), Params);
+                FlurryHelper.endFlurryLog(activity);
                 finish();
                 Intent myIntent = new Intent(FormAddKader.this, KaderActivity.class);
                 startActivity(myIntent);
@@ -195,4 +202,9 @@ public class FormAddKader extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FlurryHelper.startFlurryLog(this);
+    }
 }

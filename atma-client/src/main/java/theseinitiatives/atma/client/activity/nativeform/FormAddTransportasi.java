@@ -1,13 +1,12 @@
 package theseinitiatives.atma.client.activity.nativeform;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -18,9 +17,12 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
+import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.TransportasiActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
@@ -31,6 +33,8 @@ import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 import static theseinitiatives.atma.client.Utils.StringUtil.humanizes;
 
 public class FormAddTransportasi extends AppCompatActivity {
+    private String TAG = FormAddTransportasi.class.getSimpleName();
+    final Activity activity = this;
     EditText nama_pemiliks;
     String jenis;
 
@@ -61,6 +65,8 @@ public class FormAddTransportasi extends AppCompatActivity {
     Button btnLogin;
     String setUniqueId;
     LinearLayout lay_lainnya;
+
+    String mode = "_add";
 
     public String getSetUniqueId() {
         return setUniqueId;
@@ -118,6 +124,7 @@ public class FormAddTransportasi extends AppCompatActivity {
             if(c!=null)
                 c.moveToFirst();
             preloadForm(c);
+            mode = "_edit";
             dbManager.close();
         }
         btnLogin = (Button) findViewById(R.id.saved);
@@ -176,6 +183,10 @@ public class FormAddTransportasi extends AppCompatActivity {
 
                     }
                     dbManager.close();
+                    Map<String, String> Params = new HashMap<>();
+                    Params.put("Save",dateNow().toString());
+                    FlurryHelper.logOneTimeEvent(activity.getClass().getSimpleName()+mode, Params);
+                    FlurryHelper.endFlurryLog(activity,mode);
                     finish();
                     Intent myIntent = new Intent(FormAddTransportasi.this, TransportasiActivity.class);
                     startActivity(myIntent);
@@ -307,7 +318,13 @@ public class FormAddTransportasi extends AppCompatActivity {
     public void onBackPressed() {
         Log.d("CDA", "onBackPressed Called");
         NavigationmenuController navi= new NavigationmenuController(this);
-        navi.backtoTrans();
+        navi.backtoTrans(mode);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FlurryHelper.startFlurryLog(this, mode);
     }
 }

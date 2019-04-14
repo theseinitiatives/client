@@ -1,5 +1,6 @@
 package theseinitiatives.atma.client.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -11,18 +12,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import theseinitiatives.atma.client.AllConstants;
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
+import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.nativeform.FormAddIbuActivity;
 import theseinitiatives.atma.client.activity.nativeform.StikerActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
+
 import static theseinitiatives.atma.client.Utils.StringUtil.humanizes;
 
 public class IdentitasIbuDetailActivity extends AppCompatActivity {
+    private String TAG = IdentitasIbuDetailActivity.class.getSimpleName();
     private DbManager dbManager;
+    final Activity activity = this;;
      String jenis ="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +152,7 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent(IdentitasIbuDetailActivity.this, FormAddIbuActivity.class);
                 myIntent.putExtra("id",id);
-
+                FlurryHelper.endFlurryLog(activity);
                 startActivity(myIntent);
                 overridePendingTransition(0,0);
                 finish();
@@ -167,6 +171,7 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
                     myIntent.putExtra("htp", htp);
                     myIntent.putExtra("jenis", jenis);
                     myIntent.putExtra("uniqueId", uniqueId);
+                    FlurryHelper.endFlurryLog(activity);
                     startActivity(myIntent);
                     overridePendingTransition(0, 0);
                     finish();
@@ -194,5 +199,11 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         if(text.equalsIgnoreCase("rumahsakit"))
             text = "rumah sakit";
         return text;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FlurryHelper.startFlurryLog(this);
     }
 }

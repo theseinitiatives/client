@@ -5,9 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -16,10 +14,11 @@ import android.widget.Toast;
 
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
+import theseinitiatives.atma.client.Utils.FlurryHelper;
 
 public class InformasiActivity extends Activity {
     private WebView webview;
-    private static final String TAG = "Main";
+    private static final String TAG = InformasiActivity.class.getSimpleName();
     private ProgressDialog progressBar;
 
     /** Called when the activity is first created. */@Override
@@ -76,6 +75,12 @@ public class InformasiActivity extends Activity {
         NavigationmenuController navi= new NavigationmenuController(this);
         navi.backtoIbu();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FlurryHelper.startFlurryLog(this);
     }
 }
 

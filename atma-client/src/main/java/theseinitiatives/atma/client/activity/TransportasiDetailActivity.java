@@ -1,5 +1,6 @@
 package theseinitiatives.atma.client.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -11,15 +12,18 @@ import android.widget.TextView;
 
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
+import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.nativeform.FormAddTransportasi;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 
 public class TransportasiDetailActivity extends AppCompatActivity {
+    private String TAG = TransportasiDetailActivity.class.getSimpleName();
 
     private TextView nama,dusun,gubug,profesi,telepon,jenisKendaraan,kapasitas,keterangan;
     private Button edit;
     private DbManager dbManager;
+    final Activity activity = this;;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +74,7 @@ public class TransportasiDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(TransportasiDetailActivity.this,FormAddTransportasi.class);
                 intent.putExtra("id",entityID);
+                FlurryHelper.endFlurryLog(activity);
                 startActivity(intent);
             }
         });
@@ -82,6 +87,12 @@ public class TransportasiDetailActivity extends AppCompatActivity {
         NavigationmenuController navi= new NavigationmenuController(this);
         navi.backtoTrans();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FlurryHelper.startFlurryLog(this);
     }
 
 }

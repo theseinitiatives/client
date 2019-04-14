@@ -1,7 +1,7 @@
 package theseinitiatives.atma.client.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,18 +9,18 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -44,7 +44,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import theseinitiatives.atma.client.AllConstants;
-import theseinitiatives.atma.client.LoginActivity;
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
 import theseinitiatives.atma.client.Utils.ApiUtils;
@@ -72,7 +71,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
     SearchView sv;
     private Menu mymenu;
     private ApiService mService;
-    private  String TAG = "POSTTT";
+    private String TAG = IdentitasIbuActivity.class.getSimpleName();
 
     IdentitasibuCursorAdapter adapter;
     ArrayList<IdentitasModel> identitasModels=new ArrayList<>();
@@ -85,6 +84,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
     private boolean firstRun = true;
     String EventName = "IdentitasIbu";
 
+    final Activity activity = this;
     boolean isDusun = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,20 +125,10 @@ public class IdentitasIbuActivity extends AppCompatActivity
         locas = dbManager.getlocName();
 
         dbManager.close();
-              //  Log.e("DATETIME","  "+dateNow());
-        /*String extra = getIntent().getStringExtra("login status");
-
-        if(extra!=null){
-            Toast.makeText(getApplicationContext(),extra,Toast.LENGTH_LONG).show();
-        }*/
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Long ids = id+1;
-              //  Log.i("__id", ""+id);
-
-             //   IdentitasIbuDetailActivity.id = String.valueOf(ids);
-             //   FormRencanaPersalinan.id = String.valueOf(ids);
                 choose(id);
 
             }
@@ -150,11 +140,11 @@ public class IdentitasIbuActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                FlurryHelper.endFlurryLog(activity);
                 Intent myIntent = new Intent(IdentitasIbuActivity.this, FormAddIbuActivity.class);
                 startActivity(myIntent);
+                finish();
                 overridePendingTransition(0,0);
-                //Snackbar.make(view, "Untuk Tambah Patient Baru", Snackbar.LENGTH_LONG)
-                  //      .setAction("Action", null).show();
             }
         });
 
@@ -170,19 +160,6 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         mService = ApiUtils.getSOService();
        // Log.i("MSERVICE", mService.toString());
-        refreshList();
-
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        if(firstRun) {
-            firstRun = false;
-            return;
-        }
-//        Log.d("On Resume params",AllConstants.params);
-//        Toast.makeText(getApplicationContext(),AllConstants.params,Toast.LENGTH_LONG).show();
         refreshList();
 
     }
@@ -235,6 +212,11 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
     }
     public void choose (final  long ids){
+        Log.d(activity.getClass().getSimpleName(), "Click Mother List: ID -> "+Long.toString(ids)+", "+dateNow().toString());
+        Map<String, String> Params = new HashMap<>();
+        Params.put("ID",Long.toString(ids));
+        Params.put("Timestamp",dateNow().toString());
+        FlurryHelper.logOneTimeEvent("Click Mother List",Params);
         final String[] forms = {"Form Rencana Persalinan","Form Status Persalinan","Data Lengkap Ibu","Tutup Ibu" };
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("");
@@ -253,8 +235,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     dbManager.close();
                     intent.putExtra("uniqueId", uniqueId);
                     intent.putExtra("id", uid);
+                    FlurryHelper.endFlurryLog(activity);
                     startActivity(intent);
-                   // finish();
+                    finish();
                 }if ("Form Status Persalinan".equals(forms[which])) {
                     if(forbidden){
                         Toast.makeText(IdentitasIbuActivity.this, "Maaf fitur ini hanya untuk bidan!",
@@ -270,8 +253,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     dbManager.close();
                     intent.putExtra("uniqueId", uniqueId);
                     intent.putExtra("id", uid);
+                    FlurryHelper.endFlurryLog(activity);
                     startActivity(intent);
-                 //   finish();
+                    finish();
                 }
                 if ("Data Lengkap Ibu".equals(forms[which])) {
                     String uid = identitasModels.get((int) ids).getId();
@@ -283,8 +267,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     dbManager.close();
                     intent.putExtra("uniqueId", uniqueId);
                     intent.putExtra("id", uid);
+                    FlurryHelper.endFlurryLog(activity);
                     startActivity(intent);
-                  //  finish();
+                    finish();
                 }
                 if ("Tutup Ibu".equals(forms[which])) {
                     if(forbidden){
@@ -301,8 +286,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     dbManager.close();
                     intent.putExtra("uniqueId", uniqueId);
                     intent.putExtra("id", uid);
+                    FlurryHelper.endFlurryLog(activity);
                     startActivity(intent);
-                  //  finish();
+                    finish();
                 }
             }
         });
@@ -386,6 +372,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
             /**
              *
              * DATA Sync (For right now disabled)*/
+            onStartSync();
             startSync();
             return true;
         }
@@ -554,6 +541,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 //  insert latest updateid into db
                 //  fetchSyncedData()
                 getIbu("","resiko DESC");
+                onEndSync();
             }
 
             @Override
@@ -564,9 +552,24 @@ public class IdentitasIbuActivity extends AppCompatActivity
                         Toast.LENGTH_LONG).show();
                 //  Log.d("MainActivity", "error loading from API"+t);
                 resetUpdating();
+                onEndSync();
             }
         });
 
+    }
+
+    private void onStartSync(){
+        Log.d(TAG, "startFlurryLog: Syncing -> "+dateNow().toString());
+        Map<String, String> Params = new HashMap<>();
+        Params.put("Start",dateNow().toString());
+        FlurryHelper.logEvent("Syncing", Params,true);
+    }
+
+    private void onEndSync(){
+        Log.d(TAG, "endFlurryLog: Syncing -> "+dateNow().toString());
+        Map<String, String> Params = new HashMap<>();
+        Params.put("End",dateNow().toString());
+        FlurryHelper.endTimedEvent("Syncing",Params);
     }
 
     public void initDropdownSort(){
@@ -635,5 +638,16 @@ public class IdentitasIbuActivity extends AppCompatActivity
     @Override
     public void onDestroy(){
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FlurryHelper.startFlurryLog(this);
+        if(firstRun) {
+            firstRun = false;
+            return;
+        }
+        refreshList();
     }
 }

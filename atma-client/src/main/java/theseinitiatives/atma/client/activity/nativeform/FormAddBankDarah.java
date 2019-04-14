@@ -1,5 +1,6 @@
 package theseinitiatives.atma.client.activity.nativeform;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -8,8 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -21,11 +20,12 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
+import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.BankDarahActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
@@ -34,7 +34,9 @@ import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 import static theseinitiatives.atma.client.Utils.StringUtil.humanizes;
 
 public class FormAddBankDarah extends AppCompatActivity {
+    private String TAG = FormAddBankDarah.class.getSimpleName();
     EditText mother_names;
+    final Activity activity = this;
     EditText nama_donors;
     String rhesus;
     EditText gubugs;
@@ -97,6 +99,10 @@ public class FormAddBankDarah extends AppCompatActivity {
 
     private DbManager dbManager;
     Button btnLogin;
+
+    private String id;
+
+    String mode = "_add";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,12 +185,15 @@ public class FormAddBankDarah extends AppCompatActivity {
             }
         });
 
-        final String id = getIntent().getStringExtra("id");
+        id = getIntent().getStringExtra("id");
         Intent intent = getIntent();
        // id = intent.getStringExtra("id");
         if(id != null)
-            if (!id.equalsIgnoreCase(""))
+            if (!id.equalsIgnoreCase("")){
                 preloadFromData(id);
+                mode = "_edit";
+            }
+
         btnLogin = (Button) findViewById(R.id.saved);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,6 +247,10 @@ public class FormAddBankDarah extends AppCompatActivity {
 
                     }
                         dbManager.close();
+                    Map<String, String> Params = new HashMap<>();
+                    Params.put("Save",dateNow().toString());
+                    FlurryHelper.logOneTimeEvent(activity.getClass().getSimpleName()+mode, Params);
+                    FlurryHelper.endFlurryLog(activity,mode);
                     finish();
                     Intent myIntent = new Intent(FormAddBankDarah.this, BankDarahActivity.class);
                     startActivity(myIntent);
@@ -394,6 +407,11 @@ public class FormAddBankDarah extends AppCompatActivity {
         Log.d("CDA", "onBackPressed Called");
 
         NavigationmenuController navi= new NavigationmenuController(this);
-        navi.backtodarah();
+        navi.backtodarah(mode);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FlurryHelper.startFlurryLog(this,mode);
     }
 }

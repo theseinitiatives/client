@@ -1,5 +1,6 @@
 package theseinitiatives.atma.client.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -11,16 +12,19 @@ import android.widget.TextView;
 
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
+import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.nativeform.FormAddBankDarah;
 import theseinitiatives.atma.client.db.DbManager;
 
 public class BankDarahDetailActivity extends AppCompatActivity {
+    private String TAG = BankDarahDetailActivity.class.getSimpleName();
 
     private TextView name, golonganDarah, dusun, gubug, telepon, tgl_donor;
     private Button editButton;
     private Cursor c;
     String id;
     private DbManager dbManager;
+    final Activity activity = this;;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +64,7 @@ public class BankDarahDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(BankDarahDetailActivity.this,FormAddBankDarah.class);
                 intent.putExtra("id",id);
+                FlurryHelper.endFlurryLog(activity);
                 startActivity(intent);
                 finish();
             }
@@ -73,5 +78,11 @@ public class BankDarahDetailActivity extends AppCompatActivity {
         NavigationmenuController navi= new NavigationmenuController(this);
         navi.backtodarah();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FlurryHelper.startFlurryLog(this);
     }
 }

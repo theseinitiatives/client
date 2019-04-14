@@ -1,20 +1,19 @@
 package theseinitiatives.atma.client;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
-
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 
 import com.flurry.android.FlurryAgent;
 
@@ -33,25 +32,28 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.IdentitasIbuActivity;
+import theseinitiatives.atma.client.application.App;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 import theseinitiatives.atma.client.sync.ApiService;
 
-import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 
 /**
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
+    private String TAG = LoginActivity.class.getSimpleName();
+    final Activity activity = this;
     EditText edtUsername;
     EditText edtPassword;
     Button btnLogin;
     ProgressBar progressBar;
-    private Context context;
+    private Context context = App.getAppContext();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FlurryAgent.onStartSession(context);
         init();
         setContentView(R.layout.login_layout);
 
@@ -65,6 +67,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
+                Map<String, String> Params = new HashMap<>();
+                Params.put("Try Login",dateNow().toString());
+                FlurryHelper.logOneTimeEvent(activity.getClass().getSimpleName(), Params);
                 final String username = edtUsername.getText().toString();
                 String password = edtPassword.getText().toString();
                 //validate form
@@ -142,17 +147,7 @@ public class LoginActivity extends AppCompatActivity {
         try {
             if (c.getString(c.getColumnIndexOrThrow("username")).equalsIgnoreCase(username) &&
                     c.getString(c.getColumnIndexOrThrow("password")).equals(password)) {
-                SharedPreferences sharedPref = getSharedPreferences(AllConstants.SHARED_PREF,Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putBoolean(getString(R.string.loggedin), true);
-                editor.apply();
-                Intent myIntent = new Intent(getApplicationContext(), IdentitasIbuActivity.class);
-                myIntent.putExtra("login status", "Login Success");
-                FlurryAgent.onStartSession(context);
-                startActivity(myIntent);
-                finish();
-                overridePendingTransition(0, 0);
-
+                onLoginSuccess();
                 return false;
             }else{
                 Toast.makeText(getApplicationContext(), "Failed to Login, please check your connection, username or password", Toast.LENGTH_LONG).show();
@@ -176,15 +171,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(AllConstants.MAY_PROCEED) {
 //                    progressBar.setVisibility(View.INVISIBLE);
                     go=AllConstants.MAY_PROCEED;
-                    SharedPreferences sharedPref = getSharedPreferences(AllConstants.SHARED_PREF,Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putBoolean(getString(R.string.loggedin), true);
-                    editor.apply();
-                    Intent myIntent = new Intent(getApplicationContext(), IdentitasIbuActivity.class);
-                    myIntent.putExtra("login status","Login Success");
-                    startActivity(myIntent);
-                    finish();
-                    overridePendingTransition(0, 0);
+                    onLoginSuccess();
                     break;
                 }if(attempt>30)
                     break;
@@ -276,29 +263,34 @@ public class LoginActivity extends AppCompatActivity {
 
         }*/
     }
+
+    private void onLoginSuccess(){
+        SharedPreferences sharedPref = getSharedPreferences(AllConstants.SHARED_PREF,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(getString(R.string.loggedin), true);
+        editor.apply();
+        Intent myIntent = new Intent(getApplicationContext(), IdentitasIbuActivity.class);
+        myIntent.putExtra("login status","Login Success");
+        FlurryHelper.endFlurryLog(this);
+        startActivity(myIntent);
+        finish();
+        overridePendingTransition(0, 0);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         fillUserIfExists();
+        FlurryHelper.startFlurryLog(this);
     }
 
-    /*private void doLogin(final String username,final String password){
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.setBasicAuth(username, password);
-        client.get("http://192.168.1.4:5000/api/resource", new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                System.out.println("SUCCESS!!!!!!!!!!");
-                Intent myIntent = new Intent(LoginActivity.this, IdentitasIbuActivity.class);
-                startActivity(myIntent);
-            }
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable
-                    error)
-            {
-                error.printStackTrace(System.out);
-            }
-        });
-    }*/
-
+    @Override
+    protected void onPause(){
+        super.onPause();
+        SharedPreferences sharedPref = getSharedPreferences(AllConstants.SHARED_PREF, Context.MODE_PRIVATE);
+        boolean loggedIn = sharedPref.getBoolean(getString(R.string.loggedin), false);
+        if (!loggedIn){
+            FlurryHelper.endFlurryLog(this);
+        }
+    }
 }

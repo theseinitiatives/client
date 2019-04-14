@@ -13,8 +13,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.flurry.android.FlurryAgent;
 
 import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.BankDarahActivity;
@@ -23,7 +22,7 @@ import theseinitiatives.atma.client.activity.IdentitasIbuDetailActivity;
 import theseinitiatives.atma.client.activity.InformasiActivity;
 import theseinitiatives.atma.client.activity.KaderActivity;
 import theseinitiatives.atma.client.activity.TransportasiActivity;
-import theseinitiatives.atma.client.activity.nativeform.FormAddKader;
+import theseinitiatives.atma.client.application.App;
 
 import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 
@@ -37,38 +36,60 @@ public class NavigationmenuController {
     }
 
     public void startIdentitasIbu() {
+        FlurryHelper.endFlurryLog(activity);
         activity.finish();
         activity.startActivity(new Intent(activity, IdentitasIbuActivity.class));
         activity.overridePendingTransition(0,0);
     }
     public void startTransportasi() {
+        FlurryHelper.endFlurryLog(activity);
         activity.finish();
         activity.startActivity(new Intent(activity, TransportasiActivity.class));
         activity.overridePendingTransition(0,0);
     }
     public void startBankDarah() {
+        FlurryHelper.endFlurryLog(activity);
         activity.finish();
         activity.startActivity(new Intent(activity, BankDarahActivity.class));
         activity.overridePendingTransition(0,0);
     }
+    public void startInformasi() {
+        FlurryHelper.endFlurryLog(activity);
+        activity.finish();
+        activity.startActivity(new Intent(activity, InformasiActivity.class));
+    }
 
     public void addKader() {
+        FlurryHelper.endFlurryLog(activity);
         activity.finish();
         activity.startActivity(new Intent(activity, KaderActivity.class));
         activity.overridePendingTransition(0,0);
     }
 
     public void backtoIbu(){
+        backtoIbu("");
+    }
+
+    public void backtoIbu(String s){
+        FlurryHelper.endFlurryLog(activity,s);
         activity.finish();
         activity.startActivity(new Intent(activity, IdentitasIbuActivity.class));
         activity.overridePendingTransition(0,0);
     }
     public void backtoTrans(){
+        backtoTrans("");
+    }
+    public void backtoTrans(String s){
+        FlurryHelper.endFlurryLog(activity,s);
         activity.finish();
         activity.startActivity(new Intent(activity, TransportasiActivity.class));
         activity.overridePendingTransition(0,0);
     }
     public void backtodarah(){
+        backtodarah("");
+    }
+    public void backtodarah(String s){
+        FlurryHelper.endFlurryLog(activity,s);
         activity.finish();
         activity.startActivity(new Intent(activity, BankDarahActivity.class));
         activity.overridePendingTransition(0,0);
@@ -76,12 +97,14 @@ public class NavigationmenuController {
 
 
     public void backtoDetail() {
+        FlurryHelper.endFlurryLog(activity);
         activity.finish();
         activity.startActivity(new Intent(activity, IdentitasIbuDetailActivity.class));
         activity.overridePendingTransition(0,0);
     }
 
     public void gotoKIA() {
+        FlurryHelper.endFlurryLog(activity);
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://kie.atma.theseforall.org/"));
         activity.startActivity(browserIntent);
         activity.finish();
@@ -117,7 +140,10 @@ public class NavigationmenuController {
                             editor.apply();
                             Intent intent = new Intent(activity,LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            FlurryHelper.endFlurryLog(activity);
                             activity.finish();
+                            Log.d(TAG, "onEndSession: "+activity.getClass().getSimpleName()+" -> "+dateNow().toString());
+                            FlurryAgent.onEndSession(App.getAppContext());
                             activity.startActivity(intent);
                             break;
 
@@ -133,9 +159,7 @@ public class NavigationmenuController {
         }
         if(id == R.id.info){
             if (!activity.getLocalClassName().equals(InformasiActivity.class.getCanonicalName())){
-                Intent intent = new Intent(activity, InformasiActivity.class);
-                activity.startActivity(intent);
-                activity.finish();
+                navi.startInformasi();
             }
         }
         if(id == R.id.kader_add){

@@ -1,9 +1,7 @@
 package theseinitiatives.atma.client.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -25,14 +23,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import theseinitiatives.atma.client.AllConstants;
-import theseinitiatives.atma.client.LoginActivity;
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
 import theseinitiatives.atma.client.Utils.FilterActivity;
@@ -43,12 +37,11 @@ import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 import theseinitiatives.atma.client.model.TransportasiModel;
 
-import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
-
 public class TransportasiActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private String TAG = TransportasiActivity.class.getSimpleName();
     private static final String EventName = "Transportasi";
-    private Activity activity;
+    final Activity activity = this;
     private DbManager dbManager;
     ListView lv;
     SearchView sv;
@@ -71,7 +64,9 @@ public class TransportasiActivity extends AppCompatActivity
                 String uid = transportasiModels.get((int)l).getId();
                 Intent intent = new Intent(TransportasiActivity.this,TransportasiDetailActivity.class);
                 intent.putExtra("id",uid);
+                FlurryHelper.endFlurryLog(activity);
                 startActivity(intent);
+                finish();
             }
         });
         dbManager = new DbManager(this);
@@ -112,9 +107,9 @@ public class TransportasiActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(TransportasiActivity.this, FormAddTransportasi.class);
+                FlurryHelper.endFlurryLog(activity);
                 startActivity(myIntent);
-               /* Snackbar.make(view, "Untuk Tambah Patient Baru", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
+                finish();
             }
         });
 
@@ -129,20 +124,6 @@ public class TransportasiActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        if(firstRun) {
-            firstRun = false;
-            return;
-        }
-//        Log.d("On Resume params",AllConstants.params);
-//        Toast.makeText(getApplicationContext(),AllConstants.params,Toast.LENGTH_LONG).show();
-        refreshList();
-
-    }
-
     private void getkendaraan(String searchTerm, String orderBy)
     {
         transportasiModels.clear();
@@ -325,5 +306,16 @@ public class TransportasiActivity extends AppCompatActivity
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putLong("last_active", System.currentTimeMillis());
         editor.apply();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FlurryHelper.startFlurryLog(this);
+        if(firstRun) {
+            firstRun = false;
+            return;
+        }
+        refreshList();
     }
 }

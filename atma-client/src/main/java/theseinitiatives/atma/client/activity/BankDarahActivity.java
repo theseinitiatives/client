@@ -1,9 +1,7 @@
 package theseinitiatives.atma.client.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -25,16 +23,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
-
-import com.flurry.android.FlurryAgent;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import theseinitiatives.atma.client.AllConstants;
-import theseinitiatives.atma.client.LoginActivity;
 import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
 import theseinitiatives.atma.client.Utils.FilterActivity;
@@ -45,12 +37,11 @@ import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 import theseinitiatives.atma.client.model.BankDarahmodel;
 
-import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
-
 public class BankDarahActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private String TAG = BankDarahActivity.class.getSimpleName();
     private static final String EventName = "BankDarah";
-    private Activity activity;
+    final Activity activity = this;;
     private DbManager dbManager;
     private boolean firstRun = true;
     ListView lv;
@@ -107,7 +98,9 @@ public class BankDarahActivity extends AppCompatActivity
                 Log.i("__id", ""+uid);
                 Intent intent = new Intent(BankDarahActivity.this,BankDarahDetailActivity.class);
                 intent.putExtra("id",uid);
+                FlurryHelper.endFlurryLog(activity);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -116,10 +109,10 @@ public class BankDarahActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                FlurryHelper.endFlurryLog(activity);
                 Intent myIntent = new Intent(BankDarahActivity.this, FormAddBankDarah.class);
                 startActivity(myIntent);
-                /*Snackbar.make(view, "Untuk Tambah Patient Baru", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
+                finish();
             }
         });
 
@@ -133,19 +126,6 @@ public class BankDarahActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        if(firstRun) {
-            firstRun = false;
-            return;
-        }
-//        Log.d("On Resume params",AllConstants.params);
-//        Toast.makeText(getApplicationContext(),AllConstants.params,Toast.LENGTH_LONG).show();
-        refreshList();
-
     }
     private void getBankDarah(String searchTerm, String orderBy){
         dbManager = new DbManager(this);
@@ -230,9 +210,8 @@ public class BankDarahActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            finish();
-            Intent myIntent = new Intent(BankDarahActivity.this, IdentitasIbuActivity.class);
-            startActivity(myIntent);
+            NavigationmenuController navi= new NavigationmenuController(this);
+            navi.backtoIbu();
         }
     }
 
@@ -329,5 +308,16 @@ public class BankDarahActivity extends AppCompatActivity
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putLong("last_active", System.currentTimeMillis());
         editor.apply();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FlurryHelper.startFlurryLog(this);
+        if(firstRun) {
+            firstRun = false;
+            return;
+        }
+        refreshList();
     }
 }
