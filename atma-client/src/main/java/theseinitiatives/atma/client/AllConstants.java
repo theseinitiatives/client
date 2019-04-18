@@ -1,5 +1,8 @@
 package theseinitiatives.atma.client;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AllConstants {
 //    public static final String BASE_URL = "https://server.p4kloteng.com";
     public static final String BASE_URL = "https://dev.atma.theseforall.org/";
@@ -10,6 +13,8 @@ public class AllConstants {
 
     public static Boolean MAY_PROCEED = false;
     public static String params = null;
+
+    public static Map<String,String> filters = new HashMap<>();
 
     public static final String MAX_ROW_PER_PAGE = "20";
 

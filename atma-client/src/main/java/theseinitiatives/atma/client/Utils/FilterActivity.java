@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,16 +25,25 @@ public class FilterActivity extends Activity {
     private Button button;
     private CheckBox checkbox;
     private Spinner htpSpinner;
+    private Spinner posyanduSpinner;
     private Spinner dusunSpinner;
+    private View dusunfilter;
+    private View posyandufilter;
     private DbManager dbManager;
     private String iddesa;
     private int mode=0;
+    private boolean isIbu = false;
 
     private TextView filterTextView;
 
+    private String filterByPosyandu =  null;
     private String filterByDusun =  null;
     private String filterByHPHT = null;
     private boolean filterByRisti = false;
+
+    private String [][] posyanduString;
+    private String [][] dusunString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +53,9 @@ public class FilterActivity extends Activity {
         this.dbManager = new DbManager(getApplicationContext());
         this.iddesa = getIntent().getStringExtra("iddesa");
         this.mode = getIntent().getIntExtra("source",0);
+        this.isIbu = getIntent().getBooleanExtra("isIbu",false);
 
+        posyanduString = posyanduString();
         initComponenets();
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -76,6 +88,7 @@ public class FilterActivity extends Activity {
         htpSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i!=0)AllConstants.filters.put(DbHelper.HTP,stringPool[mode][1][i]);
                 filterByHPHT = stringPool[mode][1][i];
             }
 
@@ -85,7 +98,61 @@ public class FilterActivity extends Activity {
             }
         });
 
+        //POSYANDU
+        posyandufilter = findViewById(R.id.posyandufilter);
+        posyanduSpinner = (Spinner) findViewById(R.id.filter_by_posyandu);
+        try {
+            Field popup = Spinner.class.getDeclaredField("mPopup");
+            popup.setAccessible(true);
+
+            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(posyanduSpinner);
+
+            popupWindow.setHeight(400);
+        }
+        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
+            // silently fail...
+        }
+        posyanduSpinner.setAdapter(spinnerAdapter(posyanduString[0]));
+        posyanduSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i!=0)AllConstants.filters.put(DbHelper.POSYANDU,posyanduString[1][i]);
+                filterByPosyandu = posyanduString[1][i];
+
+                if (posyanduString[1][i]!="~"){
+                    dusunfilter.setVisibility(View.VISIBLE);
+                }else{
+                    dusunfilter.setVisibility(View.GONE);
+                }
+
+                dusunString = dusunString(posyanduString[2][i]);
+
+                dusunSpinner.setAdapter(spinnerAdapter(dusunString[0]));
+                dusunSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        if(i!=0)AllConstants.filters.put(DbHelper.DUSUN,dusunString[1][i]);
+                        filterByDusun = dusunString[1][i];
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+                        AllConstants.filters.remove(DbHelper.DUSUN);
+                        filterByDusun = null;
+                    }
+                });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                AllConstants.filters.remove(DbHelper.POSYANDU);
+                filterByPosyandu = null;
+            }
+        });
+
+        //DUSUN
         dusunSpinner = (Spinner) findViewById(R.id.filter_by_dusun);
+        dusunfilter = findViewById(R.id.dusunfilter);
         try {
             Field popup = Spinner.class.getDeclaredField("mPopup");
             popup.setAccessible(true);
@@ -97,25 +164,40 @@ public class FilterActivity extends Activity {
         catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
             // silently fail...
         }
-        dusunSpinner.setAdapter(spinnerAdapter(dusunString()[0]));
-        dusunSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                filterByDusun = dusunString()[1][i];
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                filterByDusun = null;
-            }
-        });
+
+
+        if (!isIbu) {
+            posyandufilter.setVisibility(View.GONE);
+            dusunfilter.setVisibility(View.VISIBLE);
+            dusunString = dusunString();
+
+            dusunSpinner.setAdapter(spinnerAdapter(dusunString[0]));
+            dusunSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    if(i!=0)AllConstants.filters.put(DbHelper.DUSUN,dusunString[1][i]);
+                    filterByDusun = dusunString[1][i];
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    AllConstants.filters.remove(DbHelper.DUSUN);
+                    filterByDusun = null;
+                }
+            });
+        }
+
 
         checkbox = (CheckBox) findViewById(R.id.filter_check);
         checkbox.setVisibility(mode==0 ? View.VISIBLE : View.INVISIBLE);
+        AllConstants.filters.remove(DbHelper.RESIKO);
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 filterByRisti = b;
+                if (filterByRisti) AllConstants.filters.put(DbHelper.RESIKO,Boolean.toString(b));
+                else AllConstants.filters.remove(DbHelper.RESIKO);
             }
         });
         button = (Button) findViewById(R.id.filter_button);
@@ -140,6 +222,7 @@ public class FilterActivity extends Activity {
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AllConstants.filters.clear();
                 AllConstants.params = "####";
                 finish();
             }
@@ -179,11 +262,48 @@ public class FilterActivity extends Activity {
 
     private String [][][] stringPool = {htpString(),vehicleString(),bloodString()};
 
-    private String [][]dusunString(){
+    private String [][]posyanduString(){
         dbManager.open();
         dbManager.clearClause();
         dbManager.setSelection(DbHelper.PARENT_LOCATION+" = ?");
         dbManager.setSelectionArgs(new String[]{iddesa});
+        Cursor c = dbManager.fetchLocationTree();
+        dbManager.clearClause();
+        c.moveToFirst();
+        String temp[][] = new String[3][c.getCount()+1];
+        temp[0][0] = "---";temp[1][0]="~";temp[2][0]="0";
+        for(int i=0;i<c.getCount();i++){
+            temp[0][i+1] = temp[1][i+1] = c.getString(c.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
+            temp[2][i+1] = c.getString(c.getColumnIndexOrThrow(DbHelper.LOCATION_ID));
+            c.moveToNext();
+        }
+        dbManager.close();
+        return temp;
+    }
+
+    private String [][]dusunString(String parentId){
+        dbManager.open();
+        dbManager.clearClause();
+        dbManager.setSelection(DbHelper.LOCATION_TAG+" = ? AND "+DbHelper.PARENT_LOCATION+" = ?");
+        dbManager.setSelectionArgs(new String[]{"dusun",parentId});
+        Cursor c = dbManager.fetchLocationTree();
+        dbManager.clearClause();
+        c.moveToFirst();
+        String temp[][] = new String[2][c.getCount()+1];
+        temp[0][0] = "---";temp[1][0]="~";
+        for(int i=0;i<c.getCount();i++){
+            temp[0][i+1] = temp[1][i+1] = c.getString(c.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
+            c.moveToNext();
+        }
+        dbManager.close();
+        return temp;
+    }
+
+    private String [][]dusunString(){
+        dbManager.open();
+        dbManager.clearClause();
+        dbManager.setSelection(DbHelper.LOCATION_TAG+" = ?");
+        dbManager.setSelectionArgs(new String[]{"dusun"});
         Cursor c = dbManager.fetchLocationTree();
         dbManager.clearClause();
         c.moveToFirst();

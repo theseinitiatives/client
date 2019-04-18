@@ -35,6 +35,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -168,16 +169,12 @@ public class IdentitasIbuActivity extends AppCompatActivity
         if(AllConstants.params == null)
             return;
         dbManager.open();
-        String[]cond = AllConstants.params.split(AllConstants.FLAG_SEPARATOR);
-        if(cond.length<2){
-            cond = new String[]{"","","no"};
-        }
-        cond[0] = cond[0].contains("~") ? "" : cond[0];
-        cond[1] = cond[1].contains("~") ? "" : cond[1];
+        boolean isResiko = false;
         String selectionClause =
-                DbHelper.HTP + " LIKE '%"+cond[0]+"%' AND "+
-                DbHelper.POSYANDU + " LIKE '%"+cond[1]+"%' "+
-                (cond[2].equalsIgnoreCase("yes")
+                DbHelper.HTP + " LIKE '%"+(AllConstants.filters.containsKey(DbHelper.HTP)?AllConstants.filters.get(DbHelper.HTP):"")+"%' AND "+
+                        DbHelper.POSYANDU + " LIKE '%"+(AllConstants.filters.containsKey(DbHelper.POSYANDU)?AllConstants.filters.get(DbHelper.POSYANDU):"")+"%' AND "+
+                        DbHelper.DUSUN + " LIKE '%"+(AllConstants.filters.containsKey(DbHelper.DUSUN)?AllConstants.filters.get(DbHelper.DUSUN):"")+"%' "+
+                (AllConstants.filters.containsKey(DbHelper.RESIKO)
                         ? " AND "+DbHelper.RESIKO + " != ''"
                         : "");
         //HTP    //DUSUN //RISTI
@@ -589,6 +586,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                         )
                 ));
                 in.putExtra("source",0);
+                in.putExtra("isIbu", true);
                 dbManager.close();
                 startActivity(in);
             }
