@@ -355,7 +355,15 @@ public class FormAddIbuActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Nama tidak Boleh Menggunakan tanda petik!",
                             Toast.LENGTH_LONG).show();
                 }
-                else if (mothername.isEmpty() || husbandname.isEmpty() || dobss.isEmpty()  || goldarahss.isEmpty() ){
+                else if (mothername.isEmpty()
+                        || husbandname.isEmpty()
+                        || dobss.isEmpty()
+                        || getDarah().isEmpty()
+                        || posyanduss.isEmpty()
+                        || hphtss.isEmpty()
+                        || dusunss.isEmpty()
+                        || getRhesus().isEmpty()
+                        ){
                     Toast.makeText(getApplicationContext(), "Data Harus Diisi Semua!",
                             Toast.LENGTH_LONG).show();
                 }
