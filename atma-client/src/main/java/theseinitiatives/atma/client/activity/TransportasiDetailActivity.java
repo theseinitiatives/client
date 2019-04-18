@@ -3,6 +3,7 @@ package theseinitiatives.atma.client.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -32,7 +33,7 @@ public class TransportasiDetailActivity extends AppCompatActivity {
 
         DbManager db = new DbManager(getApplicationContext()).open();
         db.setSelection(DbHelper._ID+" = '"+id+"'");
-        Cursor cursor = db.fetchTrans("","");
+        final Cursor cursor = db.fetchTrans("","");
         cursor.moveToFirst();
 
         nama = (TextView)findViewById(R.id.transportasi_detail_nama);
@@ -78,6 +79,25 @@ public class TransportasiDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button call = findViewById(R.id.telpon);
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:"+cursor.getString(cursor.getColumnIndexOrThrow("telp"))));
+                Log.d(TAG, "onClick: tel:"+cursor.getString(cursor.getColumnIndexOrThrow("telp")));
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            }
+        });
+
+        if (!telepon.getText().equals("")){
+            call.setVisibility(View.VISIBLE);
+        }else{
+            call.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package theseinitiatives.atma.client.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -36,7 +37,7 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         dbManager.open();
         final String uniqueId = getIntent().getStringExtra("uniqueId");
         final String id = getIntent().getStringExtra("id");
-        Cursor cursor = dbManager.fetchdetaildata(id);
+        final Cursor cursor = dbManager.fetchdetaildata(id);
         TextView txt_status = (TextView) findViewById(R.id.status);
         TextView txt_name = (TextView) findViewById(R.id.name);
         TextView txt_spousename = (TextView) findViewById(R.id.spousename);
@@ -181,6 +182,26 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Button call = findViewById(R.id.telpon);
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:"+getStringData("telp", cursor)));
+                Log.d(TAG, "onClick: tel:"+getStringData("telp", cursor));
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            }
+        });
+
+        if (!txt_hp.getText().equals("")){
+            call.setVisibility(View.VISIBLE);
+        }else{
+            call.setVisibility(View.GONE);
+        }
+
         dbManager.close();
     }
     @Override

@@ -3,6 +3,7 @@ package theseinitiatives.atma.client.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -43,7 +44,7 @@ public class BankDarahDetailActivity extends AppCompatActivity {
             dbManager = new DbManager(getApplicationContext());
         }
         dbManager.open();
-        Cursor c = dbManager.fetchBankDarahUpdate(id);
+        final Cursor c = dbManager.fetchBankDarahUpdate(id);
         if ( c.moveToFirst() ) {
 
             name.setText("Nama: " + c.getString(c.getColumnIndexOrThrow("name_pendonor")));
@@ -69,6 +70,27 @@ public class BankDarahDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
+
+        Button call = findViewById(R.id.telpon);
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:"+c.getString(c.getColumnIndexOrThrow("telp"))));
+                Log.d(TAG, "onClick: tel:"+c.getString(c.getColumnIndexOrThrow("telp")));
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            }
+        });
+
+        if (!telepon.getText().equals("")){
+            call.setVisibility(View.VISIBLE);
+        }else{
+            call.setVisibility(View.GONE);
+        }
     }
 
     @Override

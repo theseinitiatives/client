@@ -101,6 +101,18 @@
                 android:gravity="right">
 
                 <Button
+                    android:id="@+id/telpon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="left"
+                    android:background="@drawable/call"
+                    android:paddingRight="12dp" />
+
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="wrap_content" />
+
+                <Button
                     android:id="@+id/transportasi_edit_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
