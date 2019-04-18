@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -352,6 +353,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
         return true;
     }
 
+    boolean is_syncing = false;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -359,18 +362,23 @@ public class IdentitasIbuActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            ImageView iv = (ImageView)inflater.inflate(R.layout.iv_refresh, null);
-            Animation rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_refresh);
-            rotation.setRepeatCount(Animation.INFINITE);
-            iv.startAnimation(rotation);
-            item.setActionView(iv);
+            if (!is_syncing){
+                is_syncing = true;
+                LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            /**
-             *
-             * DATA Sync (For right now disabled)*/
-            onStartSync();
-            startSync();
+                View syncButton = findViewById(R.id.action_refresh);
+                Animation rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_refresh);
+                rotation.setRepeatCount(Animation.INFINITE);
+                syncButton.startAnimation(rotation);
+
+                item.setActionView(syncButton);
+
+                /**
+                 *
+                 * DATA Sync (For right now disabled)*/
+                onStartSync();
+                startSync();
+            }
             return true;
         }
         //noinspection SimplifiableIfStatement
@@ -518,14 +526,12 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 if(response.isSuccessful()) {
                     Log.e("RESPONSE-----", response.body().toString());
                     if(response.body().toString().length() < 10) {
+                        is_syncing = false;
                         resetUpdating();
                         return;
                     }
-                    dbManager.open();
-                    dbManager.saveTodb2(response.body(),null);
-                    dbManager.close();
-                    Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
-                            Toast.LENGTH_LONG).show();
+                    SaveToDb saveToDb = new SaveToDb();
+                    saveToDb.execute(response.body());
                     //  Log.e("PULLING", response.body().toString());
                     //  mAdapter.updateAnswers(response.body().getItems());
                     //  Log.d("MainActivity", "posts loaded from API");
@@ -533,12 +539,6 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     int statusCode  = response.code();
                     // handle request errors depending on status code
                 }
-                resetUpdating();
-                refreshList();
-                //  insert latest updateid into db
-                //  fetchSyncedData()
-                getIbu("","resiko DESC");
-                onEndSync();
             }
 
             @Override
@@ -548,6 +548,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
                         Toast.LENGTH_LONG).show();
                 //  Log.d("MainActivity", "error loading from API"+t);
+                is_syncing = false;
                 resetUpdating();
                 onEndSync();
             }
@@ -648,4 +649,27 @@ public class IdentitasIbuActivity extends AppCompatActivity
         }
         refreshList();
     }
+
+    private class SaveToDb extends AsyncTask<List<ApiModel>, Void, String> {
+
+        @Override
+        protected String doInBackground(List<ApiModel>... params) {
+            dbManager.open();
+            dbManager.saveTodb2(params[0],null);
+            dbManager.close();
+            return "SavingToDB";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
+                    Toast.LENGTH_LONG).show();
+            is_syncing = false;
+            resetUpdating();
+            refreshList();
+            getIbu("","resiko DESC");
+            onEndSync();
+        }
+    }
+
 }
