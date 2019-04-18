@@ -344,6 +344,7 @@ public class DbHelper  extends SQLiteOpenHelper {
             + TABLE_KADER + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + UNIQUEID + " TEXT , "
             +NAME+ " TEXT , "
+            +POSYANDU+ " TEXT , "
             +DUSUN+ " TEXT ,"
             +TELP+ " TEXT ,"
             +USERNAME+ " TEXT ,"
