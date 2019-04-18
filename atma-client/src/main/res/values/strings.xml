@@ -110,5 +110,6 @@
     <string name="polindes">polindes</string>
     <string name="rumah">rumah</string>
     <string name="loggedin">loggedin</string>
+    <string name="sync_alarm">sync_alarm</string>
 
 </resources>

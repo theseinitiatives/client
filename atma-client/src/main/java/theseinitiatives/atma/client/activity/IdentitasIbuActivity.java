@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -61,6 +62,7 @@ import theseinitiatives.atma.client.db.DbManager;
 import theseinitiatives.atma.client.model.IdentitasModel;
 import theseinitiatives.atma.client.model.syncmodel.ApiModel;
 import theseinitiatives.atma.client.sync.ApiService;
+import theseinitiatives.atma.client.sync.SyncAlarmReceiver;
 
 import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 
@@ -88,6 +90,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
     final Activity activity = this;
     boolean isDusun = false;
+
+    private SyncAlarmReceiver syncAlarmReceiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,6 +168,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
        // Log.i("MSERVICE", mService.toString());
         refreshList();
 
+        syncAlarmReceiver = new SyncAlarmReceiver(this);
+        registerReceiver(syncAlarmReceiver, new IntentFilter(SyncAlarmReceiver.ACTION));
+        setSyncAlarm();
     }
 
     private void refreshList(){
@@ -636,6 +643,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
     @Override
     public void onDestroy(){
+        unregisterReceiver(syncAlarmReceiver);
         super.onDestroy();
     }
 
@@ -648,6 +656,16 @@ public class IdentitasIbuActivity extends AppCompatActivity
             return;
         }
         refreshList();
+    }
+    private void setSyncAlarm(){
+        SharedPreferences sharedPref = getSharedPreferences(AllConstants.SHARED_PREF, Context.MODE_PRIVATE);
+        boolean alarmStarted = sharedPref.getBoolean(getString(R.string.sync_alarm), false);
+        if (!alarmStarted){
+            new SyncAlarmReceiver(this).startAlarm(this);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean(getString(R.string.sync_alarm), true);
+            editor.apply();
+        }
     }
 
     private class SaveToDb extends AsyncTask<List<ApiModel>, Void, String> {
