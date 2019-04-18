@@ -110,6 +110,7 @@ public class DbManager {
                     contentValue.put(DbHelper.NAME, listIbuData.getName());
                     contentValue.put(DbHelper.SPOUSENAME, listIbuData.getSpousename());
                     contentValue.put(DbHelper.GOL_DARAH, listIbuData.getGolDarah());
+                    contentValue.put(POSYANDU, listIbuData.getPosyandu());
                     contentValue.put(DUSUN, listIbuData.getDusun());
                     contentValue.put(DbHelper.HPHT, listIbuData.getHpht());
                     contentValue.put(DbHelper.HTP, listIbuData.getHtp());

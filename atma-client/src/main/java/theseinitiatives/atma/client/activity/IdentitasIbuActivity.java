@@ -176,7 +176,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         cond[1] = cond[1].contains("~") ? "" : cond[1];
         String selectionClause =
                 DbHelper.HTP + " LIKE '%"+cond[0]+"%' AND "+
-                DbHelper.DUSUN + " LIKE '%"+cond[1]+"%' "+
+                DbHelper.POSYANDU + " LIKE '%"+cond[1]+"%' "+
                 (cond[2].equalsIgnoreCase("yes")
                         ? " AND "+DbHelper.RESIKO + " != ''"
                         : "");
