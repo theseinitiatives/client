@@ -62,14 +62,14 @@ public class FormAddIbuActivity extends AppCompatActivity {
         this.posyandu = posyandu;
     }
 
-    String dusun;
-    String posyandu;
+    String dusun = "";
+    String posyandu = "";
     EditText gubugs;
     EditText hphts;
     EditText htps;
     EditText goldarahs;
     EditText notelpons;
-    String faktorResiko;
+    String faktorResiko = "";
     LinearLayout lay_lainnya;
     String setUniqueId;
 
@@ -89,7 +89,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
     private RadioButton rhPositive,rhNegative,rhUnknown;
     private RadioButton hamil,nifas,risti;
 
-    String rhesus;
+    String rhesus = "";
 
     public String getRhesus() {
         return rhesus;
@@ -110,7 +110,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         Statuss = statuss;
     }
 
-    String Statuss;
+    String Statuss = "";
 
     public String getDarah() {
         return darah;
@@ -120,7 +120,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         this.darah = darah;
     }
 
-    String darah;
+    String darah = "";
     public String getStatuss2() {
         return Statuss2;
     }
@@ -130,7 +130,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
     }
 
     private AutoCompleteTextView namaKader;
-    String Statuss2;
+    String Statuss2 = "";
     Button btnLogin;
 
     String htpss = "";
