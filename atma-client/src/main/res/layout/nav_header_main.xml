@@ -30,6 +30,13 @@
         android:textColor="@color/white"
         android:textSize="12dp" />
 
+    <TextView
+        android:id="@+id/build_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Version xxx built on"
+        android:textColor="@color/cardview_dark_background" />
+
     <Button
         android:id="@+id/button"
         android:layout_width="177dp"

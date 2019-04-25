@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flurry.android.FlurryAgent;
@@ -47,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     final Activity activity = this;
     EditText edtUsername;
     EditText edtPassword;
+    TextView buildText;
     Button btnLogin;
     ProgressBar progressBar;
     private Context context = App.getAppContext();
@@ -54,11 +56,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FlurryAgent.onStartSession(context);
-        init();
         setContentView(R.layout.login_layout);
-
         edtUsername = (EditText) findViewById(R.id.email);
         edtPassword = (EditText) findViewById(R.id.password);
+        init();
+
+        buildText = (TextView) findViewById(R.id.build_text);
+        buildText.setText(AllConstants.version_build);
+
         btnLogin = (Button) findViewById(R.id.email_sign_in_button);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
         //  userService = ApiUtils.getUserService();

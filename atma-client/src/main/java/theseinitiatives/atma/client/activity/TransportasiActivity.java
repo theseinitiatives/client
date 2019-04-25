@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -123,6 +124,9 @@ public class TransportasiActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerLayout = navigationView.getHeaderView(0);
+        TextView buildText = (TextView) headerLayout.findViewById(R.id.build_text);
+        buildText.setText(AllConstants.version_build);
     }
     private void getkendaraan(String searchTerm, String orderBy)
     {

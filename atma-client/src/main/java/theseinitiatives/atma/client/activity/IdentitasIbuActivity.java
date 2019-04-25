@@ -30,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -163,6 +164,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerLayout = navigationView.getHeaderView(0);
+        TextView buildText = (TextView) headerLayout.findViewById(R.id.build_text);
+        buildText.setText(AllConstants.version_build);
 
         mService = ApiUtils.getSOService();
        // Log.i("MSERVICE", mService.toString());

@@ -151,6 +151,14 @@
             android:src="@mipmap/these_logo_48" />
 
         <TextView
+            android:id="@+id/build_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Version xxx built on"
+            android:textColor="@color/cardview_dark_background" />
+
+        <TextView
             android:id="@+id/atma_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

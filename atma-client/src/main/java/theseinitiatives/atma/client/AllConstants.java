@@ -1,5 +1,7 @@
 package theseinitiatives.atma.client;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +15,10 @@ public class AllConstants {
 
     public static Boolean MAY_PROCEED = false;
     public static String params = null;
+
+    public static Date buildDate = new Date(BuildConfig.BUILD_TIME);
+
+    public static String version_build = "Version "+BuildConfig.VERSION_NAME+" built on "+(new SimpleDateFormat("yyyy-MM-dd HH:mm")).format(buildDate);
 
     public static Map<String,String> filters = new HashMap<>();
 
