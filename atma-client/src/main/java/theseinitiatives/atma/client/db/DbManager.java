@@ -940,7 +940,7 @@ public class DbManager {
     }
 
     private String getPosyandu(String dusun){
-        setSelection(DbHelper.LOCATION_NAME+" = '"+dusun+"'");
+        setSelection(DbHelper.LOCATION_NAME+" = '"+dusun+"' AND "+DbHelper.LOCATION_TAG+"='dusun'");
         Cursor cursor = fetchLocationTree();
         cursor.moveToFirst();
         String parentId = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.PARENT_LOCATION));

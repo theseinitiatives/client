@@ -191,21 +191,13 @@ public class FormAddIbuActivity extends AppCompatActivity {
 
         rgp = (RadioGroup) findViewById(R.id.dusun_radio);
         posrgp = (RadioGroup) findViewById(R.id.posyandu_radio);
-        for (int i = 0; i < getlocationName("dusun").size(); i++) {
-            RadioButton rbn = new RadioButton(this);
-            rbn.setId(View.generateViewId());
-            Log.e("Location", getlocationName("dusun").get(0));
-            rbn.setText(getlocationName("dusun").get(i));
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
-            rbn.setLayoutParams(params);
-            rgp.addView(rbn);
-        }
 
-        for (int i = 0; i < getlocationName("posyandu").size(); i++) {
+        ArrayList<String> listPosyandu = getlocationName("posyandu");
+        for (int i = 0; i < listPosyandu.size(); i++) {
             RadioButton rbn = new RadioButton(this);
             rbn.setId(View.generateViewId());
-            Log.e("Location", getlocationName("posyandu").get(0));
-            rbn.setText(getlocationName("posyandu").get(i));
+            Log.e("Location", listPosyandu.get(0));
+            rbn.setText(listPosyandu.get(i));
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
             rbn.setLayoutParams(params);
             posrgp.addView(rbn);
@@ -217,7 +209,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton radioButton = (RadioButton) findViewById(checkedId);
                 setDusun(radioButton.getText().toString());
-                // Toast.makeText(getApplicationContext(),getDusun(),Toast.LENGTH_LONG).show();
+                Log.d(TAG, "onDusunCheckedChanged: dusun="+getDusun());
             }
         });
         posrgp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -225,7 +217,22 @@ public class FormAddIbuActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton radioButton = (RadioButton) findViewById(checkedId);
                 setPosyandu(radioButton.getText().toString());
-                // Toast.makeText(getApplicationContext(),getDusun(),Toast.LENGTH_LONG).show();
+
+                rgp.removeAllViews();
+                setDusun("");
+                ArrayList<String> listDusun = getlocationName("dusun",radioButton.getText().toString());
+                for (int i = 0; i < listDusun.size(); i++) {
+                    RadioButton rbn = new RadioButton(activity);
+                    rbn.setId(View.generateViewId());
+                    rbn.setText(listDusun.get(i));
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+                    rbn.setLayoutParams(params);
+                    rgp.addView(rbn);
+                }
+                if (listDusun.size()==1){
+                    RadioButton r = (RadioButton) rgp.getChildAt(0);
+                    r.setChecked(true);
+                }
             }
         });
 
@@ -679,6 +686,30 @@ public class FormAddIbuActivity extends AppCompatActivity {
         //  String[] languagess = { "Budi","Joni","Bravo" };
         return names.toArray(new String[0]);
         // return languagess;
+    }
+
+    public ArrayList<String> getlocationName(String tag, String parentName) {
+        dbManager.open();
+
+        dbManager.setSelection(DbHelper.LOCATION_TAG+"='posyandu' AND "+DbHelper.LOCATION_NAME+"='"+parentName+"'");
+        Cursor cursor = dbManager.fetchLocationTree();
+        cursor.moveToFirst();
+        int parentId = cursor.getInt(cursor.getColumnIndexOrThrow(DbHelper.LOCATION_ID));
+
+        dbManager.setSelection(DbHelper.LOCATION_TAG+"='"+tag+"' AND "+DbHelper.PARENT_LOCATION+"="+parentId);
+        cursor = dbManager.fetchLocationTree();
+        ArrayList<String> names = new ArrayList<String>();
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                names.add(cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.LOCATION_NAME)));
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        dbManager.close();
+
+        return names;
     }
 
     public ArrayList<String> getlocationName(String tag) {
