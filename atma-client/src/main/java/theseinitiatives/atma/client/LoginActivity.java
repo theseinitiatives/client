@@ -125,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences(AllConstants.SHARED_PREF, Context.MODE_PRIVATE);
         boolean loggedIn = sharedPref.getBoolean(getString(R.string.loggedin), false);
         if (loggedIn){
+            FlurryAgent.setUserId(edtUsername.getText().toString());
             long last_active = sharedPref.getLong("last_active", 0);
             long interval = System.currentTimeMillis()-last_active;
             if (!(interval>=57600000)){
@@ -270,6 +271,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onLoginSuccess(){
+        FlurryAgent.setUserId(edtUsername.getText().toString());
         SharedPreferences sharedPref = getSharedPreferences(AllConstants.SHARED_PREF,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(getString(R.string.loggedin), true);

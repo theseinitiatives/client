@@ -433,35 +433,32 @@ public class IdentitasIbuActivity extends AppCompatActivity
     }
 
     public void push(){
-        /***TODO
-         * =================================================
-         * Included the data from table transportasi and bank darah
-         * =================================================*/
-        String dummy ="[\n" +
-                "    {\n" +
-                "        \"update_id\": \"1535462387138\",\n" +
-                "        \"form_name\": \"identitas_ibu\",\n" +
-                "        \"data\": \"{\\\"_id\\\":\\\"747\\\",\\\"name\\\":\\\"Zimbabwe\\\",\\\"spousename\\\":\\\" DUmmy2\\\",\\\"tgl_lahir\\\":\\\"\\\",\\\"dusun\\\":\\\"\\\",\\\"hpht\\\":\\\"\\\",\\\"htp\\\":\\\"\\\",\\\"gol_darah\\\":\\\"\\\",\\\"status\\\":\\\"Patient Baru\\\",\\\"kader\\\":\\\"\\\",\\\"telp\\\":\\\"\\\",\\\"tgl_persalinan\\\":\\\"\\\",\\\"kondisi_ibu\\\":\\\"\\\",\\\"kondisi_anak\\\":\\\"\\\",\\\"is_send\\\":\\\"0\\\",\\\"is_sync\\\":\\\"0\\\",\\\"timestamp\\\":\\\"2018-08-28 10:04:09\\\"}\",\n" +
-                "        \"location_id\": \"Dusun_test\",\n" +
-                "        \"user_id\": \"userteset\"\n" +
-                "    }\n" +
-                "]";
-
+        Map<String, String> Params = new HashMap<>();
+        Params.put("Starting Push",dateNow().toString());
+        FlurryHelper.logOneTimeEvent("Syncing debug",Params);
         // api post for pushing data to server api
         RequestBody myreqbody = null;
-        String data = (alldata_formatToJson()).toString();
+        JSONArray resultSet = alldata_formatToJson();
+        String data = resultSet.toString();
         myreqbody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 data);
 
         Call<ResponseBody> call =mService.savePost(myreqbody);
         Log.e("myreqbody========", ""+data);
 
+        Params = new HashMap<>();
+        Params.put("Pushing data",String.valueOf(resultSet.length()));
+        FlurryHelper.logOneTimeEvent("Syncing debug",Params);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody>callback,Response<ResponseBody>response) {
                 String res = response.toString();
               //  Log.e("DEMO", "post submitted to API." + response);
               //  Log.e(TAG, "onResponse: " +response.code());
+                Map<String, String> Params = new HashMap<>();
+                Params.put("Get Response",dateNow().toString());
+                Params.put("Response Code",String.valueOf(response.code()));
+                FlurryHelper.logOneTimeEvent("Syncing debug",Params);
                 if (response.code()==201){
                     updateSyncFlagIbu();
                 }
@@ -469,7 +466,11 @@ public class IdentitasIbuActivity extends AppCompatActivity
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-              ///  Log.e("DEMO", "Unable to submit post to API.",t);
+                Map<String, String> Params = new HashMap<>();
+                Params.put("Push Fail",dateNow().toString());
+                Params.put("Error Message",t.getMessage());
+                FlurryHelper.logOneTimeEvent("Syncing debug",Params);
+                Log.e("DEMO", "Unable to submit post to API.",t);
              //   Log.e("call", String.valueOf(call));
                pulldata();
             }
@@ -515,6 +516,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
     }
 
     public void pulldata() {
+        Map<String, String> Params = new HashMap<>();
+        Params.put("Starting Pulling",dateNow().toString());
+        FlurryHelper.logOneTimeEvent("Syncing debug",Params);
         dbManager.open();
         if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
             forbidden = true;
@@ -534,28 +538,39 @@ public class IdentitasIbuActivity extends AppCompatActivity
             @Override
             public void onResponse(Call<List<ApiModel>> call, Response<List<ApiModel>> response) {
 
+                Map<String, String> Params = new HashMap<>();
+                Params.put("Get Response",dateNow().toString());
                 if(response.isSuccessful()) {
+                    Params.put("Response Success",dateNow().toString());
                     Log.e("RESPONSE-----", response.body().toString());
                     if(response.body().toString().length() < 10) {
+                        Params.put("No data",response.body().toString());
                         is_syncing = false;
                         resetUpdating();
                         return;
                     }
+                    Params.put("Saving Data",String.valueOf(getDataCount(response.body())));
                     SaveToDb saveToDb = new SaveToDb();
                     saveToDb.execute(response.body());
                     //  Log.e("PULLING", response.body().toString());
                     //  mAdapter.updateAnswers(response.body().getItems());
                     //  Log.d("MainActivity", "posts loaded from API");
                 }else {
+                    Params.put("Response Not Success",String.valueOf(response.code()));
                     int statusCode  = response.code();
                     // handle request errors depending on status code
                 }
+                FlurryHelper.logOneTimeEvent("Syncing debug",Params);
             }
 
             @Override
             public void onFailure(Call<List<ApiModel>> call, Throwable t) {
+                Map<String, String> Params = new HashMap<>();
+                Params.put("Pull Fail",dateNow().toString());
+                Params.put("Error Message",t.getMessage());
+                FlurryHelper.logOneTimeEvent("Syncing debug",Params);
                 // showErrorMessage();
-                //  Log.e("PULLING", "FAIL===");
+                  Log.e("PULLING", "FAIL==="+t.getMessage());
                 Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
                         Toast.LENGTH_LONG).show();
                 //  Log.d("MainActivity", "error loading from API"+t);
@@ -670,6 +685,10 @@ public class IdentitasIbuActivity extends AppCompatActivity
             editor.putBoolean(getString(R.string.sync_alarm), true);
             editor.apply();
         }
+    }
+
+    private int getDataCount(List<ApiModel>  DataList){
+        return DataList.size();
     }
 
     private class SaveToDb extends AsyncTask<List<ApiModel>, Void, String> {
