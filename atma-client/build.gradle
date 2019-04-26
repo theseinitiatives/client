@@ -7,7 +7,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 5
-        versionName "1.6.3"
+        versionName "1.6.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -17,7 +17,14 @@ android {
             buildConfigField("long", "BUILD_TIME", System.currentTimeMillis() + "L")
         }
         debug {
-            buildConfigField("long", "BUILD_TIME", System.currentTimeMillis() + "L")
+            def buildTime =  System.currentTimeMillis()
+            buildConfigField("long", "BUILD_TIME", buildTime + "L")
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def appName = "P4KDev"
+                    outputFileName = appName+"-${variant.versionName}-"+(new java.text.SimpleDateFormat("yyyy.MM.dd HH.mm")).format(new Date(buildTime))+".apk"
+                }
+            }
         }
     }
     testOptions {
