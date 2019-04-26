@@ -33,6 +33,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.flurry.android.FlurryAgent;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -123,6 +125,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
         initDropdownSort();
 
         dbManager.open();
+        FlurryAgent.setUserId(dbManager.getusername());
         if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
             forbidden = true;
             isDusun = true;
