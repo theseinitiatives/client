@@ -369,6 +369,7 @@ public class FormAddBankDarah extends AppCompatActivity {
     public ArrayList<String> getlocationName(String tag) {
         dbManager.open();
         dbManager.setSelection(DbHelper.LOCATION_TAG+"='"+tag+"'");
+        dbManager.setGroupBy(DbHelper.LOCATION_ID);
         Cursor cursor = dbManager.fetchLocationTree();
         ArrayList<String> names = new ArrayList<String>();
         if (cursor != null) {

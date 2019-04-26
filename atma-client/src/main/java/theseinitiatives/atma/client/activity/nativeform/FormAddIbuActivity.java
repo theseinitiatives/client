@@ -548,8 +548,8 @@ public class FormAddIbuActivity extends AppCompatActivity {
         txt_lainnya.setVisibility(VISIBLE);
         txt_lainnya.setText(cursor.getString(cursor.getColumnIndexOrThrow("resiko_lainnya")));
         setSetUniqueId(cursor.getString(cursor.getColumnIndexOrThrow("unique_id")));
-        checkDusun(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
         checkPosyandu(cursor.getString(cursor.getColumnIndexOrThrow("posyandu")));
+        checkDusun(cursor.getString(cursor.getColumnIndexOrThrow("dusun")));
         dbManager.close();
     }
 
@@ -624,7 +624,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
     }
 
     private void checkDusun(String value){
-        ArrayList<String> listDusun = getlocationName("dusun");
+        ArrayList<String> listDusun = getlocationName("dusun",getPosyandu());
         for(int i=0;i<listDusun.size();i++){
             RadioButton r = (RadioButton) rgp.getChildAt(i);
 
@@ -697,6 +697,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
         int parentId = cursor.getInt(cursor.getColumnIndexOrThrow(DbHelper.LOCATION_ID));
 
         dbManager.setSelection(DbHelper.LOCATION_TAG+"='"+tag+"' AND "+DbHelper.PARENT_LOCATION+"="+parentId);
+        dbManager.setGroupBy(DbHelper.LOCATION_ID);
         cursor = dbManager.fetchLocationTree();
         ArrayList<String> names = new ArrayList<String>();
         if (cursor != null) {
@@ -715,6 +716,7 @@ public class FormAddIbuActivity extends AppCompatActivity {
     public ArrayList<String> getlocationName(String tag) {
         dbManager.open();
         dbManager.setSelection(DbHelper.LOCATION_TAG+"='"+tag+"'");
+        dbManager.setGroupBy(DbHelper.LOCATION_ID);
         Cursor cursor = dbManager.fetchLocationTree();
         ArrayList<String> names = new ArrayList<String>();
         if (cursor != null) {
