@@ -85,6 +85,7 @@
     <string name="hub_pendonor">Hubungan Pendonor dengan ibu</string>
     <string name="title_activity_bank_darah_detail">BankDarahDetailActivity</string>
     <string name="tutup">Apakah Anda ingin mengeluarkan ibu dari aplikasi?</string>
+    <string name="tutup2">Apakah Anda ingin mengeluarkan data dari aplikasi?</string>
     <string name="alasan">Alasan Penutupan</string>
     <string name="faktor_resiko">Faktor Resiko</string>
     <string name="terakhirdonor">Tanggal Terakhir Donor</string>

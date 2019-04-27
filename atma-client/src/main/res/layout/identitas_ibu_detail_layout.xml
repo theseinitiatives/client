@@ -228,7 +228,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <Button
                     android:id="@+id/ibu_detail_edit_button"
@@ -260,6 +260,23 @@
                     android:layout_gravity="left"
                     android:background="@drawable/call"
                     android:paddingRight="12dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <Button
+                    android:id="@+id/ibu_rencana_edit_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="Ubah data Rencana Persalinan" />
+                <Button
+                    android:id="@+id/ibu_status_edit_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="Ubah data Status Persalinan" />
             </LinearLayout>
 
         </LinearLayout>

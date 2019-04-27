@@ -18,6 +18,8 @@ import theseinitiatives.atma.client.NavigationmenuController;
 import theseinitiatives.atma.client.R;
 import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.nativeform.FormAddIbuActivity;
+import theseinitiatives.atma.client.activity.nativeform.FormRencanaPersalinan;
+import theseinitiatives.atma.client.activity.nativeform.FormStatusPersalinanActivity;
 import theseinitiatives.atma.client.activity.nativeform.StikerActivity;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
@@ -67,6 +69,8 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         TextView txt_tempatbersalin = (TextView) findViewById(R.id.tempatbersalins);
         TextView txt_pendampingPersalinan = (TextView) findViewById(R.id.pendampingPersalinan);
         TextView txt_last = (TextView) findViewById(R.id.lastedit);
+        Button editRencana = (Button) findViewById(R.id.ibu_rencana_edit_button);
+        Button editStatus = (Button) findViewById(R.id.ibu_status_edit_button);
 
         final String Nama = cursor.getString(cursor.getColumnIndexOrThrow("name"));
         final String htp = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.HTP));
@@ -104,6 +108,7 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
 
         foto.setImageResource(R.drawable.icon_pregnant48);
         if(status_persalinan.getCount()>0){
+            editStatus.setVisibility(View.VISIBLE);
             if(status_persalinan.getString(status_persalinan.getColumnIndexOrThrow(DbHelper.STATUS_BERSALIN)).equals("nifas")){
                 foto.setImageResource(R.drawable.logo_ibu);
             }
@@ -112,6 +117,7 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         ///rencana persalinan
         final Cursor cursorRencanaPersalinan = dbManager.fetchRencanaPersalinan(uniqueId);
         if ( cursorRencanaPersalinan.moveToFirst() ) {
+            editRencana.setVisibility(View.VISIBLE);
             final String checkrencana = "yes";
           //  TextView txt_tempatbersalins = (TextView) findViewById(R.id.tempatbersalins);
           //  TextView txt_penolognbersalin = (TextView) findViewById(R.id.penoling_bersalin);
@@ -159,6 +165,44 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        editRencana.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(IdentitasIbuDetailActivity.this, FormRencanaPersalinan.class);
+                dbManager.open();
+                Cursor c = dbManager.fetchuniqueId(id);
+                c.moveToFirst();
+                String uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+                dbManager.close();
+                myIntent.putExtra("id",id);
+                myIntent.putExtra("uniqueId",uniqueId);
+                FlurryHelper.endFlurryLog(activity);
+                startActivity(myIntent);
+                overridePendingTransition(0,0);
+                finish();
+            }
+        });
+
+        editStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(IdentitasIbuDetailActivity.this, FormStatusPersalinanActivity.class);
+                dbManager.open();
+                Cursor c = dbManager.fetchuniqueId(id);
+                c.moveToFirst();
+                String uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+                dbManager.close();
+                myIntent.putExtra("id",id);
+                myIntent.putExtra("uniqueId",uniqueId);
+                FlurryHelper.endFlurryLog(activity);
+                startActivity(myIntent);
+                overridePendingTransition(0,0);
+                finish();
+            }
+        });
+
+
         Button stikers = (Button) findViewById(R.id.stiker);
 
 

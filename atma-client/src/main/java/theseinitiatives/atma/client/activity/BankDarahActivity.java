@@ -1,7 +1,9 @@
 package theseinitiatives.atma.client.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -33,6 +35,8 @@ import theseinitiatives.atma.client.R;
 import theseinitiatives.atma.client.Utils.FilterActivity;
 import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.nativeform.FormAddBankDarah;
+import theseinitiatives.atma.client.activity.nativeform.FormCloseBankDarah;
+import theseinitiatives.atma.client.activity.nativeform.FormCloseTransportasi;
 import theseinitiatives.atma.client.adapter.BankDarahCursorAdapter;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
@@ -94,14 +98,9 @@ public class BankDarahActivity extends AppCompatActivity
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String ids = Long.toString(id+1);
                 String uid = bankDarahmodels.get((int)id).getId();
                 Log.i("__id", ""+uid);
-                Intent intent = new Intent(BankDarahActivity.this,BankDarahDetailActivity.class);
-                intent.putExtra("id",uid);
-                FlurryHelper.endFlurryLog(activity);
-                startActivity(intent);
-                finish();
+                choose(uid);
             }
         });
 
@@ -131,6 +130,44 @@ public class BankDarahActivity extends AppCompatActivity
         TextView buildText = (TextView) headerLayout.findViewById(R.id.build_text);
         buildText.setText(AllConstants.version_build);
     }
+
+
+
+    public void choose (final String uid){
+        final String[] forms = {"Data Lengkap","Tutup Data"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("");
+        builder.setItems(forms, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // the user clicked on colors[which]
+
+                if ("Data Lengkap".equals(forms[which])) {
+                    Intent intent = new Intent(BankDarahActivity.this,BankDarahDetailActivity.class);
+                    intent.putExtra("id",uid);
+                    FlurryHelper.endFlurryLog(activity);
+                    startActivity(intent);
+                    finish();
+                }if ("Tutup Data".equals(forms[which])) {
+                    Intent intent = new Intent(BankDarahActivity.this, FormCloseBankDarah.class);
+                    dbManager.open();
+                    Cursor c = dbManager.fetchById(uid,DbHelper.TABLE_NAME_BANK);
+                    c.moveToFirst();
+                    String uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+                    String dusun = c.getString(c.getColumnIndexOrThrow(DbHelper.DUSUN));
+                    dbManager.close();
+                    intent.putExtra("uniqueId", uniqueId);
+                    intent.putExtra("id", uid);
+                    intent.putExtra("dusun", dusun);
+                    FlurryHelper.endFlurryLog(activity);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
+        builder.show();
+    }
+
     private void getBankDarah(String searchTerm, String orderBy){
         dbManager = new DbManager(this);
         dbManager.open();

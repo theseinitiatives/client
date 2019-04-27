@@ -53,6 +53,12 @@ public class TransportasiData {
     @SerializedName("keterangan")
     @Expose
     private String keterangan;
+    @SerializedName("tutup_data")
+    @Expose
+    private String tutupStatus;
+    @SerializedName("alasan")
+    @Expose
+    private String alasan;
     @SerializedName("user_id")
     @Expose
     private String user_id;
@@ -195,4 +201,21 @@ public class TransportasiData {
     public void setUpdate_id(String update_id) {
         this.update_id = update_id;
     }
+
+    public String getTutupStatus() {
+        return tutupStatus;
+    }
+
+    public void setTutupStatus(String tutupStatus) {
+        this.tutupStatus = tutupStatus;
+    }
+
+    public String getAlasan() {
+        return alasan;
+    }
+
+    public void setAlasan(String alasan) {
+        this.alasan = alasan;
+    }
+
 }

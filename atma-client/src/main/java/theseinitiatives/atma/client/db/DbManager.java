@@ -101,7 +101,7 @@ public class DbManager {
             Log.i("aaaaaaaaaaaaaaaaa" ,data_);
 
             // insert into db
-            if(model.getform_name().contains("identitas_ibu")) {
+            if(model.getform_name().equals("identitas_ibu")||model.getform_name().equalsIgnoreCase("identitas_ibu_edit")) {
                 IbuData[] ibuData = gson.fromJson(data_, IbuData[].class);
                 List<IbuData> ibuDataListed = new ArrayList<>(Arrays.asList(ibuData));
                 for (IbuData listIbuData : ibuDataListed) {
@@ -141,7 +141,7 @@ public class DbManager {
                     }
                 }
             }
-            else if(model.getform_name().contains("transportasi")){
+            else if(model.getform_name().equals("transportasi")||model.getform_name().equalsIgnoreCase("transportasi_edit")){
                 TransportasiData[] transportasiData = gson.fromJson(data_, TransportasiData[].class);
                 List<TransportasiData> TransportasiDataList = new ArrayList<>(Arrays.asList(transportasiData));
                 for (TransportasiData listTransportasi : TransportasiDataList){
@@ -156,6 +156,8 @@ public class DbManager {
                     contentValue.put(DbHelper.GUBUG, listTransportasi.getGubug());
                     contentValue.put(DbHelper.PROFESI, listTransportasi.getProfesi());
                     contentValue.put(DbHelper.KET, listTransportasi.getKeterangan());
+                    contentValue.put(DbHelper.TUTUP_DATA, listTransportasi.getTutupStatus()==null?"":listTransportasi.getTutupStatus());
+                    contentValue.put(DbHelper.ALASAN, listTransportasi.getAlasan());
                    /* contentValue.put(DbHelper.USER_ID, listTransportasi.getUser_id());
                     contentValue.put(DbHelper.LOCATION_ID, listTransportasi.getLocation_id());
                     contentValue.put(DbHelper.UPDATE_ID, listTransportasi.getUpdate_id());
@@ -174,7 +176,7 @@ public class DbManager {
                 }
 
             }
-            else if(model.getform_name().contains("bank_darah")){
+            else if(model.getform_name().equals("bank_darah")||model.getform_name().equalsIgnoreCase("bank_darah_edit")){
                 BankdarahData[] bankdarahData = gson.fromJson(data_, BankdarahData[].class);
                 List<BankdarahData> BankDarahDataListed = new ArrayList<>(Arrays.asList(bankdarahData));
                 for (BankdarahData listBankDarah : BankDarahDataListed){
@@ -186,6 +188,8 @@ public class DbManager {
                     contentValue.put(DbHelper.GOL_DARAH, listBankDarah.getGolDarah());
                     contentValue.put(DbHelper.TELP, listBankDarah.getTelp());
                     contentValue.put(DbHelper.TGL_DONOR, listBankDarah.getTgl_donor());
+                    contentValue.put(DbHelper.TUTUP_DATA, listBankDarah.getTutupStatus()==null?"":listBankDarah.getTutupStatus());
+                    contentValue.put(DbHelper.ALASAN, listBankDarah.getAlasan());
                    /* contentValue.put(DbHelper.LOCATION_ID, listBankDarah.getLocation_id());
                     contentValue.put(DbHelper.UPDATE_ID, listBankDarah.getUpdate_id());
                    */ contentValue.put(DbHelper.IS_SEND, 1);
@@ -203,7 +207,7 @@ public class DbManager {
                 }
 
             }
-            else if(model.getform_name().contains("rencana_persalinan")){
+            else if(model.getform_name().equals("rencana_persalinan")||model.getform_name().equalsIgnoreCase("rencana_persalinan_edit")){
                 RencanaModel[] rencanaModels = gson.fromJson(data_, RencanaModel[].class);
                 List<RencanaModel> rencanaModels1 = new ArrayList<>(Arrays.asList(rencanaModels));
                 for (RencanaModel rencanaModel : rencanaModels1){
@@ -239,7 +243,7 @@ public class DbManager {
                 //    database.insert(DbHelper.TABLE_NAME_RENCANA, null, contentValue);
                 }
             }
-            else if(model.getform_name().contains("status_persalinan")){
+            else if(model.getform_name().equals("status_persalinan")||model.getform_name().equalsIgnoreCase("status_persalinan_edit")){
                 StatusModel[] statusModels = gson.fromJson(data_, StatusModel[].class);
                 List<StatusModel> statusModels1 = new ArrayList<>(Arrays.asList(statusModels));
                 for (StatusModel statusModel : statusModels1){
@@ -275,7 +279,7 @@ public class DbManager {
             }
 
             //close ibu and kader
-            else if(model.getform_name().contains("kader")){
+            else if(model.getform_name().equals("kader")){
                 Log.e("GETKADER","");
                 KaderModel[] KaderModels = gson.fromJson(data_, KaderModel[].class);
                 List<KaderModel> kadermodelslist = new ArrayList<>(Arrays.asList(KaderModels));
@@ -292,7 +296,8 @@ public class DbManager {
                             Log.e("UPDATING====DATAKADER", "");
                             database.update(DbHelper.TABLE_KADER, contentValue, "unique_id = ?", new String[]{kadermodels.getUnique_id()});
                         }
-                        database.insert(DbHelper.TABLE_KADER, null, contentValue);
+                        else
+                            database.insert(DbHelper.TABLE_KADER, null, contentValue);
 
                 }
 
@@ -310,6 +315,36 @@ public class DbManager {
 
                     }
                     database.insert(DbHelper.TABLE_CLOSE, null, contentValue);
+
+                }
+            }
+            else if(model.getform_name().equals("close_transportasi")) {
+                TransportasiData[] transportasiData = gson.fromJson(data_, TransportasiData[].class);
+                List<TransportasiData> transportasiData1 = new ArrayList<>(Arrays.asList(transportasiData));
+                for (TransportasiData transportasiData2 : transportasiData1) {
+                    contentValue.put(DbHelper.UNIQUEID, transportasiData2.getUniqueId());
+                    contentValue.put(DbHelper.ALASAN, transportasiData2.getAlasan());
+                    contentValue.put(DbHelper.TUTUP_DATA, transportasiData2.getTutupStatus());
+                    if(getUniqueID(transportasiData2.getUniqueId(),"transportasi")!=null){
+                        database.update(DbHelper.TABLE_NAME_TRANS, contentValue,"unique_id = ?",new String[]{transportasiData2.getUniqueId()});
+
+                    }
+                    database.insert(DbHelper.TABLE_CLOSE_TRANSPORTASI, null, contentValue);
+
+                }
+            }
+            else if(model.getform_name().equals("close_bank_darah")) {
+                BankdarahData[] bankdarahData = gson.fromJson(data_, BankdarahData[].class);
+                List<BankdarahData> bankdarahDataList = new ArrayList<>(Arrays.asList(bankdarahData));
+                for (BankdarahData bankdarahData1 : bankdarahDataList) {
+                    contentValue.put(DbHelper.UNIQUEID, bankdarahData1.getUniqueId());
+                    contentValue.put(DbHelper.ALASAN, bankdarahData1.getAlasan());
+                    contentValue.put(DbHelper.TUTUP_DATA, bankdarahData1.getTutupStatus());
+                    if(getUniqueID(bankdarahData1.getUniqueId(),"bank_darah")!=null){
+                        database.update(DbHelper.TABLE_NAME_BANK, contentValue,"unique_id = ?",new String[]{bankdarahData1.getUniqueId()});
+
+                    }
+                    database.insert(DbHelper.TABLE_CLOSE_BANK_DARAH, null, contentValue);
 
                 }
             }
@@ -527,17 +562,18 @@ public class DbManager {
                 DbHelper.GUBUG,
                 DbHelper.PROFESI,
                 DbHelper.KET,
+                DbHelper.TUTUP_DATA,
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
         Cursor c=null;
 
         if(searchTerm != null && searchTerm.length()>0) {
-            c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.NAME+" LIKE '%"+searchTerm+"%'", selectionArgs, "unique_id", having, orderByASCDESC, limit);
+            c = database.query(DbHelper.TABLE_NAME_TRANS, columns, DbHelper.NAME+" LIKE '%"+searchTerm+"%' AND "+DbHelper.TUTUP_DATA+"!='ya'", selectionArgs, "unique_id", having, orderByASCDESC, limit);
             return c;
         }
 
-        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, selection, selectionArgs, "unique_id", having, orderBy, limit);
+        c = database.query(DbHelper.TABLE_NAME_TRANS, columns, (selection == null ? "" : selection+" AND ") + DbHelper.TUTUP_DATA+"!='ya'", selectionArgs, "unique_id", having, orderBy, limit);
         clearClause();
         return c;
     }
@@ -589,17 +625,18 @@ public class DbManager {
                 DbHelper.GUBUG,
                 DbHelper.GOL_DARAH,
                 DbHelper.TELP,
+                DbHelper.TUTUP_DATA,
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };
         Cursor c=null;
 
         if(searchTerm != null && searchTerm.length()>0) {
-            c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.NAME_PENDONOR+" LIKE '%"+searchTerm+"%'", selectionArgs, "unique_id", having, orderByASCDESC, limit);
+            c = database.query(DbHelper.TABLE_NAME_BANK, columns, DbHelper.NAME_PENDONOR+" LIKE '%"+searchTerm+"%' AND "+DbHelper.TUTUP_DATA+"!='ya'", selectionArgs, "unique_id", having, orderByASCDESC, limit);
             return c;
         }
 
-        c = database.query(DbHelper.TABLE_NAME_BANK, columns, selection, selectionArgs, "unique_id", having, orderBy, limit);
+        c = database.query(DbHelper.TABLE_NAME_BANK, columns, (selection == null ? "" : selection+" AND ") + DbHelper.TUTUP_DATA+"!='ya'", selectionArgs, "unique_id", having, orderBy, limit);
         clearClause();
         return c;
 
@@ -724,6 +761,7 @@ public class DbManager {
         contentValue.put( DbHelper.GOL_DARAH,radioStatus2);
         contentValue.put( DbHelper.TELP,notelponss);
         contentValue.put( DbHelper.TGL_DONOR,tgldonor);
+        contentValue.put( DbHelper.TUTUP_DATA,"");
         contentValue.put( UPDATE_ID,uodateid);
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
@@ -761,6 +799,7 @@ public class DbManager {
         contentValue.put( DUSUN,text_dusuns);
         contentValue.put( DbHelper.PROFESI,text_profesis);
         contentValue.put( DbHelper.KET,text_kets);
+        contentValue.put( DbHelper.TUTUP_DATA,"");
         contentValue.put( DbHelper.USER_ID,getusername());
         contentValue.put( DbHelper.LOCATION_ID,getlocName());
         contentValue.put( UPDATE_ID,updateId);
@@ -1094,6 +1133,17 @@ public class DbManager {
         }
         return c;
     }
+    public Cursor fetchById(String id,String tablename) {
+        String[] columns = new String[] {
+                DbHelper.UNIQUEID,
+                DbHelper.DUSUN};
+        Cursor c=null;
+        c = database.query(tablename, columns, DbHelper._ID +"="+id, selectionArgs, groupBy, having, orderBy, limit);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+    }
 
 
     public Cursor fetchuniqueId(String id, String tablename) {
@@ -1185,6 +1235,34 @@ public class DbManager {
         contentValue.put( DbHelper.IS_SEND,"0");
         contentValue.put( DbHelper.IS_SYNC,"0");
         database.update(DbHelper.TABLE_NAME_IBU, contentValue,"_id = ?",new String[]{_id});
+
+    }
+
+
+    public void closeTransportasi(String _id, String status_, String alasans) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put(  DbHelper.TUTUP_DATA, status_);
+        contentValue.put(  DbHelper.ALASAN, alasans);
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName());
+        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        database.update(DbHelper.TABLE_NAME_TRANS, contentValue,"_id = ?",new String[]{_id});
+
+    }
+
+
+    public void closeBankDarah(String _id, String status_, String alasans) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put(  DbHelper.TUTUP_DATA, status_);
+        contentValue.put(  DbHelper.ALASAN, alasans);
+        contentValue.put( DbHelper.USER_ID,getusername());
+        contentValue.put( DbHelper.LOCATION_ID,getlocName());
+        contentValue.put( UPDATE_ID,System.currentTimeMillis());
+        contentValue.put( DbHelper.IS_SEND,"0");
+        contentValue.put( DbHelper.IS_SYNC,"0");
+        database.update(DbHelper.TABLE_NAME_BANK, contentValue,"_id = ?",new String[]{_id});
 
     }
     public String getusername(){

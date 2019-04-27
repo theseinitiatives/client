@@ -1,7 +1,9 @@
 package theseinitiatives.atma.client.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -24,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -33,6 +36,10 @@ import theseinitiatives.atma.client.R;
 import theseinitiatives.atma.client.Utils.FilterActivity;
 import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.nativeform.FormAddTransportasi;
+import theseinitiatives.atma.client.activity.nativeform.FormCloseIbu;
+import theseinitiatives.atma.client.activity.nativeform.FormCloseTransportasi;
+import theseinitiatives.atma.client.activity.nativeform.FormRencanaPersalinan;
+import theseinitiatives.atma.client.activity.nativeform.FormStatusPersalinanActivity;
 import theseinitiatives.atma.client.adapter.TransportasiCursorAdapter;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
@@ -63,11 +70,7 @@ public class TransportasiActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String uid = transportasiModels.get((int)l).getId();
-                Intent intent = new Intent(TransportasiActivity.this,TransportasiDetailActivity.class);
-                intent.putExtra("id",uid);
-                FlurryHelper.endFlurryLog(activity);
-                startActivity(intent);
-                finish();
+                choose(uid);
             }
         });
         dbManager = new DbManager(this);
@@ -128,6 +131,43 @@ public class TransportasiActivity extends AppCompatActivity
         TextView buildText = (TextView) headerLayout.findViewById(R.id.build_text);
         buildText.setText(AllConstants.version_build);
     }
+
+    public void choose (final String uid){
+        final String[] forms = {"Data Lengkap","Tutup Data"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("");
+        builder.setItems(forms, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // the user clicked on colors[which]
+
+                if ("Data Lengkap".equals(forms[which])) {
+                    Intent intent = new Intent(TransportasiActivity.this,TransportasiDetailActivity.class);
+                    intent.putExtra("id",uid);
+                    FlurryHelper.endFlurryLog(activity);
+                    startActivity(intent);
+                    finish();
+                }if ("Tutup Data".equals(forms[which])) {
+                    Log.d(TAG, "onClick: Tutup Data uid="+uid);
+                    Intent intent = new Intent(TransportasiActivity.this, FormCloseTransportasi.class);
+                    dbManager.open();
+                    Cursor c = dbManager.fetchById(uid,DbHelper.TABLE_NAME_TRANS);
+                    c.moveToFirst();
+                    String uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
+                    String dusun = c.getString(c.getColumnIndexOrThrow(DbHelper.DUSUN));
+                    dbManager.close();
+                    intent.putExtra("uniqueId", uniqueId);
+                    intent.putExtra("id", uid);
+                    intent.putExtra("dusun", dusun);
+                    FlurryHelper.endFlurryLog(activity);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
+        builder.show();
+    }
+
     private void getkendaraan(String searchTerm, String orderBy)
     {
         transportasiModels.clear();

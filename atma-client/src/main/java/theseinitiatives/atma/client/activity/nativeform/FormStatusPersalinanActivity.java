@@ -191,6 +191,7 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
         dbManager = new DbManager(this);
         initVariable();
         final String idIbu = getIntent().getStringExtra("id");
+        uniqueId = getIntent().getStringExtra("uniqueId");
         tgl_bersalin = (EditText) findViewById(R.id.tgl_persalinan);
         layout_nifas = (LinearLayout) findViewById(R.id.layout_nifas);
         lay_tempat = (LinearLayout) findViewById(R.id.tempat_layout);
@@ -208,10 +209,6 @@ public class FormStatusPersalinanActivity extends AppCompatActivity {
 
         dbManager = new DbManager(this);
         dbManager.open();
-        Cursor c = dbManager.fetchuniqueId(idIbu);
-        c.moveToFirst();
-        uniqueId = c.getString(c.getColumnIndexOrThrow(DbHelper.UNIQUEID));
-
         Cursor cur = dbManager.fetchstatuspersalinan(uniqueId);
         if(cur.getCount()>0){
             isPreloaded = true;

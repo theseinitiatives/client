@@ -16,6 +16,8 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String TABLE_LOCATION_TREE = "location_tree";
     public static final String TABLE_KADER = "kader";
     public static final String TABLE_CLOSE = "close_ibu";
+    public static final String TABLE_CLOSE_TRANSPORTASI = "close_transportasi";
+    public static final String TABLE_CLOSE_BANK_DARAH = "close_bank_darah";
     public static final String TABLE_UPDATEID_SYNC = "synced_id";
 
 
@@ -45,6 +47,7 @@ public class DbHelper  extends SQLiteOpenHelper {
     public static final String KONDISI_ANAK = "kondisi_anak";
     public static final String STATUS_NIFAS = "status_nifas";
     public static final String NIFAS_SELESAI = "nifas_selesai";
+    public static final String TUTUP_DATA = "tutup_data";
     public static final String ALASAN = "alasan";
     public static final String RESIKO = "resiko";
     public static final String RESIKO_LAIN = "resiko_lainnya";
@@ -162,6 +165,30 @@ public class DbHelper  extends SQLiteOpenHelper {
             + IS_SEND + " INTEGER DEFAULT 0, "
             + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
 
+    private static final String CREATE_CLOSE_TRANSPORTASI = "create table "
+            + TABLE_CLOSE_TRANSPORTASI + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + USER_ID + " TEXT , "
+            + LOCATION_ID + " TEXT , "
+            + UPDATE_ID + " TEXT , "
+            + UNIQUEID + " TEXT NOT NULL, "
+            + TUTUP_DATA + " TEXT , "
+            + ALASAN + " TEXT , "
+            + IS_SYNC + " INTEGER DEFAULT 0, "
+            + IS_SEND + " INTEGER DEFAULT 0, "
+            + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
+
+    private static final String CREATE_CLOSE_BANK_DARAH = "create table "
+            + TABLE_CLOSE_BANK_DARAH + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + USER_ID + " TEXT , "
+            + LOCATION_ID + " TEXT , "
+            + UPDATE_ID + " TEXT , "
+            + UNIQUEID + " TEXT NOT NULL, "
+            + TUTUP_DATA + " TEXT , "
+            + ALASAN + " TEXT , "
+            + IS_SYNC + " INTEGER DEFAULT 0, "
+            + IS_SEND + " INTEGER DEFAULT 0, "
+            + TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP);";
+
 
 
     // Creating table Ibu
@@ -205,6 +232,8 @@ public class DbHelper  extends SQLiteOpenHelper {
             + GUBUG + " TEXT , "
             + PROFESI + " TEXT , "
             + KET + " TEXT , "
+            + TUTUP_DATA + " TEXT , "
+            + ALASAN + " TEXT , "
             + USER_ID + " TEXT , "
             + LOCATION_ID + " TEXT , "
             + UPDATE_ID + " TEXT , "
@@ -225,6 +254,8 @@ public class DbHelper  extends SQLiteOpenHelper {
             + GOL_DARAH + " TEXT , "
             + TGL_DONOR + " TEXT , "
             + TELP + " TEXT , "
+            + TUTUP_DATA + " TEXT , "
+            + ALASAN + " TEXT , "
             + USER_ID + " TEXT , "
             + LOCATION_ID + " TEXT , "
             + UPDATE_ID + " TEXT , "
@@ -372,7 +403,9 @@ public class DbHelper  extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_LOCATION_TREE);
        db.execSQL(CREATE_TABLE_KADER);
        db.execSQL(CREATE_TABLE_SYNC);
-       db.execSQL(CREATE_CLOSE);
+        db.execSQL(CREATE_CLOSE);
+        db.execSQL(CREATE_CLOSE_TRANSPORTASI);
+        db.execSQL(CREATE_CLOSE_BANK_DARAH);
        db.execSQL(CREATE_TABLE_UPDATEID_SYNC);
       //  insertDummy(db,"Siti"," Adawiyah"," Patient Baru");
       //  insertDummy(db,"Moya", "Dyah", "Patient Baru");

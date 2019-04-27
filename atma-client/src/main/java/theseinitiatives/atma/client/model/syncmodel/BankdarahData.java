@@ -47,6 +47,12 @@ public class BankdarahData {
     @SerializedName("tgl_donor")
     @Expose
     private String tgl_donor;
+    @SerializedName("tutup_data")
+    @Expose
+    private String tutupStatus;
+    @SerializedName("alasan")
+    @Expose
+    private String alasan;
 
 
 
@@ -204,5 +210,21 @@ public class BankdarahData {
 
     public void setUpdate_id(String update_id) {
         this.update_id = update_id;
+    }
+
+    public String getTutupStatus() {
+        return tutupStatus;
+    }
+
+    public void setTutupStatus(String tutupStatus) {
+        this.tutupStatus = tutupStatus;
+    }
+
+    public String getAlasan() {
+        return alasan;
+    }
+
+    public void setAlasan(String alasan) {
+        this.alasan = alasan;
     }
 }
