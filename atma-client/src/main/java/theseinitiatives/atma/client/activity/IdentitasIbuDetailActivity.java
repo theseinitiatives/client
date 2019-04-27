@@ -152,6 +152,7 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         dbManager.open();
         if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
             editButton.setVisibility(View.GONE);
+            editStatus.setVisibility(View.GONE);
         }
         dbManager.close();
 
