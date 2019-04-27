@@ -101,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                             }catch (Exception e){
                                 e.printStackTrace();
                                 AllConstants.MAY_PROCEED = false;
+                                progressBar.setVisibility(View.INVISIBLE);
                             }
                         }
 
@@ -108,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onFailure(Call<ResponseBody> call, Throwable t) {
                             Toast.makeText(LoginActivity.this,"failure detected",Toast.LENGTH_LONG).show();
                             AllConstants.MAY_PROCEED = false;
+                            progressBar.setVisibility(View.INVISIBLE);
                         }
                     });
                     new AuthLogin().execute();
@@ -139,10 +141,12 @@ public class LoginActivity extends AppCompatActivity {
     public boolean validateLogin(String username, String password){
         if(username == null || username.trim().length() == 0){
             Toast.makeText(this, "Username is required", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.INVISIBLE);
             return false;
         }
         if(password == null || password.trim().length() == 0){
             Toast.makeText(this, "Password is required", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.INVISIBLE);
             return false;
         }
         fillUserIfExists();
