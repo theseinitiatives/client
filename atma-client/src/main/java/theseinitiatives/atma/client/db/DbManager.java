@@ -1066,6 +1066,7 @@ public class DbManager {
                 DbHelper.PENDAMPING_LAIN,
                 DbHelper.HUB_TRANS_LAIN,
                 DbHelper.HUB_DONOR_LAIN,
+                DbHelper.USER_ID,
                 DbHelper.IS_SEND,
                 DbHelper.IS_SYNC,
                 DbHelper.TIMESTAMP };

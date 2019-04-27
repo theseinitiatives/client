@@ -85,7 +85,6 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
         txt_kader.setText("Nama Kader: "+humanizes(getStringData("kader", cursor)));
         txt_hp.setText("No Telp: "+humanizes(getStringData("telp", cursor)));
         txt_resiko.setText("Faktor Resiko: "+humanizes(getStringData("resiko", cursor)));
-        txt_last.setText("Edit Terakhir Oleh: "+humanizes(getStringData("user_id", cursor)));
 
         //status bersalin
         Cursor status_persalinan = dbManager.fetchstatuspersalinan(uniqueId);
@@ -130,6 +129,8 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
             txt_tempatbersalin.setText("Tempat Persalinan: " + humanizes(getStringData("tempat_persalinan", cursorRencanaPersalinan)));
 
             txt_pendampingPersalinan.setText("Pendamping Persalinan: " + humanizes(getStringData("pendamping_persalinan", cursorRencanaPersalinan)));
+
+            txt_last.setText("Edit Terakhir Oleh: "+humanizes(getStringData("user_id", cursorRencanaPersalinan)));
             jenis = getStringData("pemilik_kendaraan", cursorRencanaPersalinan);
 
         }

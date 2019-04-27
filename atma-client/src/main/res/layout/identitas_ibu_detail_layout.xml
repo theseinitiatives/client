@@ -129,15 +129,6 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/lastedit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Last Edit By :"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp" />
-
 
             <include layout="@layout/divider" />
 
@@ -221,6 +212,15 @@
                 android:layout_height="wrap_content"
                 android:text=" "
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/lastedit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorAccent"
                 android:textSize="12sp" />
 
 
