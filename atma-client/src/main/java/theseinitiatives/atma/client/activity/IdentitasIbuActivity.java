@@ -475,7 +475,12 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 FlurryHelper.logOneTimeEvent("Syncing debug",Params);
                 Log.e("DEMO", "Unable to submit post to API.",t);
              //   Log.e("call", String.valueOf(call));
-               pulldata();
+                Toast.makeText(IdentitasIbuActivity.this, "Sinkronisasi GAGAL!",
+                        Toast.LENGTH_LONG).show();
+                //  Log.d("MainActivity", "error loading from API"+t);
+                is_syncing = false;
+                resetUpdating();
+                onEndSync();
             }
         });
 
@@ -548,6 +553,8 @@ public class IdentitasIbuActivity extends AppCompatActivity
                     Log.e("RESPONSE-----", response.body().toString());
                     if(response.body().toString().length() < 10) {
                         Params.put("No data",response.body().toString());
+                        Toast.makeText(IdentitasIbuActivity.this, "Belum ada data baru",
+                                Toast.LENGTH_LONG).show();
                         is_syncing = false;
                         resetUpdating();
                         return;
@@ -574,7 +581,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 FlurryHelper.logOneTimeEvent("Syncing debug",Params);
                 // showErrorMessage();
                   Log.e("PULLING", "FAIL==="+t.getMessage());
-                Toast.makeText(IdentitasIbuActivity.this, "Sync FAILED!",
+                Toast.makeText(IdentitasIbuActivity.this, "Sinkronisasi GAGAL!",
                         Toast.LENGTH_LONG).show();
                 //  Log.d("MainActivity", "error loading from API"+t);
                 is_syncing = false;
@@ -706,7 +713,7 @@ public class IdentitasIbuActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(String result) {
-            Toast.makeText(IdentitasIbuActivity.this, "Sync Finished!",
+            Toast.makeText(IdentitasIbuActivity.this, "Sinkronisasi SELESAI!",
                     Toast.LENGTH_LONG).show();
             is_syncing = false;
             resetUpdating();
