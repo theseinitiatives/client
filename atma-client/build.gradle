@@ -1,13 +1,19 @@
 apply plugin: 'com.android.application'
 
+ext.versionMajor = 1
+ext.versionMinor = 7
+ext.versionPatch = 0
+ext.versionClassifier = null
+ext.minimumSdkVersion = 21
+
 android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "org.theseinitiatives.devatma.p4k"
-        minSdkVersion 21
+        minSdkVersion project.ext.minimumSdkVersion
         targetSdkVersion 27
-        versionCode 5
-        versionName "1.6.5"
+        versionCode generateVersionCode()
+        versionName generateVersionName()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -52,4 +58,16 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     implementation 'org.apache.commons:commons-lang3:3.6'
     implementation 'com.flurry.android:analytics:11.4.0@aar'
+}
+
+private Integer generateVersionCode() {
+    return ext.minimumSdkVersion * 10000000 + ext.versionMajor * 10000 + ext.versionMinor * 100 + ext.versionPatch
+}
+
+private String generateVersionName() {
+    String versionName = "${ext.versionMajor}.${ext.versionMinor}.${ext.versionPatch}"
+    if (ext.versionClassifier != null) {
+        versionName += "-" + ext.versionClassifier
+    }
+    return versionName;
 }
