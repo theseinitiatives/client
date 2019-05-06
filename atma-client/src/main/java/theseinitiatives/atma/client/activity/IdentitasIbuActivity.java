@@ -442,6 +442,9 @@ public class IdentitasIbuActivity extends AppCompatActivity
         // api post for pushing data to server api
         RequestBody myreqbody = null;
         JSONArray resultSet = alldata_formatToJson();
+        if (resultSet.length()==0){
+            resultSet.put(new JSONObject());
+        }
         String data = resultSet.toString();
         myreqbody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 data);
@@ -464,8 +467,23 @@ public class IdentitasIbuActivity extends AppCompatActivity
                 FlurryHelper.logOneTimeEvent("Syncing debug",Params);
                 if (response.code()==201){
                     updateSyncFlagIbu();
+                    pulldata();
+                } else {
+                    if (response.code()>=400){
+                        Params = new HashMap<>();
+                        Params.put("Push Fail",dateNow().toString());
+                        Params.put("Error Message",response.toString());
+                        FlurryHelper.logOneTimeEvent("Syncing debug",Params);
+                        Toast.makeText(IdentitasIbuActivity.this, "Sinkronisasi ERROR!",
+                                Toast.LENGTH_LONG).show();
+                        is_syncing = false;
+                        resetUpdating();
+                        onEndSync();
+                    } else {
+                        pulldata();
+                    }
                 }
-                pulldata();
+
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
