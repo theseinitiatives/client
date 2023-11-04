@@ -1,23 +1,22 @@
 package theseinitiatives.atma.client.activity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.SearchView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.appcompat.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
@@ -117,16 +116,16 @@ public class IdentitasIbuActivity extends AppCompatActivity
         });
         initDropdownSort();
 
-        dbManager.open();
-        if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
-            forbidden = true;
-            isDusun = true;
-        }
-        String updateID = dbManager.getlatestUpdateId();
-        upId = Long.parseLong(updateID);
-        locas = dbManager.getlocName();
+//        dbManager.open();
+//        if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
+//            forbidden = true;
+//            isDusun = true;
+//        }
+//        String updateID = dbManager.getlatestUpdateId();
+//        upId = Long.parseLong(updateID);
+//        locas = dbManager.getlocName();
 
-        dbManager.close();
+//        dbManager.close();
                 Log.e("DATETIME","  "+dateNow());
         /*String extra = getIntent().getStringExtra("login status");
 

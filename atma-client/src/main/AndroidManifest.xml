@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="theseinitiatives.atma.client">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -20,7 +19,8 @@
             android:name="theseinitiatives.atma.client.LoginActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-            android:label="@string/title_activity_login">
+            android:label="@string/title_activity_login"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -29,106 +29,122 @@
 
         </activity>
         <activity
+            android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:name="theseinitiatives.atma.client.activity.IdentitasIbuActivity"
             android:label="@string/identitas_ibu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:name="theseinitiatives.atma.client.activity.TransportasiActivity"
             android:label="@string/transportasi"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:name="theseinitiatives.atma.client.activity.BankDarahActivity"
             android:label="@string/bankdarah"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:name="theseinitiatives.atma.client.activity.IdentitasIbuDetailActivity"
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:name="theseinitiatives.atma.client.activity.nativeform.FormAddIbuActivity"
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:name="theseinitiatives.atma.client.activity.nativeform.FormAddBankDarah"
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:name="theseinitiatives.atma.client.activity.nativeform.FormAddTransportasi"
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:name="theseinitiatives.atma.client.activity.KaderActivity"
 
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:name="theseinitiatives.atma.client.activity.nativeform.FormRencanaPersalinan"
             android:label="@string/detail_ibu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:name="theseinitiatives.atma.client.activity.TransportasiDetailActivity"
             android:label="@string/title_activity_transportasi_detail"
             android:theme="@style/AppThemeCustomized" />
         <activity
+            android:exported="false"
             android:name="theseinitiatives.atma.client.activity.nativeform.FormStatusPersalinanActivity"
             android:label="@string/title_activity_transportasi_detail"
             android:theme="@style/AppThemeCustomized" />
         <activity
+            android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:name="theseinitiatives.atma.client.activity.BankDarahDetailActivity"
             android:label="@string/title_activity_bank_darah_detail"
             android:theme="@style/AppThemeCustomized" />
         <activity
+            android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:name="theseinitiatives.atma.client.activity.nativeform.FormAddKader"
             android:label="@string/title_add_kader"
             android:theme="@style/AppThemeCustomized" />
         <activity
+            android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:name="theseinitiatives.atma.client.activity.nativeform.StikerActivity"
             android:label="@string/title_add_kader"
-            android:theme="@style/AppThemeCustomized"></activity>
+            android:theme="@style/AppThemeCustomized" />
 
         <activity
+            android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:name="theseinitiatives.atma.client.activity.InformasiActivity"
             android:label="INFORMASI"
-            android:theme="@style/AppThemeCustomized"></activity>
+            android:theme="@style/AppThemeCustomized" />
         <activity
+            android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:name="theseinitiatives.atma.client.activity.nativeform.FormCloseIbu"
-            android:theme="@style/AppThemeCustomized"></activity>
             android:theme="@style/AppThemeCustomized" />
         <activity
+            android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:name="theseinitiatives.atma.client.Utils.FilterActivity"
             android:label="@string/title_activity_filter"
-            android:theme="@style/popupWindow"></activity>
+            android:theme="@style/popupWindow" />
     </application>
 
 </manifest>

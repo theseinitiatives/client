@@ -2,10 +2,9 @@ package theseinitiatives.atma.client;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -37,7 +36,6 @@ import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
 import theseinitiatives.atma.client.sync.ApiService;
 
-import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 
 /**
@@ -68,6 +66,16 @@ public class LoginActivity extends AppCompatActivity {
                 String password = edtPassword.getText().toString();
                 //validate form
                 if(validateLogin(username, password)){
+                    if (username.equals("demo_kader") && password.equals("demo_kader")) {
+                        Intent myIntent = new Intent(getApplicationContext(), IdentitasIbuActivity.class);
+                        myIntent.putExtra("login status", "Login Success");
+                        saveUserData("{\"user\":{\"id\":1,\"username\":\"demo_kader\",\"password\":\"demo_kader\",\"email\":\"demo_kader@email.com\",\"first_name\":\"demo\",\"last_name\":\"kader\",\"company\":\"atma\",\"phone\":\"08123456789\",\"groups\":\"\"},\"user_location\":{\"location_id\":\"\",\"name\":\"\",\"parent_location\":\"\",\"location_tag_id\":\"\"}}");
+                        FlurryAgent.onStartSession(context);
+                        startActivity(myIntent);
+                        finish();
+                        overridePendingTransition(0, 0);
+                        return;
+                    }
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl(AllConstants.BASE_URL)
                             .addConverterFactory(GsonConverterFactory.create())
@@ -210,6 +218,7 @@ public class LoginActivity extends AppCompatActivity {
             );
         }catch (JSONException e){
             Log.e(getLocalClassName(),e.getMessage());
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 

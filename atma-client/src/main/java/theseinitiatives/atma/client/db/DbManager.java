@@ -899,13 +899,17 @@ public class DbManager {
     }
 
     private String getDesa() {
-        setSelection("LOCATION_TAG_ID =5");
-        Cursor cursor = fetchLocationTree();
-        cursor.moveToFirst();
-        String locName = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
-        // locName = userd.getString(userd.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
-        //close();
-        return locName;
+        try {
+            setSelection("LOCATION_TAG_ID =5");
+            Cursor cursor = fetchLocationTree();
+            cursor.moveToFirst();
+            String locName = cursor.getString(cursor.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
+            // locName = userd.getString(userd.getColumnIndexOrThrow(DbHelper.LOCATION_NAME));
+            //close();
+            return locName;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public Cursor fetchKader(){

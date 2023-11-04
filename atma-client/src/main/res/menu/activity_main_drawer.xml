@@ -17,10 +17,6 @@
             android:icon="@drawable/icon_darah48"
             android:title="Bank Darah" />
         <item
-            android:id="@+id/info"
-            android:icon="@drawable/icon_info48"
-            android:title="Informasi" />
-        <item
             android:id="@+id/kader_add"
             android:icon="@drawable/logo_add_kader"
             android:title="Tambah Kader" />

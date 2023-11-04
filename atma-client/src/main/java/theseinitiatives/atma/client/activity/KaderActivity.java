@@ -2,20 +2,19 @@ package theseinitiatives.atma.client.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +23,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,14 +35,10 @@ import theseinitiatives.atma.client.R;
 import theseinitiatives.atma.client.Utils.FilterActivity;
 import theseinitiatives.atma.client.Utils.FlurryHelper;
 import theseinitiatives.atma.client.activity.nativeform.FormAddKader;
-import theseinitiatives.atma.client.activity.nativeform.FormAddTransportasi;
 import theseinitiatives.atma.client.adapter.KaderCursorAdapter;
-import theseinitiatives.atma.client.adapter.TransportasiCursorAdapter;
 import theseinitiatives.atma.client.db.DbHelper;
 import theseinitiatives.atma.client.db.DbManager;
-import theseinitiatives.atma.client.model.BankDarahmodel;
 import theseinitiatives.atma.client.model.KaderViewModel;
-import theseinitiatives.atma.client.model.TransportasiModel;
 
 import static theseinitiatives.atma.client.Utils.StringUtil.dateNow;
 

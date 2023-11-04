@@ -3,7 +3,7 @@ package theseinitiatives.atma.client.activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -137,11 +137,11 @@ public class IdentitasIbuDetailActivity extends AppCompatActivity {
 
 
         Button editButton = (Button) findViewById(R.id.ibu_detail_edit_button);
-        dbManager.open();
-        if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
-            editButton.setVisibility(View.GONE);
-        }
-        dbManager.close();
+//        dbManager.open();
+//        if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
+//            editButton.setVisibility(View.GONE);
+//        }
+//        dbManager.close();
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override

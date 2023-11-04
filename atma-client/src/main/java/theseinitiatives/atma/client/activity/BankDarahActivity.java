@@ -7,14 +7,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,8 +25,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import com.flurry.android.FlurryAgent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,16 +70,16 @@ public class BankDarahActivity extends AppCompatActivity
         //lv.setAdapter(adapter);
         adapter=new BankDarahCursorAdapter(this,bankDarahmodels);
 
-        dbManager = new DbManager(this);
-        dbManager.open();
-        if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
-            forbidden = true;
-        }
-       // String updateID = dbManager.getlatestUpdateId();
-       // upId = Long.parseLong(updateID);
-       // locas = dbManager.getlocName();
-
-        dbManager.close();
+//        dbManager = new DbManager(this);
+//        dbManager.open();
+//        if(dbManager.getUserGroup().equalsIgnoreCase("kader")){
+//            forbidden = true;
+//        }
+//       // String updateID = dbManager.getlatestUpdateId();
+//       // upId = Long.parseLong(updateID);
+//       // locas = dbManager.getlocName();
+//
+//        dbManager.close();
 
         getBankDarah("","name_pendonor ASC");
 

@@ -1,15 +1,14 @@
 package theseinitiatives.atma.client;
 
-import android.arch.lifecycle.LifecycleRegistry;
-import android.arch.lifecycle.ViewModelStore;
+import androidx.lifecycle.LifecycleRegistry;
+import androidx.lifecycle.ViewModelStore;
 import android.content.res.Resources;
 import android.os.Handler;
-import android.support.v4.app.FragmentController;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.app.SupportActivity;
-import android.support.v4.util.SimpleArrayMap;
-import android.support.v4.util.SparseArrayCompat;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.fragment.app.FragmentController;
+import androidx.loader.app.LoaderManager;
+import androidx.collection.SimpleArrayMap;
+import androidx.collection.SparseArrayCompat;
+import androidx.appcompat.app.AppCompatDelegate;
 import android.widget.Button;
 import android.widget.EditText;
 

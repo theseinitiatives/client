@@ -4,8 +4,8 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatRadioButton;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatRadioButton;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;

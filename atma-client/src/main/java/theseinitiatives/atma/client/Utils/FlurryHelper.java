@@ -53,22 +53,4 @@ public class FlurryHelper {
         FlurryAgent.onError(errorId, errorDescription, throwable);
     }
 
-    /**
-     * Logs location.
-     *
-     * @param latitude           latitude of location
-     * @param longitude        longitude of location
-     */
-    public static void logLocation(double latitude, double longitude) {
-        FlurryAgent.setLocation((float) latitude, (float) longitude);
-    }
-
-    /**
-     * Logs page view counts.
-     *
-     */
-    public static void logPageViews(){
-        FlurryAgent.onPageView();
-    }
-
 }
